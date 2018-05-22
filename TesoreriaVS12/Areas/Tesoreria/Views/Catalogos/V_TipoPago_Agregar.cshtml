@@ -1,0 +1,35 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoPagosModel
+
+@{
+    ViewBag.Title = "Agregar tipo de pago";
+    Layout = null;
+}
+
+<div data-title="Agregar Tipo de Pago" class="TituloModal"></div>
+
+<form id="frm">
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.Id_TipoPago)
+
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.LabelFor(model => model.Descripcion)
+        </div>
+        <div class="col-xs-12">
+            @Html.TextBoxFor(model => model.Descripcion, new { maxlength = 20,@class="form-control" })
+        </div>
+        <div class="col-xs-12">
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+    </div>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(function () {
+        $("#frm").on("submit", function (e) { e.preventDefault(); });
+        $("#MyModal1").off("click", ".js_btnOk");
+        $("#MyModal1").on("click", ".js_btnOk", Guardar);
+    });
+</script>

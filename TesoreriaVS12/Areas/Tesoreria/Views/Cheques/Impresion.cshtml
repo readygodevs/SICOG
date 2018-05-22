@@ -1,0 +1,112 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Modelos.ImpresionChequesModel
+
+@{
+    ViewBag.Title = "Impresión de Cheques";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+<h2>Impresión de Cheques</h2>
+
+<div id="_menu_lateral">
+        @{
+            Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bImprimir", "bSalir" } });
+        }
+    </div>
+
+
+
+<div class="container">
+    @using (Html.BeginForm("TblCheques", "Cheques", FormMethod.Post, new { id = "frmBusqueda" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-xs-6">
+                @Html.LabelFor(model => model.Id_CtaBancaria)
+                @Html.DropDownListFor(model => model.Id_CtaBancaria, Model.Lista_Bancos, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_CtaBancaria)
+            </div>
+            <div class="col-xs-6">
+                @Html.LabelFor(model => model.Fecha_VenceContraRecibo)
+                <div class="input-group fecha_group">
+                    @Html.TextBox("Fecha_VenceContraRecibo", Model.Fecha_VenceContraRecibo.HasValue ? Model.Fecha_VenceContraRecibo.Value.ToShortDateString() : "", new { @class = "date form-control" })
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                @Html.ValidationMessageFor(model => model.Fecha_VenceContraRecibo)
+            </div>
+        </div>
+    }
+    @using (Html.BeginForm("GenerarCheques", "Cheques", FormMethod.Post, new { id = "frmImpresion" }))
+    {
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelFor(model => model.Fecha_Pago)
+            <div class="input-group fecha_group">
+                @Html.TextBox("Fecha_Pago", Model.Fecha_Pago.HasValue ? Model.Fecha_Pago.Value.ToShortDateString() : "", new { @class = "date form-control" })
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Fecha_Pago)
+        </div>
+        <div class="col-xs-6">
+            @Html.LabelFor(model => model.Id_Formato)
+            @Html.DropDownListFor(model => model.Id_Formato, Model.Lista_FormatosCheques, "--Seleccione una opción--", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Id_Formato)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelFor(model => model.PrimerCheque)
+            @Html.CheckBox("PrimerCheque", Model.PrimerCheque.HasValue ? Model.PrimerCheque.Value : false)
+            @Html.ValidationMessageFor(model => model.PrimerCheque)
+        </div>
+        <div class="col-xs-6">
+            @Html.LabelFor(model => model.NoChequesImprimir)
+            @Html.TextBoxFor(model => model.NoChequesImprimir, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Id_CtaBancaria)
+        </div>
+    </div>
+     }
+    <br />
+    <br />
+    <div id="cheques">
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script> 
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Cheques.js"></script>
+
+    <script>
+        $(document).ready(function () {            
+            
+            $(".input-group .date").datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $("#Fecha_Pago").datepicker("setStartDate", '@Model.CFechas.Fecha_Min.ToShortDateString()');
+            $("#Fecha_Pago").datepicker("setEndDate", '@Model.CFechas.Fecha_Max.ToShortDateString()');
+
+            /**************Acciones Botonera Lateral********************/
+            $("body").on("click", "#js_mBuscar", function () {
+                buscarCheques();
+                return false;
+            });
+            $("body").on("click", "#js_mImprimir", function () {
+                imprimirCheques(); 
+                return false;
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+            /***********************************************************/
+        });
+    </script>    
+}

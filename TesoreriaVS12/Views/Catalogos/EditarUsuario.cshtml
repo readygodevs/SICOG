@@ -1,0 +1,80 @@
+﻿@model TesoreriaVS12.Models.CA_UsuariosModel
+
+@{
+    Layout = null;
+}
+
+<div data-title="Editar Usuario" class="TituloModal"></div>
+@using (Html.BeginForm("EditarUsuario", "Catalogos", FormMethod.Post, new { id = "frmUsr" })){
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        @Html.HiddenFor(model => model.IdUsuario)
+        @Html.HiddenFor(model => model.Activo)
+        @Html.HiddenFor(model => model.CambiaContrasenia)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nombre)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nombre)
+            @Html.ValidationMessageFor(model => model.Nombre)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApellidoPaterno)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApellidoPaterno)
+            @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ApellidoMaterno)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ApellidoMaterno)
+            @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Usuario)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Usuario)
+            @Html.ValidationMessageFor(model => model.Usuario)
+        </div>
+
+        @*<div class="editor-label">
+            @Html.LabelFor(model => model.Contrasenia)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Contrasenia)
+            @Html.ValidationMessageFor(model => model.Contrasenia)
+        </div>*@
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.email)
+            @Html.ValidationMessageFor(model => model.email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IdPerfil)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model=>model.IdPerfil,Model.Perfiles)
+            @Html.ValidationMessageFor(model => model.IdPerfil)
+        </div>
+    </fieldset>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(function () {
+        $("body").off("click", ".js_btnOk", GuardarEdit);
+        $("body").on("click", ".js_btnOk", GuardarEdit);
+    });
+</script>

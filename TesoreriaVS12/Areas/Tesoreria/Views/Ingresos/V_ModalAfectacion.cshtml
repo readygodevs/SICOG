@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        @if(ViewBag.Trans==2)
+        {
+            <span> afectación generará una </span><label> @ViewBag.Tipo </label> <span>por</span> <label>@ViewBag.total </label><br />
+        <label>¿Está seguro que de Afectar la @ViewBag.Tipo ?</label>
+        }else
+        {
+            <span>Se afectará está transferencia por: </span><label>$@ViewBag.Importe</label><span> en Ampliaciones y Reducciones. ¿Está seguro de afectar la Trasferencia?</span>
+        }
+       
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <label>Fecha afectación:</label>
+                <div class="input-group">
+                    <input type="text" name="Fecha" id="FechaAfectacion" class="form-control datepickerm jsEnabledAgregar jsEnabledEditar" readonly="readonly" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+    </div>
+</div>
+<input type="hidden" id="h_IdTransferencia" value="@ViewBag.id" />
+<script>
+    $(function () {
+        $('.datepickerm').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Html.Raw(ViewBag.FechaInicio)',
+            endDate: '@Html.Raw(ViewBag.FechaFin)'
+        });
+    });
+</script>

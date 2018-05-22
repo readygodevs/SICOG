@@ -1,0 +1,35 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoContrarecibosModel
+
+@{
+    ViewBag.Title = "tipo de contrarecibo";
+    Layout = null;
+}
+<p>
+    <label>
+        Tipo de Cuenta por Liquidar:
+    </label>
+    @Html.DisplayFor(model => model.Id_TipoCR)
+</p>
+
+<p>
+    <label>
+        @Html.DisplayNameFor(model => model.Descripcion)
+    </label>
+    @Html.DisplayFor(model => model.Descripcion)
+</p>
+
+<p>
+    <label>
+        @Html.DisplayNameFor(model => model.UltimoCR)
+    </label>
+    @Html.DisplayFor(model => model.UltimoCR)
+</p>
+
+@*<p>
+    <label>
+        @Html.DisplayNameFor(model => model.Facturas_Diversas)
+    </label>
+    @Html.Encode((Model.Facturas_Diversas.HasValue) ? (Model.Facturas_Diversas.Value) ? "SI" : "NO" : "")
+</p>*@
+
+

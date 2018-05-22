@@ -1,0 +1,103 @@
+﻿@model IEnumerable<TesoreriaVS12.Models.CA_PerfilesModel>
+
+@{
+    ViewBag.Title = "Perfiles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Perfiles</h2>
+@*<a id="js_agregar" class="btn btn-success" href="#">
+    <i class="fa fa-plus"></i>
+    <span>Agregar</span>
+</a>*@
+<div class="jsSourceActions hide">
+
+</div>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> {"bNuevo","bSalir" } }); }
+</div>
+<table id="tblPrf" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="IdPerfil">
+                @Html.DisplayNameFor(model => model.IdPerfil)
+            </th>
+            <th data-title="Descripcion">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th data-title="Acciones">
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPerfil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td class="acciones">
+                    <i class="fa fa-pencil js_editar" data-id="@item.IdPerfil" title="Editar" data-toggle="tooltip" data-placement="top"></i>
+                    <i class="fa fa-key js_permisos" data-id="@item.IdPerfil" title="Permisos" data-toggle="tooltip" data-placement="top"></i>
+                    <i class="fa fa fa-trash-o js_eliminar" data-id="@item.IdPerfil" title="Eliminar" data-toggle="tooltip" data-placement="top"></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form method="post" id="frmGoPermisos" action="/Catalogos/Permisos">
+    <input type="hidden" name="IdPerfil" id="IdPerfil" />
+</form>
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("AgregarPerfil", "Catalogos")";//"/Catalogos/AgregarPerfil";
+        var RutaEdit = "@Url.Action("EditarPerfil", "Catalogos")";//"/Catalogos/EditarPerfil";
+        var RutaDelete = "@Url.Action("EliminarPerfil", "Catalogos")";//"/Catalogos/EliminarPerfil";
+        var TableId = "tblPrf";
+        var FrmId = "frmPrf";
+        var Propiedades = '{ "Id" : "response.Registro.IdPerfil" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var SourceAction = "jsActionsource";
+
+        $(function () {
+            ConstruirTabla(TableId, "No hay perfiles...");
+            $("body").on("submit", ".formulario", function (e) {
+                e.preventDefault();
+            });
+            $("body").on("click", "#js_mNuevo", function () {
+                customModal(RutaAdd, {}, "GET", "", function () {
+                    if ($("#frmPrf").valid()) {
+                        ajaxJson(RutaAdd, $("#frmPrf").serialize(), "POST", true, callBackSave);
+                    }
+                }, "", "Aceptar", "Cancelar", "Nuevo Perfil", "MyModal1")
+            });
+
+            $("#" + TableId).on("click", ".js_editar", Editar);
+            $("#" + TableId).on("click", ".js_eliminar", Eliminar);
+            $("#" + TableId).on("click", ".js_permisos", function () {
+                $("#IdPerfil").val($(this).data("id"));
+                $("#frmGoPermisos").submit();
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                window.location.href = "@Url.Action("Index","Home")";
+                return false;
+            });
+            $("#MyModal1").on("click", ".btnOk", Guardar);
+        });
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <i class="fa fa-pencil js_editar" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"></i>
+        <i class="fa fa-key js_permisos" data-id="<%= Id %>" title="Permisos" data-toggle="tooltip" data-placement="top"></i>
+        <i class="fa fa fa-trash-o js_eliminar" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></i>
+    </script>
+
+}

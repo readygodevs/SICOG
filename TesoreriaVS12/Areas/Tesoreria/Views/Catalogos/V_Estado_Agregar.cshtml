@@ -1,0 +1,32 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_EstadosModel
+
+@{
+    ViewBag.Title = "Agregar Estado";
+    Layout = null;
+}
+<div data-title="Agregar Estado" class="TituloModal"></div>
+<div data-text="Guardar" class="btnOk"></div>
+<div data-text="Cancelar" class="btnCancel"></div>
+<form id="frm">
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_Estado)
+
+    <div class="editor-label">
+        Descripción
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Descripcion)
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $("#CerrarM1").on("click", function () {
+        CerrarModal();
+    });
+    $(function () {
+        $("#MyModal1").off("click", ".js_btnOk");
+        $("#MyModal1").on("click", ".js_btnOk", Guardar);
+    });
+</script>

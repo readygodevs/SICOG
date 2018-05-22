@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="babff327e2c748878aff87a32ec5f98a" Name="Diagrama1" ZoomLevel="143">
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Acciones" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Actividad" Width="1.5" PointX="3" PointY="13.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_ActividadesInst" Width="1.5" PointX="0.75" PointY="39.5" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_AlcanceGeo" Width="1.5" PointX="0.75" PointY="3.125" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Areas" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Bancos" Width="1.5" PointX="1.5" PointY="17.25" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_BancosRH" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Beneficiarios" Width="1.5" PointX="12" PointY="15.5" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_BeneficiariosCuentas" Width="1.5" PointX="14.25" PointY="15.375" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_CajasReceptoras" Width="1.5" PointX="17.25" PointY="24.875" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_CamaraComercio" Width="1.5" PointX="9.75" PointY="18.375" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_CausasCancelacion" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_CentroRecaudador" Width="1.5" PointX="10.75" PointY="7.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_CierreBanco" Width="1.5" PointX="7.75" PointY="10.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_CierreMensual" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_ClasificaBeneficiarios" Width="1.5" PointX="9.75" PointY="11.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_ClasificaPolizas" Width="1.5" PointX="12" PointY="42.125" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_ClasProgramatica" Width="1.5" PointX="0.75" PointY="10.5" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_ConceptosIngresos" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_Cuentas" Width="1.5" PointX="17.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_CUR" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_FuentesFin" Width="1.5" PointX="0.75" PointY="13.25" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_FuentesFin_Ing" Width="1.5" PointX="5.75" PointY="15.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Funciones" Width="1.5" PointX="14.75" PointY="5.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_Giros" Width="1.5" PointX="15" PointY="9" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Impuestos_Deduccion" Width="1.5" PointX="16.75" PointY="12.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_InHabil" Width="1.5" PointX="18.75" PointY="12.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_ObjetoGasto" Width="1.5" PointX="19.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_Parametros" Width="1.5" PointX="3.75" PointY="19.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Percep_Deduc" Width="1.5" PointX="19.75" PointY="4.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.CA_Programas" Width="1.5" PointX="0.75" PointY="42.25" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_Proyecto" Width="1.5" PointX="0.75" PointY="6.625" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoBeneficiarios" Width="1.5" PointX="9.75" PointY="15.625" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoContrarecibos" Width="1.5" PointX="3.75" PointY="24.625" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoDoctos" Width="1.5" PointX="5.75" PointY="19.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoFormatosCheques" Width="1.5" PointX="19.75" PointY="7.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoGastos" Width="1.5" PointX="0.75" PointY="34" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoImpuestos" Width="1.5" PointX="19.75" PointY="15.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoMeta" Width="1.5" PointX="0.75" PointY="36.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoMovBancarios" Width="1.5" PointX="14.25" PointY="21.5" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoPagos" Width="1.5" PointX="19.75" PointY="18.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoPolizas" Width="1.5" PointX="12" PointY="21.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoTransferenciasEg" Width="1.5" PointX="20.75" PointY="10.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoTransferenciasIng" Width="1.5" PointX="16.75" PointY="20.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Chequestbl" Width="1.5" PointX="21.75" PointY="13.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.DE_Banco_Cheque" Width="1.5" PointX="21.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.DE_Bancos" Width="1.5" PointX="21.75" PointY="4.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.DE_BeneficiarioContactos" Width="1.5" PointX="14.25" PointY="12.25" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_Beneficiarios_Giros" Width="1.5" PointX="17.25" PointY="16.875" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_Comprobaciones" Width="1.5" PointX="3" PointY="28.25" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_Compromisos" Width="1.5" PointX="13.5" PointY="37.125" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_Compromisos_H" Width="1.5" PointX="23.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_Contrarecibos" Width="1.5" PointX="8.25" PointY="56" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.DE_Disponibilidad" Width="1.5" PointX="23.75" PointY="5.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.DE_Evolucion" Width="1.5" PointX="23.75" PointY="13.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_Nomina" Width="1.5" PointX="7.75" PointY="21.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_Polizas" Width="1.5" PointX="16.5" PointY="28.375" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_ReciboIngresos" Width="1.5" PointX="21.75" PointY="29.375" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_ReferenciasPolizas" Width="1.5" PointX="16.5" PointY="38.5" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_Transferencia" Width="1.5" PointX="23.75" PointY="18.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_TransferenciaIng" Width="1.5" PointX="8" PointY="5.125" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_Comprobaciones" Width="1.5" PointX="0.75" PointY="28.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_Comprobaciones_Partida" Width="1.5" PointX="23.75" PointY="24.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_Nomina" Width="1.5" PointX="25.75" PointY="7.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_Polizas" Width="1.5" PointX="14.25" PointY="25.375" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_PreComprometido" Width="1.5" PointX="25.75" PointY="13.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.MA_PresupuestoEg" Width="1.5" PointX="3" PointY="3" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_PresupuestoIng" Width="1.5" PointX="3" PointY="35" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_Transferencias" Width="1.5" PointX="25.75" PointY="17.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_TransferenciasIng" Width="1.5" PointX="5.75" PointY="4.125" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vBancosDesasignacionCheques" Width="1.5" PointX="25.75" PointY="25.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vBancosImpresionCheques" Width="1.5" PointX="27.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vEjercido" Width="1.5" PointX="27.75" PointY="3.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vEjercido_MovimientosPolizas" Width="1.5" PointX="27.75" PointY="10.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vFechaAsignacionPPyPD" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vFechasAsignacionFRyGC" Width="1.5" PointX="19.75" PointY="24.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vListaChequesDesasignacion" Width="1.5" PointX="27.75" PointY="17.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vListaChequesImpresionNomina" Width="1.5" PointX="27.75" PointY="25.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vPagado_MovimientosPolizas" Width="1.5" PointX="29.75" PointY="8.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vVerificaPoliza" Width="1.5" PointX="29.75" PointY="15.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_CuentasConPadres" Width="1.5" PointX="29.75" PointY="22.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_CuentasId" Width="1.5" PointX="23.75" PointY="29.75" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ca_Actividad_Ca_Proyecto" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_MA_PresupuestoEg_Ca_ActividadesInst" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_MA_PresupuestoEg_Ca_AlcanceGeo" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_PresupuestoIng_Ca_AlcanceGeo" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ca_BancosRH_Ca_BancosRH" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ca_Beneficiarios_CA_CamaraComercio" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ca_Beneficiarios_Ca_TipoBeneficiarios" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_CA_BeneficiariosCuentas_Ca_Beneficiarios" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_DE_BeneficiarioContactos_Ca_Beneficiarios" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Beneficiarios_Giros_Ca_Beneficiarios" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Polizas_Ca_Beneficiarios" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Polizas_Ca_ClasificaPolizas" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_MA_PresupuestoEg_Ca_ClasProgramatica" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_MA_PresupuestoEg_Ca_FuentesFin" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Beneficiarios_Giros_CA_Giros" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_MA_PresupuestoEg_CA_Programas" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_MA_PresupuestoEg_Ca_Proyecto" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_MA_PresupuestoEg_Ca_TipoGastos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_MA_PresupuestoEg_Ca_TipoMeta" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Polizas_Ca_TipoMovBancarios" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Polizas_Ca_TipoPolizas" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Comprobaciones_Ma_Comprobaciones" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Comprobaciones_Ma_Polizas" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Comprobaciones_Ma_Polizas1" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Polizas_Ma_Polizas" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas1" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas10" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas11" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas12" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas13" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas2" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas3" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas4" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas5" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas6" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas7" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas8" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReferenciasPolizas_Ma_Polizas9" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_TransferenciaIng_Ma_TransferenciasIng" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vDisponibilidadAnual" Width="1.5" PointX="26.375" PointY="29.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vEvolucionAnual" Width="1.5" PointX="28.375" PointY="29.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_ReciboIngresos" Width="1.5" PointX="19.5" PointY="27.375" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_Contrarecibos" Width="1.5" PointX="30.375" PointY="25.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_DisponibilidadMeses" Width="1.5" PointX="32.375" PointY="6.75" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_ReciboIngresos_Ca_CajasReceptoras" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_ReciboIngresos_Ma_ReciboIngresos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_ReciboIngresos_Ma_Polizas" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_ReciboIngresos_Ma_Polizas1" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_ReciboIngresos_Ma_Polizas2" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_ReciboIngresos_Ma_Polizas3" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vListaChequesImpresion" Width="1.5" PointX="32.375" PointY="11.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_DetalleReciboIng" Width="1.5" PointX="32.375" PointY="16.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vListaContraRecibosAsignacionCheques12" Width="1.5" PointX="30.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.vListaContraRecibosAsignacionCheques34" Width="1.5" PointX="32.375" PointY="0.75" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_CA_BeneficiariosCuentas_Ca_ClasificaBeneficiarios" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.TA_Firmas" Width="1.5" PointX="10.375" PointY="24.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.tblRepCuentas" Width="1.5" PointX="10.375" PointY="27.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.De_CR_Facturas" Width="1.5" PointX="19.25" PointY="38.5" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_CR_Facturas_Ca_Beneficiarios" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_contrarecibosSinFuente" Width="1.5" PointX="32.375" PointY="23.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_ListaContraRecibosAsignacionCheques" Width="1.5" PointX="11.375" PointY="30.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.DE_ContrarecibosArchivos" Width="1.5" PointX="8.25" PointY="38.875" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_TipoCompromisos" Width="1.5" PointX="8.375" PointY="31.125" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_Beneficiarios" Width="1.5" PointX="34.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_MovimientosConciliacion" Width="1.5" PointX="34.375" PointY="8.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_Conciliacion" Width="1.5" PointX="34.375" PointY="3.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ca_CuentasBancarias" Width="1.5" PointX="4.25" PointY="0.75" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ca_CuentasBancarias_Ca_Bancos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ca_Beneficiarios_Ca_CuentasBancarias" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ca_CuentasBancarias_Ca_FuentesFin" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Comprobaciones_Ca_CuentasBancarias" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Polizas_Ca_CuentasBancarias" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_ReciboIngresos_Ca_CuentasBancarias" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_EstadosCuenta" Width="1.5" PointX="6.5" PointY="43.125" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_EstadosCuenta_Ca_CuentasBancarias" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_Compromisos" Width="1.5" PointX="26.875" PointY="34.5" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_ProvedoresUsados" Width="1.5" PointX="5.75" PointY="27.75" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.VW_ProvedoresUsadosAgrupado" Width="1.5" PointX="0.75" PointY="20.75" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Compromisos_Ca_Beneficiarios" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Compromisos_Ca_TipoCompromisos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Compromisos_Ma_Compromisos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Compromisos_Ma_Polizas" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.Ma_Contrarecibos" Width="1.5" PointX="3.3219367039026397" PointY="12.414810961305541" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Contrarecibos_Ca_Beneficiarios" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Contrarecibos_Ca_FuentesFin" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Contrarecibos_Ca_TipoContrarecibos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_Contrarecibos_Ma_Contrarecibos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_DE_ContrarecibosArchivos_Ma_Contrarecibos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_De_CR_Facturas_Ma_Contrarecibos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Contrarecibos_Ma_Comprobaciones" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Compromisos_Ma_Contrarecibos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Contrarecibos_Ma_Contrarecibos" />
+        <AssociationConnector Association="BD_TesoreriaModel.FK_Ma_Polizas_Ma_Contrarecibos" />
+        <EntityTypeShape EntityType="BD_TesoreriaModel.tblRepConciliacion" Width="1.5" PointX="6.375" PointY="24.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,86 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_MovimientosConciliacionModel
+
+@{
+    Layout = null;
+}
+
+    
+    @using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frmNew" })) 
+    {  
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Tipo de Movimiento</label>
+                    @Html.DropDownListFor(model => model.Id_TipoMovimientoBancario, Model.ListaTipoMovimiento, "-Seleccionar-", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_TipoMovimientoBancario)
+                </div>
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.Id_FolioMovimienotBancario)
+                    @Html.DropDownListFor(model => model.Id_FolioMovimienotBancario, Model.ListaFolioMovimiento, "-Seleccionar-", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_FolioMovimienotBancario)
+                </div>
+             </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.No_Cheque)
+                    @Html.TextBoxFor(model => model.No_Cheque, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.No_Cheque)
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.Importe)
+                    @Html.TextBoxFor(model => model.Importe, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Importe)
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.Id_Movimiento)
+                    @Html.DropDownListFor(model => model.Id_Movimiento, Model.ListaMovimiento, "-Seleccionar-", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Movimiento)
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.Fecha)
+                    <div class="input-group">
+                        <input type="text" id="Fecha" name="Fecha" class="form-control date" value="@DateTime.Now.ToShortDateString()" />
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Referencia)
+                    @Html.TextAreaFor(model => model.Referencia, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Referencia)
+                </div>
+            </div>
+            <div class="editor-field">
+                @Html.HiddenFor(model => model.Id_CtaBancaria)
+                @Html.ValidationMessageFor(model => model.Id_CtaBancaria)
+            </div>
+            <div class="editor-field">
+                @Html.HiddenFor(model => model.NoCuenta)
+                @Html.ValidationMessageFor(model => model.NoCuenta)
+            </div>
+            <div class="editor-field">
+                @Html.HiddenFor(model => model.Id_Mes)
+                @Html.ValidationMessageFor(model => model.Id_Mes)
+            </div>
+            <div class="editor-field">
+                @Html.HiddenFor(model => model.Id_CuentaContable)
+                @Html.ValidationMessageFor(model => model.Id_Mes)
+            </div>
+    
+    }
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    
+<script>
+    $(document).ready(function () {
+        $('.date').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Html.Raw(Model.fechaInicial.Value.ToShortDateString())',
+            endDate: '@Html.Raw(Model.fechaFin.Value.ToShortDateString())'
+        })
+    });
+</script>

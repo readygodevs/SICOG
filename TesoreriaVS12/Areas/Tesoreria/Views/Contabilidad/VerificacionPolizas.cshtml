@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Verificación de Pólizas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Verificación de Pólizas</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar" } }); }
+</div>
+<div class="row">
+    <div class="col-xs-3">
+        <label>Seleccione mes</label>
+    </div>
+    <div class="col-xs-3">
+        @*@Html.DropDownList(o => o.key, TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.Meses);*@
+
+        <select name="mes" id="mes" class="form-control">
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+        </select>
+    </div>
+</div>
+<div id="div_polizas">
+
+</div>
+@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script type="text/javascript">
+        var CerrarMes = function () {
+            ajaxJson("@Url.Action("CerrarMes","Contabilidad")", "", "POST", true, function (data) {
+                if (data.Exito)
+                    ExitoCustom(data.Mensaje, function () { window.location.href = "@Url.Action("CierreMes","Contabilidad")"; });
+                else
+                    ErrorCustom(data.Mensaje);
+            });
+        }
+        var ObtenerPolizas = function () {
+            ajaxLoad("@Url.Action("GetPolizasMes","Contabilidad")", { Id_Mes: $("#mes").val() }, "div_polizas", "POST",
+                function () {
+                    ConstruirTabla("tablaPolizas");
+                });
+        }
+        $(document).on("ready", function () {
+            $("body").on("click", "#js_mBuscar", ObtenerPolizas);
+            ConstruirTabla("tablaPolizas");
+            $("#js_mCerrar").on("click", function () {
+                ConfirmCustom("El mes va a ser cerrado ¿Desea continuar?", CerrarMes, "", "Si", "No");
+            });
+            $("#mes").on("change", function () {
+                $("#div_polizas").children().remove();
+            });
+        });
+    </script>
+}

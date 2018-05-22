@@ -1,0 +1,129 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.VW_Conciliacion>
+
+@if (ViewBag.Imprimir)
+{
+    ViewBag.Title = "Reporte de Movimientos Bancarios";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+    
+    @Html.Partial("PdfHeader")
+    <link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+    <link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+    <link href="@cssPath/layout.css" rel="stylesheet" />
+}
+else {
+    Layout = null; 
+}
+<table id="tbl" class="table table-responsive">
+    <thead>
+        <tr>
+            <th data-title="Tipo">Fecha</th>
+            <th data-title="No_Cheque">
+                No. Cheque
+            </th>
+            <th data-title="Referencia">
+                @Html.DisplayNameFor(model => model.Referencia)
+            </th>
+            <th data-title="Cargos_formato">
+                @Html.DisplayNameFor(model => model.Cargos)
+            </th>
+            <th data-title="Abonos_formato">
+                @Html.DisplayNameFor(model => model.Abonos)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewBag.Imprimir)
+        {
+            for (int i = 1; i < 4; i++)
+            {
+                if (Model.Where(x => x.Id_TipoMovB == i).Count() > 0)
+                {
+                    for (int j = 1; j <= Model.Where(x => x.Id_TipoMovB == i).Max(x => x.Id_FolioMovB); j++)
+                    {
+                        if (Model.Where(x => x.Id_TipoMovB == i && x.Id_FolioMovB == j).Count() > 0)
+                        {
+                            <tr>
+                                <th colspan="8">
+                                    @Html.Encode(Model.Where(x => x.Id_TipoMovB == i && x.Id_FolioMovB == j).FirstOrDefault().Movimiento)
+                                </th>
+                            </tr>
+                        }
+                        foreach (var item in Model.Where(x => x.Id_TipoMovB == i && x.Id_FolioMovB == j))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.Encode(item.Fecha.Value.ToShortDateString())
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.No_Cheque)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Referencia)
+                                </td>
+                               
+                                <td class="text-right">
+                                    @Html.Encode(String.Format("{0:N}", item.Cargos))
+                                </td>
+                                <td class="text-right">
+                                    @Html.Encode(String.Format("{0:N}", item.Abonos))
+                                </td>
+                            </tr>
+                        }
+                        if (Model.Where(x => x.Id_TipoMovB == i && x.Id_FolioMovB == j).Count() > 0)
+                        {
+                            decimal subtotal = Model.Where(x => x.Id_TipoMovB == i && x.Id_FolioMovB == j && x.Cargos != null).Sum(x => x.Cargos.Value) + Model.Where(x => x.Id_TipoMovB == i && x.Id_FolioMovB == j && x.Abonos != null).Sum(x => x.Abonos.Value);
+                            <tr>
+                                <th colspan="4" class="text-right">
+                                    Subtotal
+                                </th>
+                                <th class="text-right">
+                                    @Html.Encode(String.Format("{0:N}", subtotal))
+                                </th>
+                            </tr>
+                        }
+                    }
+
+                }
+            }
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.Encode(item.Fecha.Value.ToShortDateString())
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.No_Cheque)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Referencia)
+                    </td>
+
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Cargos))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Abonos))
+                    </td>
+                </tr>
+            }
+        }
+        
+    </tbody>
+    <tfoot>
+        @{decimal total = Model.Where(x => x.Cargos != null).Sum(x => x.Cargos.Value) + Model.Where(x => x.Abonos != null).Sum(x => x.Abonos.Value);}
+        <tr>
+            <th colspan="4" class="text-right">
+                Total
+            </th>
+            <th class="text-right">
+                @Html.Encode(String.Format("{0:N}", total))
+            </th>
+        </tr>
+    </tfoot>
+</table>

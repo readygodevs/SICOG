@@ -1,0 +1,195 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.De_FacturasModel>
+
+@{
+    Layout = null;
+}
+
+<table id="_tblFacturas" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th data-title="TipoDocumento">
+                Tipo de Documento
+            </th>
+            <th data-title="No_docto">
+                No. Documento
+            </th>
+            <th data-title="Id_Proveedor">
+                Proveedor
+            </th>
+            <th data-title="Fecha">
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th data-title="SubTotal">
+                @Html.DisplayNameFor(model => model.SubTotal)
+            </th>
+            <th data-title="IVA">
+                (+)IVA
+            </th>
+            <th data-title="Otros">
+                (+)Otros
+            </th>
+            <th data-title="Ret_ISR">
+                (-)Ret ISR
+            </th>
+            <th data-title="Ret_IVA">
+                (-)Ret IVA
+            </th>
+            <th data-title="Ret_Obra">
+                (-)Ret Obra
+            </th>
+            <th data-title="Ret_Otras">
+                (-)Ret Otras
+            </th>
+            <th data-title="TOTAL">
+                @Html.DisplayNameFor(model => model.TOTAL)
+            </th>
+            <th data-title="Acciones"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="text-right">
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoDocumento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_docto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_Proveedor)
+                </td>
+                <td>
+                    @Html.Encode(item.Fecha.HasValue ? item.Fecha.Value.ToShortDateString() : "")
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:N}", item.SubTotal))
+                    @*@Html.DisplayFor(modelItem => item.SubTotal)*@
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:N}", item.IVA))
+                    @*@Html.DisplayFor(modelItem => item.IVA)*@
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:N}", item.Otros))
+                    @*@Html.DisplayFor(modelItem => item.Otros)*@
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:N}", item.Ret_ISR))
+                    @*@Html.DisplayFor(modelItem => item.Ret_ISR)*@
+                </td>
+                <td >
+                    @Html.Encode(String.Format("{0:N}", item.Ret_IVA))
+                    @*@Html.DisplayFor(modelItem => item.Ret_IVA)*@
+                </td>
+                <td >
+                    @Html.Encode(String.Format("{0:N}", item.Ret_Obra))
+                    @*@Html.DisplayFor(modelItem => item.Ret_Obra)*@
+                </td>
+                <td >
+                    @Html.Encode(String.Format("{0:N}", item.Ret_Otras))
+                    @*@Html.DisplayFor(modelItem => item.Ret_Otras)*@
+                </td>
+                <td >
+                    @Html.Encode(String.Format("{0:N}", item.TOTAL))
+                    @*@Html.DisplayFor(modelItem => item.TOTAL)*@
+                </td>
+                <td class="acciones">
+                    <i class="fa fa-bars js_detalles" data-factura="@item.Id_Factura" data-foliocr="@item.Id_FolioCR" data-tipocr="@item.Id_TipoCR" data-proveedor="@item.Id_Proveedor" title="Detalles" data-toggle="tooltip" data-placement="top"></i>
+                    <i class="hide fa fafa-trash-o js_eliminar" data-factura="@item.Id_Factura" title="Eliminar" data-foliocr="@item.Id_FolioCR" data-tipocr="@item.Id_TipoCR" data-proveedor="@item.Id_Proveedor" data-toggle="tooltip" data-placement="top"></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="11" style="text-align: right">Total:</th>
+            <th>
+                
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </tfoot>
+    
+</table>
+
+<script>
+    var ConstruirTablaSaldos = function (div, mensaje) {
+        if (mensaje == undefined || mensaje == "")
+            mensaje = "No hay registros a mostrar";
+        var tabla = $("#" + div).dataTable({
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                        i : 0;
+                };
+                // Total over all pages
+                if ($("#_tblFacturas tbody tr").length > 0) {
+                    if (!ultimo) {
+                        totalAbono = api
+                            .column(11)
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            });
+                        // Total over this page
+                        // Update footer
+                        $(api.column(11).footer()).html(
+                            '<span class="js_currency">' + totalAbono + '</span>'
+                        );
+                        $(".js_currency").formatCurrency();
+                    }
+                    else
+                    {
+                        $(api.column(11).footer()).html(
+                        '$0.00'
+                        );
+                        $(".js_currency").formatCurrency();
+                    }
+                }
+                else {
+                    $(api.column(11).footer()).html(
+                       '$0.00'
+                   );
+                    $(".js_currency").formatCurrency();
+                }
+            },
+            "sPaginationType": "full_numbers",
+            "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": "Anterior",
+                    "sNext": "Siguiente",
+                    "sLast": "Última",
+                    "sFirst": "Primera"
+                },
+                "sLengthMenu": '<div id="combo_datatable">Mostrar <select>' +
+                '<option value="5">5</option>' +
+                '<option value="10">10</option>' +
+                '<option value="20">20</option>' +
+                '<option value="30">30</option>' +
+                '<option value="40">40</option>' +
+                '<option value="50">50</option>' +
+                '<option value="-1">Todos</option>' +
+                '</select> registros',
+                "sInfo": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+                "sInfoFiltered": " - filtrados de _MAX_ registros",
+                "sInfoEmpty": "No hay resultados de búsqueda",
+                "sZeroRecords": mensaje,
+                "sProcessing": "Espere, por favor...",
+                "sSearch": "<div id='div_buscar'><i class='fa fa-search'></i>Buscar:</div>"
+            }
+        });
+        return tabla;
+    }
+    $(function () {
+        ConstruirTablaSaldos("_tblFacturas", "No hay documentos...");
+        $(".js_totalfacturas").formatCurrency();
+    });
+    
+</script>

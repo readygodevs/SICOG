@@ -1,0 +1,74 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.DE_ContrarecibosArchivosModel>
+
+@{
+    Layout = null;
+}
+
+<table id="tblFilesCR">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>@Html.DisplayNameFor(model => model.Fecha)</th>
+            <th>@Html.DisplayNameFor(model => model.Tipo)</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (TesoreriaVS12.Areas.Tesoreria.Models.DE_ContrarecibosArchivosModel item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @item.Fecha.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td class="acciones">
+                    <i class="fa fa-trash js_delete" data-idarchivo="@item.IdArchivo" title="Eliminar" data-toggle="tooltip" data-placement="top"></i>
+                    <i class="fa fa-download js_download" data-idarchivo="@item.IdArchivo" title="Descargar" data-toggle="tooltip" data-placement="top"></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(function () {
+        $(".js_delete").on("click", function () {
+            ajaxJson("@Url.Action("EliminarArchivo","Contrarecibos")", { IdArchivo: $(this).data("idarchivo") }, "POST", true, function (response) {
+                if (response.Exito == true)
+                    ExitoCustom(response.Mensaje, recargarTablaArchivos);
+                else
+                    ErrorCustom(response.Mensaje, "");
+            });
+        });
+        $(".js_download").on("click", function () {
+            window.open("@Url.Action("GetPDF","Contrarecibos")"+"?IdArchivo=" + $(this).data("idarchivo"), "_blank");
+        });
+        var tabla = $("#tblFilesCR").dataTable({
+            "sPaginationType": "full_numbers",
+            "iDisplayLength": "5",
+            "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": "Anterior",
+                    "sNext": "Siguiente",
+                    "sLast": "Última",
+                    "sFirst": "Primera"
+                },
+                "sLengthMenu": '<div id="combo_datatable">Mostrar <select>' +
+                '<option value="5" selected="selected">5</option>' +
+                '</select> registros',
+                "sInfo": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+                "sInfoFiltered": " - filtrados de _MAX_ registros",
+                "sInfoEmpty": "No hay resultados de búsqueda",
+                "sZeroRecords": "No hay documentos...",
+                "sProcessing": "Espere, por favor...",
+                "sSearch": "<div id='div_buscar'><i class='fa fa-search'></i>Buscar:</div>"
+            }
+        });
+    });
+</script>

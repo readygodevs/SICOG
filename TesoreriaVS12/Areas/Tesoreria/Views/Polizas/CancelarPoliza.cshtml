@@ -1,0 +1,32 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel
+
+@{
+    Layout = null;
+}
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+@using (Html.BeginForm("CancelarPoliza", "Polizas", FormMethod.Post, new { id = "frmCancela" }))
+{
+    <input type="hidden" id="Id_TipoPoliza" name="Id_TipoPoliza" value="@Model.Id_TipoPoliza" />
+    <input type="hidden" id="Id_FolioPoliza" name="Id_FolioPoliza" value="@Model.Id_FolioPoliza" />
+    <input type="hidden" id="Id_MesPoliza" name="Id_MesPoliza" value="@Model.Id_MesPoliza" />
+    <label>Fecha de cancelación</label>
+    <input type="text" id="Fecha_Cancela_C" name="Fecha_Cancela_C" class="date"/>
+}
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<script>
+    $("#dateFecha_Cancela_C").on("click", function () {
+        if ($(".datepicker").is(":visible") == false)
+            $(this).parent().find(".date").focus();
+    });
+    $("#Fecha_Cancela_C").datepicker({
+        format: "dd/mm/yyyy",
+        autoclose: true,
+        startDate: '@Model.cFechas.Fecha_Min.ToShortDateString()',
+        endDate: '@Model.cFechas.Fecha_Max.ToShortDateString()'
+    });
+
+    $("#Fecha_Cancela_C").val('@Model.cFechas.Fecha_Min.ToShortDateString()');
+    
+    $("#Fecha_Cancela_C").datepicker("setStartDate", '@Model.cFechas.Fecha_Min.ToShortDateString()');
+    $("#Fecha_Cancela_C").datepicker("setEndDate", '@Model.cFechas.Fecha_Max.ToShortDateString()');
+</script>

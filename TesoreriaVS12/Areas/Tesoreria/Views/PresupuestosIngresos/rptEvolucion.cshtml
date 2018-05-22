@@ -1,0 +1,117 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.DE_EvolucionModel>
+
+@{
+    Layout = null;
+    decimal TotalEstimado = 0;
+    decimal TotalAmpliacion = 0;
+    decimal TotalReduccion = 0;
+    decimal TotalModificacion = 0;
+    decimal TotalDevengado = 0;
+    decimal TotalRecaudado = 0;
+    decimal TotalPorejecutar = 0;
+    
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>reporteGeneral</title>
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="cabecera">
+        <div class="logo">
+            <img src="@imagePath/reportes/@TesoreriaVS12.Models.Logueo.GetParametro("EscudoReportes")" class="logo-ente" alt="" />
+        </div>
+        <div class="parametros">
+            <div class="gobierno">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo1")</div>
+            <div class="instituto">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</div>
+            <div class="ejercicio">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo3")</div>
+            <div class="sistema">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo4")</div>
+        </div>
+        <div class="poliza">
+            REPORTE DE EVOLUCION POR CLAVE PRESUPUESTARIA @Html.Raw(ViewBag.TituloMes)
+        </div>
+    </div>
+    <table id="tblEvolucion" class="tablaGrande">
+        <thead>
+            <tr>
+                <th>
+                    Clave Presupuestaria
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Estimado)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Ampliaciones)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Reducciones)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Modificado)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Devengado)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Recaudado)
+                </th>
+                <th class="text-right">
+                    Por Ejecutar
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.IdClavePresupuestoIngFormato(item.Id_ClavePresupuesto))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:n}", item.Estimado))
+                    </td>
+                    <td class="text-right">                    
+                        @Html.Encode(String.Format("{0:n}", item.Ampliaciones))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:n}", item.Reducciones))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:n}", item.Modificado))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:n}", item.Devengado))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:n}", item.Recaudado))
+                    </td>
+                    <td class="text-right">
+                        <b>@Html.Encode(String.Format("{0:n}", item.PorEjecutar))</b>
+                    </td>
+                </tr>
+                TotalEstimado += item.Estimado.HasValue ? item.Estimado.Value : 0;
+                TotalAmpliacion += item.Ampliaciones.HasValue ? item.Ampliaciones.Value : 0;
+                TotalReduccion += item.Reducciones.HasValue ? item.Reducciones.Value : 0;
+                TotalModificacion += item.Modificado.HasValue ? item.Modificado.Value : 0;
+                TotalDevengado += item.Devengado.HasValue ? item.Devengado.Value : 0;
+                TotalRecaudado += item.Recaudado.HasValue ? item.Recaudado.Value : 0;
+                TotalPorejecutar += item.PorEjecutar.HasValue ? item.PorEjecutar.Value : 0;
+            }
+            <tr class="tfoot">
+                <td class="text-right"><b>Total</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", TotalEstimado)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", TotalAmpliacion)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", TotalReduccion)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", TotalModificacion)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", TotalDevengado)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", TotalRecaudado)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", TotalPorejecutar)</b></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_AreasModel>
+
+<table id="tblAreas">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Area)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td class="acciones">
+                    <a href="#" class="js_SeleccionarArea" data-idarea="@item.Id_Area" data-descripcion="@item.Descripcion"><i class="fa fa-check"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        ConstruirTabla("tblAreas", "No se encontraron resultados...");
+    });
+</script>

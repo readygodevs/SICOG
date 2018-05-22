@@ -1,0 +1,348 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ReciboIngresosModel
+
+@{
+    ViewBag.Title = "ReciboIngresos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section sin_contenedor{
+    <link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+    <div id="_menu_lateral">
+        @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = (Model.Botonera.Count > 0 ? Model.Botonera : new List<object> { "bNuevo", "bBuscar", "bSalir" }) }); }
+    </div>
+    <form id="detalleFrm" action="/Tesoreria/Ingresos/DetallesReciboIngresos" method="post">
+        <input type="hidden" name="IdRecibo" id="IdRecibo">
+    </form>
+    @using (Html.BeginForm("GuardarRecibo", "Ingresos", FormMethod.Post, new { id = "frmRecibo" }))
+    {
+        <div class="container">
+            <h2>Recibo de Ingresos</h2>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-xs-1">
+                    @Html.LabelFor(model => model.Folio)
+                    @Html.TextBoxFor(model => model.Folio)
+                    @Html.ValidationMessageFor(model => model.Folio)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Id_CajaR)
+                    @Html.DropDownList("Id_CajaR", Model.ListaCa_CajasReceptoras, "--Selecciona una--")
+                    @Html.ValidationMessageFor(model => model.Id_CajaR)
+                </div>
+                <div class="col-xs-2">
+                    <div class="div_inline_block text-left">
+                        @Html.LabelFor(model => model.Fecha)
+                        <div class="input-group fecha_group">
+                            @Html.TextBoxFor(model => model.Fecha, new { @class="date" })
+                            <span class="input-group-addon group-date"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Fecha)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Usuario_Captura)
+                    @Html.TextBoxFor(model => model.Usuario_Captura)
+                    @Html.ValidationMessageFor(model => model.Usuario_Captura)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.IdEstatus)
+                    @Html.TextBoxFor(model => model.EstatusDescipcion)
+                    @Html.HiddenFor(model => model.IdEstatus)
+                    @Html.ValidationMessageFor(model => model.IdEstatus)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.FechaRecaudacion)
+                    <div class="input-group fecha_group">
+                        @Html.TextBoxFor(model => model.FechaRecaudacion)
+                        <span class="input-group-addon group-date"><i class="fa fa-calendar"></i></span>
+                    </div>
+
+                    @Html.ValidationMessageFor(model => model.FechaRecaudacion)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.FechaCancelacion)
+                    <div class="input-group fecha_group">
+                        @Html.TextBoxFor(model => model.FechaCancelacion)
+                        <span class="input-group-addon group-date"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FechaCancelacion)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Importe)
+                    @Html.TextBoxFor(model => model.Importe, new { disabled = "disabled", @class = "importe js_importe" })
+                    @Html.ValidationMessageFor(model => model.Importe)
+                </div>
+                <div class="col-xs-1">
+                    @Html.LabelFor(model => model.Impreso)
+                    @Html.CheckBox("Impreso", Model.Impreso.HasValue ? Model.Impreso.Value : false)
+                    @Html.ValidationMessageFor(model => model.Impreso)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2">
+                    @Html.LabelFor(model => model.IdContribuyente)
+                    <div class="input-group id-beneficiario">
+                        @Html.TextBox("IdContribuyente", Model.IdContribuyente, new { @class = "form-control" })
+                        <span class="input-group-addon js_searchContribuyente">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.IdContribuyente)
+                </div>
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.NombreContribuyente)
+                    @Html.TextBoxFor(model => model.NombreContribuyente)
+                    @Html.ValidationMessageFor(model => model.NombreContribuyente)
+                </div>
+                <div class="col-xs-6">
+                    @Html.LabelFor(model => model.DomicilioContribuyente)
+                    @Html.TextBoxFor(model => model.DomicilioContribuyente)
+                    @Html.ValidationMessageFor(model => model.DomicilioContribuyente)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-11">
+                    @Html.LabelFor(model => model.Observaciones)
+                    @Html.TextAreaFor(model => model.Observaciones)
+                    @Html.ValidationMessageFor(model => model.Observaciones)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.Id_Banco)
+                    @Html.DropDownListFor(model => model.Id_Banco, Model.ListaId_Banco, "--Selecciona Uno--", new { @class = "form-control jsEnabledAgregar input-validation-error", disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.Id_Banco)
+                </div>
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.Id_CtaBancaria)
+                    @Html.DropDownListFor(model => model.Id_CtaBancaria, Model.ListaId_CtaBancaria, "--Selecciona Una--", new { @class = "form-control jsEnabledAgregar input-validation-error", disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.Id_CtaBancaria)
+                </div>
+            </div>
+        </div>
+        /********************************/
+        <br />
+        <div class="separador_dos">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.Poliza_Diario)
+                        @Html.HiddenFor(model => model.Id_MesPDiario)
+                        <div class="input-group folio_mes">
+                            @Html.TextBoxFor(model => model.Poliza_Diario, new { @class = "NonEditable form-control" })
+                            @Html.HiddenFor(model => model.Id_FolioPDiario)
+                            <span class="input-group-addon js_ConsultaPoliza" data-tipo="3"><i class="fa fa-search"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Poliza_Diario)
+                        @Html.ValidationMessageFor(model => model.Id_MesPDiario)
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.Poliza_Ingresos)
+                                @Html.HiddenFor(model => model.Id_MesPIngresos)
+                                <div class="input-group folio_mes">
+                                    @Html.TextBoxFor(model => model.Poliza_Ingresos, new { @class = "NonEditable form-control" })
+                                    @Html.HiddenFor(model => model.Id_FolioPIngresos)
+                                    <span class="input-group-addon js_ConsultaPoliza" data-tipo="1"><i class="fa fa-search"></i></span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Id_FolioPIngresos)
+                                @Html.ValidationMessageFor(model => model.Id_MesPIngresos)
+                            </div>
+                            @*<div class="col-xs-6">
+                                @Html.LabelFor(model => model.Usuario_Recaudacion)
+                                @Html.TextBoxFor(model => model.Usuario_Recaudacion)
+                                @Html.ValidationMessageFor(model => model.Usuario_Recaudacion)
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.Poliza_DiarioC)
+                        @Html.HiddenFor(model => model.Id_MesPDiarioC)
+                        <div class="input-group folio_mes">
+                            @Html.TextBoxFor(model => model.Poliza_DiarioC, new { @class = "NonEditable form-control" })
+                            @Html.HiddenFor(model => model.Id_FolioPDiarioC)
+                            <span class="input-group-addon js_ConsultaPoliza" data-tipo="3"><i class="fa fa-search"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Poliza_DiarioC)
+                        @Html.ValidationMessageFor(model => model.Id_MesPDiarioC)
+                    </div>
+                    @*<div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.Poliza_IngresosC)
+                                @Html.HiddenFor(model => model.Id_MesPIngresosC)
+                                <div class="input-group folio_mes">
+                                    @Html.TextBoxFor(model => model.Poliza_IngresosC, new { @class = "NonEditable form-control" })
+                                    @Html.HiddenFor(model => model.Id_FolioPIngresosC)
+                                    <span class="input-group-addon js_ConsultaPoliza" data-tipo="1"><i class="fa fa-search"></i></span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Id_FolioPIngresosC)
+                                @Html.ValidationMessageFor(model => model.Id_MesPIngresosC)
+                            </div>
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.Usuario_Recaudacion)
+                                @Html.TextBoxFor(model => model.Usuario_Recaudacion)
+                                @Html.ValidationMessageFor(model => model.Usuario_Recaudacion)
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.Poliza_Devengado)
+                        @Html.HiddenFor(model => model.IdMesPDevengado)
+                        <div class="input-group folio_mes">
+                            @Html.TextBoxFor(model => model.Poliza_Devengado, new { @class = "NonEditable form-control" })
+                            @Html.HiddenFor(model => model.IdFolioPDevengado)
+                            <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.IdFolioPDevengado)
+                        @Html.ValidationMessageFor(model => model.IdMesPDevengado)
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.Poliza_Recaudado)
+                                @Html.HiddenFor(model => model.IdMesPRecaudado)
+                                <div class="input-group folio_mes">
+                                    @Html.TextBoxFor(model => model.Poliza_Recaudado, new { @class = "NonEditable form-control" })
+                                    @Html.HiddenFor(model => model.IdFolioPRecaudado)
+                                    <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.IdFolioPRecaudado)
+                                @Html.ValidationMessageFor(model => model.IdMesPRecaudado)
+                            </div>
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.Usuario_Recaudacion)
+                                @Html.TextBoxFor(model => model.Usuario_Recaudacion)
+                                @Html.ValidationMessageFor(model => model.Usuario_Recaudacion)
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="row">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.Poliza_DevengadoC)
+                        @Html.HiddenFor(model => model.IdMesPDevengadoC)
+                        <div class="input-group folio_mes">
+                            @Html.TextBoxFor(model => model.Poliza_DevengadoC, new { @class = "NonEditable form-control" })
+                            @Html.HiddenFor(model => model.IdFolioPDevengadoC)
+                            <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.IdFolioPDevengadoC)
+                        @Html.ValidationMessageFor(model => model.IdMesPDevengadoC)
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.Poliza_RecaudadoC)
+                                @Html.HiddenFor(model => model.IdMesPRecaudadoC)
+                                <div class="input-group folio_mes">
+                                    @Html.TextBoxFor(model => model.Poliza_RecaudadoC, new { @class = "NonEditable form-control" })
+                                    @Html.HiddenFor(model => model.IdFolioPRecaudadoC)
+                                    <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.IdFolioPRecaudadoC)
+                                @Html.ValidationMessageFor(model => model.IdMesPRecaudadoC)
+                            </div>
+                            <div class="col-xs-6">
+                                @Html.LabelFor(model => model.Usuario_Cancelacion)
+                                @Html.TextBoxFor(model => model.Usuario_Cancelacion)
+                                @Html.ValidationMessageFor(model => model.Usuario_Cancelacion)
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    }
+
+}
+
+
+@section Scripts {
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ReciboIngresos.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script>
+        $(function () {
+            $('input[type=text],input[type=checkbox],select, textarea').addClass('form-control').prop('disabled', 'disabled');
+            $('body').on('click', '#js_mNuevo', newReciboIngresos);
+            $(".group-date").on("click", function () {
+                if (!$(this).isSiblingDisabled()) {
+                    $("#Fecha").trigger('click');
+                }
+            });
+            $("#Id_Banco").on("change", llenarCuentasBanco);
+            $("#Importe").formatCurrency({ symbol: '' });
+            $('#IdContribuyente').typeahead({
+                source: function (query, process) {
+                    $.ajax({
+                        url: "@Url.Action("searchContribuyentes","Ingresos")",
+                        type: "POST",
+                        data: { name: $("#IdContribuyente").val() },
+                        dataType: "JSON",
+                        async: true,
+                        success: function (results) {
+                            $('#IdContribuyente').data("datasource", results.Ids);
+                            return process(results.Data);
+                        }
+                    });
+                }
+            });
+
+            $('#IdContribuyente').on('change', chageContribuyente);
+
+            $('.js_searchContribuyente').on("click", BuscarContribuyente);
+            $('body').on('click', '.js_SeleccionarBeneficiario', selectContribuyente);
+            $('body').on('click', '#js_mGuardar', saveRecibo);
+            $('body').on('click', '#js_mBuscar', buscarRecibo);
+            $('body').on('click', "#js_mDetalles", function () {
+                $("#IdRecibo").val($("#Folio").val());
+                $("#detalleFrm").submit();
+            });
+
+            $('body').on("click", "#js_mCancelar", function () {
+                $("input[type=text], select, textarea").val("").prop("disabled", "disabled");
+                recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);
+            });
+            $("body").on("click", "#js_mEditar", activarEdicionMaestro);
+            $("body").on("click", "#js_mCancelarGral", cancelarRecibo);
+            $("body").on("click", "#js_mImprimir", imprimirRecibo);
+            $('body').on('click', '#js_mSalir', function () { GoHome(); });
+            $("body").on("click", "#js_mRecaudar", recaudar);
+
+            /**************Consulta poliza*****************/
+            $(".js_ConsultaPoliza").on("click", function () {
+                ConsultaPoliza($(this).data("tipo"), $(this).siblings("input[type=hidden]").val(), $(this).parent().siblings("input[type=hidden]").val());
+            });
+            /************************************************************/
+        });
+    </script>
+
+<script type="text/template" id="js_msjCancelar">
+    <p>Por favor capture la fecha de Cancelación</p>
+    <div class="input-group fecha_group">
+        <input type="text" id="FechaCancelacion" name="FechaCancelacion" />
+        <span class="input-group-addon group-date"><i class="fa fa-calendar"></i></span>
+    </div>
+</script>
+}

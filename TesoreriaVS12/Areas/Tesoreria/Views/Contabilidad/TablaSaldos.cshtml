@@ -1,0 +1,91 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.SaldosIniciales>
+
+@{
+    Layout = null;
+}
+@{double cargo = 0, abono = 0;}
+<table id="tblSaldos" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Id_Area" style="width: 179px;">
+                <label>Cuenta</label>
+            </th>
+            <th data-title="DescCuenta">
+                <label>Descripción</label>
+            </th>
+            <th data-title="Id_Area" class="col-sm-1">
+                <label>Movimiento</label>
+            </th>
+            <th data-title="Id_Area" class="text-right" style="width: 85px">
+                <label>Cargo</label>
+            </th>
+            <th data-title="Id_Area" class="text-right" style="width: 85px">
+                <label>Abono</label>
+            </th>
+            <th data-title="Acciones" class="col-sm-1">Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_CuentaFormato)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescCuenta)
+                </td>
+                <td>
+                    @if (item.Id_TipoMovimiento == 1)
+                    { 
+                        @Html.Encode("CARGO")
+                    }
+                    else
+                    {
+                        @Html.Encode("ABONO")
+                    }
+                </td>
+                <td align="right">
+                    @if (item.Id_TipoMovimiento == 1)
+                    { 
+                        @Html.Encode(String.Format("{0:n}", item.Importe))
+                        { cargo = cargo + Convert.ToDouble(item.Importe); }
+                    }
+                    else
+                    {
+                        @Html.Encode("0.00")
+                    }
+                </td>
+                <td align="right">
+                    @if (item.Id_TipoMovimiento == 2)
+                    { 
+                        @Html.Encode(String.Format("{0:n}", item.Importe))
+                        { abono = abono + Convert.ToDouble(item.Importe); }
+                    }
+                    else
+                    {
+                        @Html.Encode("0.00")
+                    }
+                </td>
+                <td class="acciones">
+                    <a class="fa fa-trash-o js_eliminar cursorPointer" data-idcuenta="@item.Id_Cuenta"  data-tipomov="@item.Id_TipoMovimiento" data-importe="@item.Importe"  title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <th colspan="3" style="text-align: right">Total:</th>
+            <th class="text-right">
+                <!--<label>@cargo</label>-->
+            </th>
+            <th class="text-right">
+                <!--<label>@abono</label>-->
+            </th>
+            <th></th>
+        </tr>
+    </tfoot>
+
+</table>

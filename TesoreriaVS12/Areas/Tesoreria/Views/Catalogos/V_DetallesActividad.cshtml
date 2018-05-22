@@ -1,0 +1,42 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ActividadModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles Actividad MIR" class="TituloModal"></div>
+<div class="modal-body">
+    <label>
+        @Html.DisplayNameFor(model => model.Id_Proceso)
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CA_Proyecto.Descripcion)
+    </div>
+
+    <label>
+        @Html.DisplayNameFor(model => model.Id_ActividadMIR)
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_ActividadMIR)
+    </div>
+
+    <label>
+        @Html.DisplayNameFor(model => model.Id_ActividadMIR2)
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_ActividadMIR2)
+    </div>
+
+    <label>
+        @Html.DisplayNameFor(model => model.Descripcion)
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Descripcion)
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#js_btnOk1").hide();
+    });
+</script>
+
+

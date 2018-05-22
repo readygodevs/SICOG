@@ -1,0 +1,69 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Modelos.DisponibilidadModel
+
+@{
+    ViewBag.Title = "Disponibilidad por Clave Presupuestaria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/DataTable/dataTables.fixedColumns.css" rel="stylesheet" />
+<h2>Disponibilidad por Clave Presupuestaria</h2>
+<style>
+    #div_resultados {
+        font-size: 13px !important;
+    }
+</style>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bSalir" } }); }
+</div>
+
+@using (Html.BeginForm("tblDisponibilidad", "Presupuestos", FormMethod.Post, new { id = "frmDisponibilidad" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+                @Html.LabelFor(model => model.Id_Mes)
+                @Html.DropDownList("Id_Mes", Model.Lista_Meses, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_Mes)
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <div class="row">
+            <div id="div_resultados" class="col-xs-12">
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/Content/DataTable/js/dataTables.fixedColumns.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("body").on("click", "#js_mBuscar", function () {
+                if ($("#Id_Mes").val() > 0) {
+                    ajaxLoad(
+                        "@Url.Action("tblDisponibilidad", "Presupuestos")", $("#frmDisponibilidad").serialize(), "div_resultados", "GET",
+                    function () {
+                        ConstruirTablaCustom("tablaDisponibilidad");
+                        createBotonera(["bBuscar", "bImprimir", "bSalir"]);
+                    });
+                }
+            });
+            $("body").on("click", "#js_mImprimir", function () {
+                window.open("@Url.Action("rptDisponibilidad","Presupuestos")" + "?Id_Mes=" + $("#Id_Mes").val(), "_blank");
+            });
+            $("#Id_Mes").on("change", function () {
+                $("#div_resultados").empty();
+                if ($(this).val() < 1)
+                    createBotonera(["bBuscar", "bSalir"]);
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+    </script>
+}

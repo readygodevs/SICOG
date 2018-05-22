@@ -1,0 +1,78 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ResetControlFinanciero
+
+@{
+    ViewBag.Title = "V_ConciliarMes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> {"bConciliar", "bSalir" } }); }
+</div>
+<div class="container">
+    <h2>Cierre Mensual</h2>
+    <br />
+    @using (Html.BeginForm("V_Reset", "ControlFinanciero", FormMethod.Post, new { id = "Frm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.IdCtaBancaria)
+                @Html.DropDownList("IdCtaBancaria", Model.Lista_CtaBancarias, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdCtaBancaria)
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Mes)
+                @Html.TextBoxFor(model => model.Mes, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Mes)
+            </div>
+        </div>
+    }
+</div>
+
+    @section Scripts {
+        <script src="~/Scripts/underscore.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+        <script type="text/javascript">
+            $(document).on("ready", inicio);
+            function inicio() {
+                $("#IdCtaBancaria").on("change", changeIdCta);
+                $("#js_mConciliar").on("click", iniciar);
+                $("body").on("click", "#js_mSalir", function () {
+                    GoHome();
+                    return false;
+                });
+            }
+
+            function changeIdCta() {
+                var elemento = $(this);
+                if (elemento.val() != "") {
+                    ajaxJson("ValidaMes", { idCtaBancaria: elemento.val() }, "POST", true, function (result) {
+                        if (result.Exito)
+                            $("#Mes").val(result.Mes);
+                        else
+                            ErrorCustom(result.Mensaje, "");
+                    });
+                } else
+                    $("#Mes").val("");
+            }
+            function iniciar() {
+                if ($("#Frm").valid()) {
+                    var funcion = function () {
+                        ajaxJson("V_ConciliarMes", { idCtaBancaria: $("#IdCtaBancaria").val() }, "POST", true, function (result) {
+                            if (result.Exito)
+                                ExitoCustom(result.Mensaje, "");
+                            else
+                                ErrorCustom(result.Mensaje, "");
+                            $('#IdCtaBancaria').prop('selectedIndex', 0);
+                            $("#Mes").val("");
+                        });
+                    }
+                    ConfirmCustom("¿Está seguro de realizar el cierre de conciliación del mes?", funcion, "", "Si", "No");
+                }
+                else
+                    $("#Frm").validate()
+
+            }
+        </script>
+    }

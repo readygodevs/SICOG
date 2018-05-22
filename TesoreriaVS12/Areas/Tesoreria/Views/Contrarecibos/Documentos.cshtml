@@ -1,0 +1,266 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.De_FacturasModel
+
+@{
+    ViewBag.Title = "Documentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = (Model.Botonera.Count > 0 ? Model.Botonera : new List<object> { "bNuevo", "bSalir" }) }); }
+</div>
+
+<h2>Documentos</h2>
+
+@using (Html.BeginForm("Index", "Contrarecibos", FormMethod.Post, new { id = "frmSalir" }))
+{
+    <input type="hidden" id="TipoCR" name="TipoCR" value="@ViewBag.Tipo" />
+    <input type="hidden" id="FolioCR" name="FolioCR" value="@ViewBag.Folio" />
+}
+
+@using (Html.BeginForm("Gastos_Fondos", "Contrarecibos", FormMethod.Post, new { id = "frmSalirFG" }))
+{
+    <input type="hidden" id="Tipo" name="Tipo" value="@Model.Id_TipoCR" />
+    <input type="hidden" id="Folio" name="Folio" value="@Model.Id_FolioCR" />
+}
+
+@using (Html.BeginForm("", "", new { area = "Tesoreria" }, FormMethod.Post, new { id = "frmFactruras" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("Id_Factura", Model.Id_Factura)
+    <div class="container">
+        <div class="row">
+            <input type="hidden" id="Editado" name="Editado" value="0" />
+            <div class="col-xs-4">
+                <label>Tipo de Cuenta por Liquidar:</label><br />
+                @ViewBag.TipoContraRecibo
+                <input type="hidden" id="Id_TipoCR" name="Id_TipoCR" value="@ViewBag.Tipo" />
+            </div>
+            <div class="col-xs-4">
+                <label>Folio de Cuenta por Liquidar:</label><br />
+                <span>@ViewBag.Folio</span>
+                @*@Html.Hidden("Id_FolioCR", ViewBag.Folio)*@
+                <input type="hidden" id="Id_FolioCR" name="Id_FolioCR" value="@ViewBag.Folio" />
+            </div>
+            <div class="col-xs-4">
+                <label>Nombre del Beneficiario:</label><br />
+                <span>@ViewBag.NombreCompleto</span>
+
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-xs-7">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label>Tipo de Documentos</label>
+                        @Html.DropDownListFor(model => model.Id_TipoDocto, Model.ListaId_TipoDocto, "--Seleccione Uno--")
+
+                        @Html.HiddenFor(model => model.TipoDocumento)
+                        @Html.ValidationMessageFor(model => model.Id_TipoDocto)
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Folio del Documento</label>
+                        @Html.TextBoxFor(model => model.No_docto, new { maxlength = 12 })
+                        @Html.ValidationMessageFor(model => model.No_docto)
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.Fecha)
+                        @Html.TextBox("Fecha", Model.Fecha.HasValue ? Model.Fecha.Value.ToShortDateString() : "", new { @class = "datepicker" })
+                        @Html.ValidationMessageFor(model => model.Fecha)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>Proveedor de la Factura</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="input-group id-beneficiario">
+                            @Html.TextBoxFor(model => model.Id_Proveedor, new { @class = "form-control js_focus", maxlength = 26 })
+                            <span class="input-group-addon js_Beneficiario" id="beneSearch">
+                                <span class="fa fa-search"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-8">
+                        @Html.TextBoxFor(model => model.ProveedorName)
+                        @Html.ValidationMessageFor(model => model.ProveedorName)
+                    </div>
+
+                </div>
+                <div class="row">
+                    <br />
+                    <div class="col-xs-12">
+                        <div id="_tblFiles">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <div class="row">
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.SubTotal)
+                        @Html.TextBoxFor(model => model.SubTotal, new { @class = "caluclos",data_val_number = " " })
+                        @Html.ValidationMessageFor(model => model.SubTotal)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>(+)IVA</label>
+                        @Html.TextBoxFor(model => model.IVA, new { @class = "caluclos",data_val_number = " " })
+                        @Html.ValidationMessageFor(model => model.IVA)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>(+)Otros</label>
+                        @Html.TextBoxFor(model => model.Otros, new { @class = "caluclos", data_val_number = " " })
+                        @Html.ValidationMessageFor(model => model.Otros)
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <label>Impuesto</label>
+                        @Html.DropDownListFor(model => model.Id_Impuesto, Model.ListaId_Impuesto, "--Seleccione Uno--")
+                        @*<select id="Id_Impuesto" name="Id_Impuesto" class="text-left"></select>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>(-)Retención ISR</label>
+                        @Html.TextBoxFor(model => model.Ret_ISR, new { @class = "caluclos", data_val_number = " " })
+                        @Html.ValidationMessageFor(model => model.Ret_ISR)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>(-)Retención IVA</label>
+                        @Html.TextBoxFor(model => model.Ret_IVA, new { @class = "caluclos", data_val_number = " " })
+                        @Html.ValidationMessageFor(model => model.Ret_IVA)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>(-)Retención Obra</label>
+                        @Html.TextBoxFor(model => model.Ret_Obra, new { @class = "caluclos", data_val_number = " " })
+                        @Html.ValidationMessageFor(model => model.Ret_Obra)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>(-)Otros</label>
+                        @Html.TextBoxFor(model => model.Ret_Otras, new { @class = "caluclos", data_val_number = " " })
+                        @Html.ValidationMessageFor(model => model.Ret_Otras)
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <label>Deducción</label>
+                        @Html.DropDownListFor(model => model.Id_Deduccion, Model.ListaId_Deduccion, "--Seleccione Uno--")
+                        @*<select name="Id_Deduccion" id="Id_Deduccion" class="text-left"></select>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>Total</label>
+                        @Html.TextBoxFor(model => model.TOTAL, new { @readonly = "readonly", data_val_number = " " })
+                        @Html.ValidationMessageFor(model => model.TOTAL)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<input type="hidden" id="MontoCR" />
+<br />
+<div id="_containerTblDoctos">
+
+</div>
+
+@section scripts
+{
+    
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/autoNumeric.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Facturas.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Beneficiarios.js"></script>
+    <script src="~/Scripts/fileAjax.js"></script>
+    <script>
+        var TableId = "_tblFacturas";
+        var RutaDelete = "@Url.Action("EliminarDocumento", "Contrarecibos")";//"/Tesoreria/Contrarecibos/EliminarDocumento";
+        var MsjEliminar = "¿Realmente desea eliminar el documento? Esta acción no se puede deshacer";
+        var aPos = -1;
+        var ultimo = false;
+        var Botonera = "@Model.Botonera";
+        var ligaContrarecibos = "@Url.Action("Index", "Contrarecibos",new { area = "Tesoreria" })";
+        var ligaArrendamientos = "@Url.Action("Arrendamientos", "Contrarecibos", new { area = "Tesoreria" })";
+        var ligaHonorarios= "@Url.Action("Honorarios", "Contrarecibos", new { area = "Tesoreria" })";
+        var ligaCancelacionActivos = "@Url.Action("CancelacionActivos", "Contrarecibos", new { area = "Tesoreria" })";
+        var ligaHonorariosAsimilables= "@Url.Action("HonorariosAsimilables", "Contrarecibos", new { area = "Tesoreria" })";
+        $(function () {
+
+            $("#frmFactruras input, texarea, select").addClass("form-control");
+            $("#frmFactruras input, texarea").attr("readonly", "readonly");
+            $("#frmFactruras select").attr("disabled", "disabled");
+            recargarTablaDocumentos();
+            recargarTablaArchivos();
+			//$("#_containerTblDoctos").ajaxLoad({ url: "tblDocumentos", method: "POST", data: { tipo: params.tipo, folio: params.folio } });
+            $('.datepicker').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true
+            });
+
+            $("#TOTAL").attr("readonly", "readonly");
+            $(".caluclos").on("change", function () { $(this).formatCurrency() });
+            $(".caluclos, #TOTAL").addClass("importe").formatCurrency();
+
+            /*Eventos campos*/
+            //$("body").on("focusout", "#Id_Proveedor", focusBeneficiario);
+
+            $(".caluclos").on("change", doCalc);
+
+            $("body").on("click", "#js_mNuevo", newFactura);
+
+            $("body").on("click", "#js_mGuardar", saveFactrura);
+
+            $("body").on("click", "#js_mSalir", returnContraRecibos);
+
+            $("body").on("click", "#js_mEliminar", deleteFactura);
+
+            $("body").on("click", ".js_detalles", detailsFactura);
+
+            $("body").on("click", "#js_mEditar", editFactura);
+
+            $("body").on("click", "#js_mCancelar", cancelar);
+
+            $("body").on("click", "#js_mUploadFiles",subirArchivo)
+
+            buscarBeneficiario("lg");
+
+            seleccionarBeneficiario(["Id_Proveedor", "ProveedorName"], "beneSearch", "", {});
+
+            $("body").on("focusout", "#Id_Proveedor", function () {
+                if ($(this).val().length > 0) {
+                    $("#Id_Proveedor").focusOut({
+                        url: "@Url.Action("Beneficiario","FocusOut")",
+                        data: { IdBeneficiario: $(this).val() },
+                        campos: [{ Base: "NombreCompleto", Campo: "ProveedorName" }]
+                    });
+                }
+            });
+
+            
+        });
+    </script>
+    <script type="text/template" id="jsActionsource">
+        @*<i class="fa fa-pencil js_editar" data-factura="<%= IdFactura %>" data-foliocr="<%= FolioCR %>" data-tipocr="<%= TipoCR %>" data-proveedor="<%= Proveedor %>" title="Editar" data-toggle="tooltip" data-placement="top"></i>*@
+        <i class="fa fa-bars js_detalles" data-factura="<%= IdFactura %>" title="Detalles" data-foliocr="<%= FolioCR %>" data-tipocr="<%= TipoCR %>" data-proveedor="<%= Proveedor %>" data-toggle="tooltip" data-placement="top"></i>
+        <i class="hide fa fa fa-trash-o js_eliminar" data-factura="<%= IdFactura %>" title="Eliminar" data-foliocr="<%= FolioCR %>" data-tipocr="<%= TipoCR %>" data-proveedor="<%= Proveedor %>" data-toggle="tooltip" data-placement="top"></i>
+    </script>
+}
+

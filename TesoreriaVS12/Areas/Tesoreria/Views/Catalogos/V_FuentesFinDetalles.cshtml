@@ -1,0 +1,33 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_FuentesFinModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles Fuentes financiamiento" class="TituloModal"></div>
+<label>
+    Fuente
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_Fuente)
+</div>
+
+<label>
+    @Html.DisplayNameFor(model => model.Descripcion)
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+<label>
+    Último Nivel
+</label>
+<div class="display-field">
+    @Html.Encode(Model.UltimoNivel == true ? "SI" : "NO")
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

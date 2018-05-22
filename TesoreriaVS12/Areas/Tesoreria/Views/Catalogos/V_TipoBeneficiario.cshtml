@@ -1,0 +1,102 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoBeneficiariosModel>
+
+@{
+    ViewBag.Title = "Tipo de Beneficiario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tipo de Beneficiario</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo","bImprimir", "bSalir" } }); }
+</div>
+<div class="jsSourceActions hide">
+
+</div>
+<div id="container">
+    <br />
+    <div class="row">
+        @*<div class="col-sm-3 col-sm-offset-9 text-right">
+            <div class="js_agregar btn btn-success">
+                <i class="fa fa-plus bigger-110" title="Crear"></i>
+                <span>Agregar</span>
+            </div>
+        </div>*@
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_TipoBene">
+                            Tipo de Beneficiario
+                        </th>
+                        <th data-title="Descripcion">
+                            Descripción
+                        </th>
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_TipoBene)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                @*<a class="js_detalles fa fa-file-text-o cursorPointer" data-id="@item.Id_TipoBene" title="Detalles" data-toggle="tooltip" data-placement="top"></a>*@
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_TipoBene" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_TipoBene" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_TipoBeneficiario_Agregar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoBeneficiario_Agregar";
+        var RutaEdit = "@Url.Action("V_TipoBeneficiario_Editar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoBeneficiario_Editar";
+        var RutaDelete = "@Url.Action("V_TipoBeneficiario_Eliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoBeneficiario_Eliminar";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_TipoBene" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el Tipo de Beneficiario? esta acción no se puede deshacer";
+        var SourceAction = "jsActionsource";
+        var RutaExportarPDF = "@Url.Action("TipoBeneficiario", "ReportesPDF")";//"/Tesoreria/ReportesPDF/TipoBeneficiario";
+        var ExportarPDFCatalogo = function () {
+            window.open(RutaExportarPDF, "_blank");
+        }
+        $(function () {
+            ConstruirTabla(TableId, "No hay tipos de beneficiario...");
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            $("body").on("click", "#js_mNuevo", Nuevo);
+            $("body").on("click", ".js_editar", Editar);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", ".js_detalles", function () {
+                customModal("@Url.Action("V_TipoBeneficiario_Detalles","Catalogos")", { Id: $(this).data("id") }, "GET", "md", "", "", "", "Cerrar", "Detalles Tipo Beneficiario", "MyModal1");
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        @*<a class="js_detalles fa fa-file-text-o cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>*@
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+
+}

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_ProgramasModel>
+
+@{
+    ViewBag.Title = "Programas Presupuestarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bImprimir", "bSalir" } }); }
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Catálogo Programas Presupuestarios</h2>
+            <!--<a id="js_agregar" class="btn btn-success" href="#"><i class="fa fa-plus">Agregar</i></a>-->
+            <div class="jsSourceActions hide"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tbl" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_Programa">
+                            @Html.DisplayNameFor(model => model.Id_Programa)
+                        </th>
+                        <th data-title="Descripcion">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th data-title="Acciones" class="text-center">
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Programa)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <!--<a class="fa fa-pencil js_editar cursorPointer" data-id="@item.Id_Programa" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="fa fa-trash js_eliminar cursorPointer" data-id="@item.Id_Programa" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>-->
+                                <a class="fa fa-bars js_detalles cursorPointer" data-id="@item.Id_Programa" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_AgregarProgramas", "Catalogos")";//"/Tesoreria/Catalogos/V_AgregarProgramas";
+        var RutaObtener = "@Url.Action("V_ObtenerProgramas", "Catalogos")";//"/Tesoreria/Catalogos/V_ObtenerProgramas";
+        var RutaDelete = "@Url.Action("EliminarProgramas", "Catalogos")";//"/Tesoreria/Catalogos/EliminarProgramas";
+        var RutaEdit = "@Url.Action("EditarProgramas", "Catalogos")";//"/Tesoreria/Catalogos/EditarProgramas";
+        var RutaSave = "@Url.Action("AgregarProgramas", "Catalogos")";//"/Tesoreria/Catalogos/AgregarProgramas";
+        var RutaDetalles = "@Url.Action("V_DetallesProgramas", "Catalogos")";//"/Tesoreria/Catalogos/V_DetallesProgramas";
+        var RutaExportarPDF = "@Url.Action("Programas", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Programas";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_Programa" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+
+        $(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            tabla = ConstruirTabla(TableId, "No hay programas...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            /*$("body").on("click", "#js_agregar", Nuevo);
+            $("body").on("click", ".js_editar", Obtener);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", "#Edit", Editar);
+            $("body").on("click", "#Save", Guardar);*/
+            $("body").on("click", ".js_detalles", Detalles);
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="fa fa-bars js_detalles cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"> </a>
+    </script>
+    <!--<a class="fa fa-trash js_eliminar cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"> </a>
+       <a class="fa fa-bars js_detalles cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"> </a>-->
+}

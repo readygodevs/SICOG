@@ -1,0 +1,31 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.PresupuestosIngresos>
+
+<table id="tabla_resultados">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Clave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th class="text-center">Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Clave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td class="text-center">
+                    <i class="fa fa-check js_seleccionar acciones" data-descripcion="@item.Descripcion" data-id="@item.Clave"></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

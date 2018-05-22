@@ -1,0 +1,94 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_CuentasBancariasModel
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frmEditar" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-sm-6">
+            <label>Banco</label>
+            @Html.TextBoxFor(model => model.Ca_Bancos.Descripcion, new { @class = "form-control", @readonly="readonly"})
+            @Html.ValidationMessageFor(model => model.Id_Banco)
+        </div>
+        <div class="col-sm-6">
+            <label>Fuente Financiamiento</label>
+            @Html.DropDownListFor(model => model.Id_Fuente, Model.ListaFuentes, "-Seleccione-", new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Id_Fuente)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            @Html.LabelFor(model => model.Descripcion)
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+        <div class="col-sm-2">
+            @Html.LabelFor(model => model.No_Sucursal)
+            @Html.TextBoxFor(model => model.No_Sucursal, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.No_Sucursal)
+        </div>
+        <div class="col-sm-4">
+            @Html.LabelFor(model => model.Sucursal)
+            @Html.TextBoxFor(model => model.Sucursal, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Sucursal)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.LabelFor(model => model.Id_Cuenta)
+            @Html.TextBoxFor(model => model.Id_Cuenta, new { @class = "form-control", @readonly="readonly"})
+            @Html.ValidationMessageFor(model => model.Id_Cuenta)
+        </div>
+        <div class="col-sm-3">
+            @Html.LabelFor(model => model.NoCuenta)
+            @Html.TextBoxFor(model => model.NoCuenta, new { @class = "form-control", @readonly="readonly"})
+            @Html.ValidationMessageFor(model => model.NoCuenta)
+        </div>
+        <div class="col-sm-2">
+            @Html.HiddenFor(model => model.ChequePoliza)
+        </div>
+    </div>
+    if (ViewBag.Detalle) { 
+        <div class="row">
+            <div class="col-sm-3">
+                 @Html.LabelFor(model => model.TipoFoliador)
+                <select id="TipoFoliador" name="TipoFoliador" class="form-control">
+                    <option value="1">MANUAL</option>
+                    <option value="2" >AUTOMÁTICO</option>
+                </select>
+            </div>
+            <div class="folios @Model.TipoFoliador==2 ? @Html.Encode("hide") : @Html.Encode("")">
+                <div class="col-sm-3">
+                      @Html.LabelFor(model => model.NoChequeIni)
+                      @Html.TextBoxFor(model => model.NoChequeIni, new { @class = "form-control"})
+                </div>
+                <div class="col-sm-1">@Html.ValidationMessageFor(model => model.NoChequeIni)</div>
+                <div class="col-sm-3">
+                     @Html.LabelFor(model => model.NoChequeFin)
+                     @Html.TextBoxFor(model => model.NoChequeFin, new { @class = "form-control"})
+                </div>
+                 <div class="col-sm-1">@Html.ValidationMessageFor(model => model.NoChequeFin)</div>
+            </div>
+        </div>
+    }else
+    {
+        @Html.HiddenFor(x=>x.TipoFoliador)
+        @Html.HiddenFor(x=>x.Exportable)
+    }
+    @Html.HiddenFor(x=>x.Id_Banco)
+    @Html.HiddenFor(x=> x.Id_CtaBancaria)
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+}
+<script>
+    $(function () {
+        $("#TipoFoliador").val('@Html.Encode(Model.TipoFoliador)');
+        if ($("#TipoFoliador").val() == 1)
+            $(".folios").removeClass('hide');
+    });
+</script>

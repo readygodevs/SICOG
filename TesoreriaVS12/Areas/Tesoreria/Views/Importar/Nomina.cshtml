@@ -1,0 +1,89 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.CompromisoNomina>
+@{
+    ViewBag.Title = "Importar archivo de Nómina";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var exito = ViewBag.Exito;
+    var folio = ViewBag.FolioCompromiso;
+    int folioCompromiso = 0;
+    if (folio != null)
+    {
+        folioCompromiso = Convert.ToInt32(folio);
+    }
+}
+<h2>Importar archivo de Nómina</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <label class="label label-success">Cargar archivo de Nómina en Excel</label><br />
+        <br />
+        @using (Html.BeginForm("Nomina", "Importar", new { @area = "Tesoreria" }, FormMethod.Post, new { id = "frmNomina", enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true)
+            <div class="col-lg-12">
+                <input type="file" id="archivoExcel" name="archivoExcel" />
+                <br />
+                <a class="btn btn-success" id="btnImportar">Importar</a>
+            </div>
+        }
+    </div>
+</div>
+<h3>Detalle de la Nómina</h3>
+<table id="tablaNomina" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Clave Presupuestal</th>
+            <th>Cuenta</th>
+            <th>Cargos</th>
+            <th>Abonos</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@TesoreriaVS12.Areas.Tesoreria.Models.StringID.IdClavePresupuestoFormato(item.Id_ClavePresupuesto)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cuenta)</td>
+                <td>@String.Format("{0:C}", item.Cargo)</td>
+                <td>@String.Format("{0:C}", item.Abono)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).on("ready", function () {
+            ConstruirTabla("tablaNomina");
+            $("#btnImportar").on("click", function () {
+                if ($("#archivoExcel").val() != "") {
+                    ConfirmCustom("Por favor confirme que desea importar el archivo de Compromisos",
+                        function () {
+                            $("#frmNomina").submit();
+                        }, "", "Aceptar", "Cancelar");
+                }
+            });
+            $("#archivoExcel").on("change", function () {
+                if ($(this).val() != "") {
+                    var nombre = $(this).val().split(".");
+                    var extencion = nombre[nombre.length - 1].toUpperCase();
+                    if (extencion != "XLS" && extencion != "XLSX") {
+                        $(this).val("");
+                        ErrorCustom("Solamente puede subir archivos en Excel", "");
+                    }
+                    else if (this.files[0].size > 2097152) {
+                        ErrorCustom("El archivo no debe ser mayor a 2 MB", "");
+                        $(this).val("");
+                    }
+                }
+            });
+            @if (exito!=null)
+            {
+                if (exito && folioCompromiso> 0)
+                {
+                    <text>
+            ExitoCustom('El archivo ha sido importado éxito, el Folio del Compromiso generado es el @folioCompromiso');
+            </text>
+                }
+
+            }
+        });
+    </script>
+}

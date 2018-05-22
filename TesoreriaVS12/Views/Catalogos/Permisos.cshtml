@@ -1,0 +1,108 @@
+﻿@model TesoreriaVS12.Models.Permisos
+@{
+    ViewBag.Title = "Permisos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Perfiles","Catalogos",FormMethod.Post,new { id="frmReturn" }))
+{
+    @Html.Hidden("IdPerfil",Model.IdPerfil)
+}
+<br /><br />
+<i class="btn btn-success" id="SaveBtn">Guardar</i>
+<br />
+<div id="treeGrid">
+    
+</div>
+@section scripts
+{
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxdatatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxtreegrid.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxlistbox.js"></script> 
+    <script type="text/javascript" src="~/Scripts/Tree/jqxdata.export.js"></script>
+    <script src="~/Scripts/Tree/jqxbuttons.js"></script><script>
+        var changes = {};
+        $("#SaveBtn").on("click", function () {
+            var datos = [];
+            //console.log($("#treeGrid").jqxTreeGrid('getRows'));
+            $.each($("#treeGrid").jqxTreeGrid('getRows'), function (key, value) {
+                datos.push(fillNodo(value));
+            });
+            
+            ajaxJson("@Url.Action("GuardarPermisos","Catalogos")", { frm: JSON.stringify(datos), IdPerfil: $("#IdPerfil").val() }, "POST", true, function (response) {
+                if (response.Exito == true)
+                    window.location.href = "@Url.Action("Perfiles","Catalogos")";
+                else
+                    ErrorCustom(response.Mensaje,"");
+            });
+        });
+
+        var fillNodo = function(value)
+        {
+            if (value.checked == null)
+                value.checked = true;
+            var nodo = {
+                IdGrupo: value.IdGrupo,
+                IdPermiso: value.IdPermiso,
+                Activo: value.checked,
+                IdOpcion: value.IdOpcion,
+                Childrens: fillHijos(value.children)
+            }
+            return nodo;
+        }
+        var fillHijos = function(values)
+        {
+            var nodos = [];
+            $.each(values, function (key, value) {
+                nodos.push(fillNodo(value));
+            });
+            return nodos;
+        }
+        ajaxJson("@Url.Action("PermisosJson","Catalogos")", { IdPerfil: $("#IdPerfil").val() }, "POST", true, function (response) {
+            var source =
+             {
+                 dataType: "json",
+                 dataFields: [
+                      { name: "IdGrupo", type: "string" },
+                      { name: "Descripcion", type: "descripcion" },
+                      { name: "children", type: "array" },
+                      { name: "IdPermiso", type: "number" },
+                      { name: "checked", type: "boolean" }
+                 ],
+                 hierarchy:
+                     {
+                         root: "children"
+                     },
+                 localData: response.Permisos,
+                 id: "IdGrupo"
+             };
+            var dataAdapter = new $.jqx.dataAdapter(source, {
+                loadComplete: function () {
+                }
+            });
+            $("#treeGrid").jqxTreeGrid(
+            {
+                source: dataAdapter,
+                altRows: true,
+                hierarchicalCheckboxes: true,
+                width: 850,
+                checkboxes: true,
+                theme: 'metro',
+                ready: function () {
+                    //$("#treeGrid").jqxTreeGrid('expandRow', '1');
+                    //$("#treeGrid").jqxTreeGrid('expandRow', '2');
+                },
+                columns: [
+                  { text: "IdGrupo", align: "center", dataField: "IdGrupo", width: 200 },
+                  { text: "Descripcion", cellsAlign: "left", align: "left", dataField: "Descripcion", width: 650 }
+                ]
+            });
+        });
+
+    </script>
+}
+
+

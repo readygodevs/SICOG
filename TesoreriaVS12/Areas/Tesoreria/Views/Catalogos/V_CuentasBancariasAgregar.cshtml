@@ -1,0 +1,76 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_CuentasBancariasModel
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Banco</label>
+            @Html.DropDownListFor(model => model.Id_Banco, new SelectList(ViewBag.Bancos, "Id_Banco", "BancoFormato", Model.Id_Banco), "-Seleccione-", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Id_Banco)
+        </div>
+        <div class="col-sm-2">
+            <label>Fuente Fin</label>
+            <div class='input-group'>
+                @Html.TextBoxFor(model => model.Id_Fuente,new { @class = "form-control", maxlength = 4 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <label>Descripcion</label>
+            <input type="text" id="Desc_Id_Fuente" class="form-control js_Descripcion" readonly="readonly"/>
+             @Html.ValidationMessageFor(model => model.Id_Fuente)
+        </div>
+       @* <div class="col-sm-6">
+            <label>Fuente Financiemiento</label>
+            @Html.DropDownListFor(model => model.Id_Fuente, Model.ListaFuentes, "-Seleccione-", new { @class = "form-control"})
+           
+        </div>*@
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            @Html.LabelFor(model => model.Descripcion)
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+        <div class="col-sm-2">
+            @Html.LabelFor(model => model.No_Sucursal)
+            @Html.TextBoxFor(model => model.No_Sucursal, new { @class = "form-control",maxlenght=4})
+            @Html.ValidationMessageFor(model => model.No_Sucursal)
+        </div>
+        <div class="col-sm-4">
+            @Html.LabelFor(model => model.Sucursal)
+            @Html.TextBoxFor(model => model.Sucursal, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Sucursal)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.LabelFor(model => model.Id_Cuenta)
+            @Html.TextBoxFor(model => model.Id_Cuenta, new { @class = "form-control", @readonly="readonly"})
+            @Html.ValidationMessageFor(model => model.Id_Cuenta)
+        </div>
+        <div class="col-sm-3">
+            @Html.LabelFor(model => model.NoCuenta)
+            @Html.TextBoxFor(model => model.NoCuenta, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.NoCuenta)
+        </div>
+        <div class="col-sm-2 hide">
+            @Html.LabelFor(model => model.ChequePoliza)
+            <select id="ChequePoliza" name="ChequePoliza" class="form-control">
+                <option value="1" selected="selected">SI</option>
+                <option value="2">NO</option>
+            </select>
+            @Html.ValidationMessageFor(model => model.ChequePoliza)
+        </div>
+    </div>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+}

@@ -1,0 +1,25 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoGastosModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles Tipo Gasto" class="TituloModal"></div>
+<label>
+    @Html.DisplayNameFor(model => model.Id_TipoGasto)
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_TipoGasto)
+</div>
+<label>
+    @Html.DisplayNameFor(model => model.Descripcion)
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

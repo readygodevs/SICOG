@@ -1,0 +1,80 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoContrarecibosModel
+
+@{
+    ViewBag.Title = "V_TipoContrarecibo_Agregar";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Agregar Cuenta por Liquidar</h4>
+</div>
+<div class="modal-body">
+    <form id="frm">
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Tipo de contrarecibo</legend>
+
+            
+            @Html.HiddenFor(model => model.Id_TipoCR)
+
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Descripcion)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Descripcion)
+                @Html.ValidationMessageFor(model => model.Descripcion)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.UltimoCR)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.UltimoCR)
+                @Html.ValidationMessageFor(model => model.UltimoCR)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Facturas_Diversas)
+            </div>
+            <div class="editor-field">
+                @Html.CheckBox("Facturas_Diversas", (Model.Facturas_Diversas.HasValue)?Model.Facturas_Diversas.Value:false)
+                @Html.ValidationMessageFor(model => model.Facturas_Diversas)
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button id="CerrarM1" type="button" class="btn btn-default">Cerrar</button>
+    <button id="GuardarM1" type="button" class="btn btn-default">Guardar</button>
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(document).ready(function () {
+        $("#CerrarM1").on("click", function () {
+            CerrarModal();
+        });
+
+        $("#GuardarM1").on("click", function () {
+            if ($("#frm").valid()) {
+                ajaxJson("@Url.Action("V_TipoContrarecibo_Agregar","Catalogos")", $("form").serialize(), "post", false, callbackGuardar)
+            }
+        });
+    });
+
+    function callbackGuardar(response) {
+        if (response.Exito == false)
+            ErrorCustom(response.Mensaje, "");
+        else {
+            
+            ExitoCustom("", CerrarModal);
+            var Acciones = _.template($('#jsActionsource').html());
+            response.Datos.Acciones = Acciones({ Id: response.Datos.Id_TipoCR });
+            AddTbl(response.Datos, "tbl");
+        }
+    }
+</script>

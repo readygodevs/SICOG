@@ -1,0 +1,57 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ParametrosModel
+
+@{
+    Layout = null;
+}
+<div data-title="Editar" class="TituloModal"></div>
+@using (Html.BeginForm("V_Parametros_Editar_File", "Catalogos", FormMethod.Post, new { Area = "Tesoreria", id = "frm", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="editor-label">
+        @Html.HiddenFor(model => model.IdParametro)
+    </div>
+    <div class="editor-label">
+        @Html.HiddenFor(model => model.Nombre)
+    </div>
+    if (Model.Nombre == "EscudoReportes")
+    {
+    <div class="row">
+        <div class="col-sm-12">
+            <p>De preferencia la imagen debe tener 500px mínimos de altura y con formato PNG o JPG.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.Valor, new { READONLY = "true" })
+            @Html.ValidationMessageFor(model => model.Valor)
+        </div>
+        <div class="col-md-1">
+            <span>*</span>
+        </div>
+        <div class="editor-field col-sm-7">
+            <input type="file" name="file" id="file" accept="application/pdf" />
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.Descripcion)
+    }
+    else
+    {
+    <div class="row">
+        <div class="col-sm-11">
+            @Html.LabelFor(model => model.Descripcion)
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-1">@Html.ValidationMessageFor(model => model.Descripcion)</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+            @Html.LabelFor(model => model.Valor)
+            @Html.TextBoxFor(model => model.Valor, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-1">@Html.ValidationMessageFor(model => model.Valor)</div>
+    </div>
+    }
+
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

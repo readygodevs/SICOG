@@ -1,0 +1,47 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ContrarecibosModel
+
+@{
+    Layout = null;
+}
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+@using (Html.BeginForm("", "", FormMethod.Post, new { id="frmCancelaContra" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m=> m.Id_FolioCR)
+    @Html.HiddenFor(m=> m.Id_TipoCR)
+    <div class="btn-group">
+        <label class="btn btn-default active">
+            <input type="radio" name="Opcion" value="1" id="checkCR"> Cuenta por Liquidar
+        </label>
+        <label class="btn btn-default">
+            <input type="radio" name="Opcion" value="2" id="checkCRCMP"> Cuenta por Liquidar y Compromiso
+        </label>   
+    </div>
+    <br /><br />
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="input-group fecha_group">
+                <input type="text" name="Fecha" id="FechaCancelacionCR1" value="" class="date" />
+				<span id="errorFecha" class="error field-validation-error"></span>
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+        </div>
+        <div class="col-xs-6"></div>
+    </div>
+}
+<script src="~/Scripts/bootstrap-datepicker.js"></script>  
+<script>
+    $(function () {
+        $(".input-group .date").datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        $(".input-group-addon").on("click", function () {
+            if ($(".datepicker").is(":visible") == false)
+                $(this).parent().find(".date").focus();
+        });
+    });
+</script>

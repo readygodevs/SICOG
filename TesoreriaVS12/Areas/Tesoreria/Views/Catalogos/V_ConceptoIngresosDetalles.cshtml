@@ -1,0 +1,63 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ConceptosIngresosModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles" class="TituloModal"></div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Rubro)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Rubro)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Tipo)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Tipo)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Clase)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Clase)
+</div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Id_Concepto)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_Concepto)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Descripcion)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.UltimoNivel)
+</div>
+<div class="display-field">
+    @{
+        if (Model.UltimoNivel == true)
+        { 
+        @Html.Encode("SI");
+        }
+        else
+        {
+        @Html.Encode("NO");
+        }
+    }
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

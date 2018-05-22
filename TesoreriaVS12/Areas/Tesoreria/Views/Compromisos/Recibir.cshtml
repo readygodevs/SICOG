@@ -1,0 +1,60 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.RecibeCompromiso
+
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Recibir", "Compromisos", FormMethod.Post, new { id = "frmRecibido" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div>       
+        @Html.HiddenFor(model => model.Id_TipoCompromiso_R)
+        @Html.HiddenFor(model => model.Id_FolioCompromiso_R)     
+        @Html.HiddenFor(model => model.Fecha_Orden_R)  
+        @Html.HiddenFor(model => model.Fecha_Recibe_Area_R)        
+
+        <div>
+            @Html.LabelFor(model => model.Id_FolioCompromiso_R)
+        </div>
+        <div>
+            @Html.DisplayFor(model => model.Id_FolioCompromiso_R)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Fecha_Devengado_R)
+        </div>
+        <div class="">
+            <div class="input-group fecha_group">
+                @Html.TextBoxFor(model => model.Fecha_Devengado_R, new { @class = "date form-control" })
+                <span id="dateFecha_Devengado_R" class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>            
+            @Html.ValidationMessageFor(model => model.Fecha_Devengado_R)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Observa_Recibio_R)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Observa_Recibio_R, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Observa_Recibio_R)
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#dateFecha_Devengado_R").on("click", function () {
+            if ($(".datepicker").is(":visible") == false)
+                $(this).parent().find(".date").focus();
+        });
+
+        $("#Fecha_Devengado_R").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Model.cfechas.Fecha_Min.ToShortDateString()',
+            endDate: '@Model.cfechas.Fecha_Max.ToShortDateString()'
+        });
+    });
+</script>

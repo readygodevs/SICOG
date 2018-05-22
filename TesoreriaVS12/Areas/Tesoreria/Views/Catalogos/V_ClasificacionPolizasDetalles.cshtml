@@ -1,0 +1,40 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ClasificaPolizasModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles" class="TituloModal"></div>
+<div class="row">
+    <div class="col-sm-3"> @Html.DisplayNameFor(model => model.Id_TipoPoliza)</div>
+    <div class="col-sm-6"> @Html.DisplayFor(model => model.Id_TipoPoliza)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3"> @Html.DisplayNameFor(model => model.Id_ClasificaPoliza)</div>
+    <div class="col-sm-6"> @Html.DisplayFor(model => model.Id_ClasificaPoliza)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.Id_SubClasificaPoliza)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.Id_SubClasificaPoliza)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.Descripcion)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.Descripcion)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.Automatica)</div>
+    <div class="col-sm-6">@{
+        if (Model.Automatica == true)
+        { 
+        @Html.Encode("SI");
+        }
+        else
+        {
+        @Html.Encode("NO");
+        }
+    }</div>
+</div>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

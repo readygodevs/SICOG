@@ -1,0 +1,46 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.SaldosIniciales
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frmSaldo" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="row ">
+        <div class="col-sm-9">
+            <div class="div_inline_block pull-left">
+                <label>Cuenta:</label>
+                <div class="input-group cuenta_group">
+                    @Html.TextBoxFor(model => model.Id_Cuenta, new { @class = "form-control js_Captura" })
+                    <span class="input-group-addon js_buscar cursorPointer"><i class="fa fa-search"></i></span>
+                </div>
+                @Html.ValidationMessageFor(model => model.Id_Cuenta)
+            </div>
+            <div class="div_inline_block margin-25">
+                @Html.TextBoxFor(model => model.DescripcionSaldo, new { @class = "form-control ",@readonly="readonly" })
+                @Html.ValidationMessageFor(model => model.DescripcionSaldo)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <label>Tipo de Movimiento</label>
+            <select class="form-control tipo_movimiento" id="Id_TipoMovimiento" name="Id_TipoMovimiento">
+                <option value="1" selected="selected">Cargo</option>
+                <option value="2">Abono</option>
+            </select>
+            @Html.ValidationMessageFor(model => model.Id_TipoMovimiento)
+        </div>
+        <div class="col-sm-2">
+            <label>Importe</label>
+            @Html.TextBoxFor(model => model.Importe, new { @class = "form-control importe" })
+            @Html.ValidationMessageFor(model => model.Importe)
+        </div>
+        <div class="col-sm-2">
+            <button type="button" id="btn_adicionar" class="btn btn-success margin-25">Adicionar</button>
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

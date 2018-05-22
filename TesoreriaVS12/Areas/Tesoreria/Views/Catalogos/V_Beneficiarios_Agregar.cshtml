@@ -1,0 +1,236 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_BeneficiariosModel
+
+    
+    
+@using (Html.BeginForm("", "", new { id = "frmBen" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.ValidationMessageFor(model => model.PersonaFisica)
+            <label>Tipo de proveedor:</label>
+        </div>
+        <div class="col-sm-9">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type="radio" name="TipoCaptura" value="1"> Empresa (persona moral)
+                </label>
+                <label class="btn btn-primary active">
+                    <input type="radio" name="TipoCaptura" value="2" checked ="checked"> Persona (persona física)
+                </label>
+            </div>
+            @Html.Hidden("PersonaFisica", Model.PersonaFisica)
+        </div>
+    </div>
+    //class="display-label"
+    <div class="js_PersonaFisica">
+        <div class="row">
+            <div class="col-sm-3 display-label">
+                @Html.ValidationMessageFor(model => model.CURP)
+                <label>Curp:</label>
+            </div>
+            <div class="col-sm-3 display-label">
+                @Html.EditorFor(model => model.CURP)
+            </div>
+            <div class="col-sm-6 display-label">
+
+            </div>
+        </div>
+        <fieldset>
+            <legend>Nombre proveedor:</legend>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </div>
+                    <div class="display-label">
+                        @Html.EditorFor(model => model.Nombre)
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => model.ApellidoPaterno)
+                    </div>
+                    <div class="display-label">
+                        @Html.EditorFor(model => model.ApellidoPaterno)
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="display-label">
+                        @Html.DisplayNameFor(model => model.ApellidoMaterno)
+                    </div>
+                    <div class="display-label">
+                        @Html.EditorFor(model => model.ApellidoMaterno)
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    
+    <div class="js_PersonaFisica">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="display-label">
+                    @Html.DisplayNameFor(model => model.RazonSocial)
+                </div>
+                <div class="display-label">
+                    @Html.EditorFor(model => model.RazonSocial)
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.IdEstado)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.IdEstado)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.IdMunicipio)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.IdMunicipio)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.IdLocalidad)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.IdLocalidad)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.IdColonia)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.IdEstado)
+                <i class="fa fa-pencil-square-o cursorPointer"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.IdCalle)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.IdCalle)
+                <i class="fa fa-pencil-square-o cursorPointer"></i>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.NumeroExt)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.NumeroExt)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.NumeroInt)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.NumeroInt)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.CP)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.CP)
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.RFC)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.RFC)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Telefono1)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.Telefono1)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Fax)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.Fax)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Email)
+            </div>
+            <div class="display-label">
+                @Html.EditorFor(model => model.Email)
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Referencia)
+            </div>
+            <div class="display-label">
+                @Html.TextBoxFor(model => model.Referencia)
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="display-label">
+                @Html.DisplayNameFor(model => model.Observaciones)
+            </div>
+            <div class="display-label">
+                @Html.TextBoxFor(model => model.Observaciones)
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div id="tblclasificacion"></div>
+    </div>
+    
+    <div class="row">
+        <div id="tblgiros"></div>
+    </div>
+    
+    <div class="row">
+        <div id="tblcontactos"></div>
+    </div>
+    
+    
+}
+    
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#frmBen input,textarea,select").addClass("form-control");
+    });
+</script>
+

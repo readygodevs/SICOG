@@ -1,0 +1,115 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.VW_ContrarecibosModel>
+
+<table id="tblContraRecibos" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Folio
+            </th>
+            <th>
+                Fecha de captura
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Provedor
+            </th>
+            <th>
+                Situación
+            </th>
+            <th>
+                Fecha pago
+            </th>
+            <th>
+                Banco
+            </th>
+            <th>
+                Cuenta bancaria
+            </th>
+            <th>
+                Núm. Cheque
+            </th>
+            <th>
+                Importe
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_TipoContrarecibos.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_FolioCR)
+                </td>
+                <td>
+                    @Html.Encode(item.FechaCR.HasValue ? item.FechaCR.Value.ToShortDateString() : "")                    
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>                    
+                    @Html.Encode(item.Id_EstatusCR.HasValue ? TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.Estatus_CR[(short)item.Id_EstatusCR] : "")
+                </td>
+                <td>
+                    @Html.Encode(item.Fecha_Pago.HasValue ? item.Fecha_Pago.Value.ToShortDateString() : "")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_CuentasBancarias.Ca_Bancos.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_CuentasBancarias.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_Cheque)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cargos)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<script>
+    $(document).ready(function () {
+        //ConstruirTabla("tblContraRecibos", "No se encontraron resultados...");
+        $("#tblContraRecibos").dataTable({
+            "sPaginationType": "full_numbers",
+            "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": "Anterior",
+                    "sNext": "Siguiente",
+                    "sLast": "Última",
+                    "sFirst": "Primera"
+                },
+            "sLengthMenu": '<div id="combo_datatable">Mostrar <select>' +
+            '<option value="5">5</option>' +
+            '<option value="10">10</option>' +
+            '<option value="20">20</option>' +
+            '<option value="30">30</option>' +
+            '<option value="40">40</option>' +
+            '<option value="50">50</option>' +
+            '<option value="-1">Todos</option>' +
+            '</select> registros',
+            "sInfo": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+            "sInfoFiltered": " - filtrados de _MAX_ registros",
+            "sInfoEmpty": "No hay resultados de búsqueda",
+            "sZeroRecords": "No se encontraron resultados.",
+            "sProcessing": "Espere, por favor...",
+            "sSearch": "<div id='div_buscar'><i class='fa fa-search'></i>Buscar:</div>",
+            "sSort": false
+            }
+        });
+    });
+</script>

@@ -1,0 +1,129 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.BusquedaDisponibilidadAvanzada
+
+@{
+    ViewBag.Title = "BusquedaDisponibilidadAvanzada";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h2>Disponibilidad</h2>
+    <br />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel panel-success">
+            <div class="panel-heading">Momentos Presupuestales</div>
+            <div class="panel-body text-right">
+                <div class="row">
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Todos)
+                        @Html.CheckBoxFor(x => x.Todos.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Aprobado)
+                        @Html.CheckBoxFor(x => x.Aprobado.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Ampliaciones)
+                        @Html.CheckBoxFor(x => x.Ampliaciones.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Reducciones)
+                        @Html.CheckBoxFor(x => x.Reducciones.Value, new { @class = "" })
+                    </div>
+
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Modificado)
+                        @Html.CheckBoxFor(x => x.Modificado.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.PreComprometido)
+                        @Html.CheckBoxFor(x => x.PreComprometido.Value, new { @class = "" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Comprometido)
+                        @Html.CheckBoxFor(x => x.Comprometido.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Devengado)
+                        @Html.CheckBoxFor(x => x.Devengado.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Ejercido)
+                        @Html.CheckBoxFor(x => x.Ejercido.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Pagado)
+                        @Html.CheckBoxFor(x => x.Pagado.Value, new { @class = "" })
+                    </div>
+
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Disponible)
+                        @Html.CheckBoxFor(x => x.Disponible.Value, new { @class = "" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Fin panel de Momentos, Inicio de datos de selección -->
+        <div class="panel panel-success">
+            <div class="panel-heading">Datos de Selección Espécifico</div>
+            <div class="panel-body text-right">
+                <div class="row">
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Todos)
+                        @Html.CheckBoxFor(x => x.Todos.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Aprobado)
+                        @Html.CheckBoxFor(x => x.Aprobado.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Ampliaciones)
+                        @Html.CheckBoxFor(x => x.Ampliaciones.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Reducciones)
+                        @Html.CheckBoxFor(x => x.Reducciones.Value, new { @class = "" })
+                    </div>
+
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Modificado)
+                        @Html.CheckBoxFor(x => x.Modificado.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.PreComprometido)
+                        @Html.CheckBoxFor(x => x.PreComprometido.Value, new { @class = "" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Comprometido)
+                        @Html.CheckBoxFor(x => x.Comprometido.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Devengado)
+                        @Html.CheckBoxFor(x => x.Devengado.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Ejercido)
+                        @Html.CheckBoxFor(x => x.Ejercido.Value, new { @class = "" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Pagado)
+                        @Html.CheckBoxFor(x => x.Pagado.Value, new { @class = "" })
+                    </div>
+
+                    <div class="col-sm-2">
+                        @Html.LabelFor(x => x.Disponible)
+                        @Html.CheckBoxFor(x => x.Disponible.Value, new { @class = "" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+    @section Scripts {
+    }

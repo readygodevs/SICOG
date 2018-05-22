@@ -1,0 +1,35 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.De_Contrarecibos>
+<div data-title="Partidas sin disponibilidad" class="TituloModal"></div>
+<div data-text="Si" class="btnOk"></div>
+<div data-text="Cerrar" class="btnCancel"></div>
+@if(Model.Count() >0 )
+{
+<div class="col-xs-12 text-center"><a class="btn btn-success" id="btnAutorizar">Autorizar Partidas</a></div>
+}
+<br />
+<table id="tabla_contrarecibos" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Partida Presupuestaria</th>
+            <th>Cuenta</th>
+            <th>Importe</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+    
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_ClavePresupuesto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_Cuenta)
+                </td>
+                <td>
+                    @String.Format("{0:C}",item.Id_Cuenta)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_CompromisosModel>
+
+@{
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Analítico Compromisos</title>
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="cabecera">
+        <div class="logo">
+            <img src="@imagePath/reportes/@TesoreriaVS12.Models.Logueo.GetParametro("EscudoReportes")" class="logo-ente" alt="" />
+        </div>
+        <div class="parametros">
+            <div class="gobierno">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo1")</div>
+            <div class="instituto">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</div>
+            <div class="ejercicio">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo3")</div>
+            <div class="sistema">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo4")</div>
+        </div>
+        <div class="poliza">
+            ANALÍTICO DE COMPROMISOS
+        </div>
+    </div>
+    <table id="tblCompromisos" class="table table-responsive table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="text-left">Tipo Compromiso</th>
+                <th class="text-left">Folio Compromiso</th>
+                <th class="text-left">Fecha Compromiso</th>
+                <th class="text-left">Fecha Devengado</th>
+                <th class="text-left">Proveedor</th>
+                <th class="text-left">Procedente de Adquisiciones</th>
+                <th class="text-left">Estatus</th>
+                <th class="text-right">Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Ca_TipoCompromisos.Descripcion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Id_FolioCompromiso)</td>
+                    <td>
+                        @if (item.Fecha_Orden.HasValue)
+                        {
+                            @item.Fecha_Orden.Value.ToShortDateString();
+                        }
+                    </td>
+                    <td>
+                        @if (item.Fecha_Devengado.HasValue)
+                        {
+                            @item.Fecha_Devengado.Value.ToShortDateString();
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Ca_Beneficiarios.NombreCompleto)</td>
+                    @if (item.Adquisicion != null)
+                    {
+                        if (item.Adquisicion.Value)
+                        {
+                            <td>Si</td>
+                        }
+                        else
+                        {
+                            <td>No</td>
+                        }
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td style="padding-right:60px">@item.Descripcion_Estatus</td>
+                    <td class="text-right"><b>@String.Format("{0:N}", item.Cargos)</b></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

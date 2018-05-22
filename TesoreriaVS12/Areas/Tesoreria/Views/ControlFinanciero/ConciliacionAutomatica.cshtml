@@ -1,0 +1,139 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.BusquedaConciliacionAuto
+
+@{
+    ViewBag.Title = "ConciliacionAutomatica";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral" class="js_ocultaSubMenu">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bConciliarAuto", "bConciliarDepositos", "bRevertirConciliacionAuto", "bSalir" } }); }
+</div>
+<div class="container">
+    <h2>Conciliación Automática</h2>
+    <br />
+    @using (Html.BeginForm("ConciliacionAutomatica", "ControlFinanciero", FormMethod.Post, new { id = "Frm", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.IdBanco)
+                @Html.DropDownListFor(model => model.IdBanco, Model.Lista_Bancos, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdBanco)
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.IdCtaBancaria)
+                @Html.DropDownListFor(model => model.IdCtaBancaria, Model.Lista_CtaBancarias, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdCtaBancaria)
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.IdMes)
+               @Html.DropDownListFor(model => model.IdMes, Model.Lista_Meses, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdMes)
+            </div>
+        </div>
+    }
+    <div class="row">
+        <div id="div_tabla" class="col-sm-12">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
+    <script type="text/javascript">
+        $(document).on("ready", inicio);
+        var tabla = "";
+        var aPos = -1;
+        var RutaDelete = "@Url.Action("eliminarConciliacion", "ControlFinanciero")";//"eliminarConciliacion";
+        var MsjEliminar = "¿Esta seguro de eliminar el registro?";
+        var TableId = "tbl";
+        var Propiedades = '{ "Id": "response.Registro.No_Registro","IdC":"response.Registro.Id_CtaBancaria","IdM":"response.Registro.Id_Mes" }';
+        var SourceAction = "jsActionsource";
+        function inicio() {
+            $("#js_mBuscar").on("click", iniciar);
+            $("#IdBanco").on("change", changeIdBanco);
+            $("#js_mConciliarAuto").on("click", conciliarCheques);
+            $("#js_mConciliarDepositos").on("click", conciliarDepositos);
+            $("#js_mRevertirConciliacion").on("click", revertir);
+            $("#js_mSalir").on("click", GoHome);
+        }
+        function revertir()
+        {
+            if ($("#Frm").valid()) {
+                var funcion = function () {
+                    ajaxJson("RevertConciliacion", $("#Frm").serialize(), "POST", true, function (result) {
+                        if (result.Exito) {
+                            ExitoCustom(result.Mensaje);
+                            ajaxLoad("TablaConciliacionAuto", $("#Frm").serialize(), "div_tabla", "POST", function () {
+                                tabla = ConstruirTabla("tabla", "No hay registros para mostrar", 1, false, false);
+                            });
+                        }
+                        else
+                            ErrorCustom(result.Mensaje);
+                    });
+                }
+                ConfirmCustom("Con esta operación se revertirán los cambios. ¿Desea continuar?", funcion, "", "Aceptar", "Cancelar");
+            }
+            else
+                $("#Frm").validate()
+        }
+        function conciliarDepositos() {
+            if ($("#Frm").valid()) {
+                ajaxJson("StartConciliacionDepositos", $("#Frm").serialize(), "POST", true, function (result) {
+                    if (result.Exito) {
+                        ExitoCustom(result.Mensaje);
+                        ajaxLoad("TablaConciliacionAuto", $("#Frm").serialize(), "div_tabla", "POST", function () {
+                            tabla = ConstruirTabla("tabla", "No hay registros para mostrar", 1, false, false);
+                        });
+                    }
+                    else
+                        ErrorCustom(result.Mensaje);
+                });
+            }
+            else
+                $("#Frm").validate()
+        }
+        function conciliarCheques()
+        {
+            if ($("#Frm").valid())
+            {
+                ajaxJson("StartConciliacion", $("#Frm").serialize(), "POST", true, function (result) {
+                    if (result.Exito) {
+                        ExitoCustom(result.Mensaje);
+                        ajaxLoad("TablaConciliacionAuto", $("#Frm").serialize(), "div_tabla", "POST", function () {
+                            tabla = ConstruirTabla("tabla", "No hay registros para mostrar", 1, false, false);
+                        });
+                    }
+                    else
+                        ErrorCustom(result.Mensaje);
+                });
+            }
+            else
+                $("#Frm").validate()
+        }
+        function changeIdBanco()
+        {
+            ajaxSelect("@Url.Action("ListCtaBancaria","Listas")", { Id_Banco: $(this).val() }, "post", false, "IdCtaBancaria", "", callBackLlenarSelect);
+        }
+        function iniciar()
+        {
+            if ($("#Frm").valid())
+            {
+                ajaxLoad("TablaConciliacionAuto", $("#Frm").serialize(), "div_tabla", "POST", function () {
+                    tabla = ConstruirTabla("tabla", "No hay registros para mostrar", 1, false, false);
+                });
+            }
+            else
+                $("#Frm").validate()
+
+        }
+    </script>
+}
+

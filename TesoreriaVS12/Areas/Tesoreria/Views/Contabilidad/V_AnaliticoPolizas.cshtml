@@ -1,0 +1,252 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.AnaliticoPolizas
+
+@{
+    ViewBag.Title = "V_AnaliticoPolizas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<h2>Análisis de Pólizas</h2>
+<br />
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bLimpiar", "bSalir" } }); }
+</div>
+<div class="container">
+    @using (Html.BeginForm("BuscarCompromisos", "Polizas", FormMethod.Post, new { id = "frm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+       
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Id_TipoPoliza)
+                @Html.DropDownListFor(model => model.Id_TipoPoliza, Model.ListaId_TipoPoliza, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_TipoPoliza)
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Id_TipoCR)
+                @Html.DropDownListFor(model => model.Id_TipoCR, Model.ListaId_TipoCR, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_TipoCR)
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.Id_CtaBancaria)
+                @Html.DropDownListFor(model => model.Id_CtaBancaria, Model.ListaCuentaBancaria, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_CtaBancaria)
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.MesInicio)
+                @Html.DropDownListFor(model => model.MesInicio, Model.ListaMeses, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MesInicio)
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.MesFin)
+                @Html.DropDownListFor(model => model.MesFin, Model.ListaMeses, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MesFin)
+            </div>
+        </div>
+        <div class="row">
+            
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.Descripcion)
+                @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Descripcion)
+            </div>
+            <div class="col-sm-8">
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Id_Beneficiario)
+                    <div class="input-group ">
+                        @Html.TextBoxFor(model => model.Id_Beneficiario, new { @class = "form-control" })
+                        <span class="input-group-addon js_Beneficiario">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-9">
+                    <label>Descripción</label>
+                    <input type="text" name="Desc_Beneficiario" id="Desc_Beneficiario" class="form-control" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-4">
+                <label>Especificar Rango de Importes</label>
+            </div>
+            <div class="col-xs-4">
+                <label>Especificar Rango de Fechas</label>
+            </div>
+            <div class="col-xs-4">
+                <label>Especificar Rango de Cheques</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <label>Desde</label>
+                        @Html.TextBoxFor(model => model.ImporteDesde, new { @class = "form-control", maxlength = 10 })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <label>Hasta</label>
+                        @Html.TextBoxFor(model => model.ImporteHasta, new { @class = "form-control", maxlength = 10 })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <label>Desde</label>
+                        <div class='input-group'>
+                            @Html.TextBoxFor(model => model.FechaDesde, new { @class = "form-control date", maxlength = 10 })
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <label>Hasta</label>
+                        <div class='input-group'>
+                            @Html.TextBoxFor(model => model.FechaHasta, new { @class = "form-control date", maxlength = 10 })
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <label>Desde</label>
+                        @Html.TextBoxFor(model => model.ChequeInicial, new { @class = "form-control", maxlength = 10 })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <label>Hasta</label>
+                        @Html.TextBoxFor(model => model.ChequeFinal, new { @class = "form-control", maxlength = 10 })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="div_resultados"></div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/autoNumeric.js"></script>
+    <script type="text/javascript">
+        var buscarBeneficiario = function (modalSize) {
+            $("body").on("click", ".js_Beneficiario", function () {
+                if (!$(this).isSiblingDisabled())
+                    customModal("@Url.Action("Buscar_Beneficiario","Busquedas")", {}, "GET", modalSize, buscarBeneficiarioTbl, "", "Buscar", "Cerrar", "Buscar Beneficiario", "MyModal1");
+            });
+        }
+
+        var buscarBeneficiarioTbl = function () {
+            $("#resultsBeneficiarios").ajaxLoad({ url: "@Url.Action("Tbl_Beneficiario","Busquedas")", method: "POST", data: { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() } });
+        }
+
+        var seleccionarBeneficiario = function (modal) {
+            $("body").on("click", "." + modal + " .js_SeleccionarBeneficiario", function () {
+                var id = $(this).data("idbeneficiario");
+                var desc = $(this).data("nombre");
+                $("#Id_Beneficiario").val(id);
+                $("#Desc_Beneficiario").val(desc);
+                $("." + modal).modal("hide");
+            });
+        }
+        $(document).ready(function () {
+            $("#ImporteDesde").autoNumeric();
+            $("#ImporteHasta").autoNumeric();
+            $("#Id_Beneficiario").on("input", function () {
+                if ($(this).val().trim().length == 0)
+                    $("#Desc_Beneficiario").val("");
+            });
+            $("#FechaDesde").val("");
+            $("#FechaHasta").val("");
+            $(".date").datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                startDate: '@Html.Raw(ViewBag.FechaInicio)',
+                endDate: '@Html.Raw(ViewBag.FechaFin)',
+                todayHighlight: true
+            });
+            $("#FechaDesde").on("change", function () {
+                if ($(this).val().trim().length == 0) {
+                    $("#FechaHasta").val("");
+                }
+            });
+            $("#FechaHasta").on("change", function () {
+                if ($(this).val().trim().length == 0)
+                    $("#FechaDesde").val("");
+            });
+            $("#FechaDesde").datepicker().on("changeDate", function (e) {
+                var fecha = new Date(e.date);
+                $("#FechaHasta").datepicker("update", new Date(fecha));
+                $("#FechaHasta").datepicker("setStartDate", new Date(fecha));
+                $("#FechaHasta").datepicker("setStartDate", Fecha);
+                $("#FechaHasta").attr("disabled", false);
+            });
+            $("body").on("click", "#js_mBuscar", function () {
+                $("#ImporteDesde").val($("#ImporteDesde").autoNumeric("get"));
+                $("#ImporteHasta").val($("#ImporteHasta").autoNumeric("get"));
+                $("#div_resultados").ajaxLoad({
+                    url: "V_AnaliticoPolizasTbl",
+                    data: $("#frm").serialize(),
+                    method: "POST",
+                    callback: function () {
+                        createBotonera(["bBuscar", "bLimpiar", "bImprimir", "bSalir"]);
+                        ConstruirTabla("tbl");
+                    }
+                });
+                $("#ImporteDesde").focus();
+                $("#ImporteHasta").focus();
+            });
+            $("body").on("click", "#js_mLimpiar", function () {
+                cleanInputs();
+            });
+            $("body").on("click", "#js_mImprimir", function () {
+                window.open("@Url.Action("ReportePolizas","Contabilidad")"+"?" + $("#frm").serialize(), "_blank");
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+            });
+
+            $("#Id_Banco").on("change", function () {
+                ajaxSelect("@Url.Action("List_CtaBancaria","Listas")", { Id_Banco: $("#Id_Banco").val() }, "POST", true, "Id_CtaBancaria", "", callBackLlenarSelect);
+            });
+            $("#Id_Beneficiario").on("focusout", function () {
+                if ($(this).val().length > 0) {
+                    $("#Id_Beneficiario").focusOut({
+                        url: "@Url.Action("Beneficiario","FocusOut")",
+                        data: { IdBeneficiario: $(this).val() },
+                        campos: [{ Base: "NombreCompleto", Campo: "NombreBeneficiario" }]
+                    });
+                }
+            });
+            /**************Buscar beneficiario PROVEEDOR*****************/
+            buscarBeneficiario("lg");
+
+            seleccionarBeneficiario("MyModal1", "", "");
+            /************************************************************/
+            var cleanInputs = function () {
+                $(".container input[type=text], textarea").val("");
+                $(".container select").val("");
+            }
+        });
+    </script>
+
+}
+

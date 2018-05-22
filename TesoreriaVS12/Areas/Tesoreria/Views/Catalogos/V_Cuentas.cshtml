@@ -1,0 +1,191 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_CuentasModel>
+
+@{
+    ViewBag.Title = "V_Cuentas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bImprimir", "bSalir" } }); }
+</div>
+<h2>Listado de Cuentas</h2>
+<div class="jsSourceActions hide"></div>
+<div id="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-3 col-sm-offset-3 text-right ">
+            <input type="text" class="form-control" id="txtBusqueda" />
+        </div>
+        <div class="col-sm-3">
+            <div class="btn btn-success js_buscar">
+                <i class="fa fa-search bigger-110"></i>
+                Buscar
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-3 text-center">
+            <input type="radio" class="form-control" name="radio" value="1" />Inicie
+        </div>
+        <div class="col-sm-2 text-center">
+            <input type="radio" class="form-control" name="radio" value="2" />Contenga
+        </div>
+        <div class="col-sm-2 text-center">
+            <input type="radio" class="form-control" name="radio" value="3" />Termine
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_CuentaFormato" id="Id_CuentaFormato">
+                            Cuenta
+                        </th>
+                        <th data-title="Descripcion">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th data-title="Id_ObjetoG">
+                            COG
+                        </th>
+                        <th data-title="Id_Concepto">
+                            CRI
+                        </th>
+                        <th data-title="Nivel">
+                            @Html.DisplayNameFor(model => model.Nivel)
+                        </th>
+                        <th data-title="Acciones" style="width:110px">
+                            Acciones
+                        </th>
+        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_CuentaFormato)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_ObjetoG)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Concepto)
+                            </td>
+                            <td>
+                                @if(item.Nivel == true)
+                                {
+                                    @Html.Encode("SI")
+                                }
+                                else
+                                {
+                                    @Html.Encode("NO")
+                                }
+                            </td>
+                            <td class="acciones izquierda">
+                                @if(item.BtnAgregar == true){
+                                    <a class="js_agregar fa fa-plus-circle cursorPointer" data-id="@item.Id_Cuenta" title="Agregar" data-toggle="tooltip" data-placement="top"></a>
+                                }
+                                @if(item.BtnDetalles == true){
+                                    <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="@item.Id_Cuenta" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                }
+                                @if(item.BtnEditar == true){
+                                    <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_Cuenta" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                }
+                                @if(item.BtnEliminar == true){
+                                    <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_Cuenta" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+<script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>
+<script src="~/Scripts/fnFindCellRows.js"></script>
+<script src="~/Scripts/fnDisplayRow.js"></script>
+    <script>
+        var tbl = "";
+        var aPos = -1;
+        valor = 2;
+        var RutaExportarPDF = "@Url.Action("Cuentas", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Cuentas";
+        $(document).ready(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            tbl = ConstruirTabla("tbl", "No hay registros para mostrar");
+
+            $("body").on("click", ".js_agregar", function () {
+                $("#MyModal1").openModal({ url: "@Url.Action("V_Cuentas_Agregar","Catalogos")", data: { IdCuenta: $(this).data("id") } });
+            });
+
+            $("body").on("click", ".js_detalles", function () {
+                $("#MyModal1").openModal({ url: "@Url.Action("V_Cuentas_Detalles","Catalogos")", data: { IdCuenta: $(this).data("id") } });
+            });
+
+            $("body").on("click", ".js_eliminar", function () {
+                aPos = tbl.fnGetPosition($(this).parent().get(0));
+                aPos[1] = $(this).data("id");
+                ConfirmCustom("¿Está seguro de eliminar la Cuenta: " + aPos[1] + "? Esta acción no se puede revertir.", Eliminar, "", "Aceptar", "Cancelar");
+            });
+
+            $("body").on("click", ".js_editar", function () {
+                aPos = tbl.fnGetPosition($(this).parent().parent().get(0));
+                $("#MyModal1").openModal({ url: "@Url.Action("V_Cuentas_Editar","Catalogos")", data: { IdCuenta: $(this).data("id") } });
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+            $(".js_buscar").on("click", function () {
+                var table = $('#tbl').dataTable();
+                var elementos = table.fnFindCellRowNodes($("#txtBusqueda").val(), 0);
+                table.fnDisplayRow(elementos[0]);
+            });
+
+            $("input:radio[name=radio]").click(function () {
+                valor = $(this).val();
+            });
+        });
+
+        var Eliminar = function () {
+            /*url, data, metodo, asincrono, callback*/
+            ajaxJson("@Url.Action("V_Cuentas_Eliminar","Catalogos")", { IdCuenta: aPos[1] }, "post", true, function (response) {
+                if (response.Exito == true)
+                    ExitoCustom("La Cuenta ha sido eliminada con éxito", function () {
+                        tbl.fnDeleteRow(aPos[0]);
+                        aPos = -1;
+                    });
+                else
+                    ErrorCustom("La Cuenta no se ha eliminado con éxito");
+            });
+        }
+    </script>
+
+   @* public bool? BtnAgregar { get; set; }
+        public bool? BtnDetalles { get; set; }
+        public bool? BtnEditar { get; set; }
+        public bool? BtnEliminar { get; set; }*@
+
+    <script type="text/template" id="jsActionsource">
+        <% if(BtnAgregar == true) { %>
+            <a class="js_agregar fa fa-plus-circle cursorPointer" data-id="<%=Id_Cuenta%>" title="Agregar" data-toggle="tooltip" data-placement="top"></a>
+        <% } %>
+        <% if(BtnDetalles == true) { %>
+            <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="<%=Id_Cuenta%>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <% } %>
+        <% if(BtnEditar == true) { %>
+            <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%=Id_Cuenta%>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <% } %>
+        <% if(BtnEliminar == true) { %>
+            <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%=Id_Cuenta%>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+        <% } %>
+    </script>
+}

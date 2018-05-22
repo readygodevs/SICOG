@@ -1,0 +1,147 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel
+
+@{
+    ViewBag.Title = "Catálogo de Acciones";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Reporte Póliza</title>
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="contenedor">
+        <div class="cabecera">
+            <div class="logo">
+                <img src="@imagePath/reportes/@TesoreriaVS12.Models.Logueo.GetParametro("EscudoReportes")" class="logo-ente" alt="" />
+            </div>
+            <div class="parametros">
+                <div class="gobierno">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo1")</div>
+                <div class="instituto">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</div>
+                <div class="ejercicio">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo3")</div>
+                <div class="sistema">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo4")</div>
+            </div>
+            <div class="poliza">
+                <div class="tipo">
+                    @{
+                        switch (Model.Id_TipoPoliza)
+                        {
+                            case TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoPolizasModel.INGRESOS:
+                                @Html.Raw("PÓLIZA DE INGRESOS");
+                                                               break;
+                            case TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoPolizasModel.EGRESOS:
+                            @Html.Raw("PÓLIZA DE EGRESOS");
+                                                          break;
+                            case TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoPolizasModel.DIARIO:
+                            @Html.Raw("PÓLIZA DE DIARIO");
+                                                         break;
+                            case TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoPolizasModel.ORDEN:
+                            @Html.Raw("PÓLIZA DE ORDEN");
+                                                        break;
+
+                        }
+                    }
+                </div>
+                <div class="folio">
+                    FOLIO: @Html.DisplayFor(model => model.Id_FolioPoliza)
+                </div>
+                <div class="mes">
+                    MES: @(TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.Meses.SingleOrDefault(x => x.Key == Model.Id_MesPoliza).Value)
+                </div>
+                <div class="fecha">
+                    FECHA: @String.Format("{0:d}", Model.Fecha)
+                </div>
+                <div class="descripcion">
+                    @Model.Descripcion
+                </div>
+            </div>
+        </div>
+        @{int tipo = Model.Id_TipoPoliza; }
+
+        <table class="tablaGrande">
+            <thead>
+                <tr>
+                    @if (tipo == 3)
+                    {
+                        <th width="36%">
+                            Clave Presupuestaria
+                        </th>
+                    }
+                    <th></th>
+                    <th width="20%">Cuenta</th>
+                    <th>Descripción</th>
+                    <th width="10%" class="text-right">Cargos</th>
+                    <th width="10%" class="text-right">Abonos</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model.De_Polizas)
+                {
+                    <tr>
+                        @if (tipo == 3)
+                        {
+                            if (!String.IsNullOrEmpty(item.Id_ClavePresupuesto))
+                            {
+                                <td>
+                                    @TesoreriaVS12.Areas.Tesoreria.Models.StringID.IdClavePresupuestoFormato(item.Id_ClavePresupuesto)
+                                </td>
+                            }
+                            else if (!String.IsNullOrEmpty(item.Id_ClavePresupuestoIng))
+                            {
+                                <td>@TesoreriaVS12.Areas.Tesoreria.Models.StringID.IdClavePresupuestoIngFormato(item.Id_ClavePresupuestoIng)</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                        <td></td>
+                        <td>@item.Ca_Cuentas.Id_CuentaFormato</td>
+                        <td>@item.Ca_Cuentas.Descripcion</td>
+                        <td class="text-right">@(item.Id_Movimiento == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.ValorMovimientos.CARGO ? String.Format("{0:N}", item.Importe) : null)</td>
+                        <td class="text-right">@(item.Id_Movimiento == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.ValorMovimientos.ABONO ? String.Format("{0:N}", item.Importe) : null)</td>
+                    </tr>
+
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    @if (tipo == 3)
+                    {
+                        <td></td>
+                    }
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right totales">@String.Format("{0:C}", Model.Cargos)</td>
+                    <td class="text-right totales">@String.Format("{0:C}", Model.Abonos)</td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</body>
+</html>
+@*if (tipo == 3)
+        {
+            if (!String.IsNullOrEmpty(item.Id_ClavePresupuesto))
+            {
+                @*<tr><td colspan="4" style="border-bottom:1px solid black;"></td></tr>
+    <tr>
+        <td colspan="4">@item.Id_ClavePresupuesto</td>
+    </tr>
+                        }
+                        if (!String.IsNullOrEmpty(item.Id_ClavePresupuestoIng))
+                        {
+    @*<tr><td colspan="4" style="border-bottom:1px solid black;"></td></tr>
+    <tr>
+        <td colspan="4">@item.Id_ClavePresupuestoIng</td>
+    </tr>
+                        }
+                    }*@

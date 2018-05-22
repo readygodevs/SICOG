@@ -1,0 +1,1751 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ControlGeneral.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CA_Acciones">
+          <Key>
+            <PropertyRef Name="IdAccion" />
+          </Key>
+          <Property Name="IdAccion" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CA_Articulos">
+          <Key>
+            <PropertyRef Name="IdArticulo" />
+          </Key>
+          <Property Name="IdArticulo" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="Tipo" Type="varchar" MaxLength="100" />
+          <Property Name="IVA" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="IdObjetoG" Type="char" MaxLength="5" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
+        <EntityType Name="CA_Botones">
+          <Key>
+            <PropertyRef Name="IdBoton" />
+          </Key>
+          <Property Name="IdBoton" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="clase" Type="varchar" MaxLength="50" />
+          <Property Name="iconClass" Type="varchar" MaxLength="50" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="habilitado" Type="bit" />
+        </EntityType>
+        <EntityType Name="Ca_Calles">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Municipio" />
+            <PropertyRef Name="Id_Localidad" />
+            <PropertyRef Name="id_calle" />
+          </Key>
+          <Property Name="Id_Estado" Type="tinyint" Nullable="false" />
+          <Property Name="Id_Municipio" Type="smallint" Nullable="false" />
+          <Property Name="Id_Localidad" Type="smallint" Nullable="false" />
+          <Property Name="id_calle" Type="smallint" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Usu_Act" Type="smallint" />
+          <Property Name="Fecha_Act" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CA_CamarasComercio">
+          <Key>
+            <PropertyRef Name="IdCamara" />
+          </Key>
+          <Property Name="IdCamara" Type="tinyint" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Ca_ClasificacionArticulos">
+          <Key>
+            <PropertyRef Name="IdClasificacion" />
+          </Key>
+          <Property Name="IdClasificacion" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Ca_Colonias">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Municipio" />
+            <PropertyRef Name="Id_Localidad" />
+            <PropertyRef Name="id_colonia" />
+          </Key>
+          <Property Name="Id_Estado" Type="tinyint" Nullable="false" />
+          <Property Name="Id_Municipio" Type="smallint" Nullable="false" />
+          <Property Name="Id_Localidad" Type="smallint" Nullable="false" />
+          <Property Name="id_colonia" Type="smallint" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Usu_Act" Type="smallint" />
+          <Property Name="Fecha_Act" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Ca_Estados">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+          </Key>
+          <Property Name="Id_Estado" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Usu_Act" Type="smallint" />
+          <Property Name="Fecha_Act" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CA_Grupos">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdGrupoPadre" Type="smallint" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ca_Localidades">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Municipio" />
+            <PropertyRef Name="Id_Localidad" />
+          </Key>
+          <Property Name="Id_Estado" Type="tinyint" Nullable="false" />
+          <Property Name="Id_Municipio" Type="smallint" Nullable="false" />
+          <Property Name="Id_Localidad" Type="smallint" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Usu_Act" Type="smallint" />
+          <Property Name="Fecha_Act" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Ca_MensajesError">
+          <Key>
+            <PropertyRef Name="CodeError" />
+          </Key>
+          <Property Name="CodeError" Type="bigint" Nullable="false" />
+          <Property Name="Mensaje" Type="varchar" MaxLength="500" />
+          <Property Name="Exception" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Ca_Municipios">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Municipio" />
+          </Key>
+          <Property Name="Id_Estado" Type="tinyint" Nullable="false" />
+          <Property Name="Id_Municipio" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Usu_Act" Type="smallint" />
+          <Property Name="Fecha_Act" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CA_Opciones">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+          </Key>
+          <Property Name="IdOpcion" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOpcionP" Type="smallint" />
+          <Property Name="Controlador" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Accion" Type="varchar" MaxLength="50" />
+          <Property Name="Sistema" Type="varchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="150" />
+          <Property Name="Barra" Type="bit" Nullable="false" />
+          <Property Name="BarraPadre" Type="smallint" Nullable="false" />
+          <Property Name="Menu" Type="bit" Nullable="false" />
+          <Property Name="MenuPadre" Type="smallint" Nullable="false" />
+          <Property Name="SubMenuWidth" Type="smallint" />
+          <Property Name="Mostrar" Type="bit" />
+          <Property Name="Orden" Type="smallint" />
+          <Property Name="usuAct" Type="int" />
+          <Property Name="fAct" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Ca_Paises">
+          <Key>
+            <PropertyRef Name="Id_Pais" />
+          </Key>
+          <Property Name="Id_Pais" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Usu_Act" Type="smallint" />
+          <Property Name="Fecha_Act" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CA_Perfiles">
+          <Key>
+            <PropertyRef Name="IdPerfil" />
+          </Key>
+          <Property Name="IdPerfil" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DefaultPage" Type="varchar" MaxLength="100" />
+          <Property Name="usuAct" Type="int" />
+          <Property Name="fAct" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CA_Personas">
+          <Key>
+            <PropertyRef Name="IdPersona" />
+          </Key>
+          <Property Name="IdPersona" Type="int" Nullable="false" />
+          <Property Name="IdRepresentanteLegal" Type="int" />
+          <Property Name="Nombre" Type="varchar" MaxLength="80" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="40" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="40" />
+          <Property Name="RFC" Type="char" MaxLength="13" />
+          <Property Name="CURP" Type="char" MaxLength="18" />
+          <Property Name="PersonaFisica" Type="bit" />
+          <Property Name="RazonSocial" Type="varchar" MaxLength="300" />
+          <Property Name="IdPais" Type="tinyint" />
+          <Property Name="IdEstado" Type="tinyint" />
+          <Property Name="IdMunicipio" Type="smallint" />
+          <Property Name="IdLocalidad" Type="smallint" />
+          <Property Name="IdColonia" Type="smallint" />
+          <Property Name="IdCalle" Type="smallint" />
+          <Property Name="NumeroExt" Type="varchar" MaxLength="10" />
+          <Property Name="NumeroInt" Type="varchar" MaxLength="10" />
+          <Property Name="CP" Type="char" MaxLength="5" />
+          <Property Name="Telefono1" Type="varchar" MaxLength="30" />
+          <Property Name="Telefono2" Type="varchar" MaxLength="30" />
+          <Property Name="Fax" Type="varchar" MaxLength="30" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CA_Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="60" />
+          <Property Name="Usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contrasenia" Type="char" MaxLength="64" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" />
+          <Property Name="IdPerfil" Type="tinyint" Nullable="false" />
+          <Property Name="Activo" Type="bit" />
+          <Property Name="CambiaContrasenia" Type="bit" />
+          <Property Name="FechaRegistro" Type="datetime" />
+          <Property Name="Intentos" Type="tinyint" Nullable="false" />
+          <Property Name="GeneradoAutomatico" Type="bit" />
+          <Property Name="Titulo" Type="varchar" MaxLength="150" />
+          <Property Name="Cargo" Type="varchar" MaxLength="150" />
+          <Property Name="usuAct" Type="int" />
+          <Property Name="fAct" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DE_AccionesPermisos">
+          <Key>
+            <PropertyRef Name="IdRegistro" />
+          </Key>
+          <Property Name="IdRegistro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdAccion" Type="smallint" Nullable="false" />
+          <Property Name="IdPermiso" Type="int" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="IdPerfil" Type="tinyint" />
+          <Property Name="POST" Type="bit" />
+          <Property Name="GET" Type="bit" />
+        </EntityType>
+        <EntityType Name="DE_ArticuloClasificacion">
+          <Key>
+            <PropertyRef Name="IdArticulo" />
+            <PropertyRef Name="IdClasificacion" />
+          </Key>
+          <Property Name="IdArticulo" Type="int" Nullable="false" />
+          <Property Name="IdClasificacion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="De_GrupoPerfil">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+            <PropertyRef Name="IdPerfil" />
+          </Key>
+          <Property Name="IdGrupo" Type="smallint" Nullable="false" />
+          <Property Name="IdPerfil" Type="tinyint" Nullable="false" />
+          <Property Name="Activo" Type="bit" />
+          <Property Name="GET" Type="bit" />
+          <Property Name="POST" Type="bit" />
+        </EntityType>
+        <EntityType Name="DE_GruposOpciones">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdOpcion" Type="smallint" Nullable="false" />
+          <Property Name="IdGrupo" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DE_OpcionesGrupos">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdOpcion" Type="smallint" Nullable="false" />
+          <Property Name="IdGrupo" Type="smallint" Nullable="false" />
+          <Property Name="IdOpcionGrupo" Type="smallint" />
+        </EntityType>
+        <EntityType Name="DE_Permisos">
+          <Key>
+            <PropertyRef Name="IdPermiso" />
+          </Key>
+          <Property Name="IdPermiso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOpcion" Type="smallint" Nullable="false" />
+          <Property Name="IdPerfil" Type="tinyint" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BD_CtrlGral_2015.dbo.VW_Bases' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_Bases">
+          <Key>
+            <PropertyRef Name="dbid" />
+          </Key>
+          <Property Name="dbid" Type="smallint" Nullable="false" />
+          <Property Name="NombreBase" Type="nvarchar" MaxLength="128" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="4" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BD_CtrlGral_2015.dbo.VW_Permisos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_Permisos">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="Controlador" />
+            <PropertyRef Name="Menu" />
+            <PropertyRef Name="MenuPadre" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="IdGrupo" Type="tinyint" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Grupo" Type="varchar" MaxLength="200" />
+          <Property Name="IdOpcion" Type="smallint" Nullable="false" />
+          <Property Name="IdOpcionP" Type="smallint" />
+          <Property Name="Controlador" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Accion" Type="varchar" MaxLength="50" />
+          <Property Name="Sistema" Type="varchar" MaxLength="50" />
+          <Property Name="DescripcionOpcion" Type="varchar" MaxLength="150" />
+          <Property Name="Menu" Type="bit" Nullable="false" />
+          <Property Name="MenuPadre" Type="smallint" Nullable="false" />
+          <Property Name="IdPermiso" Type="int" />
+          <Property Name="IdPerfil" Type="tinyint" />
+          <Property Name="Activo" Type="bit" />
+          <Property Name="IdRegistro" Type="int" />
+          <Property Name="IdAccion" Type="smallint" />
+          <Property Name="ActivoAccion" Type="bit" />
+          <Property Name="DescripcionAccion" Type="varchar" MaxLength="100" />
+          <Property Name="IdGrupoPadre" Type="tinyint" />
+          <Property Name="IdOpcionGrupo" Type="smallint" />
+          <Property Name="get" Type="bit" />
+          <Property Name="post" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BD_CtrlGral_2015.dbo.vw_Permisos2' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_Permisos2">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="Controlador" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="IdOpcion" Type="smallint" Nullable="false" />
+          <Property Name="IdGrupo" Type="tinyint" />
+          <Property Name="IdGrupoPadre" Type="tinyint" />
+          <Property Name="Controlador" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Accion" Type="varchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="150" />
+          <Property Name="IdPerfil" Type="tinyint" />
+          <Property Name="IdPermiso" Type="int" />
+          <Property Name="ActivoPermiso" Type="bit" />
+          <Property Name="IdAccion" Type="smallint" />
+          <Property Name="DescripcionAccion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Ca_Calles_Ca_Localidades">
+          <End Role="Ca_Localidades" Type="Self.Ca_Localidades" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ca_Calles" Type="Self.Ca_Calles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Localidades">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+            </Principal>
+            <Dependent Role="Ca_Calles">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ca_Colonias_Ca_Localidades">
+          <End Role="Ca_Localidades" Type="Self.Ca_Localidades" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ca_Colonias" Type="Self.Ca_Colonias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Localidades">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+            </Principal>
+            <Dependent Role="Ca_Colonias">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ca_Localidades_Ca_Municipios">
+          <End Role="Ca_Municipios" Type="Self.Ca_Municipios" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ca_Localidades" Type="Self.Ca_Localidades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Municipios">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+            </Principal>
+            <Dependent Role="Ca_Localidades">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ca_Municipios_Ca_Estados">
+          <End Role="Ca_Estados" Type="Self.Ca_Estados" Multiplicity="1" />
+          <End Role="Ca_Municipios" Type="Self.Ca_Municipios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Estados">
+              <PropertyRef Name="Id_Estado" />
+            </Principal>
+            <Dependent Role="Ca_Municipios">
+              <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CA_Personas_Ca_Calles">
+          <End Role="Ca_Calles" Type="Self.Ca_Calles" Multiplicity="0..1" />
+          <End Role="CA_Personas" Type="Self.CA_Personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Calles">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+              <PropertyRef Name="id_calle" />
+            </Principal>
+            <Dependent Role="CA_Personas">
+              <PropertyRef Name="IdEstado" />
+              <PropertyRef Name="IdMunicipio" />
+              <PropertyRef Name="IdLocalidad" />
+              <PropertyRef Name="IdCalle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CA_Personas_Ca_Colonias">
+          <End Role="Ca_Colonias" Type="Self.Ca_Colonias" Multiplicity="0..1" />
+          <End Role="CA_Personas" Type="Self.CA_Personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Colonias">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+              <PropertyRef Name="id_colonia" />
+            </Principal>
+            <Dependent Role="CA_Personas">
+              <PropertyRef Name="IdEstado" />
+              <PropertyRef Name="IdMunicipio" />
+              <PropertyRef Name="IdLocalidad" />
+              <PropertyRef Name="IdColonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CA_Personas_CA_Personas">
+          <End Role="CA_Personas" Type="Self.CA_Personas" Multiplicity="0..1" />
+          <End Role="CA_Personas1" Type="Self.CA_Personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Personas">
+              <PropertyRef Name="IdPersona" />
+            </Principal>
+            <Dependent Role="CA_Personas1">
+              <PropertyRef Name="IdRepresentanteLegal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CA_Usuarios_CA_Perfiles">
+          <End Role="CA_Perfiles" Type="Self.CA_Perfiles" Multiplicity="1" />
+          <End Role="CA_Usuarios" Type="Self.CA_Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Perfiles">
+              <PropertyRef Name="IdPerfil" />
+            </Principal>
+            <Dependent Role="CA_Usuarios">
+              <PropertyRef Name="IdPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_AccionesPermisos_CA_Acciones">
+          <End Role="CA_Acciones" Type="Self.CA_Acciones" Multiplicity="1" />
+          <End Role="DE_AccionesPermisos" Type="Self.DE_AccionesPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Acciones">
+              <PropertyRef Name="IdAccion" />
+            </Principal>
+            <Dependent Role="DE_AccionesPermisos">
+              <PropertyRef Name="IdAccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_AccionesPermisos_CA_Perfiles">
+          <End Role="CA_Perfiles" Type="Self.CA_Perfiles" Multiplicity="0..1" />
+          <End Role="DE_AccionesPermisos" Type="Self.DE_AccionesPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Perfiles">
+              <PropertyRef Name="IdPerfil" />
+            </Principal>
+            <Dependent Role="DE_AccionesPermisos">
+              <PropertyRef Name="IdPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_AccionesPermisos_DE_Permisos">
+          <End Role="DE_Permisos" Type="Self.DE_Permisos" Multiplicity="1" />
+          <End Role="DE_AccionesPermisos" Type="Self.DE_AccionesPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DE_Permisos">
+              <PropertyRef Name="IdPermiso" />
+            </Principal>
+            <Dependent Role="DE_AccionesPermisos">
+              <PropertyRef Name="IdPermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_OpcionesGrupos_CA_Grupos">
+          <End Role="CA_Grupos" Type="Self.CA_Grupos" Multiplicity="1" />
+          <End Role="DE_OpcionesGrupos" Type="Self.DE_OpcionesGrupos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Grupos">
+              <PropertyRef Name="IdGrupo" />
+            </Principal>
+            <Dependent Role="DE_OpcionesGrupos">
+              <PropertyRef Name="IdGrupo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_OpcionesGrupos_CA_Opciones">
+          <End Role="CA_Opciones" Type="Self.CA_Opciones" Multiplicity="1" />
+          <End Role="DE_OpcionesGrupos" Type="Self.DE_OpcionesGrupos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Opciones">
+              <PropertyRef Name="IdOpcion" />
+            </Principal>
+            <Dependent Role="DE_OpcionesGrupos">
+              <PropertyRef Name="IdOpcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_Permisos_CA_Opciones">
+          <End Role="CA_Opciones" Type="Self.CA_Opciones" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DE_Permisos" Type="Self.DE_Permisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Opciones">
+              <PropertyRef Name="IdOpcion" />
+            </Principal>
+            <Dependent Role="DE_Permisos">
+              <PropertyRef Name="IdOpcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_Permisos_CA_Perfiles">
+          <End Role="CA_Perfiles" Type="Self.CA_Perfiles" Multiplicity="1" />
+          <End Role="DE_Permisos" Type="Self.DE_Permisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Perfiles">
+              <PropertyRef Name="IdPerfil" />
+            </Principal>
+            <Dependent Role="DE_Permisos">
+              <PropertyRef Name="IdPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ControlGeneralStoreContainer">
+          <EntitySet Name="CA_Acciones" EntityType="Self.CA_Acciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CA_Articulos" EntityType="Self.CA_Articulos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CA_Botones" EntityType="Self.CA_Botones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ca_Calles" EntityType="Self.Ca_Calles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CA_CamarasComercio" EntityType="Self.CA_CamarasComercio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ca_ClasificacionArticulos" EntityType="Self.Ca_ClasificacionArticulos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ca_Colonias" EntityType="Self.Ca_Colonias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ca_Estados" EntityType="Self.Ca_Estados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CA_Grupos" EntityType="Self.CA_Grupos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ca_Localidades" EntityType="Self.Ca_Localidades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ca_MensajesError" EntityType="Self.Ca_MensajesError" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ca_Municipios" EntityType="Self.Ca_Municipios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CA_Opciones" EntityType="Self.CA_Opciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ca_Paises" EntityType="Self.Ca_Paises" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CA_Perfiles" EntityType="Self.CA_Perfiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CA_Personas" EntityType="Self.CA_Personas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CA_Usuarios" EntityType="Self.CA_Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DE_AccionesPermisos" EntityType="Self.DE_AccionesPermisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DE_ArticuloClasificacion" EntityType="Self.DE_ArticuloClasificacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="De_GrupoPerfil" EntityType="Self.De_GrupoPerfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DE_GruposOpciones" EntityType="Self.DE_GruposOpciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DE_OpcionesGrupos" EntityType="Self.DE_OpcionesGrupos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DE_Permisos" EntityType="Self.DE_Permisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VW_Bases" EntityType="Self.VW_Bases" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[VW_Bases].[dbid] AS [dbid], 
+[VW_Bases].[NombreBase] AS [NombreBase], 
+[VW_Bases].[Nombre] AS [Nombre]
+FROM [dbo].[VW_Bases] AS [VW_Bases]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_Permisos" EntityType="Self.VW_Permisos" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[VW_Permisos].[id] AS [id], 
+[VW_Permisos].[IdGrupo] AS [IdGrupo], 
+[VW_Permisos].[Nombre] AS [Nombre], 
+[VW_Permisos].[Grupo] AS [Grupo], 
+[VW_Permisos].[IdOpcion] AS [IdOpcion], 
+[VW_Permisos].[IdOpcionP] AS [IdOpcionP], 
+[VW_Permisos].[Controlador] AS [Controlador], 
+[VW_Permisos].[Accion] AS [Accion], 
+[VW_Permisos].[Sistema] AS [Sistema], 
+[VW_Permisos].[DescripcionOpcion] AS [DescripcionOpcion], 
+[VW_Permisos].[Menu] AS [Menu], 
+[VW_Permisos].[MenuPadre] AS [MenuPadre], 
+[VW_Permisos].[IdPermiso] AS [IdPermiso], 
+[VW_Permisos].[IdPerfil] AS [IdPerfil], 
+[VW_Permisos].[Activo] AS [Activo], 
+[VW_Permisos].[IdRegistro] AS [IdRegistro], 
+[VW_Permisos].[IdAccion] AS [IdAccion], 
+[VW_Permisos].[ActivoAccion] AS [ActivoAccion], 
+[VW_Permisos].[DescripcionAccion] AS [DescripcionAccion], 
+[VW_Permisos].[IdGrupoPadre] AS [IdGrupoPadre], 
+[VW_Permisos].[IdOpcionGrupo] AS [IdOpcionGrupo], 
+[VW_Permisos].[get] AS [get], 
+[VW_Permisos].[post] AS [post]
+FROM [dbo].[VW_Permisos] AS [VW_Permisos]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_Permisos2" EntityType="Self.vw_Permisos2" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[vw_Permisos2].[id] AS [id], 
+[vw_Permisos2].[IdOpcion] AS [IdOpcion], 
+[vw_Permisos2].[IdGrupo] AS [IdGrupo], 
+[vw_Permisos2].[IdGrupoPadre] AS [IdGrupoPadre], 
+[vw_Permisos2].[Controlador] AS [Controlador], 
+[vw_Permisos2].[Accion] AS [Accion], 
+[vw_Permisos2].[Descripcion] AS [Descripcion], 
+[vw_Permisos2].[IdPerfil] AS [IdPerfil], 
+[vw_Permisos2].[IdPermiso] AS [IdPermiso], 
+[vw_Permisos2].[ActivoPermiso] AS [ActivoPermiso], 
+[vw_Permisos2].[IdAccion] AS [IdAccion], 
+[vw_Permisos2].[DescripcionAccion] AS [DescripcionAccion]
+FROM [dbo].[vw_Permisos2] AS [vw_Permisos2]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Ca_Calles_Ca_Localidades" Association="Self.FK_Ca_Calles_Ca_Localidades">
+            <End Role="Ca_Localidades" EntitySet="Ca_Localidades" />
+            <End Role="Ca_Calles" EntitySet="Ca_Calles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ca_Colonias_Ca_Localidades" Association="Self.FK_Ca_Colonias_Ca_Localidades">
+            <End Role="Ca_Localidades" EntitySet="Ca_Localidades" />
+            <End Role="Ca_Colonias" EntitySet="Ca_Colonias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ca_Localidades_Ca_Municipios" Association="Self.FK_Ca_Localidades_Ca_Municipios">
+            <End Role="Ca_Municipios" EntitySet="Ca_Municipios" />
+            <End Role="Ca_Localidades" EntitySet="Ca_Localidades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ca_Municipios_Ca_Estados" Association="Self.FK_Ca_Municipios_Ca_Estados">
+            <End Role="Ca_Estados" EntitySet="Ca_Estados" />
+            <End Role="Ca_Municipios" EntitySet="Ca_Municipios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CA_Personas_Ca_Calles" Association="Self.FK_CA_Personas_Ca_Calles">
+            <End Role="Ca_Calles" EntitySet="Ca_Calles" />
+            <End Role="CA_Personas" EntitySet="CA_Personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CA_Personas_Ca_Colonias" Association="Self.FK_CA_Personas_Ca_Colonias">
+            <End Role="Ca_Colonias" EntitySet="Ca_Colonias" />
+            <End Role="CA_Personas" EntitySet="CA_Personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CA_Personas_CA_Personas" Association="Self.FK_CA_Personas_CA_Personas">
+            <End Role="CA_Personas" EntitySet="CA_Personas" />
+            <End Role="CA_Personas1" EntitySet="CA_Personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CA_Usuarios_CA_Perfiles" Association="Self.FK_CA_Usuarios_CA_Perfiles">
+            <End Role="CA_Perfiles" EntitySet="CA_Perfiles" />
+            <End Role="CA_Usuarios" EntitySet="CA_Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_AccionesPermisos_CA_Acciones" Association="Self.FK_DE_AccionesPermisos_CA_Acciones">
+            <End Role="CA_Acciones" EntitySet="CA_Acciones" />
+            <End Role="DE_AccionesPermisos" EntitySet="DE_AccionesPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_AccionesPermisos_CA_Perfiles" Association="Self.FK_DE_AccionesPermisos_CA_Perfiles">
+            <End Role="CA_Perfiles" EntitySet="CA_Perfiles" />
+            <End Role="DE_AccionesPermisos" EntitySet="DE_AccionesPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_AccionesPermisos_DE_Permisos" Association="Self.FK_DE_AccionesPermisos_DE_Permisos">
+            <End Role="DE_Permisos" EntitySet="DE_Permisos" />
+            <End Role="DE_AccionesPermisos" EntitySet="DE_AccionesPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_OpcionesGrupos_CA_Grupos" Association="Self.FK_DE_OpcionesGrupos_CA_Grupos">
+            <End Role="CA_Grupos" EntitySet="CA_Grupos" />
+            <End Role="DE_OpcionesGrupos" EntitySet="DE_OpcionesGrupos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_OpcionesGrupos_CA_Opciones" Association="Self.FK_DE_OpcionesGrupos_CA_Opciones">
+            <End Role="CA_Opciones" EntitySet="CA_Opciones" />
+            <End Role="DE_OpcionesGrupos" EntitySet="DE_OpcionesGrupos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_Permisos_CA_Opciones" Association="Self.FK_DE_Permisos_CA_Opciones">
+            <End Role="CA_Opciones" EntitySet="CA_Opciones" />
+            <End Role="DE_Permisos" EntitySet="DE_Permisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_Permisos_CA_Perfiles" Association="Self.FK_DE_Permisos_CA_Perfiles">
+            <End Role="CA_Perfiles" EntitySet="CA_Perfiles" />
+            <End Role="DE_Permisos" EntitySet="DE_Permisos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ControlGeneral" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ControlGeneralContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CA_Acciones" EntityType="ControlGeneral.CA_Acciones" />
+          <EntitySet Name="CA_Articulos" EntityType="ControlGeneral.CA_Articulos" />
+          <EntitySet Name="CA_Botones" EntityType="ControlGeneral.CA_Botones" />
+          <EntitySet Name="Ca_Calles" EntityType="ControlGeneral.Ca_Calles" />
+          <EntitySet Name="CA_CamarasComercio" EntityType="ControlGeneral.CA_CamarasComercio" />
+          <EntitySet Name="Ca_ClasificacionArticulos" EntityType="ControlGeneral.Ca_ClasificacionArticulos" />
+          <EntitySet Name="Ca_Colonias" EntityType="ControlGeneral.Ca_Colonias" />
+          <EntitySet Name="Ca_Estados" EntityType="ControlGeneral.Ca_Estados" />
+          <EntitySet Name="Ca_Localidades" EntityType="ControlGeneral.Ca_Localidades" />
+          <EntitySet Name="Ca_MensajesError" EntityType="ControlGeneral.Ca_MensajesError" />
+          <EntitySet Name="Ca_Municipios" EntityType="ControlGeneral.Ca_Municipios" />
+          <EntitySet Name="CA_Opciones" EntityType="ControlGeneral.CA_Opciones" />
+          <EntitySet Name="Ca_Paises" EntityType="ControlGeneral.Ca_Paises" />
+          <EntitySet Name="CA_Perfiles" EntityType="ControlGeneral.CA_Perfiles" />
+          <EntitySet Name="CA_Personas" EntityType="ControlGeneral.CA_Personas" />
+          <EntitySet Name="CA_Usuarios" EntityType="ControlGeneral.CA_Usuarios" />
+          <EntitySet Name="DE_AccionesPermisos" EntityType="ControlGeneral.DE_AccionesPermisos" />
+          <EntitySet Name="DE_ArticuloClasificacion" EntityType="ControlGeneral.DE_ArticuloClasificacion" />
+          <EntitySet Name="DE_Permisos" EntityType="ControlGeneral.DE_Permisos" />
+          <EntitySet Name="VW_Bases" EntityType="ControlGeneral.VW_Bases" />
+          <AssociationSet Name="FK_DE_AccionesPermisos_CA_Acciones" Association="ControlGeneral.FK_DE_AccionesPermisos_CA_Acciones">
+            <End Role="CA_Acciones" EntitySet="CA_Acciones" />
+            <End Role="DE_AccionesPermisos" EntitySet="DE_AccionesPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ca_Calles_Ca_Localidades" Association="ControlGeneral.FK_Ca_Calles_Ca_Localidades">
+            <End Role="Ca_Localidades" EntitySet="Ca_Localidades" />
+            <End Role="Ca_Calles" EntitySet="Ca_Calles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CA_Personas_Ca_Calles" Association="ControlGeneral.FK_CA_Personas_Ca_Calles">
+            <End Role="Ca_Calles" EntitySet="Ca_Calles" />
+            <End Role="CA_Personas" EntitySet="CA_Personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ca_Colonias_Ca_Localidades" Association="ControlGeneral.FK_Ca_Colonias_Ca_Localidades">
+            <End Role="Ca_Localidades" EntitySet="Ca_Localidades" />
+            <End Role="Ca_Colonias" EntitySet="Ca_Colonias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CA_Personas_Ca_Colonias" Association="ControlGeneral.FK_CA_Personas_Ca_Colonias">
+            <End Role="Ca_Colonias" EntitySet="Ca_Colonias" />
+            <End Role="CA_Personas" EntitySet="CA_Personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ca_Municipios_Ca_Estados" Association="ControlGeneral.FK_Ca_Municipios_Ca_Estados">
+            <End Role="Ca_Estados" EntitySet="Ca_Estados" />
+            <End Role="Ca_Municipios" EntitySet="Ca_Municipios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ca_Localidades_Ca_Municipios" Association="ControlGeneral.FK_Ca_Localidades_Ca_Municipios">
+            <End Role="Ca_Municipios" EntitySet="Ca_Municipios" />
+            <End Role="Ca_Localidades" EntitySet="Ca_Localidades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_Permisos_CA_Opciones" Association="ControlGeneral.FK_DE_Permisos_CA_Opciones">
+            <End Role="CA_Opciones" EntitySet="CA_Opciones" />
+            <End Role="DE_Permisos" EntitySet="DE_Permisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CA_Usuarios_CA_Perfiles" Association="ControlGeneral.FK_CA_Usuarios_CA_Perfiles">
+            <End Role="CA_Perfiles" EntitySet="CA_Perfiles" />
+            <End Role="CA_Usuarios" EntitySet="CA_Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_Permisos_CA_Perfiles" Association="ControlGeneral.FK_DE_Permisos_CA_Perfiles">
+            <End Role="CA_Perfiles" EntitySet="CA_Perfiles" />
+            <End Role="DE_Permisos" EntitySet="DE_Permisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CA_Personas_CA_Personas" Association="ControlGeneral.FK_CA_Personas_CA_Personas">
+            <End Role="CA_Personas" EntitySet="CA_Personas" />
+            <End Role="CA_Personas1" EntitySet="CA_Personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_AccionesPermisos_DE_Permisos" Association="ControlGeneral.FK_DE_AccionesPermisos_DE_Permisos">
+            <End Role="DE_Permisos" EntitySet="DE_Permisos" />
+            <End Role="DE_AccionesPermisos" EntitySet="DE_AccionesPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_AccionesPermisos_CA_Perfiles" Association="ControlGeneral.FK_DE_AccionesPermisos_CA_Perfiles">
+            <End Role="CA_Perfiles" EntitySet="CA_Perfiles" />
+            <End Role="DE_AccionesPermisos" EntitySet="DE_AccionesPermisos" />
+          </AssociationSet>
+          <EntitySet Name="VW_Permisos" EntityType="ControlGeneral.VW_Permisos" />
+          <EntitySet Name="vw_Permisos2" EntityType="ControlGeneral.vw_Permisos2" />
+          <EntitySet Name="CA_Grupos" EntityType="ControlGeneral.CA_Grupos" />
+          <EntitySet Name="DE_GruposOpciones" EntityType="ControlGeneral.DE_GruposOpciones" />
+          <EntitySet Name="DE_OpcionesGrupos" EntityType="ControlGeneral.DE_OpcionesGrupos" />
+          <AssociationSet Name="FK_DE_OpcionesGrupos_CA_Grupos" Association="ControlGeneral.FK_DE_OpcionesGrupos_CA_Grupos">
+            <End Role="CA_Grupos" EntitySet="CA_Grupos" />
+            <End Role="DE_OpcionesGrupos" EntitySet="DE_OpcionesGrupos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DE_OpcionesGrupos_CA_Opciones" Association="ControlGeneral.FK_DE_OpcionesGrupos_CA_Opciones">
+            <End Role="CA_Opciones" EntitySet="CA_Opciones" />
+            <End Role="DE_OpcionesGrupos" EntitySet="DE_OpcionesGrupos" />
+          </AssociationSet>
+          <EntitySet Name="De_GrupoPerfil" EntityType="ControlGeneral.De_GrupoPerfil" />
+        </EntityContainer>
+        <EntityType Name="CA_Acciones">
+          <Key>
+            <PropertyRef Name="IdAccion" />
+          </Key>
+          <Property Name="IdAccion" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DE_AccionesPermisos" Relationship="ControlGeneral.FK_DE_AccionesPermisos_CA_Acciones" FromRole="CA_Acciones" ToRole="DE_AccionesPermisos" />
+        </EntityType>
+        <EntityType Name="CA_Articulos">
+          <Key>
+            <PropertyRef Name="IdArticulo" />
+          </Key>
+          <Property Name="IdArticulo" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IVA" Type="Decimal" Precision="16" Scale="2" />
+          <Property Name="IdObjetoG" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="CA_Botones">
+          <Key>
+            <PropertyRef Name="IdBoton" />
+          </Key>
+          <Property Name="IdBoton" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="clase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="iconClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="habilitado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Ca_Calles">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Municipio" />
+            <PropertyRef Name="Id_Localidad" />
+            <PropertyRef Name="id_calle" />
+          </Key>
+          <Property Name="Id_Estado" Type="Byte" Nullable="false" />
+          <Property Name="Id_Municipio" Type="Int16" Nullable="false" />
+          <Property Name="Id_Localidad" Type="Int16" Nullable="false" />
+          <Property Name="id_calle" Type="Int16" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usu_Act" Type="Int16" />
+          <Property Name="Fecha_Act" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ca_Localidades" Relationship="ControlGeneral.FK_Ca_Calles_Ca_Localidades" FromRole="Ca_Calles" ToRole="Ca_Localidades" />
+          <NavigationProperty Name="CA_Personas" Relationship="ControlGeneral.FK_CA_Personas_Ca_Calles" FromRole="Ca_Calles" ToRole="CA_Personas" />
+        </EntityType>
+        <EntityType Name="CA_CamarasComercio">
+          <Key>
+            <PropertyRef Name="IdCamara" />
+          </Key>
+          <Property Name="IdCamara" Type="Byte" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Ca_ClasificacionArticulos">
+          <Key>
+            <PropertyRef Name="IdClasificacion" />
+          </Key>
+          <Property Name="IdClasificacion" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Ca_Colonias">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Municipio" />
+            <PropertyRef Name="Id_Localidad" />
+            <PropertyRef Name="id_colonia" />
+          </Key>
+          <Property Name="Id_Estado" Type="Byte" Nullable="false" />
+          <Property Name="Id_Municipio" Type="Int16" Nullable="false" />
+          <Property Name="Id_Localidad" Type="Int16" Nullable="false" />
+          <Property Name="id_colonia" Type="Int16" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usu_Act" Type="Int16" />
+          <Property Name="Fecha_Act" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ca_Localidades" Relationship="ControlGeneral.FK_Ca_Colonias_Ca_Localidades" FromRole="Ca_Colonias" ToRole="Ca_Localidades" />
+          <NavigationProperty Name="CA_Personas" Relationship="ControlGeneral.FK_CA_Personas_Ca_Colonias" FromRole="Ca_Colonias" ToRole="CA_Personas" />
+        </EntityType>
+        <EntityType Name="Ca_Estados">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+          </Key>
+          <Property Name="Id_Estado" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usu_Act" Type="Int16" />
+          <Property Name="Fecha_Act" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ca_Municipios" Relationship="ControlGeneral.FK_Ca_Municipios_Ca_Estados" FromRole="Ca_Estados" ToRole="Ca_Municipios" />
+        </EntityType>
+        <EntityType Name="Ca_Localidades">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Municipio" />
+            <PropertyRef Name="Id_Localidad" />
+          </Key>
+          <Property Name="Id_Estado" Type="Byte" Nullable="false" />
+          <Property Name="Id_Municipio" Type="Int16" Nullable="false" />
+          <Property Name="Id_Localidad" Type="Int16" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usu_Act" Type="Int16" />
+          <Property Name="Fecha_Act" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ca_Calles" Relationship="ControlGeneral.FK_Ca_Calles_Ca_Localidades" FromRole="Ca_Localidades" ToRole="Ca_Calles" />
+          <NavigationProperty Name="Ca_Colonias" Relationship="ControlGeneral.FK_Ca_Colonias_Ca_Localidades" FromRole="Ca_Localidades" ToRole="Ca_Colonias" />
+          <NavigationProperty Name="Ca_Municipios" Relationship="ControlGeneral.FK_Ca_Localidades_Ca_Municipios" FromRole="Ca_Localidades" ToRole="Ca_Municipios" />
+        </EntityType>
+        <EntityType Name="Ca_MensajesError">
+          <Key>
+            <PropertyRef Name="CodeError" />
+          </Key>
+          <Property Name="CodeError" Type="Int64" Nullable="false" />
+          <Property Name="Mensaje" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Exception" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Ca_Municipios">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+            <PropertyRef Name="Id_Municipio" />
+          </Key>
+          <Property Name="Id_Estado" Type="Byte" Nullable="false" />
+          <Property Name="Id_Municipio" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usu_Act" Type="Int16" />
+          <Property Name="Fecha_Act" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ca_Estados" Relationship="ControlGeneral.FK_Ca_Municipios_Ca_Estados" FromRole="Ca_Municipios" ToRole="Ca_Estados" />
+          <NavigationProperty Name="Ca_Localidades" Relationship="ControlGeneral.FK_Ca_Localidades_Ca_Municipios" FromRole="Ca_Municipios" ToRole="Ca_Localidades" />
+        </EntityType>
+        <EntityType Name="CA_Opciones">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+          </Key>
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOpcionP" Type="Int16" />
+          <Property Name="Controlador" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sistema" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Barra" Type="Boolean" Nullable="false" />
+          <Property Name="BarraPadre" Type="Int16" Nullable="false" />
+          <Property Name="Menu" Type="Boolean" Nullable="false" />
+          <Property Name="MenuPadre" Type="Int16" Nullable="false" />
+          <Property Name="SubMenuWidth" Type="Int16" />
+          <Property Name="Mostrar" Type="Boolean" />
+          <Property Name="Orden" Type="Int16" />
+          <Property Name="usuAct" Type="Int32" />
+          <Property Name="fAct" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DE_Permisos" Relationship="ControlGeneral.FK_DE_Permisos_CA_Opciones" FromRole="CA_Opciones" ToRole="DE_Permisos" />
+          <NavigationProperty Name="DE_OpcionesGrupos" Relationship="ControlGeneral.FK_DE_OpcionesGrupos_CA_Opciones" FromRole="CA_Opciones" ToRole="DE_OpcionesGrupos" />
+        </EntityType>
+        <EntityType Name="Ca_Paises">
+          <Key>
+            <PropertyRef Name="Id_Pais" />
+          </Key>
+          <Property Name="Id_Pais" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usu_Act" Type="Int16" />
+          <Property Name="Fecha_Act" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="CA_Perfiles">
+          <Key>
+            <PropertyRef Name="IdPerfil" />
+          </Key>
+          <Property Name="IdPerfil" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultPage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="usuAct" Type="Int32" />
+          <Property Name="fAct" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CA_Usuarios" Relationship="ControlGeneral.FK_CA_Usuarios_CA_Perfiles" FromRole="CA_Perfiles" ToRole="CA_Usuarios" />
+          <NavigationProperty Name="DE_Permisos" Relationship="ControlGeneral.FK_DE_Permisos_CA_Perfiles" FromRole="CA_Perfiles" ToRole="DE_Permisos" />
+          <NavigationProperty Name="DE_AccionesPermisos" Relationship="ControlGeneral.FK_DE_AccionesPermisos_CA_Perfiles" FromRole="CA_Perfiles" ToRole="DE_AccionesPermisos" />
+        </EntityType>
+        <EntityType Name="CA_Personas">
+          <Key>
+            <PropertyRef Name="IdPersona" />
+          </Key>
+          <Property Name="IdPersona" Type="Int32" Nullable="false" />
+          <Property Name="IdRepresentanteLegal" Type="Int32" />
+          <Property Name="Nombre" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="RFC" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
+          <Property Name="CURP" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
+          <Property Name="PersonaFisica" Type="Boolean" />
+          <Property Name="RazonSocial" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="IdPais" Type="Byte" />
+          <Property Name="IdEstado" Type="Byte" />
+          <Property Name="IdMunicipio" Type="Int16" />
+          <Property Name="IdLocalidad" Type="Int16" />
+          <Property Name="IdColonia" Type="Int16" />
+          <Property Name="IdCalle" Type="Int16" />
+          <Property Name="NumeroExt" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroInt" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CP" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="Telefono1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ca_Calles" Relationship="ControlGeneral.FK_CA_Personas_Ca_Calles" FromRole="CA_Personas" ToRole="Ca_Calles" />
+          <NavigationProperty Name="Ca_Colonias" Relationship="ControlGeneral.FK_CA_Personas_Ca_Colonias" FromRole="CA_Personas" ToRole="Ca_Colonias" />
+          <NavigationProperty Name="CA_Personas1" Relationship="ControlGeneral.FK_CA_Personas_CA_Personas" FromRole="CA_Personas" ToRole="CA_Personas1" />
+          <NavigationProperty Name="CA_Personas2" Relationship="ControlGeneral.FK_CA_Personas_CA_Personas" FromRole="CA_Personas1" ToRole="CA_Personas" />
+        </EntityType>
+        <EntityType Name="CA_Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contrasenia" Type="String" Nullable="false" MaxLength="64" FixedLength="true" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdPerfil" Type="Byte" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" />
+          <Property Name="CambiaContrasenia" Type="Boolean" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <Property Name="Intentos" Type="Byte" Nullable="false" />
+          <Property Name="GeneradoAutomatico" Type="Boolean" />
+          <Property Name="Titulo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Cargo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="usuAct" Type="Int32" />
+          <Property Name="fAct" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CA_Perfiles" Relationship="ControlGeneral.FK_CA_Usuarios_CA_Perfiles" FromRole="CA_Usuarios" ToRole="CA_Perfiles" />
+        </EntityType>
+        <EntityType Name="DE_AccionesPermisos">
+          <Key>
+            <PropertyRef Name="IdRegistro" />
+          </Key>
+          <Property Name="IdRegistro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAccion" Type="Int16" Nullable="false" />
+          <Property Name="IdPermiso" Type="Int32" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CA_Acciones" Relationship="ControlGeneral.FK_DE_AccionesPermisos_CA_Acciones" FromRole="DE_AccionesPermisos" ToRole="CA_Acciones" />
+          <NavigationProperty Name="DE_Permisos" Relationship="ControlGeneral.FK_DE_AccionesPermisos_DE_Permisos" FromRole="DE_AccionesPermisos" ToRole="DE_Permisos" />
+          <Property Name="IdPerfil" Type="Byte" />
+          <NavigationProperty Name="CA_Perfiles" Relationship="ControlGeneral.FK_DE_AccionesPermisos_CA_Perfiles" FromRole="DE_AccionesPermisos" ToRole="CA_Perfiles" />
+          <Property Name="POST" Type="Boolean" />
+          <Property Name="GET" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="DE_ArticuloClasificacion">
+          <Key>
+            <PropertyRef Name="IdArticulo" />
+            <PropertyRef Name="IdClasificacion" />
+          </Key>
+          <Property Name="IdArticulo" Type="Int32" Nullable="false" />
+          <Property Name="IdClasificacion" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DE_Permisos">
+          <Key>
+            <PropertyRef Name="IdPermiso" />
+          </Key>
+          <Property Name="IdPermiso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" />
+          <Property Name="IdPerfil" Type="Byte" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CA_Opciones" Relationship="ControlGeneral.FK_DE_Permisos_CA_Opciones" FromRole="DE_Permisos" ToRole="CA_Opciones" />
+          <NavigationProperty Name="CA_Perfiles" Relationship="ControlGeneral.FK_DE_Permisos_CA_Perfiles" FromRole="DE_Permisos" ToRole="CA_Perfiles" />
+          <NavigationProperty Name="DE_AccionesPermisos" Relationship="ControlGeneral.FK_DE_AccionesPermisos_DE_Permisos" FromRole="DE_Permisos" ToRole="DE_AccionesPermisos" />
+        </EntityType>
+        <EntityType Name="VW_Bases">
+          <Key>
+            <PropertyRef Name="dbid" />
+          </Key>
+          <Property Name="dbid" Type="Int16" Nullable="false" />
+          <Property Name="NombreBase" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_DE_AccionesPermisos_CA_Acciones">
+          <End Type="ControlGeneral.CA_Acciones" Role="CA_Acciones" Multiplicity="1" />
+          <End Type="ControlGeneral.DE_AccionesPermisos" Role="DE_AccionesPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Acciones">
+              <PropertyRef Name="IdAccion" />
+            </Principal>
+            <Dependent Role="DE_AccionesPermisos">
+              <PropertyRef Name="IdAccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ca_Calles_Ca_Localidades">
+          <End Type="ControlGeneral.Ca_Localidades" Role="Ca_Localidades" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ControlGeneral.Ca_Calles" Role="Ca_Calles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Localidades">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+            </Principal>
+            <Dependent Role="Ca_Calles">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CA_Personas_Ca_Calles">
+          <End Type="ControlGeneral.Ca_Calles" Role="Ca_Calles" Multiplicity="0..1" />
+          <End Type="ControlGeneral.CA_Personas" Role="CA_Personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Calles">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+              <PropertyRef Name="id_calle" />
+            </Principal>
+            <Dependent Role="CA_Personas">
+              <PropertyRef Name="IdEstado" />
+              <PropertyRef Name="IdMunicipio" />
+              <PropertyRef Name="IdLocalidad" />
+              <PropertyRef Name="IdCalle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ca_Colonias_Ca_Localidades">
+          <End Type="ControlGeneral.Ca_Localidades" Role="Ca_Localidades" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ControlGeneral.Ca_Colonias" Role="Ca_Colonias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Localidades">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+            </Principal>
+            <Dependent Role="Ca_Colonias">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CA_Personas_Ca_Colonias">
+          <End Type="ControlGeneral.Ca_Colonias" Role="Ca_Colonias" Multiplicity="0..1" />
+          <End Type="ControlGeneral.CA_Personas" Role="CA_Personas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Colonias">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+              <PropertyRef Name="Id_Localidad" />
+              <PropertyRef Name="id_colonia" />
+            </Principal>
+            <Dependent Role="CA_Personas">
+              <PropertyRef Name="IdEstado" />
+              <PropertyRef Name="IdMunicipio" />
+              <PropertyRef Name="IdLocalidad" />
+              <PropertyRef Name="IdColonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ca_Municipios_Ca_Estados">
+          <End Type="ControlGeneral.Ca_Estados" Role="Ca_Estados" Multiplicity="1" />
+          <End Type="ControlGeneral.Ca_Municipios" Role="Ca_Municipios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Estados">
+              <PropertyRef Name="Id_Estado" />
+            </Principal>
+            <Dependent Role="Ca_Municipios">
+              <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ca_Localidades_Ca_Municipios">
+          <End Type="ControlGeneral.Ca_Municipios" Role="Ca_Municipios" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ControlGeneral.Ca_Localidades" Role="Ca_Localidades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ca_Municipios">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+            </Principal>
+            <Dependent Role="Ca_Localidades">
+              <PropertyRef Name="Id_Estado" />
+              <PropertyRef Name="Id_Municipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_Permisos_CA_Opciones">
+          <End Type="ControlGeneral.CA_Opciones" Role="CA_Opciones" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ControlGeneral.DE_Permisos" Role="DE_Permisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Opciones">
+              <PropertyRef Name="IdOpcion" />
+            </Principal>
+            <Dependent Role="DE_Permisos">
+              <PropertyRef Name="IdOpcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CA_Usuarios_CA_Perfiles">
+          <End Type="ControlGeneral.CA_Perfiles" Role="CA_Perfiles" Multiplicity="1" />
+          <End Type="ControlGeneral.CA_Usuarios" Role="CA_Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Perfiles">
+              <PropertyRef Name="IdPerfil" />
+            </Principal>
+            <Dependent Role="CA_Usuarios">
+              <PropertyRef Name="IdPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_Permisos_CA_Perfiles">
+          <End Type="ControlGeneral.CA_Perfiles" Role="CA_Perfiles" Multiplicity="1" />
+          <End Type="ControlGeneral.DE_Permisos" Role="DE_Permisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Perfiles">
+              <PropertyRef Name="IdPerfil" />
+            </Principal>
+            <Dependent Role="DE_Permisos">
+              <PropertyRef Name="IdPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CA_Personas_CA_Personas">
+          <End Type="ControlGeneral.CA_Personas" Role="CA_Personas" Multiplicity="0..1" />
+          <End Type="ControlGeneral.CA_Personas" Role="CA_Personas1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Personas">
+              <PropertyRef Name="IdPersona" />
+            </Principal>
+            <Dependent Role="CA_Personas1">
+              <PropertyRef Name="IdRepresentanteLegal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_AccionesPermisos_DE_Permisos">
+          <End Type="ControlGeneral.DE_Permisos" Role="DE_Permisos" Multiplicity="1" />
+          <End Type="ControlGeneral.DE_AccionesPermisos" Role="DE_AccionesPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DE_Permisos">
+              <PropertyRef Name="IdPermiso" />
+            </Principal>
+            <Dependent Role="DE_AccionesPermisos">
+              <PropertyRef Name="IdPermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_AccionesPermisos_CA_Perfiles">
+          <End Type="ControlGeneral.CA_Perfiles" Role="CA_Perfiles" Multiplicity="0..1" />
+          <End Type="ControlGeneral.DE_AccionesPermisos" Role="DE_AccionesPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Perfiles">
+              <PropertyRef Name="IdPerfil" />
+            </Principal>
+            <Dependent Role="DE_AccionesPermisos">
+              <PropertyRef Name="IdPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VW_Permisos">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="Controlador" />
+            <PropertyRef Name="Menu" />
+            <PropertyRef Name="MenuPadre" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="IdGrupo" Type="Byte" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Grupo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" />
+          <Property Name="IdOpcionP" Type="Int16" />
+          <Property Name="Controlador" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sistema" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionOpcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Menu" Type="Boolean" Nullable="false" />
+          <Property Name="MenuPadre" Type="Int16" Nullable="false" />
+          <Property Name="IdPermiso" Type="Int32" />
+          <Property Name="IdPerfil" Type="Byte" />
+          <Property Name="Activo" Type="Boolean" />
+          <Property Name="IdRegistro" Type="Int32" />
+          <Property Name="IdAccion" Type="Int16" />
+          <Property Name="ActivoAccion" Type="Boolean" />
+          <Property Name="DescripcionAccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdGrupoPadre" Type="Byte" />
+          <Property Name="IdOpcionGrupo" Type="Int16" />
+          <Property Name="get" Type="Boolean" />
+          <Property Name="post" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="vw_Permisos2">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="Controlador" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" />
+          <Property Name="IdGrupo" Type="Byte" />
+          <Property Name="IdGrupoPadre" Type="Byte" />
+          <Property Name="Controlador" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IdPerfil" Type="Byte" />
+          <Property Name="IdPermiso" Type="Int32" />
+          <Property Name="ActivoPermiso" Type="Boolean" />
+          <Property Name="IdAccion" Type="Int16" />
+          <Property Name="DescripcionAccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CA_Grupos">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdGrupoPadre" Type="Int16" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DE_OpcionesGrupos" Relationship="ControlGeneral.FK_DE_OpcionesGrupos_CA_Grupos" FromRole="CA_Grupos" ToRole="DE_OpcionesGrupos" />
+        </EntityType>
+        <EntityType Name="DE_GruposOpciones">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" />
+          <Property Name="IdGrupo" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DE_OpcionesGrupos">
+          <Key>
+            <PropertyRef Name="IdOpcion" />
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdOpcion" Type="Int16" Nullable="false" />
+          <Property Name="IdGrupo" Type="Int16" Nullable="false" />
+          <Property Name="IdOpcionGrupo" Type="Int16" />
+          <NavigationProperty Name="CA_Grupos" Relationship="ControlGeneral.FK_DE_OpcionesGrupos_CA_Grupos" FromRole="DE_OpcionesGrupos" ToRole="CA_Grupos" />
+          <NavigationProperty Name="CA_Opciones" Relationship="ControlGeneral.FK_DE_OpcionesGrupos_CA_Opciones" FromRole="DE_OpcionesGrupos" ToRole="CA_Opciones" />
+        </EntityType>
+        <Association Name="FK_DE_OpcionesGrupos_CA_Grupos">
+          <End Type="ControlGeneral.CA_Grupos" Role="CA_Grupos" Multiplicity="1" />
+          <End Type="ControlGeneral.DE_OpcionesGrupos" Role="DE_OpcionesGrupos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Grupos">
+              <PropertyRef Name="IdGrupo" />
+            </Principal>
+            <Dependent Role="DE_OpcionesGrupos">
+              <PropertyRef Name="IdGrupo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DE_OpcionesGrupos_CA_Opciones">
+          <End Type="ControlGeneral.CA_Opciones" Role="CA_Opciones" Multiplicity="1" />
+          <End Type="ControlGeneral.DE_OpcionesGrupos" Role="DE_OpcionesGrupos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CA_Opciones">
+              <PropertyRef Name="IdOpcion" />
+            </Principal>
+            <Dependent Role="DE_OpcionesGrupos">
+              <PropertyRef Name="IdOpcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="De_GrupoPerfil">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+            <PropertyRef Name="IdPerfil" />
+          </Key>
+          <Property Name="IdGrupo" Type="Int16" Nullable="false" />
+          <Property Name="IdPerfil" Type="Byte" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" />
+          <Property Name="GET" Type="Boolean" />
+          <Property Name="POST" Type="Boolean" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ControlGeneralStoreContainer" CdmEntityContainer="ControlGeneralContainer">
+          <EntitySetMapping Name="CA_Acciones">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_Acciones">
+              <MappingFragment StoreEntitySet="CA_Acciones">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CA_Articulos">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_Articulos">
+              <MappingFragment StoreEntitySet="CA_Articulos">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdObjetoG" ColumnName="IdObjetoG" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdArticulo" ColumnName="IdArticulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CA_Botones">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_Botones">
+              <MappingFragment StoreEntitySet="CA_Botones">
+                <ScalarProperty Name="habilitado" ColumnName="habilitado" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="iconClass" ColumnName="iconClass" />
+                <ScalarProperty Name="clase" ColumnName="clase" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdBoton" ColumnName="IdBoton" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ca_Calles">
+            <EntityTypeMapping TypeName="ControlGeneral.Ca_Calles">
+              <MappingFragment StoreEntitySet="Ca_Calles">
+                <ScalarProperty Name="Fecha_Act" ColumnName="Fecha_Act" />
+                <ScalarProperty Name="Usu_Act" ColumnName="Usu_Act" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="id_calle" ColumnName="id_calle" />
+                <ScalarProperty Name="Id_Localidad" ColumnName="Id_Localidad" />
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CA_CamarasComercio">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_CamarasComercio">
+              <MappingFragment StoreEntitySet="CA_CamarasComercio">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdCamara" ColumnName="IdCamara" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ca_ClasificacionArticulos">
+            <EntityTypeMapping TypeName="ControlGeneral.Ca_ClasificacionArticulos">
+              <MappingFragment StoreEntitySet="Ca_ClasificacionArticulos">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdClasificacion" ColumnName="IdClasificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ca_Colonias">
+            <EntityTypeMapping TypeName="ControlGeneral.Ca_Colonias">
+              <MappingFragment StoreEntitySet="Ca_Colonias">
+                <ScalarProperty Name="Fecha_Act" ColumnName="Fecha_Act" />
+                <ScalarProperty Name="Usu_Act" ColumnName="Usu_Act" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="id_colonia" ColumnName="id_colonia" />
+                <ScalarProperty Name="Id_Localidad" ColumnName="Id_Localidad" />
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ca_Estados">
+            <EntityTypeMapping TypeName="ControlGeneral.Ca_Estados">
+              <MappingFragment StoreEntitySet="Ca_Estados">
+                <ScalarProperty Name="Fecha_Act" ColumnName="Fecha_Act" />
+                <ScalarProperty Name="Usu_Act" ColumnName="Usu_Act" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ca_Localidades">
+            <EntityTypeMapping TypeName="ControlGeneral.Ca_Localidades">
+              <MappingFragment StoreEntitySet="Ca_Localidades">
+                <ScalarProperty Name="Fecha_Act" ColumnName="Fecha_Act" />
+                <ScalarProperty Name="Usu_Act" ColumnName="Usu_Act" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id_Localidad" ColumnName="Id_Localidad" />
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ca_MensajesError">
+            <EntityTypeMapping TypeName="ControlGeneral.Ca_MensajesError">
+              <MappingFragment StoreEntitySet="Ca_MensajesError">
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="CodeError" ColumnName="CodeError" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ca_Municipios">
+            <EntityTypeMapping TypeName="ControlGeneral.Ca_Municipios">
+              <MappingFragment StoreEntitySet="Ca_Municipios">
+                <ScalarProperty Name="Fecha_Act" ColumnName="Fecha_Act" />
+                <ScalarProperty Name="Usu_Act" ColumnName="Usu_Act" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CA_Opciones">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_Opciones">
+              <MappingFragment StoreEntitySet="CA_Opciones">
+                <ScalarProperty Name="fAct" ColumnName="fAct" />
+                <ScalarProperty Name="usuAct" ColumnName="usuAct" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Mostrar" ColumnName="Mostrar" />
+                <ScalarProperty Name="SubMenuWidth" ColumnName="SubMenuWidth" />
+                <ScalarProperty Name="MenuPadre" ColumnName="MenuPadre" />
+                <ScalarProperty Name="Menu" ColumnName="Menu" />
+                <ScalarProperty Name="BarraPadre" ColumnName="BarraPadre" />
+                <ScalarProperty Name="Barra" ColumnName="Barra" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Sistema" ColumnName="Sistema" />
+                <ScalarProperty Name="Accion" ColumnName="Accion" />
+                <ScalarProperty Name="Controlador" ColumnName="Controlador" />
+                <ScalarProperty Name="IdOpcionP" ColumnName="IdOpcionP" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ca_Paises">
+            <EntityTypeMapping TypeName="ControlGeneral.Ca_Paises">
+              <MappingFragment StoreEntitySet="Ca_Paises">
+                <ScalarProperty Name="Fecha_Act" ColumnName="Fecha_Act" />
+                <ScalarProperty Name="Usu_Act" ColumnName="Usu_Act" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id_Pais" ColumnName="Id_Pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CA_Perfiles">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_Perfiles">
+              <MappingFragment StoreEntitySet="CA_Perfiles">
+                <ScalarProperty Name="fAct" ColumnName="fAct" />
+                <ScalarProperty Name="usuAct" ColumnName="usuAct" />
+                <ScalarProperty Name="DefaultPage" ColumnName="DefaultPage" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CA_Personas">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_Personas">
+              <MappingFragment StoreEntitySet="CA_Personas">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="NumeroInt" ColumnName="NumeroInt" />
+                <ScalarProperty Name="NumeroExt" ColumnName="NumeroExt" />
+                <ScalarProperty Name="IdCalle" ColumnName="IdCalle" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="IdLocalidad" ColumnName="IdLocalidad" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="IdPais" ColumnName="IdPais" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="PersonaFisica" ColumnName="PersonaFisica" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdRepresentanteLegal" ColumnName="IdRepresentanteLegal" />
+                <ScalarProperty Name="IdPersona" ColumnName="IdPersona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CA_Usuarios">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_Usuarios">
+              <MappingFragment StoreEntitySet="CA_Usuarios">
+                <ScalarProperty Name="fAct" ColumnName="fAct" />
+                <ScalarProperty Name="usuAct" ColumnName="usuAct" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="GeneradoAutomatico" ColumnName="GeneradoAutomatico" />
+                <ScalarProperty Name="Intentos" ColumnName="Intentos" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="CambiaContrasenia" ColumnName="CambiaContrasenia" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Contrasenia" ColumnName="Contrasenia" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DE_AccionesPermisos">
+            <EntityTypeMapping TypeName="ControlGeneral.DE_AccionesPermisos">
+              <MappingFragment StoreEntitySet="DE_AccionesPermisos">
+                <ScalarProperty Name="GET" ColumnName="GET" />
+                <ScalarProperty Name="POST" ColumnName="POST" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdPermiso" ColumnName="IdPermiso" />
+                <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+                <ScalarProperty Name="IdRegistro" ColumnName="IdRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DE_ArticuloClasificacion">
+            <EntityTypeMapping TypeName="ControlGeneral.DE_ArticuloClasificacion">
+              <MappingFragment StoreEntitySet="DE_ArticuloClasificacion">
+                <ScalarProperty Name="IdClasificacion" ColumnName="IdClasificacion" />
+                <ScalarProperty Name="IdArticulo" ColumnName="IdArticulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DE_Permisos">
+            <EntityTypeMapping TypeName="ControlGeneral.DE_Permisos">
+              <MappingFragment StoreEntitySet="DE_Permisos">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="IdPermiso" ColumnName="IdPermiso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_Bases">
+            <EntityTypeMapping TypeName="ControlGeneral.VW_Bases">
+              <MappingFragment StoreEntitySet="VW_Bases">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="NombreBase" ColumnName="NombreBase" />
+                <ScalarProperty Name="dbid" ColumnName="dbid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_Permisos">
+            <EntityTypeMapping TypeName="ControlGeneral.VW_Permisos">
+              <MappingFragment StoreEntitySet="VW_Permisos">
+                <ScalarProperty Name="post" ColumnName="post" />
+                <ScalarProperty Name="get" ColumnName="get" />
+                <ScalarProperty Name="IdOpcionGrupo" ColumnName="IdOpcionGrupo" />
+                <ScalarProperty Name="IdGrupoPadre" ColumnName="IdGrupoPadre" />
+                <ScalarProperty Name="DescripcionAccion" ColumnName="DescripcionAccion" />
+                <ScalarProperty Name="ActivoAccion" ColumnName="ActivoAccion" />
+                <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+                <ScalarProperty Name="IdRegistro" ColumnName="IdRegistro" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="IdPermiso" ColumnName="IdPermiso" />
+                <ScalarProperty Name="MenuPadre" ColumnName="MenuPadre" />
+                <ScalarProperty Name="Menu" ColumnName="Menu" />
+                <ScalarProperty Name="DescripcionOpcion" ColumnName="DescripcionOpcion" />
+                <ScalarProperty Name="Sistema" ColumnName="Sistema" />
+                <ScalarProperty Name="Accion" ColumnName="Accion" />
+                <ScalarProperty Name="Controlador" ColumnName="Controlador" />
+                <ScalarProperty Name="IdOpcionP" ColumnName="IdOpcionP" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_Permisos2">
+            <EntityTypeMapping TypeName="ControlGeneral.vw_Permisos2">
+              <MappingFragment StoreEntitySet="vw_Permisos2">
+                <ScalarProperty Name="DescripcionAccion" ColumnName="DescripcionAccion" />
+                <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+                <ScalarProperty Name="ActivoPermiso" ColumnName="ActivoPermiso" />
+                <ScalarProperty Name="IdPermiso" ColumnName="IdPermiso" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Accion" ColumnName="Accion" />
+                <ScalarProperty Name="Controlador" ColumnName="Controlador" />
+                <ScalarProperty Name="IdGrupoPadre" ColumnName="IdGrupoPadre" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CA_Grupos">
+            <EntityTypeMapping TypeName="ControlGeneral.CA_Grupos">
+              <MappingFragment StoreEntitySet="CA_Grupos">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdGrupoPadre" ColumnName="IdGrupoPadre" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DE_GruposOpciones">
+            <EntityTypeMapping TypeName="ControlGeneral.DE_GruposOpciones">
+              <MappingFragment StoreEntitySet="DE_GruposOpciones">
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DE_OpcionesGrupos">
+            <EntityTypeMapping TypeName="ControlGeneral.DE_OpcionesGrupos">
+              <MappingFragment StoreEntitySet="DE_OpcionesGrupos">
+                <ScalarProperty Name="IdOpcionGrupo" ColumnName="IdOpcionGrupo" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="De_GrupoPerfil">
+            <EntityTypeMapping TypeName="ControlGeneral.De_GrupoPerfil">
+              <MappingFragment StoreEntitySet="De_GrupoPerfil">
+                <ScalarProperty Name="POST" ColumnName="POST" />
+                <ScalarProperty Name="GET" ColumnName="GET" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a4f3d39783cb4a328fd53cb4915331d1" Name="Diagram1">
+        <EntityTypeShape EntityType="ControlGeneral.CA_Acciones" Width="1.5" PointX="6" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.CA_Articulos" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.CA_Botones" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.Ca_Calles" Width="1.5" PointX="7.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.CA_CamarasComercio" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.Ca_ClasificacionArticulos" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.Ca_Colonias" Width="1.5" PointX="7.5" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.Ca_Estados" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.Ca_Localidades" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.Ca_MensajesError" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.Ca_Municipios" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.CA_Opciones" Width="1.5" PointX="3.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.Ca_Paises" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.CA_Perfiles" Width="1.5" PointX="0.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.CA_Personas" Width="1.5" PointX="9.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.CA_Usuarios" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.DE_AccionesPermisos" Width="1.5" PointX="8.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.DE_ArticuloClasificacion" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.DE_Permisos" Width="1.5" PointX="6" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.VW_Bases" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.VW_Permisos" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.vw_Permisos2" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.CA_Grupos" Width="1.5" PointX="3.75" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.DE_GruposOpciones" Width="1.5" PointX="11.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.DE_OpcionesGrupos" Width="1.5" PointX="6" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlGeneral.De_GrupoPerfil" Width="1.5" PointX="12.75" PointY="8.75" IsExpanded="true" />
+        <AssociationConnector Association="ControlGeneral.FK_DE_AccionesPermisos_CA_Acciones" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_Ca_Calles_Ca_Localidades" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_CA_Personas_Ca_Calles" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_Ca_Colonias_Ca_Localidades" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_CA_Personas_Ca_Colonias" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_Ca_Municipios_Ca_Estados" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_Ca_Localidades_Ca_Municipios" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_DE_Permisos_CA_Opciones" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_CA_Usuarios_CA_Perfiles" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_DE_Permisos_CA_Perfiles" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_CA_Personas_CA_Personas" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_DE_AccionesPermisos_DE_Permisos" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_DE_AccionesPermisos_CA_Perfiles" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_DE_OpcionesGrupos_CA_Grupos" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlGeneral.FK_DE_OpcionesGrupos_CA_Opciones" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

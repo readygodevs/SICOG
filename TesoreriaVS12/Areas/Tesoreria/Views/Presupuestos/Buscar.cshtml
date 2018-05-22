@@ -1,0 +1,83 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.BusquedaPresupuestos>
+
+<table id="tabla_resultados">
+    <thead>
+        <tr>
+            @if (Session["BusquedaProyecto"] != null || Session["BusquedaActividad"] != null)
+            {
+                <th>
+                    Proyecto/Proceso
+                </th>
+            }
+            @if (Session["BusquedaActividad"] != null)
+            {
+                <th>
+                    Actividad MIR
+                </th>
+            }
+            @if (Session["BusquedaProyecto"] != null)
+            {
+                <th>Clave Actividad MIR</th>
+            }
+            else if (Session["BusquedaActividad"] != null)
+            {
+                <th>Clave Acción u Obra</th>
+            }
+            else
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Clave)
+                </th>
+            }
+            <th>
+                Descripción
+            </th>
+            <th class="text-center">Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @if (!String.IsNullOrEmpty(item.ProyectoProceso) || !String.IsNullOrEmpty(item.ActividadMIR))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProyectoProceso)
+                    </td>
+                }
+                @if (!String.IsNullOrEmpty(item.ActividadMIR))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActividadMIR)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Clave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                @if (item.UltimoNivel.HasValue)
+                {
+                    if (item.UltimoNivel.Value == true)
+                    {
+                        <td class="text-center">
+                            <i class="fa fa-check js_seleccionar acciones" data-descripcion="@item.Descripcion" data-id="@item.Clave"></i>
+                            @*<a class="fa fa-check jsSeleccionar" data-id="@item.Clave" data-descripcion ="@item.Descripcion" title="Seleccionar" data-toggle="tooltip" data-placement="top"></a>*@
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    Session.Remove("BusquedaActividad");
+    Session.Remove("BusquedaProyecto");
+}
+

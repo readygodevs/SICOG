@@ -1,0 +1,162 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_TransferenciasIngModel
+
+@{
+    ViewBag.Title = "V_AmpliacionesReduccionesIng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="_menu_lateral">
+    @if (ViewBag.post)
+    {
+        if (Model.De_Transferencias.Count() > 0)
+        {
+            if (Model.Id_Estatus == 3)
+            {
+                Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bDetalles", "bSalir" } });
+            }
+            else
+            {
+                if (Model.Id_Estatus == 1)
+                {
+                    Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bEditar", "bDetalles", "bEliminar", "bAfectar", "bSalir" } });
+                }
+                else {
+                    Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bDetalles", "bEliminar", "bSalir" } });
+                }
+                
+            }
+        }else{
+            if (Model.Id_Estatus == 3)
+            {
+                Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bDetalles", "bSalir" } });
+            }
+            else
+            {
+                Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bEditar", "bDetalles", "bEliminar", "bSalir" } });
+            }
+            
+        }
+    }
+    else
+    {
+        Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bSalir" } }); 
+    }
+</div>
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<div class="container">
+    <h2>Ampliaciones y Reducciones Ingresos </h2>
+
+    @using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Folio</label>
+                @Html.TextBoxFor(model => model.Folio, new { @class = "form-control jsEnabledAgregar jsEnabledEditar", disabled = "disabled", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Folio)
+            </div>
+            <div class="col-sm-2">
+                <label>Fecha:</label>
+                <div class="input-group">
+                    <input type="text" name="Fecha" id="Fecha" class="form-control datepicker jsEnabledAgregar jsEnabledEditar" disabled = "disabled" readonly="readonly" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label>Amplicación </label>
+                <input id="rAmpliacion" type="radio" value="1" name="Id_TipoT" checked="checked" class="jsEnabledAgregar" disabled="disabled" />
+                <label>Reducción </label>
+                <input id="rReduccion" type="radio" value="2" name="Id_TipoT" class="jsEnabledAgregar" disabled="disabled" />
+            </div>
+            <div class="col-sm-2">
+                <label>Estatus</label>
+                @Html.DropDownListFor(model => model.Id_Estatus, Model.ListaEstatus, "--Seleccione una opción--", new { disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Id_Estatus)
+                <label>Fecha de afectación</label>
+                @Html.TextBoxFor(model => model.Fecha_Afecta, new { @class = "form-control", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Fecha_Afecta)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <label>Descripción</label>
+                @Html.TextBoxFor(model => model.Descrip, new { @class = "form-control jsEnabledAgregar jsEnabledEditar", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Descrip)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <label>Póliza orden modificado</label>
+            </div>
+            <div class="col-sm-5">
+                <label>Póliza orden cancelada</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                @Html.HiddenFor(model => model.Id_MesPO_Modificado)
+                <div class="input-group">
+                     @Html.TextBoxFor(model => model.PolizaOrdenModificado, new { @class = "form-control", disabled = "disabled" })
+                     @Html.HiddenFor(model => model.Id_FolioPO_Modificado)
+                    <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-3">
+                @Html.HiddenFor(model => model.Id_MesPO_Modificado_Cancela)
+                <div class="input-group">
+                     @Html.TextBoxFor(model => model.PolizaOrdenCancelado, new { @class = "form-control", disabled = "disabled" })
+                    @Html.HiddenFor(model => model.Id_FolioPO_Modificado_Cancela)
+                    <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="col-sm-2">
+            </div>
+
+        </div>
+
+    }
+
+</div>
+@section scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Areas/Tesoreria/Scripts/AmpliacionesReduccionIng.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
+    <script type="text/javascript">
+        var cancelar = 0;
+        var tempDesc = "";
+        $(document).ready(function () {
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $('.datepicker').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                startDate: '@Html.Raw(ViewBag.FechaInicio)',
+                endDate: '@Html.Raw(ViewBag.FechaFin)'
+            })
+            $('body').on("click", ".js_radio", changeRadio);
+            $("body").on("click", ".js_seleccionar", Seleccionar);
+            //OPCIONES DEL MENU
+            $('body').on("click", "#js_mNuevo", Agregar);
+            $('body').on("click", "#js_mCancelar", Cancelar);
+            $('body').on("click", "#js_mBuscar", ModalBuscar);
+            $('body').on("click", "#js_mGuardar", Guardar);
+            $('body').on("click", "#js_mEditar", Editar);
+            $('body').on("click", "#js_mEliminar", ModalEliminar);
+            $('body').on("click", "#js_mAfectar", ModalAfectar);
+            $('body').on("click", "#js_mDetalles", Detalles);
+            $('body').on('click', '#js_mSalir', function () { GoHome(); });
+            /**************Consulta poliza*****************/
+            $(".js_ConsultaPoliza").on("click", function () {
+                ConsultaPoliza($(this).data("tipo"), $(this).siblings("input[type=hidden]").val(), $(this).parent().siblings("input[type=hidden]").val());
+            });
+            /************************************************************/
+        });
+
+    </script>
+
+
+}

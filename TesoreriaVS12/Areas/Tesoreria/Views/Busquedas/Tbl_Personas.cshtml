@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_PersonasModel>
+
+@{
+    Layout = null;
+}
+<table id="tblBeneficiarios">
+    <thead>
+        <tr>
+            <th>No. persona
+            </th>
+            <th>Nombre Contribuyente
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPersona)
+                </td>
+                <td>
+                    @Html.Encode(item.NombreCompleto)
+                </td>
+                <td class="acciones">
+                    <a href="#" class="js_SeleccionarBeneficiario" data-idbeneficiario="@item.IdPersona" data-nombre="@item.NombreCompleto" title="Seleccionar" data-toggle="tooltip" data-placement="top"><i class="fa fa-check"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        ConstruirTabla("tblBeneficiarios", "No se encontraron resultados...");
+    });
+</script>

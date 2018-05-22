@@ -1,0 +1,167 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_CuentasBancariasModel>
+
+@{
+    ViewBag.Title = "v_CuentasBancarias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{
+        Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo","bImprimir", "bSalir" } });
+    }
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Catálogo Cuentas Bancarias</h2>
+            @*<div id="js_agregar" class="btn btn-success pull-right">
+                <i class="fa fa-plus"></i>
+                <span>Agregar</span>
+            </div>*@
+
+            <div class="jsSourceActions hide"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered tablaConciliacion ">
+                <thead>
+                    <tr>
+                        <th style="width:1%" data-title="Id_CtaBancaria">Id</th>
+                        <th data-title="Ca_Bancos.Descripcion">Banco</th>
+                        <th data-title="Sucursal">@Html.DisplayNameFor(model => model.Sucursal)</th>
+                        <th data-title="NoCuenta">No. de Cuenta Bancaria</th>
+                        <th data-title="Descripcion">Descripción Cuenta Bancaria</th>
+                        <th data-title="Id_Cuenta">Cuenta Contable</th>
+                        <th style="width:2%" data-title="Ca_Fuentes.Id_Fuente">No. Fuente</th>
+                        <th data-title="Ca_Fuentes.Descripcion">Fuente Fin.</th>
+                        <th style="width:10%" data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_CtaBancaria)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ca_Bancos.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Sucursal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NoCuenta)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @*@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.IdClavePresupuestoFormato(item.id_cuenta))*@
+                                @Html.DisplayFor(modelItem => item.Ca_Cuentas.Id_CuentaFormato)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ca_Fuentes.Id_Fuente)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ca_Fuentes.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <a class="fa fa-bars js_detalles cursorPointer" data-id="@item.Id_CtaBancaria" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_CtaBancaria" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_cheques fa fa-credit-card cursorPointer" data-id="@item.Id_CtaBancaria" title="Control de cheque" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_CtaBancaria" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/CuentaBancarias.js"></script>
+   @* <script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script><script src="~/Scripts/Catalogos/Usuarios.js"></script>*@
+    
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_CuentasBancariasAgregar", "Catalogos")";//"/Tesoreria/Catalogos/V_CuentasBancariasAgregar";
+        var RutaSave = "@Url.Action("GuardarCuenta", "Catalogos")";//"/Tesoreria/Catalogos/GuardarCuenta";
+        var RutaDetalles = "@Url.Action("V_AccionDetalles", "Catalogos")";//"/Tesoreria/Catalogos/V_AccionDetalles";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_CtaBancaria" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+        var TablaCheque = "";
+        var RutaExportarPDF = "@Url.Action("CuentasBancarias", "ReportesPDF")";//"/Tesoreria/ReportesPDF/CuentasBancarias";
+        
+        var ExportarPDFCatalogo = function () {
+            window.open(RutaExportarPDF, "_blank");
+        }
+        $(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            tabla = ConstruirTabla(TableId, "No hay resultados...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_mNuevo", function () {
+                customModal(RutaAdd,{},"GET","lg",Guardar,"","Guardar","Cancelar","Agregar Cuenta Bancaria","ModalAgregar");
+            });
+            $("body").on("click", ".js_cheques", ModalCheques);
+            $("body").on("change", "#Id_Banco", changeBanco);
+            $("body").on("change", "#TipoFoliador", changeFoliador);
+            $("body").on("click", "#js_agregarCheque", ModalNuevoCheque);
+            $("body").on("click", ".js_eliminarCheque", eliminarCheque);
+            $("body").on("click", ".js_editar", ModalEditarCuenta);
+            $("body").on("click", ".js_eliminar", EliminarCuenta);
+            $("body").on("click", ".js_detalles", DetallesCuenta);
+            $("body").on("click", "#js_mSalir", GoHome);
+            $("body").on("focusout", "#Id_Fuente", focusout);
+            $("body").on("click", ".input-group-addon", function () {
+                if (!$(this).isSiblingDisabled()) {
+                    var elemento = $(this).parent().find("input");
+                    var label = "Fuente de Financiamiento";
+                    var hijo = $(this).parent().parent().parent().children()[1];
+                    hijo = $(hijo).children()[0];
+                    hijo = $(hijo).children()[0];
+                   
+                    $("#TipoBusqueda").val(0);
+                    customModal("@Url.Action("BuscarCatalogo","Presupuestos")", { tipo: 12, label: label, id: $(hijo).attr("id") }, "GET", "lg", function () {
+                        ajaxLoad("@Url.Action("Buscar","Presupuestos")", { objeto: $("#tipo_busqueda").val(), clave: $("#text_clave").val().trim(), descripcion: $("#text_descripcion").val().trim(), tipoBusqueda: $("input[name=tipoBusqueda]:checked").val() }, "div_tabla", "GET",
+                                function () {
+                                    ConstruirTabla("tabla_resultados");
+                                });
+                    }, "", "Buscar", "Cancelar", "Búsqueda de " + label, "MyModal1");
+                }
+            });
+            $("body").on("click", ".MyModal1 .js_seleccionar", function () {
+                var id = $(this).data("id");
+                var descripcion = $(this).data("descripcion");
+                $("#Id_Fuente").val(id);
+                $("#Desc_Id_Fuente").val(descripcion);
+                $(".MyModal1").modal("hide");
+            });
+        });
+        
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="fa fa-bars js_detalles cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"> </a>
+        <a class="fa fa-pencil-square-o js_editar cursorPointer" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"> </a>
+        <a class="js_cheques fa fa-credit-card cursorPointer" data-id="<%= Id %>"  title="Control de cheque" data-toggle="tooltip" data-placement="top"></a>
+        <a class="fa fa-trash-o js_eliminar cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"> </a>
+    </script>
+     <script type="text/template" id="jsActionsourceCheque">
+        <a class="fa fa-trash-o js_eliminarCheque cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"> </a>
+    </script>
+    <!---->
+
+}

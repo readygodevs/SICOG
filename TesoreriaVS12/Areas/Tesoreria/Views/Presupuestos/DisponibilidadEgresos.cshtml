@@ -1,0 +1,131 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.De_DisponibilidadModel
+
+@{
+    ViewBag.Title = "Disponibilidad Presupuestaria de Egresos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Id_TipoMeta = Convert.ToString(ViewBag.Id_TipoMeta);
+}
+<h2>Disponibilidad Presupuestaria de Egresos</h2>
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<style>
+    #Ca_FuentesFin_Descripcion {
+        width: 340px !important;
+    }
+</style>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bLimpiar", "bBuscar", "bSalir" } }); }
+</div>
+<div class="margen-2">
+    @using (Html.BeginForm("BuscarDisponibilidad", "Presupuestos", new { area = "Tesoreria" }, FormMethod.Post, new { @id = "frmPrespuesto", @class = "form-horizontal" }))
+    {
+        @Html.Partial("_ClavePresupuestal", new TesoreriaVS12.Areas.Tesoreria.Models.De_ClavePresupuestal())
+    }
+    <br />
+    <br />
+    <div class="row" id="div_resultados">
+    </div>
+    @section Scripts {
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/Scripts/underscore.js"></script>
+        <script src="~/Scripts/autoNumeric.js"></script>
+        <script src="~/Scripts/bootstrap-datepicker.js"></script>
+        @*<script src="~/Areas/Tesoreria/Scripts/Catalogos/FocusOut.js"></script>*@
+        <script src="~/Areas/Tesoreria/Scripts/Catalogos/FocusOut.js"></script>
+        <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+        <script type="text/javascript">
+            var esModalBusqueda = 0;
+            $.validator.setDefaults({ onkeyup: false });
+            $(document).on("ready", function () {
+                var textbox = $(".js_Captura");
+                textbox.each(function (index, value) {
+                    EventFocus($(value).attr("id"));
+                });
+                $(".hiden").hide();
+                var idMeta = "@Id_TipoMeta";
+                if (idMeta != "0") {
+                    $("#Id_TipoMeta").val(idMeta);
+                    $("#Id_TipoMeta").focusout();
+                    $("#Id_TipoMeta").attr("disabled", false);
+                }
+                var Buscar = function () {
+                    ajaxLoad("@Url.Action("BuscarDisponibilidad","Presupuestos")", $("#frmPrespuesto").serialize(), "div_resultados", "POST", function () { });
+                }
+                $("body").on("click", "#js_mBuscar", function () {
+                    recargarMenuLateral(["bLimpiar", "bBuscar", "bNuevo", "bSalir"]);
+                    $(".textBox").attr("readonly", true);
+                    $(".js_Descripcion").attr("readonly", true);
+                    Buscar();
+                });
+                $(".js_Descripcion").attr("disabled", true);
+                $("body").on("click", "#js_mNuevo", function () {
+                    $(".textBox").attr("readonly", false);
+                    $(".js_Descripcion").attr("readonly", false);
+                    //$(".textBox").val("");
+                    //$(".js_Descripcion").val("");
+                    $("#div_resultados").children().remove();
+                    recargarMenuLateral(["bLimpiar", "bBuscar", "bSalir"]);
+                });
+                $("body").on("click", ".input-group-addon", function () {
+                    seccion = 1;
+                    if (!$(this).isSiblingDisabled()) {
+                        var elemento = $(this).parent().find("input");
+                        var label = $(this).parent().parent().parent().children()[0];
+                        label = $(label).children().text();
+                        var hijo = $(this).parent().parent().parent().children()[1];
+                        hijo = $(hijo).children()[0];
+                        hijo = $(hijo).children()[0];
+                        var IdProyectoProceso = "";
+                        var IdActividadMIR = "";
+                        if (label == "Actividad MIR")
+                            IdProyectoProceso = $("#Id_Proceso").val();
+                        if (label == "Acción u Obra") {
+                            IdActividadMIR = $("#Id_ActividadMIR").val();
+                            IdProyectoProceso = $("#Id_Proceso").val();
+                        }
+                        $("#TipoBusqueda").val(0);
+                        customModal(seccion == 1 ? "@Url.Action("BuscarCatalogo","Presupuestos")" : "@Url.Action("BuscarCatalogo","PresupuestosIngresos")", { tipo: $(hijo).attr("objeto"), label: label, id: $(hijo).attr("id"), ProyectoProceso: IdProyectoProceso, ActividadMIR: IdActividadMIR }, "GET", "lg", function () {
+                            ajaxLoad(seccion == 1 ? "@Url.Action("Buscar","Presupuestos")" : "@Url.Action("Buscar","PresupuestosIngresos")", { objeto: $("#tipo_busqueda").val(), clave: $("#text_clave").val().trim(), descripcion: $("#text_descripcion").val().trim(), ProyectoProceso: $("#ProyectoProceso").val().trim(), ActividadMIR: $("#ActividadMIR").val().trim(), tipoBusqueda: $("input[name=tipoBusqueda]:checked").val() }, "div_tabla", "GET",
+                                    function () {
+                                        ConstruirTabla("tabla_resultados");
+                                    });
+                        }, "", "Buscar", "Cancelar", "Búsqueda de " + label, "MyModal1");
+                    }
+                });
+                $("body").on("click", ".MyModal1 .js_seleccionar", function () {
+                    seleccionadoModal = 1;
+                    var id = $(this).data("id");
+                    var descripcion = $(this).data("descripcion");
+                    var selector = $("#label").val();
+                    $("#" + selector).val(id);
+                    if (esModalBusqueda == 1) {
+                        $("#" + selector).parent().parent().parent().find(".textDescripcion").val(descripcion);
+                    }
+                    else
+                        $("#" + selector).parent().parent().parent().find(".js_Descripcion").val(descripcion);
+                    $(".MyModal1").modal("hide");
+                    if (typeof $("#TipoBusqueda").val() == "undefined" || $("#TipoBusqueda").val() == 0) {
+                        var input = $(".js_Captura");
+                        input.eq($("#" + selector).index(".js_Captura") + 1).attr("readonly", false);
+                        input = input.eq($("#" + selector).index(".js_Captura") + 1).focus();
+                    }
+                    else {
+                        var input = $(".textBoxModal");
+                        input.eq($("#" + selector).index(".textBoxModal") + 1).attr("disabled", false);
+                        input = input.eq($("#" + selector).index(".textBoxModal") + 1).focus();
+                    }
+                    $("#" + selector).trigger('change');
+                });
+                $("body").on("click", "#js_mSalir", function () {
+                    console.log(rutaHomeIndex);
+                    GoHome();
+                    return false;
+                });
+                $("body").on("click", "#js_mLimpiar", function () {
+                    $(".textBox").val("");
+                    $(".js_Descripcion").val("");
+                });
+            });
+        </script>
+    }
+</div>

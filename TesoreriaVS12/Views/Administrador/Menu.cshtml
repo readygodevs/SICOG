@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Menu</h2>
+<div id="treeGrid">
+
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/Tree/jqxbuttons.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxdatatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxtreegrid.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxlistbox.js"></script> 
+    <script src="~/Scripts/underscore.js"></script> 
+    <script type="text/javascript">
+        $(function () {
+                var source =
+                {
+                     dataType: "json",
+                     type: "POST",
+                     dataFields: [
+                          { name: "Descripcion", type: "string" },
+                          { name: "Accion", type: "string" },
+                          { name: "id", type: "number" },
+                          { name: "Controlador", type: "string" },
+                          { name: "Area", type: "string" },
+                          { name: "Menu", type: "boolean" },
+                          { name: "parentid", type: "number" },
+                          { name: "HasHijos", type: "bolean"}
+                     ],
+                     timeout: 10000,
+                     hierarchy:
+                         {
+                             keyDataField: { name: 'id' },
+                             parentDataField: { name: 'parentid' }
+                         },
+                     url: "@Url.Action("jsonMenu","Administrador")",
+                     id: "id"
+                };
+
+                $("#treeGrid").jqxTreeGrid(
+                {
+                    virtualModeCreateRecords: function (expandedRecord, done) {
+                        var dataAdapter = new $.jqx.dataAdapter(source,
+                            {
+                                formatData: function (data) {
+                                    if (expandedRecord == null) {
+                                        data.Padre = null;
+                                    }
+                                    else {
+                                        data.Padre = expandedRecord.id;
+                                    }
+                                    return data;
+                                },
+                                loadComplete: function () {
+                                    done(dataAdapter.records);
+                                },
+                                loadError: function (xhr, status, error) {
+                                }
+                            }
+                        );
+                        dataAdapter.dataBind();
+                    },
+                    virtualModeRecordCreating: function (record) {
+                        if (record.Menu == true)
+                            record.checked = true;
+                        if (record.HasHijos == false)
+                            record.leaf = true;
+                        var Acciones = _.template($('#jsActionsource').html());
+                        record.Acciones = Acciones({ Id: record.id });
+                    },
+                    altRows: true,
+                    checkboxes: true,
+                    theme: 'metro',
+                    columns: [
+                      { text: "Descripcion", align: "center", dataField: "Descripcion", titulo: "Joto" },
+                      { text: "Controlador", cellsAlign: "center", align: "center", dataField: "Controlador", cellsFormat: "c2", width: 150 },
+                      { text: "Accion", dataField: "Accion", cellsAlign: "center", align: "center" },
+                      { text: "Area", dataField: "Area", cellsAlign: "center", align: "center" },
+                      { text: "Acciones", dataField: "Acciones", cellsAlign: "center", align: "center" }
+                    ]
+                });
+                $("#treeGrid").on("click", ".js_editar", function () {
+                    $("#MyModal1").openModal({ url: "@Url.Action("EditarMenu","Administrador")", data: { Menu: $(this).data("id") }, size: "lg" });
+                });
+                $('#treeGrid').on('rowCheck',
+                function (event) {
+                    var idOpcion = event.args.row.id;
+                    ajaxJson("@Url.Action("checkMenu","Administrador")", { Id: idOpcion, hasMenu: true }, "POST", true, function (response) {
+                        if (response.Exito == false)
+                            ErrorCustom(response.Mensaje, function () {
+                                $("#treeGrid").jqxTreeGrid('uncheckRow', idOpcion);
+                            });
+                    });
+                });
+
+                $('#treeGrid').on('rowUncheck',
+                function (event) {
+                    var idOpcion = event.args.row.id;
+                    ajaxJson("@Url.Action("checkMenu","Administrador")", { Id: idOpcion, hasMenu: false },"POST", true, function (response) {
+                        if (response.Exito == false)
+                            ErrorCustom(response.Mensaje, function () {
+                                $("#treeGrid").jqxTreeGrid('checkRow', idOpcion);
+                            });
+                    });
+                });
+        });
+        
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="fa fa-pencil js_editar" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="fa fa-bars" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}

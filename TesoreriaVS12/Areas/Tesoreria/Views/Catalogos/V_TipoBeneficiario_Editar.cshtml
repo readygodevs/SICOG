@@ -1,0 +1,37 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoBeneficiariosModel
+
+@{
+    ViewBag.Title = "Editar tipo de beneficiario";
+    Layout = null;
+}
+<div data-title="Editar Tipo de Beneficiario" class="TituloModal"></div>
+<div data-text="Guardar" class="btnOk"></div>
+<div data-text="Cancelar" class="btnCancel"></div>
+<form id="frm">
+    @Html.ValidationSummary(true)
+
+
+    @Html.Hidden("Id_TipoBene", Model.Id_TipoBene)
+    <p><label>Tipo de beneficiario:</label> @Html.Encode(Model.Id_TipoBene)</p>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Descripcion)
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(function () {
+        $("#frm").on("submit", function (e) { e.preventDefault();});
+        $("#CerrarM1").on("click", function () {
+            CerrarModal();
+        });
+        /*url, data, metodo, asincrono, div, seleccion, callback*/
+        $("#MyModal1").off("click", ".js_btnOk");
+        $("#MyModal1").on("click", ".js_btnOk", GuardarEdit);
+    });
+</script>

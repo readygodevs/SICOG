@@ -1,0 +1,364 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.ReporteClavePresupuestariaModel>
+
+@if (ViewBag.Imprimir)
+{
+    ViewBag.Title = "Clasificación por Acción u Obra";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+
+    @Html.Partial("PdfHeader")
+    <link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+    <link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+    <link href="@cssPath/ReporteClave.css" rel="stylesheet" />
+}
+else
+{
+    Layout = null;
+}
+<div class="green titulos">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>Estado Analítico del Ejercicio del Presupuesto de Egresos</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>Estado Analítico de Ingresos</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>@HttpContext.Current.Session["Ejercicio"]</label>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-sm-12">
+        <table class="contenedor tablaGrande">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="text-center" style="width:10%">
+                        @Html.DisplayNameFor(model => model.Clave)
+                    </th>
+                    <th rowspan="2" class="text-center">
+                        Rubro de Ingresos
+                    </th>
+                    <th colspan="5" class="text-center">
+                        Egresos
+                    </th>
+                    <th rowspan="2" class="text-center">
+                        @Html.DisplayNameFor(model => model.Diferencia)
+                    </th>
+                </tr>
+                <tr>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Estimado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.AmpRed)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Modificado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Devengado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Recaudado)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(x=>x.Clave !="7.1"))
+                {
+
+                    <tr>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Clave)
+                        </td>
+                        <td class="@Html.Encode((item.Clave.Length>1) ? "Nivel2" : "nada")">
+                            @Html.DisplayFor(modelItem => item.Concepto)
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Aprobado.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.AmpRed.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Modificado.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Devengado.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Pagado.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Subejercicio.ToString("N"))
+                        </td>
+                    </tr>
+
+                }
+                <tr class="border">
+                    <td colspan="2" class="text-center txtNegritas">
+                        Total del Gasto
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Aprobado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.AmpRed).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Modificado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Devengado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Pagado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Subejercicio).ToString("N")
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br /><br />
+<div class="row ">
+    <div class="col-sm-12">
+        <table class="contenedor tablaGrande">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="text-center" style="width:10%">
+                        @Html.DisplayNameFor(model => model.Clave)
+                    </th>
+                    <th rowspan="2" class="text-center">
+                        Estado Analítico de Ingresos Por Fuente de Financiamiento
+                    </th>
+                    <th colspan="5" class="text-center">
+                        Egresos
+                    </th>
+                    <th rowspan="2" class="text-center">
+                        @Html.DisplayNameFor(model => model.Diferencia)
+                    </th>
+                </tr>
+                <tr>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Estimado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.AmpRed)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Modificado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Devengado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Recaudado)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td class=" txtNegritas">
+                        Ingresos del Gobierno
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave != "7.1" && x.Clave != "2" && x.Clave != "0").Sum(x => x.Aprobado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave != "7.1" && x.Clave != "2" && x.Clave != "0").Sum(x => x.AmpRed).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave != "7.1" && x.Clave != "2" && x.Clave != "0").Sum(x => x.Modificado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave != "7.1" && x.Clave != "2" && x.Clave != "0").Sum(x => x.Devengado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave != "7.1" && x.Clave != "2" && x.Clave != "0").Sum(x => x.Pagado).ToString("N")
+                    </td>
+                    <td class="text-right yellow">
+                        @Model.Where(x => x.Clave != "7.1" && x.Clave != "2" && x.Clave != "0").Sum(x => x.Subejercicio).ToString("N")
+                    </td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Clave != "7.1" && x.Clave != "2" && x.Clave != "0"))
+                {
+                    <tr>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Clave)
+                        </td>
+                        <td class="@Html.Encode((item.Clave.Length>1) ? "Nivel2" : "nada")">
+                            @Html.DisplayFor(modelItem => item.Concepto)
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Aprobado.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.AmpRed.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Modificado.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Devengado.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Pagado.ToString("N"))
+                        </td>
+                        <td class="text-right @Html.Encode((item.Clave == "5" || item.Clave == "6") ? "yellow" : "nada")">
+                            @Html.Encode(item.Subejercicio.ToString("N"))
+                        </td>
+                    </tr>
+
+                }
+                <tr>
+                    <td></td>
+                    <td class="txtNegritas">
+                        Ingresos de Organismos y Empresas
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "7.1" || x.Clave == "2").Sum(x => x.Aprobado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "7.1" || x.Clave == "2").Sum(x => x.AmpRed).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "7.1" || x.Clave == "2").Sum(x => x.Modificado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "7.1" || x.Clave == "2").Sum(x => x.Devengado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "7.1" || x.Clave == "2").Sum(x => x.Pagado).ToString("N")
+                    </td>
+                    <td class="text-right yellow">
+                        @Model.Where(x => x.Clave == "7.1" || x.Clave == "2").Sum(x => x.Subejercicio).ToString("N")
+                    </td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Clave == "7.1" || x.Clave == "2"))
+                {
+                    <tr>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Clave)
+                        </td>
+                        <td class="@Html.Encode((item.Clave.Length>1) ? "Nivel2" : "nada")">
+                            @Html.DisplayFor(modelItem => item.Concepto)
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Aprobado.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.AmpRed.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Modificado.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Devengado.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Pagado.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Subejercicio.ToString("N"))
+                        </td>
+                    </tr>
+
+                }
+                <tr>
+                    <td></td>
+                    <td class=" txtNegritas">
+                        Ingresos derivados de financiamiento
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "0").Sum(x => x.Aprobado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "0").Sum(x => x.AmpRed).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "0").Sum(x => x.Modificado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "0").Sum(x => x.Devengado).ToString("N")
+                    </td>
+                    <td class="text-right yellow ">
+                        @Model.Where(x => x.Clave == "0").Sum(x => x.Pagado).ToString("N")
+                    </td>
+                    <td class="text-right yellow">
+                        @Model.Where(x => x.Clave == "0").Sum(x => x.Subejercicio).ToString("N")
+                    </td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Clave == "0"))
+                {
+                    <tr>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Clave)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Concepto)
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Aprobado.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.AmpRed.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Modificado.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Devengado.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Pagado.ToString("N"))
+                        </td>
+                        <td class="text-right ">
+                            @Html.Encode(item.Subejercicio.ToString("N"))
+                        </td>
+                    </tr>
+
+                }
+                <tr class="border">
+                    <td colspan="2" class="text-center txtNegritas">
+                        Total del Gasto
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Aprobado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.AmpRed).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Modificado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Devengado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Pagado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Subejercicio).ToString("N")
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

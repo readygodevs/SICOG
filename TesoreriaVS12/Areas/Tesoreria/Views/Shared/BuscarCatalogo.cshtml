@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+    string tipo = ViewBag.Tipo;
+    string label = ViewBag.Label;
+    string id = ViewBag.Id;
+}
+
+<div data-title="Buscar Centro Gestor" class="TituloModal"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <label>Tipo búsqueda</label>
+    </div>
+    <div class="col-xs-12 bordered">
+        <input type="radio" value="1" id="tipoBusqueda" name="tipoBusqueda" checked="checked"><b style="margin-right: 9px">Inicia con</b>
+        <input type="radio" value="2" id="tipoBusqueda" name="tipoBusqueda"><b style="margin-right: 9px">Contiene</b>
+        <input type="radio" value="3" id="tipoBusqueda" name="tipoBusqueda"><b style="margin-right: 9px">Termina</b>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-xs-4">
+        <label id="lbl_tipo">Centro Gestor</label>
+    </div>
+    <div class="col-xs-8">
+        <label id="lbl_descripcion">Descripción</label>
+    </div>
+    <input type="hidden" name="tipo_busqueda" id="tipo_busqueda" value="@ViewBag.Tipo" />
+    <input type="hidden" name="label" id="label" value="" />
+    <input type="hidden" name="ProyectoProceso" id="ProyectoProceso" value="@ViewBag.ProyectoProceso" />
+    <input type="hidden" name="ActividadMIR" id="ActividadMIR" value="@ViewBag.ActividadMIR" />
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <input type="text" placeholder="Clave" id="text_clave" class="form-control">
+    </div>
+    <div class="col-xs-8">
+        <input type="text" placeholder="Descripción" id="text_descripcion" class="form-control">
+    </div>
+</div>
+<div class="row" style="margin-top: 2%">
+    @*<div class="col-xs-4">
+        <button type="button" class="btn btn-success" id="buscar">Buscar</button>
+    </div>*@
+    <div class="col-xs-8">
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div id="div_tabla">
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var label = "@Html.Raw(label)";
+        var tipo = "@tipo";
+        var id = "@id";
+        $("#tipo_busqueda").val(tipo);
+        $("#label").val(id);
+        $("#lbl_tipo").text(label);
+    });
+</script>

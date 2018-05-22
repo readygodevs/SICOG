@@ -1,0 +1,192 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoCompromisosModel
+
+@{
+    ViewBag.Title = "V_TipoCompromiso_Agregar";
+    Layout = null;
+}
+
+   <form id="frm">
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("Id_TipoCompromiso", Model.Id_TipoCompromiso)
+    <p><label>Cuenta por liquidar:</label> @Html.Encode(Model.Id_TipoCompromiso)</p>
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.LabelFor(model => model.Descripcion)
+        </div>
+        <div class="col-xs-12">
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-1">
+            @Html.CheckBox("Sin_Fecha", (Model.Sin_Fecha.HasValue) ? Model.Sin_Fecha.Value : false, new { @class="js_checkBox"})
+        </div>
+        <div class="col-xs-4">
+            <label>Sin fecha de Pago de Compromiso</label>
+        </div>
+        <div class="col-xs-1">
+            @Html.ValidationMessageFor(model => model.Sin_Fecha)
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.Folio)
+    <div class="row" id="div_ocultar">
+        <div class="col-xs-5 bordered">
+            <div class="row js_divDia">
+                <div class="col-xs-1">
+                    @Html.CheckBox("Num_Dia", (Model.Num_Dia.HasValue) ? Model.Num_Dia.Value : false, new { @class = "js_checkBox js_Dias" })
+                </div>
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Num_Dia)
+                </div>
+                <div class="col-xs-2">
+                    @Html.TextBoxFor(model => model.Num_Dias, new { @class = "form-control js_Dias", maxlength = 2 })
+                </div>
+                <div class="col-xs-1">
+                    <span data-valmsg-replace="true" id="valid_Num_Dias" data-valmsg-for="Num_Dias" class="field-validation-valid"></span>
+                </div>
+            </div>
+            <hr />
+            <div class="row js_divSemana">
+                <div class="col-xs-1">
+                    @Html.CheckBox("Num_Semana", (Model.Num_Semana.HasValue) ? Model.Num_Semana.Value : false, new { @class = "js_checkBox" })
+                </div>
+                <div class="col-xs-4">
+                    <label>Número de semanas al mes</label>
+                </div>
+                <div class="col-xs-6">
+                    @Html.DropDownListFor(model => model.Num_Semanas, Model.ListaSemanas, new { @class = "form-control  js_listaSemanas" })
+                </div>
+                <div class="col-xs-1">
+                    <span data-valmsg-replace="true" id="valid_Num_Semanas" data-valmsg-for="Num_Semana" class="field-validation-valid"></span>
+                </div>
+            </div>
+            <div class="row js_divSemana">
+                <div class="col-xs-offset-1 col-xs-4">
+                    @Html.LabelFor(model => model.Dia_Semana)
+                </div>
+                <div class="col-xs-6">
+                    @Html.DropDownListFor(model => model.Dia_Semana, Model.ListaDias, new { @class = "form-control js_DiasSemana" })
+                </div>
+                <div class="col-xs-1">
+                    <span data-valmsg-replace="true" id="valid_Dia_Semana" data-valmsg-for="Dia_Semana" class="field-validation-valid"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 bordered js_divQuincena">
+            <div class="row">
+                <div class="col-xs-1">
+                    @Html.CheckBox("A_Qna", (Model.A_Qna.HasValue) ? Model.A_Qna.Value : false, new { @class = "form-control js_checkBox" })
+                </div>
+                <div class="col-xs-7">
+                    <label>A la quincena</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-7">
+                    <label>Días antes</label>
+                </div>
+                <div class="col-xs-3">
+                    @Html.TextBoxFor(model => model.Dia_Antes_Q, new { @class = "form-control js_Dias", maxlength = 2 })
+                </div>
+                <div class="col-xs-1">
+                    <span data-valmsg-replace="true" id="valid_Dia_Antes_Q" data-valmsg-for="Dia_Antes_Q" class="field-validation-valid"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-7">
+                    <label>Días Después</label>
+                </div>
+                <div class="col-xs-3">
+                    @Html.TextBoxFor(model => model.Dia_Despues_Q, new { @class = "form-control js_Dias", maxlength = 2 })
+                </div>
+                <div class="col-xs-1">
+                    <span data-valmsg-replace="true" id="valid_Dia_Despues_Q" data-valmsg-for="Dia_Despues_Q" class="field-validation-valid"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 bordered js_divMes">
+            <div class="row">
+                <div class="col-xs-1">
+                    @Html.CheckBox("Dia_Mes", (Model.Dia_Mes.HasValue) ? Model.Dia_Mes.Value : false, new { @class = "js_checkBox" })
+                </div>
+                <div class="col-xs-7">
+                    <label>Día del mes</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <label>Día 1</label>
+                </div>
+                <div class="col-xs-3">
+                    @Html.TextBoxFor(model => model.Dia1, new { @class = "form-control js_Dias", maxlength = 2 })
+                </div>
+                <div class="col-xs-1">
+                    <span data-valmsg-replace="true" id="valid_Dia1" data-valmsg-for="Dia1" class="field-validation-valid"></span>
+                </div>
+                <div class="col-xs-3">
+                    <label>Antes</label>
+                </div>
+                <div class="col-xs-1">
+                    @Html.CheckBox("Antes", (Model.Antes.HasValue) ? Model.Antes.Value : false, new { @class = "js_check1" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <label>Día 2</label>
+                </div>
+                <div class="col-xs-3">
+                    @Html.TextBoxFor(model => model.Dia2, new { @class = "form-control js_Dias", maxlength = 2 })
+                </div>
+                <div class="col-xs-1">
+                    <span data-valmsg-replace="true" id="valid_Dia2" data-valmsg-for="Dia2" class="field-validation-valid"></span>
+                </div>
+                <div class="col-xs-3">
+                    <label>Después</label>
+                </div>
+                <div class="col-xs-1">
+                    @Html.CheckBox("Despues", (Model.Despues.HasValue) ? Model.Despues.Value : false, new { @class = "js_check1" })
+                </div>
+            </div>
+        </div>
+        @*<div class="col-xs-12">
+                <label>Pagarse</label>
+            </div>
+            <div class="col-xs-12">
+                @Html.TextBoxFor(model => model.Pagarse, new { @class = "form-control",@readonly="readonly" })
+            </div>*@
+    </div>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    var Validar = function () {
+        alert("Validando");
+    }
+    $(document).ready(function () {
+        EventoCheckBox($(".js_checkBox:checked").attr("id"));
+        $("#Num_Dia").trigger("click");
+        //$("#CerrarM1").on("click", function () {
+        //    CerrarModal();
+        //});
+
+        //$("#GuardarM1").on("click", function () {
+        //    Validar();
+        //    if ($("#frm").valid()) {
+        //        ajaxJson("/Tesoreria/Catalogos/V_TipoCompromiso_Agregar", $("form").serialize(), "post", false, callbackGuardar)
+        //    }
+        //});
+    });
+
+    function callbackGuardar(response) {
+        if (response.Exito == false)
+            ErrorCustom(response.Mensaje, "");
+        else {
+            ExitoCustom("", CerrarModal);
+            var Acciones = _.template($('#jsActionsource').html());
+            response.Datos.Acciones = Acciones({ Id: response.Datos.Id_TipoCompromiso });
+            AddTbl(response.Datos, "tbl");
+        }
+    }
+</script>

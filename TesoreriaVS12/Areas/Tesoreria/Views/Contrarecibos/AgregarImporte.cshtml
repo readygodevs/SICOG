@@ -1,0 +1,336 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ImporteContrarecibosModel
+@{
+    int IdTipoCR = ViewBag.Id_TipoCR;
+    int FolioCR = ViewBag.FolioCR;
+    int valor = Model.TipoMovimiento.HasValue ? Model.TipoMovimiento.Value : 0;
+}
+<form id="frmImporte">
+    @Html.Hidden("IdTipoCR", IdTipoCR)
+    @Html.Hidden("FolioCR", FolioCR)
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn-group" data-toggle="buttons">
+
+                @if (valor == 1 || valor == 0)
+                {
+                    <label class="btn btn-default active">
+                        <input type="radio" checked="checked" name="TipoMovimiento" value="1" id="TipoMovimiento" />
+                        Cargo
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="TipoMovimiento" value="2" id="TipoMovimiento" />
+                        Abono
+                    </label>
+                }
+                else
+                {
+                    <label class="btn btn-default">
+                        <input type="radio" name="TipoMovimiento" value="1" id="TipoMovimiento" />
+                        Cargo
+                    </label>
+                    <label class="btn btn-default active">
+                        <input type="radio" checked="checked" name="TipoMovimiento" value="2" id="TipoMovimiento" />
+                        Abono
+                    </label>
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Aplicación Contable</label>
+            @Html.ValidationMessageFor(model => model.Cuenta)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="input-group pull-left">
+                @Html.TextBoxFor(model => model.Cuenta, new { @class = "form-control textBox js_Captura", @objeto = "1", data_length = 6 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            @Html.TextBoxFor(model => model.CuentaDescripcion, new { @class = "form-control js_Descripcion", @readonly = "readonly" })
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Importe</label>
+            @Html.ValidationMessageFor(model => model.Importe)
+        </div>
+        <div class="col-xs-4">
+            @Html.TextBoxFor(model => model.Importe, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn-group" data-toggle="buttons">
+
+                @*@if (valor == 1 || valor == 0)
+                {
+                    <label class="btn btn-default active">
+                        <input type="radio" checked="checked" name="TipoMovimiento2" value="1" id="TipoMovimiento2" />
+                        Cargo
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="TipoMovimiento2" value="2" id="TipoMovimiento2" />
+                        Abono
+                    </label>
+                }
+                else
+                {
+                    <label class="btn btn-default">
+                        <input type="radio" name="TipoMovimiento2" value="1" id="TipoMovimiento2" />
+                        Cargo
+                    </label>
+                    <label class="btn btn-default active">
+                        <input type="radio" checked="checked" name="TipoMovimiento2" value="2" id="TipoMovimiento2" />
+                        Abono
+                    </label>
+                }*@
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Aplicación Contable</label>
+            @Html.ValidationMessageFor(model => model.Cuenta2)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="input-group pull-left">
+                @Html.TextBoxFor(model => model.Cuenta2, new { @class = "form-control textBox js_Captura", @objeto = "1", data_length = 6 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            @Html.TextBoxFor(model => model.CuentaDescripcion2, new { @class = "form-control js_Descripcion", @readonly = "readonly" })
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Importe</label>
+            @Html.ValidationMessageFor(model => model.Importe2)
+        </div>
+        <div class="col-xs-4">
+            @Html.TextBoxFor(model => model.Importe2, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn-group" data-toggle="buttons">
+
+                @*@if (valor == 1 || valor == 0)
+                {
+                    <label class="btn btn-default active">
+                        <input type="radio" checked="checked" name="TipoMovimiento3" value="1" id="TipoMovimiento3" />
+                        Cargo
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="TipoMovimiento3" value="2" id="TipoMovimiento3" />
+                        Abono
+                    </label>
+                }
+                else
+                {
+                    <label class="btn btn-default">
+                        <input type="radio" name="TipoMovimiento3" value="1" id="TipoMovimiento3" />
+                        Cargo
+                    </label>
+                    <label class="btn btn-default active">
+                        <input type="radio" checked="checked" name="TipoMovimiento3" value="2" id="TipoMovimiento3" />
+                        Abono
+                    </label>
+                }*@
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Aplicación Contable</label>
+            @Html.ValidationMessageFor(model => model.Cuenta3)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="input-group pull-left">
+                @Html.TextBoxFor(model => model.Cuenta3, new { @class = "form-control textBox js_Captura", @objeto = "1", data_length = 6 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            @Html.TextBoxFor(model => model.CuentaDescripcion3, new { @class = "form-control js_Descripcion", @readonly = "readonly" })
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Importe</label>
+            @Html.ValidationMessageFor(model => model.Importe3)
+        </div>
+        <div class="col-xs-4">
+            @Html.TextBoxFor(model => model.Importe3, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Aplicación Contable</label>
+            @Html.ValidationMessageFor(model => model.Cuenta4)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="input-group pull-left">
+                @Html.TextBoxFor(model => model.Cuenta4, new { @class = "form-control textBox js_Captura", @objeto = "1", data_length = 6 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            @Html.TextBoxFor(model => model.CuentaDescripcion4, new { @class = "form-control js_Descripcion", @readonly = "readonly" })
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-12">
+            <label>Importe</label>
+            @Html.ValidationMessageFor(model => model.Importe4)
+        </div>
+        <div class="col-xs-4">
+            @Html.TextBoxFor(model => model.Importe4, new { @class = "form-control" })
+        </div>
+    </div>
+</form>
+<script src="~/Scripts/bootstrap3-typeahead.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+
+<script type="text/javascript">
+    $("#Importe").autoNumeric();
+    $("#Importe2").autoNumeric();
+    $("#Importe3").autoNumeric();
+    $("#Importe4").autoNumeric();
+
+    var focoJsCaptura = function (campoCuenta) {
+        $(".js_Captura").on("focusout", function () {
+            var elemento = $(this);
+            if ($(this).val().length > 0 && $.inArray($(this).val(), $(this).data("dataSource")) == -1) {
+                $(this).parent().parent().parent().find(".js_Descripcion").val("");
+                $(this).val("").focus();
+                $(this).parent().parent().parent().next().find(".js_Captura").attr("disabled", "disabled").val("").typeahead('destroy');
+                $(this).parent().parent().parent().next().find(".js_Descripcion").val("");
+                $("#" + campoCuenta).empty();
+                setTimeout(function () { elemento.focus(); }, 100);
+            }
+        });
+
+    }
+    $.each($(".js_Captura"), function (key, value) {
+        $("body").off("change", "#" + ($(value).attr("id")));
+    });
+
+    ajaxJson("@Url.Action("Gastos_Fondos","FocusOut")", { TipoCR: $("#Id_TipoCR").val() }, "POST", true, function (response) {
+        focoJsCaptura("Cuenta");
+        $("#Cuenta").typeahead({ source: response.Data, items: 15, });
+        $("#Cuenta").data("dataSource", response.Ids);
+        $("#Cuenta").data("dataBancos", response.cuentasBancos);
+        if (response.Data.length == 1) {
+            $("#Cuenta").val(response.Data[0]);
+            $("#Cuenta").trigger('change');
+        }
+    });
+
+    ajaxJson("@Url.Action("Gastos_Fondos","FocusOut")", { TipoCR: $("#Id_TipoCR").val() }, "POST", true, function (response) {
+        focoJsCaptura("Cuenta2");
+        $("#Cuenta2").typeahead({ source: response.Data, items: 15, });
+        $("#Cuenta2").data("dataSource", response.Ids);
+        $("#Cuenta2").data("dataBancos", response.cuentasBancos);
+        if (response.Data.length == 1) {
+            $("#Cuenta2").val(response.Data[0]);
+            $("#Cuenta2").trigger('change');
+        }
+    });
+    ajaxJson("@Url.Action("Gastos_Fondos","FocusOut")", { TipoCR: $("#Id_TipoCR").val() }, "POST", true, function (response) {
+        focoJsCaptura("Cuenta3");
+        $("#Cuenta3").typeahead({ source: response.Data, items: 15, });
+        $("#Cuenta3").data("dataSource", response.Ids);
+        $("#Cuenta3").data("dataBancos", response.cuentasBancos);
+        if (response.Data.length == 1) {
+            $("#Cuenta3").val(response.Data[0]);
+            $("#Cuenta3").trigger('change');
+        }
+    });
+
+    ajaxJson("@Url.Action("Gastos_Fondos","FocusOut")", { TipoCR: $("#Id_TipoCR").val() }, "POST", true, function (response) {
+        focoJsCaptura("Cuenta4");
+        $("#Cuenta4").typeahead({ source: response.Data, items: 15, });
+        $("#Cuenta4").data("dataSource", response.Ids);
+        $("#Cuenta4").data("dataBancos", response.cuentasBancos);
+        if (response.Data.length == 1) {
+            $("#Cuenta4").val(response.Data[0]);
+            $("#Cuenta4").trigger('change');
+        }
+    });
+
+    $("body").on("change", "#Cuenta", function () {
+        if ($(this).val().split('-').length != 1) {
+            $("#CuentaDescripcion").val($(this).val().split('-')[1]);
+            $(this).val($(this).val().split('-')[0]);
+            if ($(this).val().length == 20) {
+                $("#Cuenta").removeAttr('disabled').focus();
+            }
+        }
+    });
+
+    $("body").on("change", "#Cuenta2", function () {
+      //  debugger;
+        if ($(this).val().split('-').length != 1) {
+            $("#CuentaDescripcion2").val($(this).val().split('-')[1]);
+            $(this).val($(this).val().split('-')[0]);
+            if ($(this).val().length == 20) {
+                $("#Cuenta2").removeAttr('disabled').focus();
+            }
+        }
+    });
+
+    $("body").on("change", "#Cuenta3", function () {
+        if ($(this).val().split('-').length != 1) {
+            $("#CuentaDescripcion3").val($(this).val().split('-')[1]);
+            $(this).val($(this).val().split('-')[0]);
+            if ($(this).val().length == 20) {
+                $("#Cuenta3").removeAttr('disabled').focus();
+            }
+        }
+    });
+
+    $("body").on("change", "#Cuenta4", function () {
+        if ($(this).val().split('-').length != 1) {
+            $("#CuentaDescripcion4").val($(this).val().split('-')[1]);
+            $(this).val($(this).val().split('-')[0]);
+            if ($(this).val().length == 20) {
+                $("#Cuenta4").removeAttr('disabled').focus();
+            }
+        }
+    });
+</script>

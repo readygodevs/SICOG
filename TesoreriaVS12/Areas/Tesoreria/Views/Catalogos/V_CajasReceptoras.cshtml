@@ -1,0 +1,109 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_CajasReceptorasModel>
+
+@{
+    ViewBag.Title = "V_CajasReceptoras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Catálogo de Cajas Receptoras</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo","bImprimir", "bSalir" } }); }
+</div>
+<div class="jsSourceActions hide"></div>
+<div id="container">
+    <br />
+    @*<div class="row">
+        <div class="col-sm-3 col-sm-offset-9 text-right">
+            <i id="js_agregar" class="js_agregar btn btn-success Agregar fa fa-plus bigger-110">
+                Agregar
+            </i>
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_CajaR">@Html.DisplayNameFor(model => model.Id_CajaR)</th>
+                        <th data-title="Descripcion">@Html.DisplayNameFor(model => model.Descripcion) </th>
+                        <th data-title="Acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_CajaR)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_CajaR" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_CajaR" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_detalles fa fa-bars cursorPointer" data-id="@item.Id_CajaR" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_CajasReceptorasAgregar", "Catalogos")";//"/Tesoreria/Catalogos/V_CajasReceptorasAgregar";
+        var RutaObtener = "@Url.Action("V_CajasReceptorasEditar", "Catalogos")";//"/Tesoreria/Catalogos/V_CajasReceptorasEditar";
+        var RutaDelete = "@Url.Action("V_CajasReceptorasEliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_CajasReceptorasEliminar";
+        var RutaEdit = "@Url.Action("V_CajasReceptorasEditar", "Catalogos")";//"/Tesoreria/Catalogos/V_CajasReceptorasEditar";
+        var RutaSave = "@Url.Action("V_CajasReceptorasAgregar", "Catalogos")";//"/Tesoreria/Catalogos/V_CajasReceptorasAgregar";
+        var RutaDetalles = "@Url.Action("V_CajasReceptorasDetalles", "Catalogos")";//"/Tesoreria/Catalogos/V_CajasReceptorasDetalles";
+        var RutaExportarPDF = "@Url.Action("CajasReceptoras", "ReportesPDF")";//"/Tesoreria/ReportesPDF/CajasReceptoras";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_CajaR" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+        var aPos = -1;
+        var ExportarPDFCatalogo = function () {
+            window.open(RutaExportarPDF, "_blank");
+        }
+        $(document).ready(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            tabla = ConstruirTabla(TableId, "No hay registros...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_mNuevo", Nuevo);
+            $("body").on("click", ".js_detalles", Detalles);
+            $("body").on("click", "#js_btnOk1", GuardarEditar);
+            $("body").on("click", ".js_editar", Editar);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+        function GuardarEditar() {
+            if ($("#Id_CajaR").val() == 0) {
+                if ($("#" + FrmId).valid()) {
+                    ajaxJson(RutaAdd, $("#" + FrmId).serialize(), "POST", true, callBackSave);
+                }
+            }
+            else
+                GuardarEdit();
+        }
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%=Id%>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%=Id%>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_detalles fa fa-bars cursorPointer" data-id="<%=Id%>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}
+

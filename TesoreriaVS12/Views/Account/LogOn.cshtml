@@ -1,0 +1,77 @@
+﻿@model TesoreriaVS12.Models.LoginModel
+
+@{
+    Layout = null;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Iniciar sesión</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/logOn.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+</head>
+@*<body style="background:url('@Url.Content("~/Images/inicio_sesion.png")'); background-repeat:no-repeat; background-position:center">*@
+<body style="background-color:rgba(128, 128, 128, 0.35)">
+    <div id="login-box">
+        <section id="loginForm">
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                <fieldset>
+                    <legend style="background-color:#777;">
+                        <div class="text-center" style="color:white; font-size:45px">SICOG</div>
+                    </legend>
+                    <div>
+                        <img class="center-block" src="@Url.Content("~/Images/login_user.png")" style="width:100px; padding:15px 0px;" />
+                    </div>
+                    <table>
+                        <tr>
+                            <td>
+                                @Html.TextBoxFor(m => m.UserName, new { placeholder = "     nombre de usuario", @class = "inputUser", maxlength = "50" })
+                                @Html.ValidationMessageFor(m => m.UserName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.PasswordFor(m => m.Password, new { placeholder = "     contraseña", @class = "inputPassword", maxlength = "50" })
+                                @Html.ValidationMessageFor(m => m.Password)
+                            </td>
+                        </tr>
+                        @*<tr>
+                                <td>
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                                </td>
+                            </tr>*@
+                        <tr>
+                            <td>
+                                <input type="submit" value="Iniciar sesión" style="color:white;background-color:#777;" class="btn center-block" />
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </fieldset>
+
+            }
+        </section>
+    </div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <script type="text/javascript">
+        $(function () {
+            setTimeout(function () { $("#UserName").focus(); }, 500);
+            $("input[type=text]").focus(function () {
+
+                this.setSelectionRange(0, this.value.length)
+
+            });
+        });
+    </script>
+</body>
+</html>

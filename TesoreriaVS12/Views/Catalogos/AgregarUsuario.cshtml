@@ -1,0 +1,84 @@
+﻿@model TesoreriaVS12.Models.CA_UsuariosModel
+
+@{
+    Layout = null;
+}
+    <div data-title="Nuevo Usuario" class="TituloModal"></div>
+    @using (Html.BeginForm("AgregarUsuario", "Catalogos", FormMethod.Post, new { id="frmUsr" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+    
+            @Html.HiddenFor(model => model.IdUsuario)
+            @Html.HiddenFor(model => model.Activo)
+            @Html.HiddenFor(model => model.CambiaContrasenia)
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Nombre)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Nombre)
+                @Html.ValidationMessageFor(model => model.Nombre)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ApellidoPaterno)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ApellidoPaterno)
+                @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ApellidoMaterno)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ApellidoMaterno)
+                @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Usuario)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Usuario)
+                @Html.ValidationMessageFor(model => model.Usuario)
+            </div>
+    
+            @*<div class="editor-label">
+                @Html.LabelFor(model => model.Contrasenia)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Contrasenia)
+                @Html.ValidationMessageFor(model => model.Contrasenia)
+            </div>*@
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.email)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.email)
+                @Html.ValidationMessageFor(model => model.email)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.IdPerfil)
+            </div>
+            <div class="editor-field">
+                <select id="IdPerfil" name="IdPerfil" class="single-line input-validation-error" data-val="true" data-val-regex="Selecciona un perfil" data-val-regex-pattern="[0-9]*\.?[0-9]+">
+
+                </select>
+                @Html.ValidationMessageFor(model => model.IdPerfil)
+            </div>
+    }
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(function () {
+        /*url, data, metodo, asincrono, div, seleccion, callback*/
+        ajaxSelect("@Url.Action("ListaPerfiles", "Listas")", {}, "POST", true, "IdPerfil", '@Model.IdPerfil', callBackLlenarSelect);
+        $("body").off("click", ".js_btnOk");
+        $("body").on("click", ".js_btnOk", Guardar);
+    });
+</script>

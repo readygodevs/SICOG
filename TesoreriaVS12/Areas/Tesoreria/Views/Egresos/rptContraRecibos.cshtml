@@ -1,0 +1,112 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.VW_ContrarecibosModel>
+
+@{
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>reporteGeneral</title>
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="cabecera">
+        <div class="logo">
+            <img src="@imagePath/reportes/@TesoreriaVS12.Models.Logueo.GetParametro("EscudoReportes")" class="logo-ente" alt="" />
+        </div>
+        <div class="parametros">
+            <div class="gobierno">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo1")</div>
+            <div class="instituto">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</div>
+            <div class="ejercicio">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo3")</div>
+            <div class="sistema">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo4")</div>
+        </div>
+        <div class="poliza">
+            ANALÍTICO DE CUENTAS POR LIQUIDAR
+        </div>
+    </div>
+
+    <table id="tblContraRecibos" class="tablaGrande">
+        <thead>
+            <tr>
+                <th>
+                    Tipo
+                </th>
+                <th>
+                    Folio
+                </th>
+                <th>
+                    Fecha de captura
+                </th>
+                <th>
+                    Descripción
+                </th>
+                <th>
+                    Provedor
+                </th>
+                <th>
+                    Situación
+                </th>
+                <th>
+                    Fecha pago
+                </th>
+                <th>
+                    Banco
+                </th>
+                <th>
+                    Cuenta bancaria
+                </th>
+                <th>
+                    Núm. Cheque
+                </th>
+                <th class="text-right">
+                    Importe
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ca_TipoContrarecibos.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id_FolioCR)
+                    </td>
+                    <td>
+                        @Html.Encode(item.FechaCR.HasValue ? item.FechaCR.Value.ToShortDateString() : "")                    
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>                    
+                        @Html.Encode(item.Id_EstatusCR.HasValue ? TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.Estatus_CR[(short)item.Id_EstatusCR] : "")
+                    </td>
+                    <td>
+                        @Html.Encode(item.Fecha_Pago.HasValue ? item.Fecha_Pago.Value.ToShortDateString() : "")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ca_CuentasBancarias.Ca_Bancos.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ca_CuentasBancarias.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.No_Cheque)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.Cargos)
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</body>
+</html>

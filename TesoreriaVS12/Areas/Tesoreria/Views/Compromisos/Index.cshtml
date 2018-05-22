@@ -1,0 +1,126 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.BusquedaCompromisos
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<div data-title="Buscar Compromiso" class="TituloModal"></div>
+<div data-text="Buscar" class="btnOk"></div>
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+@using (Html.BeginForm("BuscarCompromisos", "Compromisos", FormMethod.Post, new { id = "frmOrden" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-xs-2">
+            @Html.LabelFor(model => model.Folio)
+            @Html.TextBoxFor(model => model.Folio, new { @class="form-control folio"})
+            @Html.ValidationMessageFor(model => model.Folio)
+        </div>
+        <div class="col-xs-3">
+            @Html.LabelFor(model => model.Fecha_Fincamiento)
+            <div class="input-group fecha_group">
+                @Html.TextBox("Fecha_Fincamiento", Model.Fecha_Fincamiento.HasValue ? Model.Fecha_Fincamiento.Value.ToShortDateString() : "", new { @class = "date form-control" })
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>            
+            @Html.ValidationMessageFor(model => model.Orden)
+        </div>
+        <div class="col-xs-2">
+            @Html.LabelFor(model => model.NoRequisicion)
+            @Html.TextBoxFor(model => model.NoRequisicion, new { @class="form-control no-requisision"})
+            @Html.ValidationMessageFor(model => model.NoRequisicion)
+        </div>
+        <div class="col-xs-3">
+            @Html.LabelFor(model => model.NoOrdenCompra)
+            @Html.TextBoxFor(model => model.NoOrdenCompra, new { @class = "form-control no-requisision" })
+            @Html.ValidationMessageFor(model => model.NoOrdenCompra)
+        </div>
+        <div class="col-xs-2">
+            @Html.LabelFor(model => model.isAdquisiciones)
+            @Html.CheckBoxFor(model => model.isAdquisiciones, new { @class="form-control no-requisision"})
+            @Html.ValidationMessageFor(model => model.isAdquisiciones)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelFor(model => model.TipoCompromiso)
+            @Html.DropDownListFor(model => model.TipoCompromiso, Model.ListTipoCompromiso, "--Seleccione una opción--", new { @class="form-control"})
+            @Html.ValidationMessageFor(model => model.TipoCompromiso)
+        </div>
+        <div class="col-xs-6">
+            @Html.LabelFor(model => model.Estatus)
+            @Html.DropDownListFor(model => model.Estatus, Model.ListEstatus, "--Seleccione una opción--", new { @class="form-control"})
+            @Html.ValidationMessageFor(model => model.Estatus)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-2">
+            @Html.LabelFor(model => model.IdBeneficiario)
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.IdBeneficiario, new { @class = "form-control" })
+                <span id="ModalBusBeneficiario2" class="input-group-addon js_BuscaBeneficiario"><i class="fa fa-search"></i></span>            
+            </div>           
+            @Html.ValidationMessageFor(model => model.IdBeneficiario)
+        </div>
+        <div class="col-xs-10">
+            @Html.LabelFor(model => model.DescripcionBeneficiario)
+            @Html.TextBoxFor(model => model.DescripcionBeneficiario, new { @class = "form-control margin-25", disabled="disabled" })
+            @Html.ValidationMessageFor(model => model.DescripcionBeneficiario)
+        </div>
+    </div>
+    <br />
+    <br />
+    <div id="resultsCompromisos">
+
+    </div>
+}
+
+<script src="~/Areas/Tesoreria/Scripts/Beneficiarios.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#Fecha_Fincamiento.date").datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            todayHighlight: true
+        });
+        $(".input-group-addon").on("click", function () {
+            if ($(".datepicker").is(":visible") == false)
+                $(this).parent().find(".date").focus();
+        });
+        /***********Buscar beneficiario***********/        
+        $(".js_BuscaBeneficiario").on("click", function () {
+            customModal("@Url.Action("Buscar_Beneficiario","FocusOut")", {},
+                "GET",
+                "lg",
+                function () {
+                    $("#resultsBeneficiarios").ajaxLoad({ url: "@Url.Action("Tbl_Beneficiario","Busquedas")", method: "POST", data: { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() } });
+                },
+                "",
+                "Buscar",
+                "Cerrar",
+                "Buscar beneficiario",
+                "ModalBusBeneficiario2");
+        });
+        $("body").on("click", ".ModalBusBeneficiario2 .js_SeleccionarBeneficiario", function () {
+            $("#IdBeneficiario").val($(this).data("idbeneficiario"));
+            $("#DescripcionBeneficiario").val($(this).data("nombre"));
+            $(".ModalBusBeneficiario2").modal("hide");
+            return false;
+        });
+        $("body").on("focusout", "#IdBeneficiario", function () {
+            if ($(this).val().length > 0)
+                $("#IdBeneficiario").focusOut({
+                    url: "@Url.Action("Beneficiario","FocusOut")",
+                    data: { IdBeneficiario: $(this).val() },
+                    campos: [{ Base: "NombreCompleto", Campo: "DescripcionBeneficiario" }]
+                });
+        });
+        /*******************************************/        
+    });
+</script>
+

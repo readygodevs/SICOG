@@ -1,0 +1,529 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel
+
+@{
+    ViewBag.Title = "V_Polizas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = Model.Botonera }); }
+</div>
+
+@section sin_contenedor{
+    <link href="~/Content/datepicker3.css" rel="stylesheet" />
+    <div class="container">
+        <h2>Pólizas</h2>
+        @using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Id_FolioPoliza)
+                    @Html.TextBoxFor(model => model.Id_FolioPoliza, new { @class = "form-control jsEnabledAgregar folio", disabled = "disabled", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Id_FolioPoliza)
+                </div>
+                <div class="col-xs-3">
+
+                </div>
+                <div class="col-xs-2 col-xs-offset-7 text-right">
+                    <div class="div_inline_block text-left">
+                        @Html.LabelFor(model => model.Fecha)
+                        <div class="input-group fecha_group">
+                            <input type="text" id="Fecha" class="form-control datepicker jsEnabledAgregar date" disabled="disabled" value="@Model.Fecha.ToString("dd/MM/yyyy")" />
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2">
+                    @Html.LabelFor(model => model.Id_TipoPoliza)
+                    @Html.HiddenFor(model => model.Id_TipoPoliza)
+                    <input type="text" id="TipoPoliza" value="@Html.Encode(Model.TipoPoliza)" disabled="disabled" />
+                    @*@Html.TextBox("TipoPoliza", Html.Encode(Model.TipoPoliza), new { disabled = "disabled" })*@
+                    @Html.ValidationMessageFor(model => model.Id_TipoPoliza)
+                </div>
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Id_ClasPoliza)
+                    @Html.DropDownListFor(model => model.Id_ClasPoliza, Model.ListaId_ClasPoliza, "--Selecciona Una--", new { @class = "form-control jsEnabledAgregar input-validation-error", disabled = "disabled" })
+
+                    @Html.ValidationMessageFor(model => model.Id_ClasPoliza)
+                </div>
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Id_SubClasificaPol)
+                    @Html.DropDownListFor(model => model.Id_SubClasificaPol, Model.ListaId_SubClasificaPol, "--Selecciona Una--", new { @class = "form-control jsEnabledAgregar input-validation-error", disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.Id_SubClasificaPol)
+                </div>
+                <div class="col-xs-2 text-right">
+                    <div class="div_inline_block text-left">
+                        @Html.LabelFor(model => model.Id_MesPoliza)
+                        <input id="Id_Mes" type="text" class="form-control jsEnabledAgregar input-validation-error mes" disabled="disabled" readonly="readonly" data-val-required="*" data-val="true">
+                        @Html.HiddenFor(model => model.Id_MesPoliza)
+                        @Html.ValidationMessageFor(model => model.Id_MesPoliza)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    @Html.LabelFor(model => model.Descripcion)
+                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control jsEnabledAgregar", disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.Descripcion)
+                </div>
+            </div>
+        }
+    </div>
+    <br />
+    <div class="separador_dos">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Poliza_Comprometido)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPCom)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_Comprometido, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPCom)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPCom)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPCom)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Poliza_Devengado)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPDev)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_Devengado, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPDev)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPDev)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPDev)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Poliza_Ejercido)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPEje)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_Ejercido, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPEje)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPEje)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPEje)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Poliza_Pagado)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPPag)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_Pagado, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPPag)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPPag)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPPag)
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Poliza_ComprometidoC)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPComC)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_ComprometidoC, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPComC)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPComC)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPComC)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Poliza_DevengadoC)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPDevC)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_DevengadoC, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPDevC)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPDevC)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPDevC)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Poliza_EjercidoC)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPEjeC)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_EjercidoC, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPEjeC)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPEjeC)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPEjeC)
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Poliza_PagadoC)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPPagC)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_PagadoC, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPPagC)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPPagC)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPPagC)
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Poliza_DevengadoIng)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPDevI)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_DevengadoIng, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPDevI)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPDevI)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPDevI)
+                </div>
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Poliza_Recaudado)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPRec)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_Recaudado, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPRec)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPRec)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPRec)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Poliza_DevengadoIngC)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPDevIC)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_DevengadoIngC, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPDevIC)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPDevIC)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPDevIC)
+                </div>
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Poliza_RecaudadoC)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPRecC)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_RecaudadoC, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPRecC)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="4"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPRecC)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPRecC)
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-xs-4">
+                    @Html.LabelFor(model => model.Poliza_DiarioC)
+                    @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdMesPolizaDC)
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_DiarioC, new { @class = "NonEditable form-control" })
+                        @Html.HiddenFor(model => model.De_ReferenciasPolizas.IdFolioPolizaDC)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo="3"><i class="fa fa-search"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdFolioPolizaDC)
+                    @Html.ValidationMessageFor(model => model.De_ReferenciasPolizas.IdMesPolizaDC)
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+@section scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
+
+    <script type="text/javascript">
+        var cancelar = 0;
+        var idmes=0;
+        $(document).ready(function () {
+            $("input[type=text]").addClass("form-control");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $('.datepicker').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true
+            }).on("changeDate", DateChange);
+            $(".NonEditable ").attr("readonly", "readonly");
+            DateChange();
+            //$('body').on("change", "#Id_TipoPoliza", llenarClasi);
+            $('body').on("change", "#Id_ClasPoliza", llenarSub);
+            $('body').on("change", "#Id_TipoPolizaM", llenarClasiM);
+            $('body').on("change", "#Id_ClasPolizaM", llenarSubM);
+            //OPCIONES DEL MENU
+            $('body').on("click", "#js_mNuevo", Agregar);
+            $('body').on("click", "#js_mGuardar", Guardar);
+            $('body').on("click", "#js_mEditar", Editar);
+            $('body').on("click", "#js_mBuscar", Buscar);
+            $('body').on("click", "#js_mImprimir", function () {
+                ConsultaPoliza($("#Id_TipoPoliza").val(), $("#Id_FolioPoliza").val(), idmes);
+            });
+            $('body').on("click", "#js_mCancelar", function () {
+                window.location.reload();
+            });
+            $('body').on("click", "#js_mDetalles", Detalles);
+            $('body').on("click", "#js_mCancelarGral", Cancelar);
+            $('body').on("click", "#js_mSalir", function () { GoHome(); });
+            //
+            $("body").on("click", ".js_seleccionar", Seleccionar);
+
+            /**************Consulta poliza*****************/
+            $(".js_ConsultaPoliza").on("click", function () {
+                ConsultaPoliza($(this).data("tipo"), $(this).siblings("input[type=hidden]").val(), $(this).parent().siblings("input[type=hidden]").val());
+            });
+            /************************************************************/
+        });
+
+        var Cancelar = function () {
+            var idtipo = $("#Id_TipoPoliza").val(),
+                idfolio = $("#Id_FolioPoliza").val(),
+                idmes = $("#Id_MesPoliza").val();
+            customModal("@Url.Action("CancelarPoliza","Polizas")", { IdTipo: idtipo, IdFolio: idfolio, IdMes: idmes }, "GET", "",
+                function () {
+                    ajaxJson("@Url.Action("CancelarPoliza","Polizas")", $("#frmCancela").serialize(), "POST", true, function (response) {
+                        if (response.Exito) {
+                            ExitoCustom("Póliza de cancelación generada", function () {
+                                $(".IdModal").modal("hide");
+                                llenarMaestro(response.Registro);
+                            });
+                            $(".IdModal").modal("hide");
+                        }
+                        else
+                            ErrorCustom(response.Mensaje, function () {
+                                llenarMaestro(response.Registro);
+                            });
+                    });
+                }, "", "Aceptar", "Cancelar", "Cancelar Póliza", "IdModal");
+        }
+        function Seleccionar() {
+            var idtipo = $(this).data("idtipo"),
+                idfolio = $(this).data("idfolio");
+            idmes = $(this).data("idmes");
+            ajaxJson("@Url.Action("SeleccionarPoliza","Polizas")", { IdTipo: idtipo, IdFolio: idfolio, IdMes: idmes }, "POST", true, function (result) {
+                if (result.Exito) {
+                    $(".IdModal").modal("hide");
+                    llenarMaestro(result.Registro);
+                    createBotonera(result.Registro.Botonera);
+                }
+                else
+                    ErrorCustom(result.Mensaje, closeModal);
+            });
+        }
+        function Cancelar() {
+            if (cancelar == 1) {
+                $("#frm")[0].reset();
+                $(".jsEnabledAgregar").prop("disabled", true);
+                $("body #TablaDetalles").empty();
+                $('#Id_ClasPoliza').prop('selectedIndex', 0);
+                $('#Id_SubClasificaPol').prop('selectedIndex', 0);
+                DateChange();
+                recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);
+            }
+            else {
+                $("#Descripcion").prop("disabled", true);
+                recargarMenuLateral(["bNuevo", "bBuscar", "bDetalles", "bEditar", "bSalir"]);
+            }
+
+        }
+        function btnBuscar() {
+            $("#tabla").empty();
+            ajaxLoad("@Url.Action("TablaPoliza","Polizas")", $("#frmModal").serialize(), "tabla", "POST", function () {
+                var tablaM = ConstruirTabla("tbl", "No hay registros...");
+            });
+        }
+        function Buscar() {
+            customModal("@Url.Action("BuscarPoliza","Polizas")", {}, "GET", "lg", btnBuscar, "", "Buscar", "Cancelar", "Búsqueda de Pólizas", "IdModal");
+        }
+        function Editar() {
+            if (idTipo != 2) {
+                $("#Descripcion").prop("disabled", false);
+                $("#Descripcion").focus();
+                $("#menu-lateral #liGuardar").removeClass("enabled").addClass("active");
+                $("#menu-lateral #liEditar").removeClass("active").addClass("enabled");
+                recargarMenuLateral(["bCancelar", "bGuardar", "bSalir"]);
+                cancelar = 2;
+            }
+            else
+                ErrorCustom("No se puede modificar la Póliza. Sólo pólizas manuales.", "");
+        }
+        function Guardar() {
+            if ($("#frm").valid()) {
+                /*url, data, metodo, asincrono, callback*/
+                var datos = {
+                    Id_FolioPoliza: $("#Id_FolioPoliza").val(),
+                    Fecha: $("#Fecha").val(),
+                    Id_TipoPoliza: $("#Id_TipoPoliza").val(),
+                    Id_ClasPoliza: $("#Id_ClasPoliza").val(),
+                    Id_SubClasificaPol: $("#Id_SubClasificaPol").val(),
+                    Id_MesPoliza: $("#Id_MesPoliza").val(),
+                    Descripcion: $("#Descripcion").val()
+                };
+                ajaxJson("@Url.Action("GuardarPoliza","Polizas")", datos, "POST", true, function (result) {
+                    if (result.Exito) {
+                        ExitoCustom(result.Mensaje, closeModal);
+                        $("#Id_FolioPoliza").val(result.Registro.Id_FolioPoliza);
+                        $(".jsEnabledAgregar").prop("disabled", true);
+                        /*$("#menu-lateral #liAgregar").removeClass("active").addClass("enabled");
+                        $("#menu-lateral #liGuardar").removeClass("active").addClass("enabled");
+                        $("#menu-lateral #liDetalles").removeClass("enabled").addClass("active");
+                        $("#menu-lateral #liEditar").removeClass("enabled").addClass("active");*/
+                        recargarMenuLateral(["bNuevo", "bBuscar", "bDetalles", "bEditar", "bSalir"]);
+                    }
+                    else
+                        ErrorCustom(result.Mensaje, closeModal);
+                });
+            }
+            else
+                $("#frm").validate();
+        }
+        function Agregar() {
+
+            ajaxJson("@Url.Action("NewPoliza","Polizas")", {}, "POST", true, function (response) {
+                
+                llenarMaestro(response.Registro);
+                $(".jsEnabledAgregar").attr("disabled", false);
+                $(this).removeClass("active").addClass("enabled");
+                $("#Fecha").datepicker({
+                    format: "dd/mm/yyyy",
+                    autoclose: true,
+                    startDate: response.fMin,
+                    endDate: response.fMax
+                });
+                $("#Fecha").datepicker("setStartDate", response.fMin);
+                $("#Fecha").datepicker("setEndDate", response.fMax);
+                recargarMenuLateral(["bGuardar", "bCancelar", "bSalir"]);
+                DateChange();
+                $("#Id_ClasPoliza").trigger("change");
+            });
+            //$("#frm")[0].reset();
+            //$(this).removeClass("active").addClass("enabled");
+            //$(".jsEnabledAgregar").prop("disabled", false);
+            //$("body #TablaDetalles").empty();
+            //$('#Id_ClasPoliza').prop('selectedIndex', 0);
+            //$('#Id_SubClasificaPol').prop('selectedIndex', 0);
+            DateChange();
+            //recargarMenuLateral(["bGuardar", "bCancelar", "bSalir"]);
+            cancelar = 1;
+        }
+
+        var Detalles = function () {
+            window.location.href = "@Url.Action("DetalleDePolizas","Polizas")"+"?IdTipo=" + $("#Id_TipoPoliza").val() + "&IdFolio=" + $("#Id_FolioPoliza").val() + "&IdMes=" + $("#Id_MesPoliza").val();
+        }
+        var idTipo = 0;
+        function llenarClasi(data) {
+            if (data.type == "change") {
+                idTipo = $(this).val();
+                ajaxSelect("@Url.Action("GetClasi","Polizas")", { IdTipo: $(this).val(), Manuales: true }, "POST", true, "Id_ClasPoliza", "0", function (response) {
+                    callBackLlenarSelect(response, "Id_ClasPoliza");
+                    if ($("#Id_ClasPoliza option").length == 2)
+                        $("#Id_ClasPoliza").trigger('change');
+                });
+            } else {
+                ajaxSelect("@Url.Action("GetClasi","Polizas")", { IdTipo: data.tipo, Manuales: false }, "POST", true, "Id_ClasPoliza", "0", callBackLlenarSelect);
+            }
+        }
+        var idTipoM = 0;
+        function llenarClasiM() {
+            idTipo = $(this).val();
+            ajaxSelect("@Url.Action("GetClasi","Polizas")", { IdTipo: $(this).val(), Manuales: false }, "POST", true, "Id_ClasPolizaM", "", callBackLlenarSelect);
+        }
+        function llenarSub(data) {
+            if (data.type == "change") {
+                //funcion para llenar select de subclasificacion
+                var idClasi = $(this).val();
+                var select = function () {
+                    ajaxSelect("@Url.Action("GetClasi","Polizas")", { IdTipo: $("#Id_TipoPoliza").val(), Manuales: false }, "POST", true, "Id_SubClasificaPol", "", callBackLlenarSelect);
+                }
+                //funcion para validar que la clasificacio no sea automatica
+                ajaxJson("@Url.Action("ValidarClasificacion","Polizas")", { IdTipo: $("#Id_TipoPoliza").val(), IdClasi: idClasi }, "POST", true, function (result) {
+                    if (result.Exito) {
+                        select();
+                    }
+                    else {
+                        ErrorCustom(result.Mensaje, closeModal);
+                        //$("#frm")[0].reset();
+                        $("#Id_ClasPoliza").prop('selectedIndex', 0);
+                        $("#Id_TipoPoliza").prop('selectedIndex', 0);
+                        $("#Id_SubClasificaPol").prop('selectedIndex', 0);
+                    }
+
+                });
+            } else {
+                ajaxSelect("@Url.Action("GetSub","Polizas")", { IdTipo: data.tipo, IdClasi: data.clasi }, "POST", true, "Id_SubClasificaPol", data.sub, callBackLlenarSelect);
+            }
+        }
+        function llenarSubM() {
+            //funcion para llenar select de subclasificacion
+            var idClasi = $(this).val();
+            ajaxSelect("@Url.Action("GetSub","Polizas")", { IdTipo: idTipo, IdClasi: idClasi }, "POST", true, "Id_SubClasificaPolM", "", callBackLlenarSelect);
+        }
+        function DateChange() {
+            var values = new Array();
+            var fecha = $("#Fecha").val();
+            values = fecha.split('/');
+            getMes(values[1]);
+        }
+        function getMes(mes) {
+            switch (mes) {
+                case "01":
+                    $("#Id_Mes").val("ENERO");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "02":
+                    $("#Id_Mes").val("FEBRERO");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "03":
+                    $("#Id_Mes").val("MARZO");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "04":
+                    $("#Id_Mes").val("ABRIL");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "05":
+                    $("#Id_Mes").val("MAYO");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "06":
+                    $("#Id_Mes").val("JUNIO");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "07":
+                    $("#Id_Mes").val("JULIO");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "08":
+                    $("#Id_Mes").val("AGOSTO");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "09":
+                    $("#Id_Mes").val("SEPTIEMBRE");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "10":
+                    $("#Id_Mes").val("OCTUBRE");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "11":
+                    $("#Id_Mes").val("NOVIEMBRE");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+                case "12":
+                    $("#Id_Mes").val("DICIEMBRE");
+                    $("#Id_MesPoliza").val(mes);
+                    break;
+            }
+        }
+    </script>
+
+
+}

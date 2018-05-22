@@ -1,0 +1,112 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_AreasModel>
+
+@{
+    ViewBag.Title = "Centro Gestores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Catálogo de Centros Gestores</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bImprimir", "bSalir" } }); }
+</div>
+<div class="jsSourceActions hide"></div>
+<div id="container">
+    <br />
+    @*<div class="row">
+            <div class="col-sm-3 col-sm-offset-9 text-right">
+                <div class="js_mNuevo btn btn-success">
+                    <i class="fa fa-plus bigger-110"></i>
+                    <span>Agregar</span>
+                </div>
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_Area">Centros Gestores</th>
+                        <th data-title="Descripcion">Descripción </th>
+                        <th data-title="UltimoNivel">Último Nivel</th>
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Area)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @{
+                                    if (item.UltimoNivel == true)
+                                    {
+                                        @Html.Encode("SI");
+                                    }
+                                    else
+                                    {
+                                        @Html.Encode("NO");
+                                    }
+                                }
+                            </td>
+                            <td class="acciones">
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_Area" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_Area" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_detalles fa fa-bars cursorPointer" data-id="@item.Id_Area" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_Areas_Agregar","Catalogos")"; //"/Tesoreria/Catalogos/V_Areas_Agregar";
+        var RutaObtener = "@Url.Action("V_Areas_Editar", "Catalogos")";//"/Tesoreria/Catalogos/V_Areas_Editar";
+        var RutaDelete = "@Url.Action("V_Areas_Eliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_Areas_Eliminar";
+        var RutaEdit = "@Url.Action("V_Areas_Editar", "Catalogos")";//"/Tesoreria/Catalogos/V_Areas_Editar";
+        var RutaSave = "@Url.Action("V_Areas_Agregar", "Catalogos")";//"/Tesoreria/Catalogos/V_Areas_Agregar";
+        var RutaDetalles = "@Url.Action("V_Areas_Detalles", "Catalogos")";//"/Tesoreria/Catalogos/V_Areas_Detalles";
+        var RutaExportarPDF = "@Url.Action("Areas", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Areas";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_Area" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+        var aPos = -1;
+        $(document).ready(function () {
+            tabla = ConstruirTabla(TableId, "No hay registros...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_mNuevo", Nuevo);
+            $("body").on("click", ".js_editar", Obtener);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", ".js_detalles", Detalles);
+            $("body").on("click", "#Edit", Editar);
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%=Id_Area%>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%=Id_Area%>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_detalles fa fa-bars cursorPointer" data-id="<%=Id_Area%>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}

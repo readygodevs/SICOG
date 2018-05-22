@@ -1,0 +1,210 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_BeneficiariosModel
+
+@{
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Detalle Beneficiario</h4>
+</div>
+<div class="modal-body">
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_TipoBeneficiario)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_TipoBeneficiario)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.TipoPersona)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TipoPersona)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.RFC)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RFC)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.ApellidoPaterno)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ApellidoPaterno)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.ApellidoMaterno)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ApellidoMaterno)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Nombre)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Nombre)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.CURP)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CURP)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_Estado)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_Estado)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_Municipio)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_Municipio)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_Localidad)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_Localidad)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_Colonia)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_Colonia)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_Calle)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_Calle)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.NoExterior)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NoExterior)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.NoInterior)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NoInterior)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.CodigoPostal)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CodigoPostal)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Telefono1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Telefono1)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Telefono2)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Telefono2)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Fax)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fax)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_ActEconomica)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_ActEconomica)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Representante)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Representante)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_TipoPago)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_TipoPago)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Id_CtaBancaria)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_CtaBancaria)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.NoCuenta)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NoCuenta)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Observaciones)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Observaciones)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Usu_Act)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Usu_Act)
+    </div>
+    
+    <div class="display-label">
+            @Html.DisplayNameFor(model => model.Fecha_Act)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fecha_Act)
+    </div>
+</div>
+<div class="modal-footer">
+    <button id="CerrarM1" type="button" class="btn btn-default">Cerrar</button>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#CerrarM1").on("click", function () {
+            CerrarModal();
+        });
+    });
+</script>

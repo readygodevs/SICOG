@@ -1,0 +1,53 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_AccionesModel
+<div data-title="Editar Acción u Obra" class="TituloModal"></div>
+<div data-text="Guardar" class="btnOk"></div>
+<div data-text="Cancelar" class="btnCancel"></div>
+<form id="frm">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id_Proceso)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Id_Proceso, new { @readonly = "readonly", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Id_Proceso)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id_ActividadMIR2)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Id_ActividadMIR2, new { @readonly = "readonly", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Id_ActividadMIR2)
+        </div>
+        @Html.HiddenFor(model => model.Id_Accion)
+        <div class="editor-label">
+            Id Acción
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Id_Accion2, new { @readonly = "readonly", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Id_Accion2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Descripcion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Descripcion)
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+        @Html.HiddenFor(model => model.Usu_Act)
+        @Html.HiddenFor(model => model.Fecha_Act)
+    </fieldset>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#frm").on("submit", function (e) { e.preventDefault(); });
+        $("#MyModal1").off("click", ".js_btnOk");
+        $("#MyModal1").on("click", ".js_btnOk", GuardarEdit);
+    });
+</script>

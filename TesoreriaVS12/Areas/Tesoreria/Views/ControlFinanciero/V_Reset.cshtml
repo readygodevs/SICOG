@@ -1,0 +1,86 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ResetControlFinanciero
+
+@{
+    ViewBag.Title = "V_Reset";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bGenerarMovimientos", "bSalir" } }); }
+</div>
+<div class="container">
+    <h2>Generación de Movimientos Bancarios</h2>
+    <br />
+    @using (Html.BeginForm("V_Reset", "ControlFinanciero", FormMethod.Post, new { id = "Frm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.IdCtaBancaria)
+                @Html.DropDownList("IdCtaBancaria", Model.Lista_CtaBancarias, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdCtaBancaria)
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Mes)
+                @Html.TextBoxFor(model => model.Mes, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Mes)
+            </div>
+        </div>
+        @Html.HiddenFor(model=>model.borrado)
+    }
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script type="text/javascript">
+        $(document).on("ready", inicio);
+        function inicio() {
+            $("#IdCtaBancaria").on("change", changeIdCta);
+            $("#js_mGenerarMov").on("click", iniciar);
+            $("#js_mSalir").on("click", GoHome);
+        }
+
+        function changeIdCta() {
+            var elemento = $(this);
+            if (elemento.val() != "")
+            {
+                ajaxJson("ValidaMes", { idCtaBancaria: elemento.val() }, "POST", true, function (result) {
+                    if (result.Exito)
+                        $("#Mes").val(result.Mes);
+                    else
+                    {
+                        ErrorCustom(result.Mensaje, "");
+                        $("#IdCtaBancaria").prop('selectedIndex', 0);
+                    }
+                        
+                });
+            }else
+                $("#Mes").val("");
+        }
+        function iniciar()
+        {
+            if ($("#Frm").valid())
+            {
+                var funcion = function () {
+                    ajaxJson("V_Reset", { idCtaBancaria: $("#IdCtaBancaria").val(), borrado: $("#borrado").val() }, "POST", true, function (result) {
+                        if (result.Exito)
+                        {
+                            $("#Mes").val("");
+                            $("#IdCtaBancaria").prop('selectedIndex', 0);
+                            ExitoCustom(result.Mensaje, "");
+                        }
+                           
+                        else
+                            ErrorCustom(result.Mensaje, "");
+                    });
+                }
+                ConfirmCustom("¿Está seguro de realizar la operación?", funcion, "", "Si", "No");
+            }
+            else
+                $("#Frm").validate()
+                
+        }
+    </script>
+}

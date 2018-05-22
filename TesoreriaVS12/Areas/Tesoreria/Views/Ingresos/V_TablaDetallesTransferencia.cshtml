@@ -1,0 +1,71 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.De_TransferenciaIngModel>
+
+@{
+    Layout = null;
+}
+
+<table id="tblDetallesTransferencia" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                <label>Consecutivo</label>
+            </th>
+            <th>
+                <label>Clave Presupuestaria</label>
+            </th>
+            <th class="text-right">
+                <label>Ampliaciones</label>
+            </th>
+            <th class="text-right">
+                <label>Reducciones</label>
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    @{decimal total1 = 0, total2 = 0;}
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdRegistro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_ClavePresupuestoIng)
+                </td>
+                <td class="text-right">
+                    @if (item.Id_Movimiento == 1) { 
+                        @Html.Encode(item.Importe.Value.ToString("N"))
+                        total1+=item.Importe.Value;
+                    }
+                </td >
+                <td class="text-right">
+                    @if (item.Id_Movimiento == 2) { 
+                        @Html.Encode(item.Importe.Value.ToString("N"))
+                        total2+=item.Importe.Value;
+                    }
+                </td>
+                <td class="acciones">
+                    <a class="fa fa-bars js_seleccionar cursorPointer" data-idtrans="@item.Folio"  data-idcon="@item.IdRegistro"  title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                    @if (ViewBag.Estatus == 1 && ViewBag.ppto != null) { 
+                        <a class="fa fa-trash-o js_Eliminar cursorPointer" data-idtrans="@item.Folio"  data-idcon="@item.IdRegistro" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2" class="text-right">
+                <label>Total:</label>
+            </td>
+            <td class="text-right">
+                $<span id="totalAm">@total1.ToString("N")</span>
+            </td>
+            <td class="text-right">
+                $<span id="totalRed">@total2.ToString("N")</span>
+            </td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>

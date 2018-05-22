@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel>
+
+@{
+    Layout = null;
+}
+
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_FolioPoliza)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_TipoPoliza)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cargos)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_FolioPoliza)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_TipoPolizas.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @String.Format("{0:N}", item.Cargos)
+                </td>
+                <td class="acciones">
+                    <a class="fa fa-check js_seleccionar cursorPointer" data-idFolio="@item.Id_FolioPoliza"  data-idTipo="@item.Id_TipoPoliza" data-idMes="@item.Id_MesPoliza" title="Seleccionar" data-toggle="tooltip" data-placement="top"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

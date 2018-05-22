@@ -1,0 +1,130 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ReciboIngresosModel
+
+@{
+    ViewBag.Title = "DetallesReciboIngresos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    TesoreriaVS12.Areas.Tesoreria.Models.De_ReciboIngresosModel detalle = new TesoreriaVS12.Areas.Tesoreria.Models.De_ReciboIngresosModel();
+    detalle.Ca_Cuentas = new TesoreriaVS12.Areas.Tesoreria.Models.Ca_CuentasModel();
+    if(Model.De_ReciboIngresos.Count > 0)
+    {
+        detalle = Model.De_ReciboIngresos.FirstOrDefault();
+    }
+    byte Tipo = 1;
+}
+
+<h2>Detalle de Recibo de Ingresos</h2>
+
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = Model.Botonera }); }
+</div>
+@using (Html.BeginForm("ReciboIngresos", "Ingresos", FormMethod.Post, new { id = "frmDetallesReturn" }))
+{
+    <input type="hidden" id="Folio" name="Folio" value="@Model.Folio" />
+}
+
+@using (Html.BeginForm("GuardarDetalleRecibo", "Ingresos", FormMethod.Post, new { id = "frmDetallesRecibos" }))
+{
+    @Html.Hidden("IdRegistro",detalle.IdRegistro)
+    <div class="row">
+        <div class="col-xs-3">
+            @Html.LabelFor(model => model.Folio)
+            @Html.DisplayFor(model => model.Folio)
+        </div>
+        <div class="col-xs-3">
+            @Html.LabelFor(model => model.IdEstatus)
+            @Html.DisplayFor(model => model.EstatusDescipcion)
+        </div>
+        <div class="col-xs-3">
+            @Html.LabelFor(model => model.Fecha)
+            @(Model.Fecha.ToShortDateString())
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default">
+                    <input type="radio" name="TipoCaptura" value="1" id="checkCRI"> CRI
+                </label>
+                @*<label class="btn btn-default">
+                    <input type="radio" name="TipoCaptura" value="3" id="checkCB"> Cuentas de Balance
+                </label>*@
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <div id="_detalles_ReciboIgresos">
+        @{
+    if (String.IsNullOrEmpty(detalle.Id_ClavePresupuestoIng) && detalle.Id_CentroRecaudador != null)
+    {
+        Tipo = 3;
+    }
+    Html.RenderPartial("_ClavePresupuestalCRI", detalle);
+        }
+    </div>
+    <div class="clearfix"></div>
+    <br />
+    <div class="row">
+        <div class="col-xs-3">
+            @Html.DisplayNameFor(x => x.Importe) 
+            @*@Html.TextBoxFor(model => model.Importe, new { @class="form-control importe"})*@
+            <input type="text" name="Importe" id="Importe" value="@detalle.Importe" class="form-control importe" data-val-required="*" data-val="true" />
+            @Html.ValidationMessageFor(model => model.Importe)
+        </div>
+        <div class="col-xs-3 hide">
+            Tipo Movimiento:
+            <select name="Id_Movimiento" id="Id_Movimiento" class="form-control">
+                <option value="1" selected="selected">CARGO</option>
+                <option value="2">ABONO</option>
+            </select>
+        </div>
+        <div class="col-xs-6">
+
+        </div>
+    </div>
+    <div id="container_DetallesRecibos"></div>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/clavePresupuestal.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ReciboIngresos.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+<script>
+var ultimo = false;
+$(function () {
+    desHabilitar();
+    
+    $("input[name = TipoCaptura][value='@Tipo']").trigger("click");
+    $("#Id_Cuenta").val('@detalle.Id_Cuenta');
+    $("#Ca_Cuentas_Descripcion").val('@detalle.Ca_Cuentas.Descripcion');
+    $("#Importe").on("change", function () { $(this).formatCurrency({ symbol: '' }); }).formatCurrency({ symbol: '' });
+
+    cargarTabla();
+
+    $('body').on('click', '#js_mNuevo', newDetalle);
+
+    $("body").on('click', "#js_mGuardar", guardarDetalle);
+
+    $("body").on("click", ".js_seleccionar", seleccionarDetalle);
+        
+    $("body").on("click", "#js_mEditar", editarDetalle);
+        
+    $("body").on("click", "#js_mCancelar", cancelarDetalle);
+
+    $("body").on("click", "#js_mEliminar", eliminarDetalle);
+        
+    $("body").on("click", "#js_mSalir", salirDetalle);
+        
+    });
+</script>
+    <script type="text/template" id="jsActionsource">
+        <div class="acciones">
+            <a class="fa fa-bars js_seleccionar cursorPointer" data-idfolio="<%= Folio %>" data-registro="<%= IdRegistro %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+            <a class="fa fa-trash-o js_Eliminar cursorPointer" data-idfolio="<%= Folio %>" data-registro="<%= IdRegistro %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+        </div>
+    </script>
+}

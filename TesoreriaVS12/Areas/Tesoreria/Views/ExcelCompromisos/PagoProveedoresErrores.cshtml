@@ -1,0 +1,29 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ListaErrores
+@{
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+    ViewBag.Title = "Lista de errores de excel";
+}
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Descripcion">Listado de errores, favor de corregirlos.</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.lista)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

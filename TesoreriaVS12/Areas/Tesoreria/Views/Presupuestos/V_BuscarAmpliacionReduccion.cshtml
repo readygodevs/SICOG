@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+<form id="frmB">
+    <input type="hidden" name="idPpto" value="@ViewBag.idPpto"/>
+    <div class="row">
+        <div class="col-sm-3">
+            <label>Por Folio</label>
+            <input type="radio" class="js_radio" name="rBusqueda" value="1" checked="checked" /><br />
+            <label>Por Descripción</label>
+            <input type="radio" class="js_radio" name="rBusqueda" value="2" />
+        </div>
+        <div class="col-sm-9">
+            <div class="js_porFolio">
+                <div class="col-sm-4">
+                    <label>Folio:</label>
+                    <input type="text" id="folioBusqueda" name="folioBusqueda" class="form-control folio" />
+                </div>
+            </div>
+            <div class="js_porDesc hide">
+                <label>Descripción:</label>
+                <input type="text" id="DescripciónBusqueda" name="DescripciónBusqueda" class="form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="tabla"></div>
+    </div>
+</div>

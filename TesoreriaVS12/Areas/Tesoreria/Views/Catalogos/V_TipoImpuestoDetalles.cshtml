@@ -1,0 +1,37 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoImpuestosModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles Tipo Impuesto" class="TituloModal"></div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.TipoImpuesto)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.TipoImpuesto)
+</div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.FolioImpuesto)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.FolioImpuesto)
+</div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Id_TipoImpuesto)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_TipoImpuesto)
+</div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Descripcion)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

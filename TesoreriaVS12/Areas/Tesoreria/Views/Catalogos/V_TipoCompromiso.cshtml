@@ -1,0 +1,354 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoCompromisosModel>
+
+@{
+    ViewBag.Title = "Tipos de Compromiso";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .overlayDiv {
+        position: relative;
+        top: 0;
+        left: 0;
+        /*width: 100%;*/
+        height: 100%;
+        z-index: 10;
+        background-color: rgba(0,0,0,0.04);
+    }
+</style>
+<h2>Catálogo de Tipos de Compromiso</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo","bImprimir", "bSalir" } }); }
+</div>
+<div class="jsSourceActions hide">
+    
+</div>
+<div id="container">
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <!--<a id="js_agregar" class="btn btn-success" href="#"><i class="fa fa-plus">Agregar</i></a>-->
+            <div class="jsSourceActions hide"></div>
+            @*<div class="col-sm-12 text-right">
+                <div class="js_agregar btn btn-success">
+                    <i class="fa fa-plus bigger-110" title="Crear"></i>
+                    <span>Agregar</span>
+                </div>
+            </div>*@
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-sm-3 col-sm-offset-9 text-right">
+            <div class="js_agregar btn btn-success">
+                <i class="fa fa-plus bigger-110" title="Crear"></i>
+                <span>Agregar</span>
+            </div>
+            <div class="col-sm-3 col-sm-offset-9 text-right">
+                <div class="js_exportarPdf btn btn-success">
+                    <i class="fa fa-file-pdf-o bigger-110"></i>
+                    <span>Exportar</span>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_TipoCompromiso">Compromiso</th>
+                        <th data-title="Descripcion">Descripción </th>
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_TipoCompromiso)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+
+                            <td class="acciones">
+                                <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="@item.Id_TipoCompromiso" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_TipoCompromiso" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_TipoCompromiso" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+@*<script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>*@
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_TipoCompromiso_Agregar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoCompromiso_Agregar";
+        var RutaObtener = "@Url.Action("M_ObtenerActividad", "Catalogos")";//"/Tesoreria/Catalogos/M_ObtenerActividad";
+        var RutaDelete = "@Url.Action("V_TipoCompromiso_Eliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoCompromiso_Eliminar";
+        var RutaEdit = "@Url.Action("V_TipoCompromiso_Editar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoCompromiso_Editar";
+        //var RutaSave = "@Url.Action("AgregarActividad", "Catalogos")";//"/Tesoreria/Catalogos/AgregarActividad";
+        var RutaSave = "@Url.Action("V_TipoCompromiso_Agregar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoCompromiso_Agregar";
+        var RutaDetalles = "@Url.Action("V_TipoCompromiso_Detalles", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoCompromiso_Detalles";
+        var RutaExportarPDF = "@Url.Action("TiposCompromiso", "ReportesPDF")";//"/Tesoreria/ReportesPDF/TiposCompromiso";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_TipoCompromiso" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+        var ExportarPDFCatalogo = function () {
+            window.open(RutaExportarPDF, "_blank");
+        }
+        //var ActivarCheckBox = function () {
+        //    $(".js_checkBox").attr("disabled", false);
+        //    $(".js_checkBox").attr("readonly", false);
+        //    $(".js_checkBox").val("false");
+        //}
+        var HabilitarCampos = function (numDiv) {
+            if (numDiv == 1) {
+                $(".js_divDia input").attr("readonly", false);
+            }
+            if (numDiv == 2) {
+                $(".js_divSemana input").attr("readonly", false);
+                $(".js_divSemana select").attr("disabled", false);
+            }
+            if (numDiv == 3) {
+                $(".js_divQuincena input").attr("readonly", false);
+            }
+            if (numDiv == 4) {
+                $(".js_divMes input").attr("readonly", false);
+                $(".js_divMes input:checkbox").attr("disabled", false);
+            }
+        }
+
+        var ApagaClick = function (div) {
+            $("." + div).addClass("overlayDiv");
+            if (div == "js_divMes") {
+                $("#Antes").on("click", function () { return false; });
+                $("#Despues").on("click", function () { return false; });
+            } else {
+                $("#Antes").unbind("click");
+                $("#Despues").unbind("click");
+            }
+        }
+        var ApagarCampos = function (numDiv) {
+            if (numDiv == 0 || numDiv != 1) {
+                ApagaClick("js_divDia");
+                $(".js_divDia input[type='text']").val(0);
+                $(".js_divDia input[type='text']").attr("readonly", true);
+                $("#Num_Dia").prop('checked', false);
+                //$(".js_divDia input:checkbox").attr("disabled", true);
+            }
+            if (numDiv == 0 || numDiv != 2) {
+                ApagaClick("js_divSemana");
+                $(".js_divSemana input[type='text']").val(0);
+                $(".js_divSemana select").val(0);
+                $(".js_divSemana select").attr("disabled", true);
+                $(".js_divSemana input[type='text']").attr("readonly", true);
+                $("#Num_Semana").prop('checked', false);
+                //$(".js_divSemana input:checkbox").attr("disabled", true);
+            }
+            if (numDiv == 0 || numDiv != 3) {
+                ApagaClick("js_divQuincena");
+                $(".js_divQuincena input[type='text']").val(0);
+                $(".js_divQuincena input[type='text']").attr("readonly", true);
+                $("#A_Qna").prop("checked", false);
+                //$(".js_divQuincena input:checkbox").attr("disabled", true);
+            }
+            if (numDiv == 0 || numDiv != 4) {
+                ApagaClick("js_divMes");
+                $(".js_divMes input[type='text']").val(0);
+                $(".js_divMes input[type='text']").attr("readonly", true);
+                $("#Dia_Mes").prop("checked", false);
+                $("#Antes").prop("checked", false);
+                $("#Despues").prop("checked", false);
+                //$(".js_divMes input:checkbox").attr("disabled", true);
+            }
+        }
+        var EventoCheckBox = function (Check) {
+            if (typeof Check == "undefined") {
+                ApagarCampos(0);
+            }
+            else if ($("#" + Check).attr("id") == "#Sin_Fecha") {
+                $("#div_ocultar").hide("500");
+            } else {
+                if ($(".js_checkBox:checked").length == 0) {
+                    $(".js_checkBox").attr("checked", false);
+                }
+                else {
+                    if ($("#" + Check).attr("id") == "Num_Dia") {
+                        ApagarCampos(1);
+                        $(".js_divDia").removeClass("overlayDiv");
+                        HabilitarCampos(1);
+                    } else if ($("#" + Check).attr("id") == "Num_Semana") {
+                        ApagarCampos(2);
+                        HabilitarCampos(2);
+                        $(".js_divSemana").removeClass("overlayDiv");
+                    } else if ($("#" + Check).attr("id") == "A_Qna") {
+                        ApagarCampos(3);
+                        HabilitarCampos(3);
+                        $(".js_divQuincena").removeClass("overlayDiv");
+                    } else if ($("#" + Check).attr("id") == "Dia_Mes") {
+                        ApagarCampos(4);
+                        HabilitarCampos(4);
+                        $("#Antes").prop("checked", true);
+                        $(".js_divMes").removeClass("overlayDiv");
+                    }
+                }
+            }
+        }
+        var setErrorMsg = function (campo) {
+            $("#valid_" + campo).html("*").removeClass("field-validation-valid").addClass("field-validation-error");
+        }
+        var delErrorMsg = function (campo) {
+            if (campo == "" || typeof campo == "undefined")
+                $("#div_ocultar .field-validation-error").removeClass("field-validation-error").addClass("field-validation-valid").html("");
+            else
+                $("#valid_" + campo).html("").removeClass("field-validation-error").addClass("field-validation-valid");
+        }
+        var validarFormulario = function () {
+            var formularioOk = false;
+            var idChecado = $(".js_checkBox:checked");
+            idChecado = $(idChecado).attr("id");
+            delErrorMsg();
+            switch (idChecado) {
+                case "Num_Dia":
+                    if ($("#Num_Dias").val().trim().length == 0 || $("#Num_Dias").val().trim() == 0 || $("#Num_Dias").val().trim() > 31)
+                        setErrorMsg("Num_Dias");
+                    else {
+                        delErrorMsg("Num_Dias");
+                        formularioOk = true;
+                    }
+                    break;
+                case "A_Qna":
+                    if ($("#Dia_Antes_Q").val().trim().length == 0 || $("#Dia_Antes_Q").val().trim() == 0 || $("#Num_Dias").val().trim() > 31)
+                        setErrorMsg("Dia_Antes_Q");
+                    if ($("#Dia_Despues_Q").val().trim().length == 0 || $("#Dia_Despues_Q").val().trim() == 0)
+                        setErrorMsg("Dia_Despues_Q");
+                    else {
+                        delErrorMsg("Dia_Antes_Q");
+                        delErrorMsg("Dia_Despues_Q");
+                        formularioOk = true;
+                    }
+                    break;
+                case "Dia_Mes":
+                    if ($("#Dia1").val().trim().length == 0 || $("#Dia1").val().trim() == 0 || $("#Dia1").val().trim() > 31)
+                        setErrorMsg("Dia1");
+                    if ($("#Dia2").val().trim().length == 0 || $("#Dia2").val().trim() == 0 || $("#Dia2").val().trim() > 31)
+                        setErrorMsg("Dia2");
+                    else {
+                        delErrorMsg("Dia1");
+                        delErrorMsg("Dia2");
+                        formularioOk = true;
+                    }
+                    break;
+                case "Num_Semana":
+                    if ($("#Num_Semanas").val() == 0)
+                        setErrorMsg("Num_Semanas");
+                    if ($("#Dia_Semana").val() == 0)
+                        setErrorMsg("Dia_Semana");
+                    else {
+                        delErrorMsg("Num_Semanas");
+                        delErrorMsg("Dia_Semana");
+                        formularioOk = true;
+                    }
+                    break;
+                case "Sin_Fecha":
+                    formularioOk = true;
+                    break;
+            }
+            if (formularioOk)
+                Guardar({ originalEvent: [] });
+        }
+        var SetEventosCheckBox = function () {
+            $("#Num_Dia").trigger("click");
+            $("body").off("click", ".js_checkBox");
+            $("body").on("click", ".js_checkBox", function () {
+                EventoCheckBox($(this).attr("id"));
+            });
+            $("body").off("click", "#Sin_Fecha");
+            $("body").on("click", "#Sin_Fecha", function () {
+                if ($(this).is(":checked")) {
+                    $("#div_ocultar").hide("500");
+                    ApagarCampos(0);
+                } else {
+                    $("#div_ocultar").show("500");
+                }
+            });
+            $("body").off("click", ".js_check1");
+            $("body").on("click", ".js_check1", function () {
+                if ($(this).is(":checked")) {
+                    if ($(this).attr("id") == "Antes") {
+                        $("#Despues").attr("checked", false);
+                        $("#Despues").val("false");
+                    }
+                    else if ($(this).attr("id") == "Despues") {
+                        $("#Antes").attr("checked", false);
+                        $("#Antes").val("false");
+                    }
+                } else
+                    return false;
+            });
+        }
+        $(document).ready(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            tbl = ConstruirTabla("tbl", "No hay registros para mostrar");
+            $("body").on("click", ".js_detalles", function () {
+                customModal(RutaDetalles, { Id_TipoCompromiso: $(this).data("id") }, "GET", "lg", "", "", "", "Cerrar", "Detalles Compromiso", "ModalEditar");
+            });
+            $("body").on("click", "#js_mNuevo", function () {
+                var formularioOk = false;
+                customModal(RutaAdd, {}, "GET", "lg", validarFormulario, "", "Guardar", "Cancelar", "Nuevo Compromiso", "MyModal1");
+                SetEventosCheckBox();
+            });
+            $("body").on("click", ".js_eliminar", function () {
+                aPos = tbl.fnGetPosition($(this).parent().get(0));
+                aPos[1] = $(this).data("id");
+                ConfirmCustom("¿Esta seguro de eliminar el tipo de compromiso: " + aPos[1] + "?, esta acción no se puede revertir.", Eliminar, "", "Aceptar", "Cancelar");
+            });
+
+            $("body").on("click", ".js_editar", function () {
+                aPos = tbl.fnGetPosition($(this).parent().parent().get(0));
+                customModal(RutaEdit, { Id_TipoCompromiso: $(this).data("id") }, "GET", "lg", GuardarEdit, "", "Guardar", "Salir", "Editar Compromiso", "MyModal1");
+                SetEventosCheckBox();
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+
+        var Eliminar = function () {
+            /*url, data, metodo, asincrono, callback*/
+            ajaxJson("@Url.Action("V_TipoCompromiso_Eliminar","Catalogos")", { Id_TipoCompromiso: aPos[1] }, "post", true, function (response) {
+                if (response.Exito == true)
+                    ExitoCustom("El tipo de compromiso ha sido eliminado con éxito", function () {
+                        tbl.fnDeleteRow(aPos[0]);
+                        aPos = -1;
+                    });
+                else
+                    ErrorCustom("El tipo de compromiso no se ha eliminado con éxito");
+            });
+        }
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}

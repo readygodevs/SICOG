@@ -1,0 +1,619 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ContrarecibosModel
+
+@{
+    ViewBag.Title = "Arrendamientos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    String titulo = Model.Id_TipoCR == 8 ? "Arrendamientos" : Model.Id_TipoCR == 9 ? "Honorarios Puros" : Model.Id_TipoCR == 10 ? "Cancelación de Activos" : "Honorarios Asimilables";
+    String TipoCuenta = Model.Id_TipoCR == 10 ? "Cuenta de Activo" : "Cuenta de Pasivo";
+    String TipoImporte = Model.Id_TipoCR == 10 ? "Importe del Activo" : "Importe del Pasivo";
+    /*String tipoMovimiento = "";
+    if (Model.Id_TipoMovimiento_AH.HasValue)
+    {
+        tipoMovimiento = Model.Id_TipoMovimiento_AH.Value == 1 ? "Cargo" : "Abono";
+    }*/
+}
+<h2>@titulo</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = (Model.Botonera.Count > 0 ? Model.Botonera : new List<object> { "bNuevo", "bBuscar", "bSalir" }) }); }
+</div>
+@section sin_contenedor{
+    <link href="~/Content/datepicker3.css" rel="stylesheet" />
+    @using (Html.BeginForm("GuardarContrarecibo", "Contrarecibos", new { area = "Tesoreria" }, FormMethod.Post, new { id = "frmContrarecibos" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.StateEdit)
+        @Html.Hidden("fMin", Model.cFechas.Fecha_Min.ToShortDateString())
+        @Html.Hidden("fMax", Model.cFechas.Fecha_Max.ToShortDateString())
+        <div class="container">
+            <br />
+            <div class="separador_uno">
+                <div class="row datosIniciales">
+                    <div class="col-xs-3">
+                        @Html.LabelFor(model => model.Id_TipoCR)
+                        @Html.HiddenFor(x => x.Id_TipoCR)
+                        @Html.TextBoxFor(model => model.Ca_TipoContrarecibos.Descripcion)
+                        @Html.ValidationMessageFor(model => model.Id_TipoCR)
+                    </div>
+                    <div class="col-xs-1">
+                        @Html.LabelFor(model => model.Id_FolioCR)
+                        @Html.TextBoxFor(model => model.Id_FolioCR, "", new { @class = "folio" })
+                        @Html.ValidationMessageFor(model => model.Id_FolioCR)
+                    </div>
+                    <div class="col-xs-3">
+                        <label>@Html.LabelFor(model => model.FechaCR)</label>
+                        <div class="input-group fecha_group" style="margin-top: -5px;">
+                            @Html.TextBoxFor(model => model.FechaCR, new { @class = "date" })
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        @*@Html.TextBoxFor(model => model.FechaCR, new { @class = "datepicker" })*@
+                        @Html.ValidationMessageFor(model => model.FechaCR)
+                    </div>
+                    <div class="col-xs-2">
+                        @Html.LabelFor(model => model.Id_TipoCompromiso)
+                        @Html.HiddenFor(model => model.Id_TipoCompromiso)
+                        @Html.TextBoxFor(model => model.Ca_TipoCompromisos.Descripcion)
+                        @Html.ValidationMessageFor(model => model.Id_TipoCompromiso)
+                    </div>
+                    <div class="col-xs-1">
+                        @Html.LabelFor(model => model.FolioCompromiso)
+                        @Html.TextBoxFor(model => model.FolioCompromiso)
+                        @Html.ValidationMessageFor(model => model.FolioCompromiso)
+                    </div>
+                    <div class="col-xs-2">
+                        @Html.LabelFor(model => model.Id_EstatusCR)
+                        @Html.HiddenFor(model => model.Id_EstatusCR)
+                        @Html.TextBoxFor(model => model.DEscripcionEstatus)
+                        @Html.ValidationMessageFor(model => model.Id_EstatusCR)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-7">
+                        @Html.LabelFor(model => model.Descripcion)
+                        @Html.TextAreaFor(model => model.Descripcion)
+                        @Html.ValidationMessageFor(model => model.Descripcion)
+                    </div>
+                    <div class="col-xs-3">
+                        @Html.LabelFor(model => model.FechaVen)
+                        <div class="input-group fecha_group">
+                            @Html.TextBoxFor(model => model.FechaVen, new { @class = "date" })
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.FechaVen)
+                    </div>
+                    <div class="col-xs-2">
+                        <br />
+                        @Html.LabelFor(model => model.Impreso_CR)
+                        @Html.CheckBox("Impreso_CR", Model.Impreso_CR.HasValue ? Model.Impreso_CR.Value : false)
+                        @Html.ValidationMessageFor(model => model.Impreso_CR)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Id_Beneficiario)
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Descripcion)
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Id_Fuente)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="input-group id-beneficiario">
+                            @Html.TextBoxFor(model => model.Id_Beneficiario, new { @class = "form-control js_focus", maxlength = 26, @objeto = "15" })
+                            <span class="input-group-addon js_Beneficiario" id="beneSearch">
+                                <span class="fa fa-search"></span>
+                            </span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Id_Beneficiario)
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Ca_Beneficiarios.NombreCompleto, new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-1">
+                        @Html.TextBoxFor(m => m.Id_Fuente, new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-5">
+                        @Html.TextBoxFor(m => m.Ca_FuentesFin.Descripcion, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col xs-12 warning"></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">
+                        @Html.LabelFor(model => model.Cargos)
+                        @Html.TextBoxFor(model => model.Cargos, "", new { @class = "importe" })
+                        @Html.ValidationMessageFor(model => model.Cargos)
+                    </div>
+                    <div class="col-xs-2 col-xs-offset-4">
+                        @Html.LabelFor(model => model.Usu_CR)
+                        @Html.HiddenFor(model => model.Usu_CR)
+                        @Html.TextBoxFor(m => m.NombreCompleto)
+                        @Html.ValidationMessageFor(model => model.Usu_CR)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <label>@TipoCuenta</label>
+                        @Html.ValidationMessageFor(model => model.Id_Cuenta_AH)
+                        <div class="div_inline">
+                            <div class="input-group aplicacion-contable-group pull-left">
+                                @Html.TextBoxFor(model => model.Id_Cuenta_AH, new { @class = "js_Captura js_Nuevo" })
+                                <span class="input-group-addon js_searchCuentas"><i class="fa fa-search"></i></span>
+                            </div>
+                            &nbsp;
+                            @Html.TextBoxFor(model => model.Ca_Cuentas_FR.Descripcion, new { @class = "NonEditable js_Descripcion Ca_Cuentas_Descripcion " })
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <label>@TipoImporte</label>
+                        @Html.TextBoxFor(model => model.Importe_AH, "", new { @class = "importe" })
+                        @Html.ValidationMessageFor(model => model.Importe_AH)
+                    </div>
+                    @if (Model.Id_TipoCR == 11)
+                    {
+                    <div class="col-xs-3">
+                        <label>Tipo de Movimiento</label>
+                        @Html.TextBoxFor(model => model.TipoMovmientoAH)
+                        @*<input type="text" disabled="disabled" class="form-control" id="TipoMovimiento" name="TipoMovimiento" value="@tipoMovimiento"/>*@
+                    </div>
+                    }
+                </div>
+
+
+
+
+                @* cuentas de pasivo *@
+                <div class="row">
+                    <div class="col-xs-7">
+                        <label>@TipoCuenta</label>
+                        @Html.ValidationMessageFor(model => model.Id_Cuenta_AH2)
+                        <div class="div_inline">
+                            <div class="input-group aplicacion-contable-group pull-left">
+                                @Html.TextBoxFor(model => model.Id_Cuenta_AH2, new { @class = "js_Captura js_Nuevo" })
+                                <span class="input-group-addon js_searchCuentas"><i class="fa fa-search"></i></span>
+                            </div>
+                            &nbsp;
+                            @Html.TextBoxFor(model => model.Ca_Cuentas_FR.Descripcion2, new { @class = "NonEditable js_Descripcion Ca_Cuentas_Descripcion " })
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <label>@TipoImporte</label>
+                        @Html.TextBoxFor(model => model.Importe_AH2, "", new { @class = "importe" })
+                        @Html.ValidationMessageFor(model => model.Importe_AH2)
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-7">
+                        <label>@TipoCuenta</label>
+                        @Html.ValidationMessageFor(model => model.Id_Cuenta_AH3)
+                        <div class="div_inline">
+                            <div class="input-group aplicacion-contable-group pull-left">
+                                @Html.TextBoxFor(model => model.Id_Cuenta_AH3, new { @class = "js_Captura js_Nuevo" })
+                                <span class="input-group-addon js_searchCuentas"><i class="fa fa-search"></i></span>
+                            </div>
+                            &nbsp;
+                            @Html.TextBoxFor(model => model.Ca_Cuentas_FR.Descripcion3, new { @class = "NonEditable js_Descripcion Ca_Cuentas_Descripcion " })
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <label>@TipoImporte</label>
+                        @Html.TextBoxFor(model => model.Importe_AH3, "", new { @class = "importe" })
+                        @Html.ValidationMessageFor(model => model.Importe_AH3)
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-7">
+                        <label>@TipoCuenta</label>
+                        @Html.ValidationMessageFor(model => model.Id_Cuenta_AH4)
+                        <div class="div_inline">
+                            <div class="input-group aplicacion-contable-group pull-left">
+                                @Html.TextBoxFor(model => model.Id_Cuenta_AH4, new { @class = "js_Captura js_Nuevo" })
+                                <span class="input-group-addon js_searchCuentas"><i class="fa fa-search"></i></span>
+                            </div>
+                            &nbsp;
+                            @Html.TextBoxFor(model => model.Ca_Cuentas_FR.Descripcion4, new { @class = "NonEditable js_Descripcion Ca_Cuentas_Descripcion " })
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <label>@TipoImporte</label>
+                        @Html.TextBoxFor(model => model.Importe_AH4, "", new { @class = "importe" })
+                        @Html.ValidationMessageFor(model => model.Importe_AH4)
+                    </div>
+
+                </div>
+
+                @* Fin cuentas de pasivo *@
+                <div class="row">
+                    <div class="col-xs-2">
+                        <label>Importe del Cheque</label>
+                        @Html.TextBoxFor(model => model.Importe_CH, "", new { @class = "importe" })
+                        @Html.ValidationMessageFor(model => model.Importe_AH)
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div class="separador_dos">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-3">
+                        @Html.LabelFor(model => model.Id_CtaBancaria)
+                        <div class="div_inline_block">
+                            @Html.TextBoxFor(model => model.Id_CtaBancaria, new { @class = "id-cuenta-bancaria pull-left" })
+                            @Html.TextBoxFor(m => m.Ca_CuentasBancarias.Descripcion, new { @class = "form-control descripcion-cuenta margin-left-10 pull-left" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Id_CtaBancaria)
+                        @*<input type="text" id="desc_Id_CtaBancaria" class="margin-25"/>*@
+                    </div>
+                    <div class="col-xs-1">
+                        @Html.LabelFor(model => model.No_Cheque)
+                        @Html.TextBoxFor(model => model.No_Cheque, new { @class = "cheque" })
+                        @Html.ValidationMessageFor(model => model.No_Cheque)
+                    </div>
+                    <div class="col-xs-3 text-center">
+                        <br />
+                        @Html.LabelFor(model => model.Impreso_CH)
+                        @Html.CheckBox("Impreso_CH", Model.Impreso_CH.HasValue ? Model.Impreso_CH.Value : false)
+                        @Html.ValidationMessageFor(model => model.Impreso_CH)
+                    </div>
+                    <div class="col-xs-2">
+                        @Html.LabelFor(model => model.Fecha_Pago)
+                        @Html.TextBoxFor(model => model.Fecha_Pago, new { @class = "fecha" })
+                        @Html.ValidationMessageFor(model => model.Fecha_Pago)
+                    </div>
+                    <div class="col-xs-3">
+                        @Html.LabelFor(model => model.Spei)
+                        @Html.TextBoxFor(model => model.Spei)
+                        @Html.ValidationMessageFor(model => model.Spei)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <fieldset>
+                            <legend>Póliza de Devengado</legend>
+                            @Html.HiddenFor(model => model.Id_MesPolizaCR)
+                            <div class="input-group folio_mes">
+                                @Html.TextBoxFor(model => model.PolizaCR)
+                                @Html.HiddenFor(model => model.Id_FolioPolizaCR)
+                                <span class="input-group-addon js_search js_ConsultaPoliza" data-tipo="3">
+                                    <span class="fa fa-search"></span>
+                                </span>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-3">
+                        <fieldset>
+                            <legend>Cancelación Póliza Devengado</legend>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.HiddenFor(model => model.Id_MesPolizaCR_C)
+                                    <div class="input-group folio_mes">
+                                        @Html.TextBoxFor(model => model.PolizaCR_C)
+                                        @*<input type="text" value="@Html.Encode(Model.PolizaCR_C)" />*@
+                                        @Html.HiddenFor(model => model.Id_FolioPolizaCR_C)
+                                        <span class="input-group-addon js_search js_ConsultaPoliza" data-tipo="3">
+                                            <span class="fa fa-search"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-2">
+                        <fieldset>
+                            <legend>Fecha Cancelación CxL</legend>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @*@Html.LabelFor(model => model.FechaCancelacionCR, new { @class = "pull-left fecha-inline" })*@
+                                    <div class="input-group fecha_group pull-left">
+                                        @Html.TextBoxFor(model => model.FechaCancelacionCR, new { @class = "date" })
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <fieldset>
+                            <legend>Póliza del Pago</legend>
+                            @Html.HiddenFor(model => model.Id_MesPolizaCH)
+                            <div class="input-group folio_mes">
+                                @Html.TextBoxFor(model => model.PolizaCheque)
+                                @*<input type="text" value="@Html.Encode(Model.PolizaCheque)" />*@
+                                @Html.HiddenFor(model => model.Id_FolioPolizaCH)
+                                <span class="input-group-addon js_search js_ConsultaPoliza" data-tipo="2">
+                                    <span class="fa fa-search"></span>
+                                </span>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-5">
+                        <fieldset>
+                            <legend>Cancelación Póliza del Pago</legend>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.HiddenFor(model => model.Id_MesPolizaCH_C)
+                                    <div class="input-group folio_mes">
+                                        @Html.TextBoxFor(model => model.PolizaCheque_C)
+                                        @*<input type="text" value="@Html.Encode(Model.PolizaCheque_C)" />*@
+                                        @Html.HiddenFor(model => model.Id_FolioPolizaCH_C)
+                                        <span class="input-group-addon js_search js_ConsultaPoliza" data-tipo="2">
+                                            <span class="fa fa-search"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.LabelFor(model => model.FechaCancelacion_CH, new { @class = "pull-left fecha-inline" })
+                                    <div class="input-group fecha_group pull-left">
+                                        @Html.TextBoxFor(model => model.FechaCancelacion_CH, new { @class = "date" })
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FechaCancelacion_CH)
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <fieldset>
+                            <legend>Póliza de Orden de Ejercido</legend>
+                            @Html.HiddenFor(model => model.Id_MesPO_Ejercido)
+                            <div class="input-group folio_mes">
+                                @Html.TextBoxFor(model => model.Poliza_Ejercido)
+                                @*<input type="text" value="@Html.Encode(Model.Poliza_Ejercido)" />*@
+                                @Html.HiddenFor(model => model.Id_FolioPO_Ejercido)
+                                <span class="input-group-addon js_search js_ConsultaPoliza" data-tipo="4">
+                                    <span class="fa fa-search"></span>
+                                </span>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-5">
+                        <fieldset>
+                            <legend>Cancelación de Póliza de Orden de Ejercido</legend>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.HiddenFor(model => model.Id_MesPO_Ejercido_C)
+                                    <div class="input-group folio_mes">
+                                        @Html.TextBoxFor(model => model.Poliza_Ejercido_C)
+                                        @*<input type="text" value="@Html.Encode(Model.Poliza_Ejercido_C)" />*@
+                                        @Html.HiddenFor(model => model.Id_FolioPO_Ejercido_C)
+                                        <span class="input-group-addon js_search js_ConsultaPoliza" data-tipo="4">
+                                            <span class="fa fa-search"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.Fecha_CancelaEjercido, new { @class = "pull-left fecha-inline" })
+                                    <div class="input-group fecha_group pull-left">
+                                        @Html.TextBoxFor(model => model.Fecha_CancelaEjercido, new { @class = "date" })
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <fieldset>
+                            <legend>Póliza de Orden de Pagado</legend>
+                            @Html.HiddenFor(model => model.Id_MesPO_Pagado)
+                            <div class="input-group folio_mes">
+                                @Html.TextBoxFor(model => model.Poliza_Pagado)
+                                @*<input type="text" value="@Html.Encode(Model.Poliza_Pagado)" />*@
+                                @Html.HiddenFor(model => model.Id_FolioPO_Pagado)
+                                <span class="input-group-addon js_search js_ConsultaPoliza" data-tipo="4">
+                                    <span class="fa fa-search"></span>
+                                </span>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xs-5">
+                        <fieldset>
+                            <legend>Cancelación de Póliza de Orden de Pagado</legend>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.HiddenFor(model => model.Id_MesPO_Pagado_C)
+                                    <div class="input-group folio_mes">
+                                        @Html.TextBoxFor(model => model.Poliza_Pagado_C)
+                                        @*<input type="text" value="@Html.Encode(Model.Poliza_Pagado_C)" />*@
+                                        @Html.HiddenFor(model => model.Id_FolioPO_Pagado_C)
+                                        <span class="input-group-addon js_search js_ConsultaPoliza" data-tipo="4">
+                                            <span class="fa fa-search"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    @Html.LabelFor(model => model.Fecha_CancelaPagado, new { @class = "pull-left fecha-inline" })
+                                    <div class="input-group fecha_group pull-left">
+                                        @Html.TextBoxFor(model => model.Fecha_CancelaPagado, new { @class = "date" })
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            @*<div class="row">
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.Impreso_CR)
+                        @Html.TextBoxFor(model => model.Impreso_CR)
+                        @Html.ValidationMessageFor(model => model.Impreso_CR)
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.Impreso_CR)
+                        @Html.TextBoxFor(model => model.Impreso_CR)
+                        @Html.ValidationMessageFor(model => model.Impreso_CR)
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.Impreso_CR)
+                        @Html.TextBoxFor(model => model.Impreso_CR)
+                        @Html.ValidationMessageFor(model => model.Impreso_CR)
+                    </div>
+                </div>*@
+            <br />
+            <br />
+        </div>
+    }
+}
+@using (Html.BeginForm("OrdenCompra", "Compromisos", FormMethod.Post, new { id = "frmCompromisos" }))
+{
+
+}
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ArrendamientosHonorarios.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Beneficiarios.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script src="~/Content/DataTable/js/dataTables.fixedColumns.min.js"></script>
+    <script src="~/Scripts/autoNumeric.js"></script>
+    <script>
+        $(function () {
+            /*Inicializar Pagina*/
+
+            $(".container input, select, textarea").addClass("form-control");
+            $(".container input, select, textarea").attr("disabled", "disabled");
+            //$("#js_mCompromisos").addClass("hide");
+            $('.datepicker').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true
+            });
+            $("#Cargos").formatCurrency({ symbol: '' });
+            $("#Importe_AH").formatCurrency({ symbol: '' });
+            $("#Importe_CH").formatCurrency({ symbol: '' });
+            $("#Cargos").on("input", function () { $(this).formatCurrency({ symbol: '' }) });
+            /*Fin ----> Inicializar Pagina*/
+
+            /*Eventos Menu lateral*/
+            $("body").on("click", "#js_mBuscar", function () {
+                //url, data, metodo, size, callbackOk, callbackCancel, txtBtnOk, txtBtnCancel, txtTitulo
+                customModal("@Url.Action("BuscarContrarecibo","Contrarecibos")", { Tipo: $("#Id_TipoCR").val() }, "GET", "lg", "", "", "", "Cerrar", "Buscar Cuenta por Liquidar", "Modal1");
+                return false;
+            });
+            //Agregar nuevo arrendamiento
+            $("body").on("click", "#js_mNuevo", nuevoArrendamiento);
+
+            $("body").on("click", "#js_mGuardar", saveArrendamiento);
+            $("body").on("click", "#js_mAgregarImporte", agregarImporte);
+
+            $("body").on("click", "#js_mCompromisos", function () {
+                customModal("@Url.Action("BuscarCompromisos","Contrarecibos")", { FolioCR: $("#Id_FolioCR").val(), TipoCR: $("#Id_TipoCR").val(), FContra: $("#FechaCR").val() }
+                            , "POST", "lg", ligarContrarecibo, "", "Guardar", "Cancelar", "Ligar Compromisos", "IdModal");
+            });
+
+            $("body").on("click", "#js_mDetalles", function () {
+                window.location.href = "@Url.Action("DetallesContrarecibos","Contrarecibos")"+"?FolioCR=" + $("#Id_FolioCR").val() + "&TipoCr=" + $("#Id_TipoCR").val();
+            });
+            $("body").on("click", "#js_mDocumentos", function () {
+                window.location.href = "@Url.Action("Documentos","Contrarecibos")"+"?tipo=" + $("#Id_TipoCR").val() + "&folio=" + $("#Id_FolioCR").val();
+            });
+
+            $("body").on("click", "#js_mEditar", activarEdicion)
+
+            $("body").on("click", "#js_mCancelarGral", cancelarArrendamiento);
+
+            $("body").on("click", "#js_mCancelar", function () {
+                if ($("#Id_FolioCR").val() != 0) {
+                    ajaxJson("@Url.Action("GetContrarecibo","Contrarecibos")", { IdFolio: $("#Id_FolioCR").val(), IdTipoCR: $("#Id_TipoCR").val() }, "POST", true, function (response) {
+                        llenarMaestro(response.Registro);
+                        recargarMenuLateral(response.Registro.Botonera);
+                        $("input[type=text], textarea").attr("disabled", "disabled");
+                    });
+                }
+                else {
+                    $(".container #Id_Beneficiario, #Descripcion, #FechaCR").val("").attr("disabled", "disabled");
+                    recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);
+                }
+
+            });
+
+            $("body").on("click", "#js_mReportes", imprimirContraRecibo);
+
+            $("body").on("click", "#js_mSalir", function () { GoHome(); });
+
+            /* Fin ---> Eventos Menu lateral*/
+
+            /*Seccion de busqueda de contrarecibos (Modal)*/
+
+            $("body").on("click", ".js_searchC", function () {
+                $("#Resultados").ajaxLoad({ url: "@Url.Action("tblContrarecibos","Contrarecibos")", data: $("#frmSearchContra").serialize(), method: "POST" });
+            });
+
+            $("body").on("click", ".js_seleccionar", selectArrendamiento);
+
+            buscarBeneficiario("lg");
+
+            seleccionarBeneficiario(["Id_Beneficiario", "Ca_Beneficiarios_NombreCompleto"], "beneSearch", "", {});
+
+            $("body").on("focusout", "#Id_Beneficiario", function () {
+                if ($(this).val().length > 0) {
+                    $("#Id_Beneficiario").focusOut({
+                        url: "@Url.Action("Beneficiario","FocusOut")",
+                        data: { IdBeneficiario: $(this).val() },
+                        campos: [{ Base: "NombreCompleto", Campo: "Ca_Beneficiarios_NombreCompleto" }]
+                    });
+                }
+            });
+
+            /*Fin Seccion de busqueda de contrarecibos (Modal)*/
+
+            /**************Consulta poliza*****************/
+            $(".js_ConsultaPoliza").on("click", function () {
+                ConsultaPoliza($(this).data("tipo"), $(this).siblings("input[type=hidden]").val(), $(this).parent().siblings("input[type=hidden]").val());
+            });
+            /************************************************************/
+        });
+        var setFechas = function () {
+            //$("#FechaCR,FechaVen").val(response.fMin);
+            $("#FechaCR,#FechaVen").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                startDate: $("#fMax").val(),
+                endDate: $("#fMin").val()
+            });
+            $("#FechaCR,#FechaVen").datepicker("setStartDate", $("#fMin").val());
+            $("#FechaCR,#FechaVen").datepicker("setEndDate", $("#fMax").val());
+        }
+    </script>
+
+    <script type="text/template" id="js_msjImprimir">
+        <p>Por favor confirme que desea imprimir el Cuenta por Liquidar con la siguiente información</p>
+        <label> Tipo de Cuenta por Liquidar:</label>
+        <span><%= TipoCR %></span>
+        <br />
+        <label> Folio de Cuenta por Liquidar:</label>
+        <span><%= FolioCR %></span>
+        <br />
+        <label> Importe:</label>
+        <span><%= Total %></span>
+    </script>
+}

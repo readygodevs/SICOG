@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_CuentasModel>
+
+@{
+    Layout = null;
+}
+
+<table id="tblCuentasSearch" class="table">
+    <thead>
+        <tr>
+            <th style="width: 425px;">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th  style="width: 179px;">
+                Cuenta
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nivel)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_CuentaFormato)
+                </td>
+                <td>
+                    @(item.Nivel ? "Si" : "No")
+                </td>
+                <td class="acciones">
+                    @if (item.SubCuentaO1 > 0)
+                    {
+                        <i class="fa fa-check js_seleccionar @(item.SelectUltimoNivel.HasValue ? (item.Nivel ? "": "hide") : "")" data-idcuenta="@item.Id_Cuenta" data-descripcion="@item.Descripcion" data-nivel="@item.Nivel" data-idcuentaformato="@item.Id_CuentaFormato"></i>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+        ConstruirTabla("tblCuentasSearch", "No se encontraron cuentas...");
+    });
+</script>

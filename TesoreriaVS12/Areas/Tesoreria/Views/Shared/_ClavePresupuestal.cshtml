@@ -1,0 +1,324 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.De_ClavePresupuestal
+
+@{
+    Layout = null;
+}
+
+<div id="ParcialPresupuesto">
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_Area)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_Area, new { @class = "form-control textBox js_Captura", @objeto = "1" , data_length = 6})
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_Areas.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Area)
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_Funcion)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_Funcion, new { @class = "form-control textBox js_Captura", @objeto = "2", data_length = 3  })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_Funciones.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Funcion)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_Actividad)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_Actividad, new { @class = "form-control textBox js_Captura", data_length = 2, @objeto = "3" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_ActividadInst.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Actividad)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_ClasificacionP)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_ClasificacionP, new { @class = "form-control textBox js_Captura", @objeto = "4", data_length = 1 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_ClasProgramatica.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ClasificacionP)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_Programa)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_Programa, new { @class = "form-control textBox js_Captura", maxlength = 2, @objeto = "5", data_length = 2 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_Programas.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Programa)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_Proceso)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_Proceso, new { @class = "form-control textBox js_Captura", maxlength = 4, @objeto = "6", data_length = 4 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_Proyecto.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Proceso)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_TipoMeta)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_TipoMeta, new { @class = "form-control textBox js_Captura", data_length = 1, @objeto = "7" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_TipoMeta.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_TipoMeta)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_ActividadMIR)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_ActividadMIR, new { @class = "form-control textBox js_Captura", data_length = 2, @objeto = "8" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_Actividad.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ActividadMIR)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_Accion)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_Accion, new { @class = "form-control textBox js_Captura", data_length = 3, @objeto = "9" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_Acciones.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Accion)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_Alcance)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_Alcance, new { @class = "form-control textBox js_Captura", data_length = 1, @objeto = "10"})
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_AlcanceGeo.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Alcance)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_TipoG)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_TipoG, new { @class = "form-control textBox js_Captura", data_length = 1, @objeto = "11" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_TipoGastos.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_TipoG)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_Fuente)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_Fuente, new { @class = "form-control textBox js_Captura", data_length = 4, @objeto = "12"})
+                @Html.HiddenFor(model=> model.Id_Fuente_Filtro)
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_FuentesFin.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Fuente)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.AnioFin)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.AnioFin, new { @class = "form-control textBox js_Captura", data_length = 2, @objeto = "16" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.AnioFin)
+        </div>
+        <div class="col-xs-7 margen-2 labels">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2 labels">
+            <label>@Html.LabelFor(model => model.Id_ObjetoG)</label>
+        </div>
+        <div class="col-xs-2 margen-2 inputs">
+            <div class="input-group group-egreso-clave">
+                @Html.TextBoxFor(model => model.Id_ObjetoG, new { @class = "form-control textBox js_Captura", data_length = 5, @objeto = "14"  })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_ObjetoGasto.Descripcion, new { @class = "form-control js_Descripcion egreso-desc" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ObjetoG)
+            </div>
+        </div>
+    </div>
+    <div class="row hiden js_CuentaHiden">
+        <div class="col-xs-3 margen-2 labels">
+            <label>Aplicación Contable</label>
+        </div>
+        <div class="col-xs-3 margen-2">
+            <div class="input-group Id_Cuenta">
+                <input type="text" name="Id_Cuenta" id="Id_Cuenta" value="" class="form-control js_Captura" />
+                <span class="input-group-addon js_searchCuentas">
+                    <span class="fa fa-search"></span>
+                </span>
+                @*<input type="text" value="" name="Id_Cuenta" id="Id_Cuenta" data-val-required="*" data-val="true" class="form-control formPresup" disabled="disabled">*@
+            </div>
+        </div>
+        <div class="col-xs-6 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="Ca_Cuentas_Descripcion" class="form-control textDescripcion js_Descripcion egreso-desc" value="" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+

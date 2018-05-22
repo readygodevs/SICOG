@@ -1,0 +1,115 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Arial;
+}
+#contenedor {
+  width: 1200px;
+  margin: auto;
+}
+.row {
+  display: block;
+  clear: both;
+}
+.text-right {
+  text-align: right;
+}
+.poliza {
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 4px 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.poliza .tipo,
+.poliza .folio,
+.poliza .mes,
+.poliza .fecha {
+  display: inline-block;
+  padding: 0px 15px 0px 0px;
+  font-weight: bold;
+}
+.poliza .descripcion {
+  margin-top: 6px;
+  display: block;
+}
+.gobierno,
+.instituto,
+.sistema,
+.ejercicio {
+  text-align: right;
+  font-weight: bold;
+  padding: 2px 0px;
+}
+table.tablaGrande {
+  width: 100%;
+  border-collapse: collapse;
+}
+table.tablaGrande thead th {
+  background: #e5e5e5;
+  padding: 15px 8px;
+  text-align: left;
+}
+table.tablaGrande thead .text-right {
+  text-align: right;
+}
+table.tablaGrande thead .text-center {
+  text-align: center;
+}
+table.tablaGrande tbody td {
+  padding: 4px 8px;
+  vertical-align: top;
+}
+table.tablaGrande .tfoot td,
+table.tablaGrande tfoot td {
+  padding: 4px 8px;
+}
+.txtNegritas {
+  font-weight: bold;
+}
+.logo-ente {
+  height: 100px;
+  float: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}
+.totales {
+  font-weight: bold;
+  border-top: 1px solid #000;
+}
+.contenedorConciliacion {
+  padding: 8px 130px;
+}
+.contenedorConciliacion .table-conciliacion {
+  border-bottom: none;
+  min-width: 100%;
+  width: 100%;
+}
+.contenedorConciliacion .table-conciliacion tr .Nivel1 {
+  padding: 8px 10px;
+}
+.contenedorConciliacion .table-conciliacion tr .Nivel2 {
+  padding: 8px 30px;
+}
+.contenedorConciliacion .table-conciliacion tr .Nivel3 {
+  padding: 8px 50px;
+}
+.contenedorConciliacion .table-conciliacion tr .Nivel4 {
+  padding: 8px 0px 40px 500px;
+}
+.contenedorConciliacion .table-conciliacion tr .total {
+  padding: 8px 0px 40px 10px;
+  border-top: 2px solid #000;
+}
+/*
+

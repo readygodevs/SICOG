@@ -1,0 +1,46 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_FuentesFin_IngModel
+
+@{
+    Layout = null;
+}
+
+<div data-title="Agregar" class="TituloModal"></div>
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_FuenteFinancia)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Id_Fuente)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Id_Fuente)
+        @Html.ValidationMessageFor(model => model.Id_Fuente)
+    </div>
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Id_Aportacion)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Id_Aportacion)
+        @Html.ValidationMessageFor(model => model.Id_Aportacion)
+    </div>
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Id_Convenio)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Id_Convenio)
+        @Html.ValidationMessageFor(model => model.Id_Convenio)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Descripcion)
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

@@ -1,0 +1,65 @@
+@font-face {
+  font-family: 'RobotoRegular';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/Roboto/roboto_regular_macroman/Roboto-Regular-webfont.woff);
+}
+@font-face {
+  font-family: 'RobotoBold';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/Roboto/roboto_bold_macroman/Roboto-Bold-webfont.woff);
+}
+body
+	background #CCC
+	padding-top 80px
+#login-box
+	margin-top 50px
+	table
+		width 100%
+	.checkbox
+		display inline
+	background rgba(255,255,255,0.7)
+	overflow hidden
+	width 500px
+	padding 25px
+	text-align justify
+	margin 30px auto 0 auto
+	margin auto
+	border 1px solid #CCC
+	@media screen and (max-width: 740px)
+		background #FFF
+		float none
+	@media screen and (max-width: 500px)
+		width 100%
+	input[type=text],
+	input[type=password]
+		background #FFF
+		@media screen and (max-width: 740px)
+			background-color #EEE
+		border none
+		padding 5px 5px 5px 40px
+		width 100%
+		height 50px
+		background-repeat no-repeat
+		background-position 10px
+		&.inputUser
+			background-image url(../Images/logOn/icon-user.png)
+			margin-top 24px
+			margin-bottom 20px
+		&.inputPassword
+			background-image url(../Images/logOn/icon-lock.png)
+			margin-bottom 20px
+	.btn-entrar
+		background-color #119548
+		transition background-color .5s ease-in
+		color white
+		border none
+		padding 15px 30px
+		float right
+		border-radius 0
+		&:hover
+			background-color lighten(#119548, 10%)
+
+.field-validation-error
+	color red

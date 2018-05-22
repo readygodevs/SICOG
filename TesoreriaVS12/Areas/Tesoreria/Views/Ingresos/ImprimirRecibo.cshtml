@@ -1,0 +1,25 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Control_Fechas
+
+@{
+    Layout = null;
+}
+
+<p>Por favor capture la fecha de Recaudación</p>
+<div class="input-group fecha_group">
+    <input type="text" id="F_Recaudacion" name="F_Recaudacion" class="form-control date" value="@Model.Fecha_Min.ToShortDateString()" />
+    <span class="input-group-addon group-date"><i class="fa fa-calendar"></i></span>
+</div>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+
+<script>
+    $(function () {
+        $("#F_Recaudacion").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Model.Fecha_Min.ToShortDateString()',
+            endDate: '@Model.Fecha_Max.ToShortDateString()'
+        });
+        $("#F_Recaudacion").datepicker("setStartDate", '@Model.Fecha_Min.ToShortDateString()');
+        $("#F_Recaudacion").datepicker("setEndDate", '@Model.Fecha_Max.ToShortDateString()');
+    });
+</script>

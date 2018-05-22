@@ -1,0 +1,316 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.GuardarMAPoliza
+
+@{
+    ViewBag.Title = "V_SaldosIniciales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+        @{Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> {"bSalir" } });}
+</div>
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<div class="container">
+    <h2>Póliza de Saldos Iniciales</h2>
+    @using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frmMA" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-8">
+                <label>Descripción:</label>
+                @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Descripcion)
+            </div>
+            <div class="col-sm-3">
+                <label>Fecha:</label>
+                <div class="input-group fecha_group">
+                    <input type="text" name="Fecha" id="Fecha" class="form-control datepicker" readonly="readonly" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                @Html.ValidationMessageFor(model => model.Fecha)
+            </div>
+            @if (Model.Descripcion == null)
+            { 
+                <div class="col-sm-1">
+                    <button id="btnGuardar" type="button" class="btn btn-success fa fa-save"></button>
+                </div>
+            }
+        </div>
+    }
+    <div id="div_agregarsaldo"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="div_tablaSaldos"></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/clavePresupuestal.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script type="text/javascript">
+        var tablaM = "";
+        var aPos = -1;
+        $(document).ready(function () {
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $('.datepicker').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                startDate: '@Html.Raw(ViewBag.FechaInicio)',
+                endDate: '@Html.Raw(ViewBag.FechaFin)'
+            })
+            $("body").on("click", ".js_buscar", buscar);
+            $("body").on("click", ".js_seleccionar", seleccionar);
+            $("body").on("click", "#btn_adicionar", adicionar);
+            $("#liGuardar").on("click", guardar);
+            $("body").on("click", "#btnGuardar", guardarMA);
+            $("body").on("click", ".js_eliminar", eliminar);
+            $("body").on("click", "#js_mSalir",GoHome);
+
+            @if (Model.Descripcion != null)
+            {
+                <text>
+            LoadAgregarSaldo();
+            LoadTablaSaldos();
+            $("#Descripcion").prop("disabled", true);
+            $("#Fecha").prop("disabled", true);
+                </text>
+            }
+            $("body").on("change", "#Id_Cuenta", function () {
+                if ($(this).val().split('-').length != 1) {
+                    $("#DescripcionSaldo").val($(this).val().split('-')[1]);
+                    $(this).val($(this).val().split('-')[0]);
+                    if ($(this).val().length == 20) {
+                        $("#Id_TipoMovimiento").focus();
+                    }
+                }
+            });
+            
+        });
+        function eliminar() {
+            var elemento = $(this);
+            if ($("#tblSaldos tbody tr").length == 1)
+                elimino = true;
+            ConfirmCustom("¿Seguro de eliminar?", function () {
+                ajaxJson("@Url.Action("EliminarSaldoSession","Contabilidad")", { Id_Cuenta: elemento.data("idcuenta"), Id_TipoMovimiento: elemento.data("tipomov"), Importe: elemento.data("importe") }, "POST", true, function (result) {
+                    if (result.Exito == true) {
+                        aPos = tablaM.fnGetPosition(elemento.parent().parent().get(0));
+                        tablaM.fnDeleteRow(aPos);
+                        aPos = -1;
+                        $(".js_autoNumeric").formatCurrency();
+                    }
+                    else {
+                        ErrorCustom(result.Mensaje,"")
+                    }
+                })
+            });
+        }
+        function LoadAgregarSaldo() {
+            ajaxLoad("@Url.Action("DivAgregarSaldo","Contabilidad")", {}, "div_agregarsaldo", "GET", function () {
+                ajaxJson("@Url.Action("SearchCuentasBalance","FocusOut")", { GeneroStr: "1,2,3,6,7,9", selectUltimoNivel: true, UltimoNivel: true }, "POST", true, function (response) {
+                    $("#Id_Cuenta").typeahead({ source: response.Data, items: 15, });
+                    $("#Id_Cuenta").data("dataSource", response.Ids);
+                    $("#Id_Cuenta").data("dataBancos", response.cuentasBancos);
+                    if (response.Data.length == 1) {
+                        $("#Id_Cuenta").val(response.Data[0]);
+                        $("#Id_Cuenta").trigger('change');
+                    }
+                    focoJsCaptura();
+                });
+                $("#Importe").on("blur", function () {
+                    $(this).formatCurrency({ symbol: "" });
+                });
+                $("#Importe").on("focus", function () {
+                    $(this).toNumber();
+                })
+            });
+        }
+        function guardarMA() {
+            if ($("#frmMA").valid()) {
+                ajaxJson("@Url.Action("GuardarMa","Contabilidad")", $("#frmMA").serialize(), "POST", true, function (result) {
+                    if (result.Exito == true) {
+                        ExitoCustom(result.Mensaje, "");
+                        $("#Descripcion").prop("disabled", true);
+                        $("#Fecha").prop("disabled", true);
+                        $("#btnGuardar").addClass("hide");
+                        LoadTablaSaldos();
+                        LoadAgregarSaldo();
+                    }
+                    else {
+                        ErrorCustom(result.Mensaje, "");
+                    }
+                });
+            }
+            else
+                $("#frmMA").validate();
+        }
+        function guardar() {
+            ajaxJson("@Url.Action("GuardarSaldos","Contabilidad")", $("#frm").serialize(), "POST", true, function (result) {
+                if (result.Exito == true) {
+                    ExitoCustom(result.Mensaje, "");
+                    $("#DescripcionSaldo").prop("disabled", true);
+                    $("#Fecha").prop("disabled", true);
+                    $("#Id_Cuenta").empty();
+                    $("#Descripcion").empty();
+                    $("#Importe").empty();
+                    $('#Id_TipoMovimiento').prop('selectedIndex', 0);
+                    LoadTablaSaldos();
+                    elimino = false;
+                }
+                else {
+                    ErrorCustom(result.Mensaje, "");
+                }
+            });
+        }
+        function LoadTablaSaldos() {
+            ajaxLoad("@Url.Action("TablaSaldos","Contabilidad")", {}, "div_tablaSaldos", "GET", function () {
+                tablaM = ConstruirTablaSaldos("tblSaldos", "No hay registros...");
+                $(".js_autoNumeric").formatCurrency();
+            });
+        }
+        function adicionar() {
+            if ($("#frmSaldo").valid()) {
+                $("#Importe").toNumber();
+                ajaxJson("@Url.Action("GuardarSaldoSession","Contabilidad")", $("#frmSaldo").serialize(), "POST", true, function (result) {
+                    if (result.Exito == true) {
+                        var a = tablaM.fnAddData([result.Registro.Id_CuentaFormato, result.Registro.DescCuenta, result.Registro.Id_TipoMovimiento == 1 ? "CARGO" : "ABONO", result.cargo, result.abono,
+                                     ' <a class="fa fa-trash-o js_eliminar cursorPointer" data-idcuenta="' + result.Registro.Id_Cuenta + '"  data-tipomov="' + result.Registro.Id_TipoMovimiento + '" data-importe="' + result.Registro.Importe + '"  title="Eliminar" data-toggle="tooltip" data-placement="top"></a>']);
+                        var nTr = tablaM.fnSettings().aoData[a[0]].nTr;
+                        $('td', nTr)[5].setAttribute('class', 'acciones');
+                        $('td', nTr)[3].setAttribute('class', 'text-right');
+                        $('td', nTr)[4].setAttribute('class', 'text-right');
+                        $(".js_autoNumeric").formatCurrency();
+                        $("#Importe").formatCurrency({ symbol: "" });
+                    } else {
+                        $("#Importe").formatCurrency({ symbol: "" });
+                        ErrorCustom(result.Mensaje, "");
+                    }
+
+                });
+            }
+            else
+                $("#frmSaldo").validate();
+        }
+        function seleccionar() {
+            var elemento = $(this);
+            $("#DescripcionSaldo").empty();
+            $("#DescripcionSaldo").val(elemento.data("descripcion"));
+            $("#Id_Cuenta").empty();
+            $("#Id_Cuenta").val(elemento.data("idcuenta"));
+            closeModal({ Modal: "MyModal1" });
+        }
+        function buscar() {
+            ajaxLoad("@Url.Action("BuscarCuenta","Cuentas")", {}, "MyModal1 .modal-body", "GET", function () {
+                openModal({ Modal: "MyModal1", Size: "lg" });
+                $("#MyModal1 .js_btnOk").hide();
+            });
+        }
+        var buildFiltros = function () {
+            var f = {};
+            f.GeneroStr = "1,2,3";
+            f.selectUltimoNivel = true;
+            if ($("#IdCuenta").length > 0)
+                f.IdCuenta = $("#IdCuenta").val();
+            else
+                f.IdCuenta = $("#Id_Cuenta").val();
+            if ($("#Descripcion_filtro").length > 0)
+                f.Descripcion = $("#Descripcion_filtro").val();
+            else
+                f.Descipcion = $("#Descripcion").val();
+            return f;
+        }
+        var elimino = false;
+        var ConstruirTablaSaldos = function (div, mensaje) {
+            if (mensaje == undefined || mensaje == "")
+                mensaje = "No hay registros a mostrar";
+            var tabla = $("#" + div).dataTable({
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+                    // Total over all pages
+                    if ($("#tblSaldos tbody tr").length > 0) {
+                        if (!elimino) {
+                         totalCargo = api
+                        .column(3)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        });
+                            totalAbono = api
+                                .column(4)
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                });
+                            /* Total over this page
+                            pageTotal = api
+                                .column(4, { page: 'current' })
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);*/
+                            // Update footer
+                            $(api.column(3).footer()).html(
+                                '<span class="js_autoNumeric">' + totalCargo + '</span>'
+                            );
+                            $(api.column(4).footer()).html(
+                                '<span class="js_autoNumeric">' + totalAbono + '</span>'
+                            );
+                        }
+                        else {
+                            $(api.column(3).footer()).html(
+                               '$0.00'
+                           );
+                            $(api.column(4).footer()).html(
+                                '$0.00'
+                            );
+                        }
+                    }
+                    else {
+                        $(api.column(3).footer()).html(
+                           '$0.00'
+                       );
+                        $(api.column(4).footer()).html(
+                            '$0.00'
+                        );
+                    }
+                },
+                "sPaginationType": "full_numbers",
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "Anterior",
+                        "sNext": "Siguiente",
+                        "sLast": "Última",
+                        "sFirst": "Primera"
+                    },
+                    "sLengthMenu": '<div id="combo_datatable">Mostrar <select>' +
+                    '<option value="5">5</option>' +
+                    '<option value="10">10</option>' +
+                    '<option value="20">20</option>' +
+                    '<option value="30">30</option>' +
+                    '<option value="40">40</option>' +
+                    '<option value="50">50</option>' +
+                    '<option value="-1">Todos</option>' +
+                    '</select> registros',
+                    "sInfo": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+                    "sInfoFiltered": " - filtrados de _MAX_ registros",
+                    "sInfoEmpty": "No hay resultados de búsqueda",
+                    "sZeroRecords": mensaje,
+                    "sProcessing": "Espere, por favor...",
+                    "sSearch": "<div id='div_buscar'><i class='fa fa-search'></i>Buscar:</div>"
+                }
+            });
+            return tabla;
+        }
+    </script>
+
+
+}

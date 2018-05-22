@@ -1,0 +1,93 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_SectoresModel>
+
+@{
+    ViewBag.Title = "Sector";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sector</h2>
+<div class="jsSourceActions hide">
+
+</div>
+<div id="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-3 col-sm-offset-9 text-right">
+            <div class="js_agregar btn btn-success">
+                <i class="fa fa-plus bigger-110" title="Crear"></i>
+                <span>Agregar</span>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_Sector">
+                            @Html.DisplayNameFor(model => model.Id_Sector)
+                        </th>
+                        <th data-title="Descripcion">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Sector)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="@item.Id_Sector" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_Sector" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_Sector" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_Sector_Agregar", "Catalogos")";//"/Tesoreria/Catalogos/V_Sector_Agregar";
+        var RutaEdit = "@Url.Action("V_Sector_Editar", "Catalogos")";//"/Tesoreria/Catalogos/V_Sector_Editar";
+        var RutaDelete = "@Url.Action("V_Sector_Eliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_Sector_Eliminar";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_Sector" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el sector? esta acción no se puede deshacer";
+        var SourceAction = "jsActionsource";
+
+        $(function () {
+            ConstruirTabla(TableId, "No hay sector...");
+
+            $("body").on("click", ".js_agregar", Nuevo);
+            $("body").on("click", ".js_editar", Editar);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", ".js_detalles", function () {
+                VentanaModal(1, "/Tesoreria/Catalogos/V_Sector_Detalles", { Id: $(this).data("id") }, "get", "");
+            });
+        });
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+
+}

@@ -1,0 +1,676 @@
+@font-face {
+  font-family: 'RobotoRegular';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/Roboto/roboto_regular_macroman/Roboto-Regular-webfont.woff);
+}
+@font-face {
+  font-family: 'RobotoBold';
+  font-style: normal;
+  font-weight: 400;
+  src: url(fonts/Roboto/roboto_bold_macroman/Roboto-Bold-webfont.woff);
+}
+
+html
+	height 100%
+body
+	height 100%
+	h1, h2, h3
+		font-family: 'Open Sans', sans-serif;
+		font-weight: bold;
+	#body
+		min-height 100%
+	#main
+		width 100%
+		&.row
+			margin-left 0
+
+$height_footer = 100px
+.page-wrap 
+	min-height 100%
+	margin-bottom -($height_footer)
+	&:after 
+		content ""
+		display block
+#footer,
+.page-wrap:after 
+	min-height $height_footer
+#footer
+	background $rojo_vino
+
+
+#header
+	//position relative
+	min-height 100px
+	background-color #119548
+	height 100px
+	color white
+	#logo_gob
+		float left
+		width 238px
+	.textos
+		float left
+		margin 26px 0
+		font-size 15px
+		color #7e7e7e
+		span
+			font-family "RobotoRegular"
+			&.negritas
+				font-family "RobotoBold"
+	.titulo
+		font-size 20px
+		line-height 28px
+	.subtitulo
+		font-size 15px
+		line-height 10px
+		text-transform uppercase
+	#titulos
+		float left
+		width 360px
+		padding-top 9px
+
+.field-validation-error, .validation-summary-errors
+	color red
+
+.sign-out.col-lg-5 
+	height 90%
+	min-height 90px
+	background none repeat scroll 0% 0% #A6A8A1
+	text-align right
+	img
+		display block
+		margin 1em auto 6px
+	a, 
+	span
+		color white
+	#cerrarSesion
+		width 97px
+		text-align center
+		float left
+		a
+			text-decoration none
+	#ChagePass
+		display block
+		img
+			display inline
+			margin 0
+	.saludo
+		font-weight bold
+		color white
+		padding-top 10px
+	hr 
+		margin-top 2px
+		margin-bottom 6px
+
+
+.btn
+	border-radius 0px !important
+.btn-success
+	background #119548 !important
+	&:hover
+		background darken(#119548, 10%) !important
+	&.salir
+		padding 10px 30px
+		font-size 18px
+		
+.btn-entrar
+	background-color #119548
+	transition background-color .5s ease-in
+	color white
+	border none
+	padding 15px 30px
+	border-radius 0
+	margin-top -7px
+	&:hover
+		background-color lighten(#119548, 10%)
+		color white
+
+.progress
+	.progress-bar
+		background #119548
+
+.dataTables_wrapper
+	#combo_datatable
+		select
+			height 30px !important
+			border 1px solid #DDD
+			line-height 30px
+	#combo_datatable
+		margin-top 20px
+	.table
+		//margin-top 20px
+		th
+			border-bottom none
+			
+.dataTables_wrapper,
+.iconos_wraper
+	.acciones
+		text-align center
+		&.izquierda
+			text-align left
+		font-size 24px
+		color #119548
+		line-height 20px
+		i
+			cursor pointer
+		a
+			color #119548
+			cursor pointer
+			text-decoration none
+		.js_cerrar
+			cursor pointer
+
+
+table#tblSaldos.dataTable tfoot th,
+table#tblDetallesTransferencia.dataTable tfoot td
+	padding 8px
+			
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=search],
+input[type=number]
+	min-height 30px
+	border 1px solid #DDD
+	line-height 30px
+	padding 2px
+select[multiple], 
+select[size],
+select
+	height 30px
+	border 1px solid #DDD
+	line-height 30px
+	
+#tbl_filter,
+.dataTables_filter
+	input[type=search]
+		width 307px
+
+.editor-field
+	input[type=text],
+	input[type=password],
+	input[type=email],
+	input[type=search],
+	select
+		width 100%
+		margin-bottom 10px
+		
+.editor-label
+	font-weight bold
+
+#ChangePassForm
+	input[type=text],
+	input[type=password]
+	textarea,
+	select
+		background #efefef
+		border 1px solid #c2c2c2
+		padding 10px
+		width 100%
+		//margin-bottom 10px
+	.visor
+		color #4DBA45
+		cursor pointer
+		font-size 1.3em
+
+.txtNegritas
+	font-weight bold
+.txtCentrado
+	text-align center
+.cursorPointer
+	cursor pointer
+
+#sortable.ui-sortable
+	padding 0
+	margin 0
+	list-style-type none
+.ui-sortable-handle
+	cursor move
+	list-style none
+	padding 10px
+	border 1px dashed #ccc
+	line-height 18px
+	margin-bottom 5px
+	&:hover
+		i
+			color lighten(#119548, 5%)
+	i
+		color lighten(#A6A8A1, 60%)
+		margin-right 10px
+		font-size 18px
+
+#barra-navegacion
+	//position relative
+	//border-top 1px solid #CCC
+	background-color #f5f5f5
+	.col-sm-12
+		//margin-top -10px
+		padding 10px
+	a
+		padding 8px
+		color #333
+
+#frmUsuario
+	.editor-field
+		margin-bottom 10px
+		input[type=text],
+		input[type=email]
+		 	width 100%
+		 	padding 5px
+
+.txtVerde
+	color lighten(#119548, 5%)
+
+.fileUpload
+	position relative
+	overflow hidden
+	margin-top -2px
+	background lighten(#119548, 5%)
+	color #FFF
+	input.upload 
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		cursor: pointer;
+		opacity: 0;
+		//filter: alpha(opacity=0);
+#uploadFile
+	height 35px
+	width 300px
+
+
+#modal-pass
+	.modal-body
+		min-height 120px
+		//height 120px
+		width 598px
+
+
+.well
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
+	background-color: #F5F5F5;
+
+.d
+	margin-top:1em;
+	padding-top:1em;
+	padding-bottom:5em;
+
+.iconos 
+	background-color: #f5f5f5;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+	margin-top: 2em;
+	min-height: 70px;
+	padding-top: 1.7em;
+	padding-bottom: 1.2em
+	i
+		color #119548
+		font-size 24px
+		margin-right 5px
+
+			
+	
+.fondoMenu
+	background #faf9f3
+	border 1px solid #CCC
+	
+.jqx-rc-all
+	border-radius 0 !important
+.jqx-widget-header
+	border none !important
+	background-color #faf9f3 !important
+
+#logo_gob
+	margin-top 15px
+	
+#login
+	padding 10px
+	a
+		color white
+
+#ParcialPresupuesto
+	label
+		font-size 12px
+	.formPresup
+		display inline-block
+
+.importe
+	width 155px
+	text-align right
+.folio,
+.contra-recivo,
+.no-requisision,
+.id-cuenta-bancaria
+	width 68px
+	text-align right
+.folio_group
+	width 100px
+.descripcion-cuenta
+	width 120px
+.mes
+	width 110px
+.fecha
+	width 100px
+.fecha_group
+	width 120px
+.fecha_select
+	width 110px
+.cheque
+	width 95px
+.folio_mes
+	width 192px
+.cuenta_group
+	width 211px
+.mayus
+	text-transform uppercase
+.num-nomina
+	width 68px
+.orden
+	width 80px
+.txt-estatus
+	width 118px
+.centro-gestor,
+.group-egreso-clave
+	width 108px
+.centro-gestor-desc,
+.egreso-desc
+	width 339px
+.proveedor-group
+	width 110px
+.aplicacion-contable-group
+	width 208px
+.fuente-finc-group
+	width 108px
+.tipo-cr
+	width 50px
+.consecutivo
+	width 91px
+	display inline-block
+	text-align right
+.div_tipo_cr,
+.div_inline
+	input[type=text]
+		display inline
+.cargo-abono
+	width 100px		
+.div_inline_block
+	display inline-block
+	vertical-align top
+.usuario_recibe
+	width 411px
+#DescripcionSaldo
+	width 530px
+	margin-left 10px
+.Ca_Cuentas_Descripcion
+	width 410px
+.contenedor-fijo
+	width 1110px 
+
+.detalle_polizas1
+	width 725px 
+	float left
+.detalle_polizas2
+	width 772px 
+	float left
+.detalle_polizas3,
+#_detalles_presupuesto,
+#_detalles_ReciboIgresos
+	width 841px 
+	float left
+	.labels
+		width 186px
+	.inputs
+		width 109px
+	.egreso-desc 
+		width 519px
+	.Id_Cuenta
+		width 208px
+	#Ca_Cuentas_Descripcion,
+	#Ca_Cur_Descripcion
+		width 410px
+		
+#Ca_FuentesFin_Descripcion
+	width 240px
+#_distribucion
+	width 357px
+	float left
+#cabecera_detalle_compr
+	border-bottom 1px solid #EEE
+	padding-bottom 34px
+	margin-bottom 30px
+	
+#Id_CuentaFormato
+	width 185px
+
+.tipo_movimiento
+	width 90px
+	
+textarea.observaciones_orden
+	height 35px
+
+.tabla-detalle
+	label
+		margin-bottom 0
+		margin-right 5px
+	
+.fecha-inline
+	margin-top 6px
+	margin-left 20px
+	margin-right 4px
+
+.margin-25
+	margin-top 25px
+.margin-left-10
+	margin-left 10px
+
+#treeGrid
+	.jqx-grid-column-header
+		font-weight bold
+		color #333
+#tbl_CuentasMeses
+	thead
+		td
+			font-weight bold
+
+.bordered
+	border 1px solid #DDD
+	
+.input-group-addon
+	cursor pointer
+.input-group 
+	&.id-beneficiario
+		width 101px
+
+#fondo-inicio
+	background url(../Images/Contabilidad.jpg) center center;
+	height 700px
+	padding-top 200px
+	background-size 100% auto
+	//h2
+	//	color white
+	//	text-shadow: 0px 0px 2px #333;
+#select-db
+	display inline-block
+	border 1px solid #CCC
+	padding 10px 15px
+	background-color white
+	min-width 222px
+	a 
+		color #333
+		font-size 20px
+	.dropdown-menu
+		min-width 222px
+		text-align center
+		li
+			cursor pointer
+			font-size 20px
+			padding 10px 15px
+			&:hover
+				background-color #a3cc9d
+				color white
+
+#menu-lateral
+	width 30px
+	left 0
+	position fixed
+	ul
+		margin-left 0 
+		padding-left 0
+		list-style-type none
+	li
+		list-style-type none
+		margin 0 
+		padding 0 0 0 5px
+		font-size 40px
+		height 46px
+		a 
+			color #119548
+			cursor pointer
+			&:hover
+				color darken(#119548, 20%)
+	.active
+		a
+			color green !important
+	.enabled
+		a
+			cursor not-allowed !important
+			color gray
+	.nombre
+		min-width 400px
+		position absolute
+		padding-left 40px
+		//display block
+		margin-top -56px
+		display none
+		z-index 600
+		font-size 20px
+		line-height 56px
+		.div_inline_block
+			background-color #FFF
+			padding-right 10px
+			border-radius 10px
+
+	
+.form-control 
+	input[type=checkbox]&
+		display inline-block
+		width auto
+		height auto
+		line-height 16px
+		margin-top 4px
+
+.separador_dos
+	background-color #FAF9F3
+	border-bottom 1px solid #CCC
+	border-top 1px solid #CCC
+	padding 10px
+	input[disabled="disabled"]
+		//background-color #f4f4f4
+		box-shadow none
+		
+.fieldsets_chicos,
+.separador_dos
+	fieldset
+		margin-top 5px
+		margin-bottom 5px
+	legend
+		font-size 14px
+		font-weight bold	
+		margin-bottom 2px
+	
+
+.msg
+	width 100%
+	padding 12px 10px
+	&.success
+		background-color #38AE43
+		color white
+	&.warning
+		background-color #ffc107
+		color #333
+	&.error
+		background-color #f44336
+		color white
+	
+	.fa-check
+		font-size 20px
+		margin-right 10px
+		
+.fieldDetalles
+	fieldset
+		
+	    border-radius 8px
+	    border 1px solid #B2B0B0
+	    box-shadow 0 0 10px #999
+	    padding 10px
+	    legend
+	    	background #fff
+	    	border-width 0px
+	    	width 10%
+.in-line
+	margin-top 23px
+#submenu
+	padding-left 0px
+	li
+		text-decoration none
+		cursor pointer
+		list-style none
+		&:hover
+			background-color #F7F7F7
+	li.border
+		border-bottom 1px solid #F7F7F7
+		margin-bottom 10px
+.contenedorConciliacion
+	padding 8px 130px
+	.table-conciliacion
+		border-bottom none
+		min-width 100%
+		width 100%
+		tr 
+			.Nivel1
+				padding 8px 10px
+			.Nivel2
+				padding 8px 30px
+			.Nivel3
+				padding 8px 50px
+			.Nivel4
+				padding 8px 0px 40px 500px
+			.total
+				padding 8px 0px 40px 10px
+				border-top 2px solid black
+.tablaConciliacion
+	thead
+		tr
+			th
+				font-size 12px
+	tbody
+		tr	
+			td
+				font-size 12px
+			td.acciones
+				font-size 20px
+.excel
+	background-color #119548
+	transition background-color .5s ease-in
+	border 1px solid $Verde
+	border-radius 5px
+	min-height 100px
+	padding 20px 5px 5px 5px
+	text-align center
+	width 100%
+	span
+		color #fafafa
+		font-family roboto_bold_macroman
+		font-size 20px
+	&:hover
+		background-color lighten(#119548, 10%)
+/*	
+4cafe8 //Azul
+f5f1e6 //Crema
+7bbc6f //Verde fuerte
+1faeff //otro azul
+*/

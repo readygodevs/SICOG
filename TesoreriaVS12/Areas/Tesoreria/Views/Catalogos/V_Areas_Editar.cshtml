@@ -1,0 +1,54 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_AreasModel
+
+@{
+    Layout = null;
+}
+
+<div data-title="Editar Centro Gestor" class="TituloModal"></div>
+
+<form id="frm">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("Id_UP", Model.Id_UP)
+    @Html.Hidden("Id_UR", Model.Id_UR)
+    @Html.Hidden("Id_UE", Model.Id_UE)
+    @Html.Hidden("Id_Area", Model.Id_Area)
+    <p><label>Centro Gestor:</label> @Html.Encode(Model.Id_Area)</p>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Descripcion)
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.UltimoNivel)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.UltimoNivel)
+        @Html.ValidationMessageFor(model => model.UltimoNivel)
+    </div>
+</form>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $("body").off("click", "#js_btnOk1");
+    $("body").on("click", "#js_btnOk1", function () {
+        //(url, data, metodo, asincrono, callback)
+        if ($("#frm").valid())
+            ajaxJson("@Url.Action("V_Areas_Editar", "Catalogos")", $("#frm").serialize(), "post", false, callBackEdit)
+    });
+
+    function callBackEdit(response) {
+        if (response.Exito == false)
+            ErrorCustom(response.Mensaje, "");
+        else {
+            ExitoCustom("", closeModal);
+            var Acciones = _.template($('#jsActionsource').html());
+            response.Datos.Acciones = Acciones({ Id_Area: response.Datos.Id_Area });
+            UpdateTbl(response.Datos, "tbl", aPos);
+        }
+    }
+</script>

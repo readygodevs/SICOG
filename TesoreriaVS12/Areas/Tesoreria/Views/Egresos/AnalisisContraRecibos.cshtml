@@ -1,0 +1,216 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Modelos.ContraRecibosAnalisisModel
+
+@{
+    ViewBag.Title = "AnalisisContraRecibos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    String Ejercicio = ViewBag.Ejercicio;
+}
+
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+<h2>Análisis de Cuenta por Liquidar</h2>
+
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bLimpiar", "bSalir" } }); }
+</div>
+
+@using (Html.BeginForm("tblContraRecibos", "Egresos", FormMethod.Post, new { id = "frmContraRecibos" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelFor(model => model.Id_TipoCR)
+                @Html.DropDownListFor(model => model.Id_TipoCR, Model.Lista_Id_TipoCR, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_TipoCR)
+            </div>
+            <div class="col-xs-3">
+                @Html.LabelFor(model => model.Id_FolioCR)
+                @Html.TextBoxFor(model => model.Id_FolioCR, new { @class = "form-control folio" })
+                @Html.ValidationMessageFor(model => model.Id_FolioCR)
+            </div>
+            <div class="col-xs-3">
+                @Html.LabelFor(model => model.Id_Banco)
+                @Html.DropDownListFor(model => model.Id_Banco, Model.Lista_Id_Banco, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_Banco)
+            </div>
+            <div class="col-xs-3">
+                @Html.LabelFor(model => model.Id_CtaBancaria)
+                @Html.DropDownListFor(model => model.Id_CtaBancaria, Model.Lista_Id_CtaBancaria, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_CtaBancaria)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelFor(model => model.Id_TipoCompromiso)
+                @Html.DropDownListFor(model => model.Id_TipoCompromiso, Model.Lista_Id_TipoCompromiso, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_TipoCompromiso)
+            </div>
+            <div class="col-xs-2">
+                @Html.LabelFor(model => model.Id_EstatusCR)
+                @Html.DropDownListFor(model => model.Id_EstatusCR, Model.Lista_Id_EstatusCR, "--Selecciona una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_EstatusCR)
+            </div>
+            <div class="col-xs-6 col-xs-offset-1">
+                <label>Beneficiario</label>
+                <div class="div_inline">
+                    <div class="input-group proveedor-group pull-left">
+                        @Html.TextBoxFor(model => model.Id_Beneficiario, new { @class="form-control" })
+                        <span id="ModalBusBeneficiario" class="input-group-addon js_Beneficiario"><i class="fa fa-search"></i></span>
+                    </div>
+                    &nbsp;
+                        @Html.TextBoxFor(model => model.NombreBeneficiario, new { @class = "centro-gestor-desc form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Beneficiario)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 fieldsets_chicos">
+                <fieldset>
+                    <legend>Fecha de Pago, Desde - Hasta</legend>
+                    <div class="div_inline_block">
+                        <div class="input-group fecha_group">
+                            @Html.TextBox("Fecha_Pago_I", Model.Fecha_Pago_I.HasValue ? Model.Fecha_Pago_I.Value.ToShortDateString() : "", new { @class = "form-control date" })
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Fecha_Pago_I)
+                    </div>
+                    <div class="div_inline_block pull-right">
+                        <div class="input-group fecha_group">
+                            @Html.TextBox("Fecha_Pago_F", Model.Fecha_Pago_F.HasValue ? Model.Fecha_Pago_F.Value.ToShortDateString() : "", new { @class = "form-control date" })
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Fecha_Pago_F)
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-xs-4 fieldsets_chicos">
+                <fieldset>
+                    <legend>Importe, Desde - Hasta</legend>
+                    <div class="div_inline_block">
+                        @Html.TextBoxFor(model => model.Cargos_I, new { @class = "form-control importe" })
+                        @Html.ValidationMessageFor(model => model.Cargos_I)
+                    </div>
+                    <div class="div_inline_block pull-right">
+                        @Html.TextBoxFor(model => model.Cargos_F, new { @class = "form-control importe" })
+                        @Html.ValidationMessageFor(model => model.Cargos_F)
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelFor(model => model.Id_SituacionCheque)
+                @Html.DropDownListFor(model => model.Id_SituacionCheque, Model.Lista_Id_SituacionCheque, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_SituacionCheque)
+            </div>
+            <div class="col-xs-3">
+                @Html.LabelFor(model => model.No_Cheque)
+                @Html.TextBoxFor(model => model.No_Cheque, new { @class = "form-control cheque" })
+                @Html.ValidationMessageFor(model => model.No_Cheque)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                @Html.LabelFor(model => model.orden)                
+                @Html.DropDownListFor(model => model.orden, Model.Lista_orden, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.orden)
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div id="div_resultados"></div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>    
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Beneficiarios.js"></script>
+    <script>
+        var Anio = parseInt("@Ejercicio") - 1;
+        Anio = '12/31/' + Anio;
+        var Fecha = new Date(Anio);
+        $(document).ready(function () {
+            $(".input-group .date").datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                startDate:Fecha,
+                todayHighlight: true
+            });
+            $("#Fecha_Pago_I").on("change", function () {
+                if ($(this).val().trim().length == 0)
+                    $("#Fecha_Pago_F").val("");
+            });
+            $("#Fecha_Pago_F").on("change", function () {
+                if ($(this).val().trim().length == 0)
+                    $("#Fecha_Pago_I").val("");
+            });
+            $("#Fecha_Pago_I").datepicker().on("changeDate", function (e) {
+                var fecha = new Date(e.date);
+                $("#Fecha_Pago_F").datepicker("update", new Date(fecha));
+                $("#Fecha_Pago_F").datepicker("setStartDate", new Date(fecha));
+                $("#Fecha_Pago_F").attr("disabled", false);
+            });
+            $("#Fecha_Pago_F").datepicker().on("changeDate", function (e) {
+                if ($("#Fecha_Pago_I").val().trim().length == 0) {
+                    var fecha = new Date(e.date);
+                    $("#Fecha_Pago_I").datepicker("update", new Date(fecha));
+                    $("#Fecha_Pago_I").datepicker("setStartDate", new Date(fecha));
+                    $("#Fecha_Pago_F").datepicker("setStartDate", Fecha);
+                    $("#Fecha_Pago_I").attr("disabled", false);
+                }
+            });
+            $("body").on("click", "#js_mBuscar", function () {
+                $("#div_resultados").ajaxLoad({
+                    url: $("#frmContraRecibos").attr("action"),
+                    data: $("#frmContraRecibos").serialize(),
+                    method: "POST",
+                    callback: function () {
+                        createBotonera(["bBuscar", "bLimpiar", "bImprimir", "bSalir"]);
+                    }
+                });
+                return false;
+            });
+            $("body").on("click", "#js_mLimpiar", function () {
+                cleanInputs();
+                return false;
+            });
+            $("body").on("click", "#js_mImprimir", function () {
+                window.open("@Url.Action("rptContraRecibos","Egresos")"+"?" + $("#frmContraRecibos").serialize(), "_blank");
+                return false;
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+
+            $("#Id_Banco").on("change", function () {
+                ajaxSelect("@Url.Action("List_CtaBancaria","Listas")", { Id_Banco: $("#Id_Banco").val() }, "POST", true, "Id_CtaBancaria", "", callBackLlenarSelect);
+            });
+            $("#Id_Beneficiario").on("focusout", function () {
+                if ($(this).val().length > 0) {
+                    $("#Id_Beneficiario").focusOut({
+                        url: "@Url.Action("Beneficiario","FocusOut")",
+                        data: { IdBeneficiario: $(this).val() },
+                        campos: [{ Base: "NombreCompleto", Campo: "NombreBeneficiario" }]
+                    });                    
+                }
+            });
+            /**************Buscar beneficiario PROVEEDOR*****************/
+            buscarBeneficiario("lg");
+
+            seleccionarBeneficiario(["Id_Beneficiario", "NombreBeneficiario"], "ModalBusBeneficiario", "", "");
+            /************************************************************/
+            var cleanInputs = function () {
+                $(".container input[type=text], textarea").val("");
+                $(".container select").val("");
+            }
+        });
+    </script>
+}

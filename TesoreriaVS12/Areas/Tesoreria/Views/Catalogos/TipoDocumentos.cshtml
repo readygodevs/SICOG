@@ -1,0 +1,114 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoDoctosModel>
+
+@{
+    ViewBag.Title = "TipoDocumentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Catálogo Tipo de Documentos</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo","bImprimir", "bSalir" } }); }
+</div>
+<div class="jsSourceActions hide">
+
+</div>
+<div id="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-3 col-sm-offset-9 text-right">
+            @*<div class="js_agregar btn btn-success">
+                <i class="fa fa-plus bigger-110" title="Crear"></i>
+                <span>Agregar</span>
+            </div>*@
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_Tipodocto">
+                            @Html.DisplayNameFor(model => model.Id_Tipodocto)
+                        </th>
+                        <th data-title="Descripcion">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+                    </thead><tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Tipodocto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="@item.Id_Tipodocto" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_Tipodocto" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_Tipodocto" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script>
+        var aPos = -1;
+
+        Add = "@Url.Action("V_TipoDocumentos_Agregar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoDocumentos_Agregar";
+        var RutaEdit = "@Url.Action("V_TipoDocumentos_Editar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoDocumentos_Editar";
+        var RutaDelete = "@Url.Action("V_TipoDocumentos_Eliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_TipoDocumentos_Eliminar";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_Tipodocto" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el pais? esta acción no se puede deshacer";
+        var SourceAction = "jsActionsource";
+        var RutaExportarPDF = "@Url.Action("TipoDocumentos", "ReportesPDF")";//"/Tesoreria/ReportesPDF/TipoDocumentos";
+        var ExportarPDFCatalogo = function () {
+            window.open(RutaExportarPDF, "_blank");
+        }
+        $(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            ConstruirTabla(TableId, "No hay paises...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_mNuevo", Nuevo);
+            $("body").on("click", ".js_editar", Editar);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", ".js_detalles", function () {
+                customModal("@Url.Action("V_TipoDocumentos_Detalles","Catalogos")", { Id: $(this).data("id") }, "GET", "md", "", "", "", "Cerrar", "Detalles", "IdModal")
+            });
+            $("#MyModal1").on("click", "#js_btnOk1", GuadarEditar);
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+        function GuadarEditar() {
+            if ($("#Id_Tipodocto").val() == 0) {
+                if ($("#" + FrmId).valid()) {
+                    ajaxJson(RutaAdd, $("#" + FrmId).serialize(), "POST", true, callBackSave);
+                }
+            }
+            else {
+                GuardarEdit();
+            }
+
+        }
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+
+}

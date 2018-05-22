@@ -1,0 +1,37 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoPagosModel
+
+@{
+    ViewBag.Title = "Editar tipo de Pago";
+    Layout = null;
+}
+<div data-title="Editar Tipo de Pago" class="TituloModal"></div>
+<div data-text="Guardar" class="btnOk"></div>
+<div data-text="Cancelar" class="btnCancel"></div>
+<div class="modal-body">
+    <form id="frm">
+        @Html.ValidationSummary(true)
+
+        @Html.Hidden("Id_TipoPago", Model.Id_TipoPago)
+        <p><label>Tipo de Pago:</label> @Html.Encode(Model.Id_TipoPago)</p>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Descripcion)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Descripcion, new { maxlength = 20 })
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+    </form>
+
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $(function () {
+            $("#frm").on("submit", function (e) { e.preventDefault(); });
+            $("#MyModal1").off("click", ".js_btnOk");
+            $("#MyModal1").on("click", ".js_btnOk", GuardarEdit);
+        });
+    });
+</script>

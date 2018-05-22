@@ -1,0 +1,420 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_PersonasModel
+
+@{
+    ViewBag.Title = "V_Personas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Lista = ViewBag.ListaPersonas;
+
+    List<TesoreriaVS12.Areas.Tesoreria.Models.Ca_PersonasModel> listaPersonas = new List<TesoreriaVS12.Areas.Tesoreria.Models.Ca_PersonasModel>();
+    if (Lista != null)
+    {
+        listaPersonas = Lista as List<TesoreriaVS12.Areas.Tesoreria.Models.Ca_PersonasModel>;
+    }
+
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <h2>Catálogo de Contribuyentes</h2>
+    </div>
+    <div class="col-sm-4 text-right">
+        <h3 >ID: <label id="lid">@Model.IdPersona</label></h3>
+    </div>
+</div>
+
+<div class="jsSourceActions hide"></div>
+<div id="_menu_lateral">
+    @{
+        Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bImprimir", "bSalir" } });
+    }
+</div>
+<div id="container">
+
+
+    <form id="frmBen">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.Hidden("IdPersona", @Model.IdPersona)
+        <div class="row">
+            <div class="col-sm-3 editor-field">
+                @Html.ValidationMessageFor(model => model.PersonaFisica)
+                <label>Tipo de Contribuyente:</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="btn-group" data-toggle="buttons">
+                    <label data-val="2" class="btn btn-primary js_TipoCaptura js_moral">
+                        <input type="radio" name="TipoCaptura">
+                        Empresa (persona moral)
+                    </label>
+                    <label data-val="1" class="btn btn-primary js_TipoCaptura js_fisica">
+                        <input type="radio" name="TipoCaptura">
+                        Persona (persona física)
+                    </label>
+                </div>
+                @*<div class="btn-group " data-toggle="buttons">
+                <label class="btn btn-primary js_TipoCaptura">
+                    <input type="radio" name="TipoCaptura" value="2"> Empresa (persona moral)
+                </label>
+                <label class="btn btn-primary active js_TipoCaptura">
+                    <input type="radio" name="TipoCaptura" value="1" checked ="checked"> Persona (persona física)
+                </label>
+            </div>*@
+                @Html.HiddenFor(model => model.PersonaFisica)
+            </div>
+        </div>
+        <br />
+        <div class="js_PersonaFisica">
+            <div class="row">
+                <div class="col-sm-3 editor-field">
+                    @Html.ValidationMessageFor(model => model.CURP)
+                    <label>Curp:</label>
+                </div>
+                <div class="col-sm-3 editor-field">
+                    @Html.EditorFor(model => model.CURP)
+                </div>
+                <div class="col-sm-6 display-label">
+                </div>
+            </div>
+            <fieldset>
+                <legend>Nombre Contribuyente:</legend>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="editor-field">
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </div>
+                        <div class="display-label">
+                            @Html.EditorFor(model => model.Nombre)
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="editor-field">
+                            @Html.DisplayNameFor(model => model.ApellidoPaterno)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.ApellidoPaterno)
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="editor-field">
+                            @Html.DisplayNameFor(model => model.ApellidoMaterno)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.ApellidoMaterno)
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="js_PersonaMoral">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="editor-field">
+                        @Html.DisplayNameFor(model => model.RazonSocial)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.RazonSocial)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row iconos_wraper">
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.IdEstado)
+                    @Html.ValidationMessageFor(model => model.IdEstado)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownList("IdEstado", Model.ListaIdEstado, "-Seleccionar-")
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.IdMunicipio)
+                    @Html.ValidationMessageFor(model => model.IdMunicipio)
+                </div>
+                <div class="editor-field">
+                     @Html.TextBox("Municipio", Model.Calle)
+                    @Html.DropDownList("IdMunicipio", Model.ListaIdMunicipio, "-Seleccionar-")
+                </div>
+            </div>
+             <div class="col-sm-1 acciones">
+                <br />
+                <i class="fa fa-save cursorPointer js_MunicipioGuardar"></i>
+                <i class="fa fa-ban cursorPointer js_MunicipioCancelar"></i>
+                <i class="fa fa-pencil-square-o cursorPointer js_Municipio"></i>
+            </div>
+            <div class="col-sm-2">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.IdLocalidad)
+                    @Html.ValidationMessageFor(model => model.IdLocalidad)
+                </div>
+                <div class="editor-field">
+                     @Html.TextBox("Localidad", Model.Calle)
+                    @Html.DropDownList("IdLocalidad", Model.ListaIdLocalidad, "-Seleccionar-")
+                </div>
+            </div>
+            <div class="col-sm-1 acciones">
+                <br />
+                <i class="fa fa-save cursorPointer js_LocalidadGuardar"></i>
+                <i class="fa fa-ban cursorPointer js_LocalidadCancelar"></i>
+                <i class="fa fa-pencil-square-o cursorPointer js_Localidad"></i>
+            </div>
+            <div class="col-sm-2">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.IdColonia)
+                    @Html.ValidationMessageFor(model => model.IdColonia)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBox("Colonia")
+                    @Html.DropDownList("IdColonia", Model.ListaIdColonia, "-Seleccionar-")
+
+                </div>
+            </div>
+            <div class="col-sm-1 acciones">
+                <br />
+                <i class="fa fa-save cursorPointer js_ColoniaGuardar"></i>
+                <i class="fa fa-ban cursorPointer js_ColoniaCancelar"></i>
+                <i class="fa fa-pencil-square-o cursorPointer js_Colonia"></i>
+            </div>
+        </div>
+
+        <div class="row iconos_wraper">
+            <div class="col-sm-2">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.IdCalle)
+                    @Html.ValidationMessageFor(model => model.IdCalle)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBox("Calle", Model.Calle)
+                    @Html.DropDownList("IdCalle", Model.ListaIdCalle, "-Seleccionar-")
+
+                </div>
+            </div>
+            <div class="col-sm-1 acciones">
+                <br />
+                <i class="fa fa-save cursorPointer js_CalleGuardar"></i>
+                <i class="fa fa-ban cursorPointer js_CalleCancelar"></i>
+                <i class="fa fa-pencil-square-o cursorPointer js_Calle"></i>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.NumeroExt)
+                    @Html.ValidationMessageFor(model => model.NumeroExt)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.NumeroExt)
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.NumeroInt)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.NumeroInt)
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.CP)
+                    @Html.ValidationMessageFor(model => model.CP)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.CP)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.RFC)
+                    @Html.ValidationMessageFor(model => model.RFC)
+
+
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.RFC)
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.Telefono1)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Telefono1)
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.Fax)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Fax)
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.Email)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Email)
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="div_tabla">
+        <table id="tabla_personas" class="table table-responsive table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        ID Contribuyente
+                    </th>
+                    <th>
+                        Nombre Contribuyente
+                    </th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in listaPersonas)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdPersona)
+                        </td>
+                        <td>
+                          @*@Html..Encode(item.NombreCompleto)*@
+                            @Html.DisplayFor(modelItem => item.NombreCompleto)
+
+
+                        </td>
+                        <td class="acciones">
+                            <a href="#" class="js_SeleccionarBeneficiario" data-idbeneficiario="@item.IdPersona" data-nombre="@item.Nombre" title="Seleccionar" data-toggle="tooltip" data-placement="top"><i class="fa fa-check"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    @*<script src="~/Scripts/Catalogos/Usuarios.js"></script>*@
+    <script src="~/Areas/Tesoreria/Scripts/contribuyentes.js"></script>
+    @*<script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>*@
+    <script>
+        var SourceAction = "jsActionsource";
+        var aPos = -1;
+        var Btn = "";
+        var RutaExportarPDF = "@Url.Action("Contribuyentes", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Contribuyentes";
+        $(document).ready(function () {
+            ConstruirTabla("tabla_personas");
+            $("#frmBen input,textarea,select").addClass("form-control");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            Bloquear();
+            $("#div_tabla").find("input, select").removeAttr("disabled");
+            ColoniaHide();
+            CalleHide();
+            MunicipioHide();
+            LocalidadHide();
+            $("body").on("click", "#js_mNuevo", Nuevo);
+            $("body").on("click", "#js_mCancelar", Cancelar);
+            $("body").on("click", "#js_mGuardar", Guardar);
+            $("body").on("click", "#js_mBuscar", Buscar);
+            $("body").on("click", "#js_mEditar", Editar);
+            $("body").on("click", "#js_mEliminar", Eliminar);
+            $("body").on("click", "#js_mSalir", GoHome);
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            //----------------LLenado de Calles y el Guardado-----------------//
+            $("body").on("click", ".js_Municipio", MunicipioShow);
+            $("body").on("click", ".js_MunicipioCancelar", MunicipioHide);
+            $("body").on("click", ".js_MunicipioGuardar", MunicipioSave);
+
+            $("body").on("click", ".js_Localidad", LocalidadShow);
+            $("body").on("click", ".js_LocalidadCancelar", LocalidadHide);
+            $("body").on("click", ".js_LocalidadGuardar", LocalidadSave);
+
+            $("body").on("click", ".js_Colonia", ColoniaShow);
+            $("body").on("click", ".js_ColoniaCancelar", ColoniaHide);
+            $("body").on("click", ".js_ColoniaGuardar", ColoniaSave);
+
+            $("body").on("click", ".js_Calle", CalleShow);
+            $("body").on("click", ".js_CalleCancelar", CalleHide);
+            $("body").on("click", ".js_CalleGuardar", CalleSave);
+            //---------------Carga de los Select de Domicilio---------------------//
+            $("body").on("change", "#IdEstado", function () {
+                callBackLlenarSelect("", "IdMunicipio", "");
+                callBackLlenarSelect("", "IdLocalidad", "");
+                callBackLlenarSelect("", "IdCalle", "");
+                callBackLlenarSelect("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Municipios","Listas")", { Id_Estado: $(this).val() }, "post", false, "IdMunicipio", "", callBackLlenarSelect);
+            });
+            $("body").on("change", "#IdMunicipio", function () {
+                callBackLlenarSelect("", "IdLocalidad", "");
+                callBackLlenarSelect("", "IdCalle", "");
+                callBackLlenarSelect("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Localidades","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $(this).val() }, "post", false, "IdLocalidad", "", callBackLlenarSelect);
+            });
+            $("body").on("change", "#IdLocalidad", function () {
+                callBackLlenarSelect("", "IdCalle", "");
+                callBackLlenarSelect("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Colonias","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdColonia", "", callBackLlenarSelect);
+                ajaxSelect("@Url.Action("Lista_Calles","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdCalle", "", callBackLlenarSelect);
+            });
+            //-------------Persona Fisica/Moral-----------------//
+            $("body").on("click", ".js_TipoCaptura", function () {
+                if ($(this).data("val") == 1) {//Fisica
+                    $(".js_PersonaMoral").hide();
+                    $(".js_PersonaFisica").show();
+                    $("#PersonaFisica").val(true);
+                } else {//Moral
+                    $(".js_PersonaMoral").show();
+                    $(".js_PersonaFisica").hide();
+                    $("#PersonaFisica").val(false);
+                }
+            });
+
+            $(".js_TipoCaptura").click();
+
+            //--------------------Busqueda Beneficiario -------------------//
+            $("body").on("click", ".js_SeleccionarBeneficiario", function () {
+                var beneficiario = $(this).data("idbeneficiario");
+                ajaxJson("@Url.Action("V_Personas_Buscar","Catalogos")", { IdPersona: beneficiario }, "POST", true, function (data) {
+                    LimpiarCampos();
+                    llenarMaestro(data);
+                    if (data.PersonaFisica) {
+                        $(".js_PersonaMoral").hide();
+                        $(".js_PersonaFisica").show();
+                        $("#PersonaFisica").val(true);
+                        $(".js_moral").removeClass("active");
+                        $(".js_fisica").addClass("active");
+                    } else {//Moral
+                        $(".js_PersonaMoral").show();
+                        $(".js_PersonaFisica").hide();
+                        $("#PersonaFisica").val(false);
+                        $(".js_fisica").removeClass("active");
+                        $(".js_moral").addClass("active");
+                    }
+                    recargarMenuLateral(["bNuevo", "bEditar", "bEliminar", "bBuscar", "bSalir"]);
+                    $(".IdModal").modal("hide");
+                    $("#lid").html(data.IdPersona);
+                });
+            });
+        });
+        var ExportarPDFCatalogo = function () {
+            window.open(RutaExportarPDF, "_blank");
+        }
+
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+
+}

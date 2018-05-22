@@ -1,0 +1,118 @@
+.consultar {
+  margin-top: 23px;
+}
+#js_busqueda {
+  font-family: 'Arimo', sans-serif;
+  font-size: 10px;
+}
+#js_busqueda .contenedor {
+  border: 1px solid #000;
+  padding-bottom: 10px;
+}
+#js_busqueda .green {
+  background-color: #92d050;
+}
+#js_busqueda .titulos {
+  border: 1px solid #000;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+#js_busqueda .titulos label {
+  color: #000;
+}
+#js_busqueda table {
+  width: 100%;
+}
+#js_busqueda table .yellow {
+  background-color: #ff0;
+}
+#js_busqueda table thead tr {
+  background-color: #92d050;
+  height: 26px;
+}
+#js_busqueda table thead tr th {
+  padding: 5px;
+  border: 1px solid #000;
+}
+#js_busqueda table thead .red {
+  background-color: #f00;
+  color: #fafafa;
+}
+#js_busqueda table thead .green {
+  background-color: #393;
+  color: #fafafa;
+}
+#js_busqueda table tbody tr.espacio {
+  height: 10px !important;
+}
+#js_busqueda table tbody tr.border {
+  border: 1px solid #000;
+}
+#js_busqueda table tbody td {
+  border-rigth: 1px solid #000;
+  border-left: 1px solid #000;
+  padding: 5px;
+}
+#js_busqueda table tbody td.Nivel2 {
+  padding-left: 30px;
+}
+#js_busqueda table tbody td.Nivel3 {
+  padding-left: 60px;
+}
+#js_busqueda table tbody .total {
+  padding: 10px 0px 10px 0px;
+}
+#js_busqueda table tbody .total div {
+  background-color: #ff0;
+  font-weight: bold;
+  vertical-align: middle;
+}
+#js_busqueda table tbody .total-rojo {
+  padding: 10px 0px 10px 0px;
+}
+#js_busqueda table tbody .total-rojo div {
+  background-color: #c00000;
+  color: #fff;
+  font-weight: bold;
+  vertical-align: middle;
+}
+#js_busqueda table tbody .text-right {
+  padding-left: 15px;
+  width: 100px;
+}
+#js_busquedaImpreso {
+  font-family: 'Arimo', sans-serif;
+  font-size: 10px;
+}
+#js_busquedaImpreso .contenedor {
+  border: 1px solid #000;
+  padding-bottom: 10px;
+}
+#js_busquedaImpreso .mayus {
+  text-transform: uppercase;
+}
+#js_busquedaImpreso table {
+  width: 100%;
+  font-size: 11px;
+}
+#js_busquedaImpreso table tbody tr.espacio {
+  height: 10px !important;
+}
+#js_busquedaImpreso table tbody tr.border {
+  border: 1px solid #000;
+}
+#js_busquedaImpreso table tbody td {
+  border-rigth: 1px solid #000;
+  border-left: 1px solid #000;
+  padding: 5px;
+}
+#js_busquedaImpreso table tbody td.Nivel2 {
+  padding-left: 30px;
+}
+#js_busquedaImpreso table tbody td.Nivel3 {
+  padding-left: 60px;
+}
+#js_busquedaImpreso table tbody .text-right {
+  padding-left: 15px;
+  width: 100px;
+}

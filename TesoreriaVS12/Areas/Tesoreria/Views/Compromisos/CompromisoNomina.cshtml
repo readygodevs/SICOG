@@ -1,0 +1,292 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_CompromisosModel
+
+@{
+    ViewBag.Title = "CompromisoNomina";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+<h2>Compromiso de Nomina</h2>
+<div id="_menu_lateral">
+    @{
+        Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bSalir" } });
+    }
+</div>
+
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmComNom" }))
+{
+<div class="row">
+    <div class="col-sm-3">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Id_TipoCompromiso)
+        </div>
+        <div class="display-field">
+            @Html.DropDownList("Id_TipoCompromiso", Model.ListaId_TipoCompromiso)
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Id_FolioCompromiso)
+        </div>
+        <div class="display-field">
+            @Html.EditorFor(model => model.Id_FolioCompromiso)
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Fecha_Orden)
+        </div>
+        <div class="display-field input-group">
+            @Html.TextBox("Fecha_Orden", Model.Fecha_Orden, new { @class="js_NuevoDisabled date", maxlength = "0" })
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ListaEstatus)
+        </div>
+        <div class="display-field">
+            @Html.DropDownList("Id_Estatus", Model.ListaEstatus)
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-sm-1">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Id_Beneficiario)
+        </div>
+        <div class="display-field">
+            @Html.TextBox("Id_Beneficiario", Model.Id_Beneficiario, new { @class="js_NuevoDisabled date" })
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Ca_Beneficiarios.NombreCompleto)
+        </div>
+        <div class="display-field">
+            @Html.EditorFor(model => model.Ca_Beneficiarios.NombreCompleto)
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Id_ClasificaBeneficiario)
+        </div>
+        <div class="display-field">
+            @Html.DropDownList("Id_ClasificaBeneficiario" , Model.ListaId_ClasificacionBeneficiario)
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-2">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Id_Area_Solicitud)
+        </div>
+        <div class="display-field input-group">
+            @Html.TextBox("Id_Area_Solicitud", Model.Id_Area_Solicitud, new { @class="js_NuevoDisabled" })
+            <span class="input-group-addon">
+                 <span class="fa fa-search"></span>
+             </span>
+        </div>
+    </div>
+    <div class="col-sm-10">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Ca_Areas_Solicitud.Descripcion)
+        </div>
+        <div class="display-field">
+            @Html.EditorFor(model => model.Ca_Areas_Solicitud.Descripcion)
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Observaciones)
+        </div>
+        <div class="display-field">
+            @Html.TextAreaFor(model => model.Observaciones, new { @class="js_NuevoDisabled" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Usuario_Orden)
+        </div>
+        <div class="display-field">
+            @Html.EditorFor(model => model.Usuario_Orden)
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Fecha_Devengado)
+        </div>
+        <div class="display-field">
+            @Html.EditorFor(model => model.Fecha_Devengado)
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.ContraRecibo)
+        </div>
+        <div class="display-field">
+            @Html.TextBox("ContraRecibo", Model.ContraRecibo)
+        </div>
+    </div>
+</div>
+    
+<div class="row">
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model=> model.Poliza_Comprometido)
+        </div>
+        <div class="display-label input-group">
+             @Html.TextBox("Poliza_Comprometido", Model.Poliza_Comprometido)
+             <span class="input-group-addon">
+                 <span class="fa fa-search"></span>
+             </span>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model=> model.Poliza_Devengado)
+        </div>
+        <div class="display-label input-group">
+             @Html.TextBox("Poliza_Devengado", Model.Poliza_Devengado)
+             <span class="input-group-addon">
+                 <span class="fa fa-search"></span>
+             </span>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model=> model.Poliza_Fincamiento)
+        </div>
+        <div class="display-label input-group">
+             @Html.TextBox("Poliza_Fincamiento", Model.Poliza_Fincamiento)
+             <span class="input-group-addon">
+                 <span class="fa fa-search"></span>
+             </span>
+        </div>
+    </div>
+</div>
+    
+<div class="row">
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model=> model.Poliza_Comprometido_C)
+        </div>
+        <div class="display-label input-group">
+             @Html.TextBox("Poliza_Comprometido_C", Model.Poliza_Comprometido_C)
+             <span class="input-group-addon">
+                 <span class="fa fa-search"></span>
+             </span>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model=> model.Poliza_Devengado_C)
+        </div>
+        <div class="display-label input-group">
+             @Html.TextBox("Poliza_Devengado_C", Model.Poliza_Devengado_C)
+             <span class="input-group-addon">
+                 <span class="fa fa-search"></span>
+             </span>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="display-label">
+             @Html.DisplayNameFor(model=> model.Poliza_Fincamiento_C)
+        </div>
+        <div class="display-label input-group">
+             @Html.TextBox("Poliza_Fincamiento_C", Model.Poliza_Fincamiento_C)
+             <span class="input-group-addon">
+                 <span class="fa fa-search"></span>
+             </span>
+        </div>
+    </div>
+</div>
+
+}
+
+@section scripts
+{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#frmComNom input,textarea,select").addClass("form-control");
+
+            $(".input-group .date").datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                todayHighlight: true,
+                startDate: "@String.Format("{0:d}",ViewBag.Fecha_Min)",
+                endDate: "@String.Format("{0:d}",ViewBag.Fecha_Max)"
+            });
+
+            $("body").on("click", "#js_mNuevo", function () {
+                $("#frmComNom .js_NuevoDisabled").removeAttr("disabled");
+                $("#Id_TipoCompromiso").val(5);
+            });
+
+            $("body").on("click", "#js_mCancelar", function () {
+                recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);
+                return false;
+            });
+
+            $("input, select, textarea").attr("disabled", "disabled");
+
+            $("body").on("click", ".js_Proveedor", function () {
+                customModal("@Url.Action("Buscar_Beneficiario","FocusOut")", {},
+                    "GET",
+                    "lg",
+                    function () {
+                        $("#resultsBeneficiarios").ajaxLoad({ url: "@Url.Action("Tbl_Beneficiario","FocusOut")", method: "POST", data: { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() } });
+                    },
+                    "",
+                    "Buscar",
+                    "Cerrar",
+                    "Buscar beneficiario",
+                    "ModalBusBeneficiario");
+            });
+
+            /*-------------------------Beneficiario -------------------------------- */
+            $("body").on("click", ".js_Proveedor", function () {
+                customModal("@Url.Action("Buscar_Beneficiario","FocusOut")", {},
+                    "GET",
+                    "lg",
+                    function () {
+                        $("#resultsBeneficiarios").ajaxLoad({ url: "@Url.Action("Tbl_Beneficiario","FocusOut")", method: "POST", data: { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() } });
+                    },
+                    "",
+                    "Buscar",
+                    "Cerrar",
+                    "Buscar beneficiario",
+                    "ModalBusBeneficiario");
+            });
+
+            $("body").on("focusout", "#Id_Beneficiario", function () {
+                if ($(this).val().length > 0) {
+                    $("#Id_Beneficiario").focusOut({
+                        url: "@Url.Action("Beneficiario","FocusOut")",
+                        data: { IdBeneficiario: $(this).val() },
+                        campos: [{ Base: "NombreCompleto", Campo: "Beneficiario" }]
+                    });
+                    ajaxSelect("@Url.Action("getClasificacionBeneficiario","Listas")", { beneficiario: $("#Id_Beneficiario").val() }, "POST", true, "Id_ClasificaBeneficiario", 1, callBackLlenarSelect);
+                }
+            });
+            /*--------------------------------------------------------------------- */
+        });
+    </script>   
+}
+
+
+
+

@@ -1,0 +1,27 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_Impuestos_DeduccionModel
+<div data-title="Editar Impuesto/Deducción" class="TituloModal"></div>
+<div data-text="Guardar" class="btnOk"></div>
+<div data-text="Cancelar" class="btnCancel"></div>
+<form id="frm">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model=>model.Id_ImpDed)
+    @Html.HiddenFor(model => model.Id_ImpDed2)
+    @Html.HiddenFor(model => model.Id_Tipo_ImpDed)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control",maxlength="50" })
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(function () {
+        $("#frm").on("submit", function (e) { e.preventDefault(); });
+        $("#MyModal1").off("click", ".js_btnOk");
+        $("#MyModal1").on("click", ".js_btnOk", GuardarEdit);
+    });
+</script>

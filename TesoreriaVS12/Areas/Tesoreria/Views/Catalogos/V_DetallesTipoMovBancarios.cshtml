@@ -1,0 +1,38 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoMovBancariosModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles" class="TituloModal"></div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Id_MovBancario)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_MovBancario)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Descripcion)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.TipoMov)
+</div>
+<div class="display-field">
+    @if (Model.TipoMov == 1)
+    {
+        <span>SUMA</span>
+    }
+    else
+    {
+        <span>RESTA</span>
+    }
+</div>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

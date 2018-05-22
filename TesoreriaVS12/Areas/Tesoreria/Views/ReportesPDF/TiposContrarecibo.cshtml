@@ -1,0 +1,50 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoContrarecibosModel>
+@{
+    ViewBag.Title = "Catálogo de Tipos de Contrarecibo";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Id_TipoCR">
+                Tipo de Cuenta por Liquidar
+            </th>
+            <th data-title="Descripcion">
+                Descripción
+            </th>
+            <th data-title="UltimoCR">
+                Última Cuenta por Liquidar
+            </th>
+            @*<th data-title="Facturas_Diversas">
+                    @Html.DisplayNameFor(model => model.Facturas_Diversas)
+                </th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_TipoCR)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UltimoCR)
+                </td>
+                @*<td>
+                        @Html.Encode((item.Facturas_Diversas.HasValue) ? (item.Facturas_Diversas.Value) ? "SI" : "NO" : "")
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

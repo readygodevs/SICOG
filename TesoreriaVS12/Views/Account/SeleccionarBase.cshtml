@@ -1,0 +1,55 @@
+﻿
+@model IEnumerable<TesoreriaVS12.Models.VW_Bases>
+
+@{
+    ViewBag.Title = "SeleccionarBase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section sin_contenedor{
+    <div class="text-center" id="fondo-inicio">
+        <br />
+        <br />
+        <div class="dropdown" id="select-db">
+            <a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                <span class="texto">Seleccione ejercicio</span>
+                <span class="caret"></span>
+                <input type="hidden" value="" id="nombre_base" />
+            </a>
+
+            <ul id="" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                @foreach (var item in Model)
+                {
+                    <li data-nombrebase="@item.NombreBase">@item.Nombre</li>
+                }
+            </ul>
+        </div>
+        <a href="#" class="btn jsEntrar btn-entrar">Entrar</a>
+    </div>
+}
+
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#select-db .texto").text($('#select-db ul li').last().text());
+            $("#nombre_base").val($('#select-db ul li').last().data("nombrebase"));
+            $("#select-db ul li").val($('#select-db ul li').last().val());
+
+            $("#select-db ul li").on("click", function () {
+                var base = $(this).data("nombrebase");
+                $("#select-db .texto").text($(this).text());
+                $("#nombre_base").val(base);
+            });
+            $(".jsEntrar").on("click", function () {
+                ajaxJson("@Url.Action("SetConection","Account")", { ConexionBase: $("#nombre_base").val() }, "POST", true, function (response) {
+                    if (response.Exito == true)
+                        window.location = response.DefaultUrl;
+                });
+                return false;
+            });
+        });
+
+
+    </script>
+}

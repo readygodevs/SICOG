@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Cambiar_Color";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Seleccione Color</h2>
+
+<input type="text" id="txtColorHeader" readonly="readonly" class="form-control jscolor" />
+
+
+<button type="button" class="btn btn-success pull-right" style="margin-top:1vh" onclick="cambiar_tema()">Guardar cambios</button>
+
+@section scripts{
+    <script>
+        $(function () {
+                //$("#txtColorHeader").focus();
+                document.getElementById('txtColorHeader').jscolor.show();
+        });
+
+        function cambiar_tema() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("cambiar_tema","Account")',
+                data: '{color: "#' + $("#txtColorHeader").val() + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("body").isLoading({ position: "overlay" });
+                },
+                success: function (response) {
+
+                    if (!response.Error) {
+                        location.reload(true);
+                    } else {
+                        alert("Error al cambiar color del sistema. <br /><br /> " + response.Mensaje);
+                        $("body").isLoading("hide");
+                    }
+
+                    //alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);
+
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+    </script>
+    }

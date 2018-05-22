@@ -1,0 +1,233 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ContrarecibosModel
+
+@{
+    ViewBag.Title = "Contrarecibo";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Reporte_ContraRecibo</title>
+    <link href="@cssPath/contraRecibo.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="contenedor">
+        <div class="row cabecera-reporte">
+            <div class="titulo">CUENTA POR LIQUIDAR</div>
+            <div class="datos-emision text-center">
+                <span class="tipo">Original</span>
+                <div class="emision-vencimiento">
+                    <div class="f-emision">
+                        <label>FECHA DE EMISIÓN</label>
+                        <span>@Html.Encode((Model.FechaCR.HasValue) ? Model.FechaCR.Value.ToShortDateString() : "")</span>
+                    </div>
+                    <div class="f-vencimiento">
+                        <label>FECHA DE VENCIMIENTO</label>
+                        <span>@Html.Encode((Model.FechaVen.HasValue) ? Model.FechaVen.Value.ToShortDateString() : "")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tipo-numero">
+                <div class="cabecera">
+                    <div class="tipo">TIPO</div>
+                    <div class="numero">NÚMERO</div>
+                </div>
+                <div class="contenidos">
+                    <div class="tipo">@Html.DisplayFor(model => model.Id_TipoCR)</div>
+                    <div class="numero">@Html.DisplayFor(model => model.Id_FolioCR)</div>
+                </div>
+            </div>
+            <div class="beneficiario">
+                <div class="cabecera">BENEFICIARIO</div>
+                @switch (Model.Id_TipoCR)
+                {
+                    case TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.ContraRecibos:
+                        <div class="contenido">@Html.DisplayFor(model => model.Ca_Beneficiarios.NombreCompleto)</div>
+                        break;
+                    case TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.EgresosNoPresupuestales:
+                        <div class="contenido">@Html.DisplayFor(model => model.Ca_Personas.NombreCompleto)</div>
+                        break;
+                    default:
+                        <div class="contenido">@Html.DisplayFor(model => model.Ca_Cuentas_FR.Descripcion)</div>
+                        break;
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="detalle">
+                <div class="contenido">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-right padding-left">NO DOCTO</th>
+                                <th class="text-left">DESCRIPCIÓN</th>
+                                <th class="text-center">FECHA</th>
+                                <th class="text-right padding-right">IMPORTE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(Model.Id_TipoCR == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.ContraRecibos)
+                            {
+                                foreach (var item in Model.De_Documentos)
+                                {
+                                    <tr>
+                                        <td class="text-right padding-left">
+                                            @Html.DisplayFor(modelItem => item.No_docto)
+                                        </td>
+                                        <td class="text-left">
+                                            @Html.DisplayFor(modelItem => item.TipoDocumento)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.Encode((item.Fecha.HasValue) ? item.Fecha.Value.ToShortDateString() : "")
+                                        </td>
+                                        <td class="text-right padding-right">
+                                            @String.Format("{0:N}", item.TOTAL)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td class="text-left" style="padding-left:35px; font-size:20px"  colspan="4">
+                                        @Html.Raw(new TesoreriaVS12.Areas.Tesoreria.DAL.Catalogos.TipoContrarecibosDAL().GetByID(x=> x.Id_TipoCR == Model.Id_TipoCR).Descripcion.ToUpper())
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="recibio-total">
+                <div class="recibio">
+                    <div class="persona">@Html.DisplayFor(model => model.Usu_CR)</div>
+                    <div class="concepto">ELABORÓ DOCUMENTACIÓN</div>
+                </div>
+                <div class="total">
+                    <div class="cabecera">
+                        <label>TOTAL</label>
+                    </div>
+                    <div class="contenido">@String.Format("{0:N}", Model.Cargos)</div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <!-- Aca está el código de la copia -->
+        <br />
+        <br />
+        <br />
+
+        <div class="row cabecera-reporte">
+            <div class="titulo">CUENTA POR LIQUIDAR</div>
+            <div class="datos-emision text-center">
+                <span class="tipo">Copia</span>
+                <div class="emision-vencimiento">
+                    <div class="f-emision">
+                        <label>FECHA DE EMISIÓN</label>
+                        <span>@Html.Encode((Model.FechaCR.HasValue) ? Model.FechaCR.Value.ToShortDateString() : "")</span>
+                    </div>
+                    <div class="f-vencimiento">
+                        <label>FECHA DE VENCIMIENTO</label>
+                        <span>@Html.Encode((Model.FechaVen.HasValue) ? Model.FechaVen.Value.ToShortDateString() : "")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tipo-numero">
+                <div class="cabecera">
+                    <div class="tipo">TIPO</div>
+                    <div class="numero">NÚMERO</div>
+                </div>
+                <div class="contenidos">
+                    <div class="tipo">@Html.DisplayFor(model => model.Id_TipoCR)</div>
+                    <div class="numero">@Html.DisplayFor(model => model.Id_FolioCR)</div>
+                </div>
+            </div>
+            <div class="beneficiario">
+                <div class="cabecera">BENEFICIARIO</div>
+                @if(Model.Id_TipoCR == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.ContraRecibos)
+                {
+                    <div class="contenido">@Html.DisplayFor(model => model.Ca_Beneficiarios.NombreCompleto)</div>
+                }
+                else
+                {
+                    <div class="contenido">@Html.DisplayFor(model => model.Ca_Cuentas_FR.Descripcion)</div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="detalle">
+                <div class="contenido">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-right padding-left">NO DOCTO</th>
+                                <th class="text-left">DESCRIPCIÓN</th>
+                                <th class="text-center">FECHA</th>
+                                <th class="text-right padding-right">IMPORTE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(Model.Id_TipoCR == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.ContraRecibos)
+                            {
+                                foreach (var item in Model.De_Documentos)
+                                {
+                                    <tr>
+                                        <td class="text-right padding-left">
+                                            @Html.DisplayFor(modelItem => item.No_docto)
+                                        </td>
+                                        <td class="text-left">
+                                            @Html.DisplayFor(modelItem => item.TipoDocumento)
+                                        </td>
+                                        <td class="text-center">
+                                            @Html.Encode((item.Fecha.HasValue) ? item.Fecha.Value.ToShortDateString() : "")
+                                        </td>
+                                        <td class="text-right padding-right">
+                                            @String.Format("{0:N}", item.TOTAL)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td class="text-left" style="padding-left:35px; font-size:20px"  colspan="4">
+                                        @Html.Raw(new TesoreriaVS12.Areas.Tesoreria.DAL.Catalogos.TipoContrarecibosDAL().GetByID(x=> x.Id_TipoCR == Model.Id_TipoCR).Descripcion.ToUpper())
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="recibio-total">
+                <div class="recibio">
+                    <div class="persona">@Html.DisplayFor(model => model.Usu_CR)</div>
+                    <div class="concepto">ELABORÓ DOCUMENTACIÓN</div>
+                </div>
+                <div class="total">
+                    <div class="cabecera">
+                        <label>TOTAL</label>
+                    </div>
+                    <div class="contenido">@String.Format("{0:N}", Model.Cargos)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PolizaDeCheque</title>
+    <style>
+        body {
+            font-family: "Calibri (Body)";
+            font-size:24px;
+        }
+        #contenedor {
+            width: 1100px; 
+        }
+        .row {
+            display: block; 
+            clear: both;
+        }
+        #cabecera {
+            height: 160px;
+        }
+        .beneficiario {
+            margin-left:370px;
+            font-size:24px;
+            line-height:35px;
+        }
+        .fila2 {
+            margin-top:10px;
+        }
+        .contrarecibo {
+            padding-left:90px;
+            width: 160px;
+            float:left;
+            height:45px;
+            line-height:35px;
+        }
+        .compromiso {
+            padding-left:110px;
+            width: 165px;
+            float:left;
+            height:45px;
+            line-height:35px;
+        }
+        .fechaemision{
+            padding-left:137px;
+            width: 165px;
+            float:left;
+            height:45px;
+            line-height:35px;
+        }
+        .fechadepago {
+            padding-left:160px;
+            width: 110px;
+            float:left;
+            height:45px;
+            line-height:35px;
+        }
+
+        .detalle {
+            margin-top:45px;
+            height:550px;
+        }
+        .detalle table{
+            width:100%;
+        }
+        .clavep {
+            width: 290px;
+        }
+        .importe {
+            width: 237px;
+            text-align:right;
+        }
+
+
+        .banco {
+            width: 440px;
+            float:left;
+            height:45px;
+            line-height:35px;
+            padding-left:10px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .cuenta {
+            width: 192px;
+            float:left;
+            height:45px;
+            line-height:35px;
+            padding-left:10px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .nocheque {
+            width: 176px;
+            float:left;
+            height:45px;
+            line-height:35px;
+            padding-left:10px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .importe2 {
+            width: 275px;
+            float:left;
+            text-align:right;
+            height:45px;
+            line-height:35px;
+            padding-left:10px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        } 
+
+        .formulo{
+            width: 260px;
+            float:left;
+            height:95px;
+            line-height:35px;
+            padding-left:10px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow:hidden;
+        }
+        .fila5 {
+            margin-top:10px;
+            overflow:hidden;
+        }
+
+        .nocheque2 {
+            text-align:right;
+            height:45px;
+            line-height:35px;
+        }
+
+        .fechalarga {
+            height:45px;
+            margin-top:60px;
+            padding-right:5px;
+            text-align:right;
+        }
+
+        .fila8 {
+            overflow:hidden;
+            margin-top:30px;
+        }
+
+        .paguese {
+            float:left;
+            height:45px;
+            width:742px;
+            line-height:35px;
+        }
+
+        .importe3 {
+            width:230px;
+            height:45px;
+            float:right;
+            line-height:35px;
+        }
+
+        .fila9 {
+            margin-top:10px;
+        }
+      
+    </style>
+</head>
+<body>
+    <div id="contenedor">
+        <div class="row" id="cabecera"></div>
+        <div class="row">
+            <div class="beneficiario">NOEL ALEJADRO ESCOBEDO SOLORZANO</div>
+        </div>
+        <div class="row fila2">
+            <div class="contrarecibo">1234567</div>
+            <div class="compromiso">1234567</div>
+            <div class="fechaemision">02/12/2014</div>
+            <div class="fechadepago">20/12/2014</div>
+        </div>
+        <br />
+        <br />
+        <div class="row detalle">
+            <table>
+                <tr>
+                    <td class="clavep">00000-00000000000000000</td>
+                    <td></td>
+                    <td class="importe">23,423,423.00</td>
+                </tr>
+            </table>
+        </div>
+        <br />
+        <div class="row">
+            <div class="banco">asdas</div>
+            <div class="cuenta">asd</div>
+            <div class="nocheque">3342423423</div>
+            <div class="importe2">434534.00</div>
+        </div>
+        <br />
+        <br />
+        <div class="row fila5">
+            <div class="formulo">Noel Alejandro Escobedo Solorzano</div>
+        </div>
+        <div class="row">
+            <div class="nocheque2">
+                3342423423
+            </div>
+        </div>
+        <div class="row">
+            <div class="fechalarga">
+                Martes 3 de Febrero del 2012
+            </div>
+        </div>
+        <div class="row fila8">
+            <div class="paguese">JOSE TRINIDAD ESPINOSA PAZ</div>
+            <div class="importe3">454,456,455.00</div>
+        </div>
+        <br />
+        <div class="row fila9">
+            <div>CUARENTA Y CUATRO MIL MILLONES CUATROCIENTOS MIL PESOS Y 20 CENTAVOS</div>
+        </div>
+    </div>
+</body>
+</html>

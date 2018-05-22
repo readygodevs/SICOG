@@ -1,0 +1,387 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.BL.ReintegrosModel
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Reintegros", "Contrarecibos", new { area = "Tesoreria" }, FormMethod.Post, new { id = "formReintegros" }))
+{
+    @Html.Hidden("TipoCREfectivo")
+    @Html.Hidden("FolioCREfectivo")
+    @Html.Hidden("FolioGCEfectivo")
+<div id="Reintegros">
+    <div class="row">
+        <div class="col-xs-4">
+            <input type="radio" name="TipoReintegro" checked="checked" id="Efectivo" value="1" onclick="Opcion(1);" />
+            Efectivo
+        </div>
+        <div class="col-xs-4">
+            <input type="radio" name="TipoReintegro" id="Banco" value="2" onclick="Opcion(2);"  />
+            Banco
+        </div>
+        <div class="col-xs-4">
+            <input type="radio" name="TipoReintegro" id="CvePresupeustal" value="3" onclick="Opcion(3);"  />
+            Clave Presupuestal
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="OpcEfectivo" class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.CtaEfectivo) 
+                        @Html.ValidationMessageFor(model => model.CtaEfectivo)
+                    </div>
+                    <div class="input-group">
+                        @Html.TextBox("CtaEfectivo", "", new { @class="js_CapturaCtaEfectivo"})
+                        <span class="input-group-addon js_searchCuentaEfectivo">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div>@Html.Label("Descripción")</div>
+                    @Html.TextBox("CtaEfectivoDesc", "", new { @class="js_DescripcionCtaEfectivo" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.FechaEfectivo) 
+                        @Html.ValidationMessageFor(model => model.FechaEfectivo)
+                    </div>
+                    <div class="input-group fecha_group">
+                        @Html.TextBox("FechaEfectivo", "")
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.NoReciboEfectivo) 
+                        @Html.ValidationMessageFor(model => model.NoReciboEfectivo)
+                    </div>
+                    @Html.TextBox("NoReciboEfectivo", "")
+                </div>
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.ImporteEfectivo) 
+                        @Html.ValidationMessageFor(model => model.ImporteEfectivo)
+                    </div>
+                    @Html.TextBox("ImporteEfectivo", "")
+                </div>
+            </div>
+        </div>
+        <div id="OpcReintegro"  class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.CtaBancariaReintegro) 
+                    </div>
+                    <div>@Html.DropDownList("BancoReintegro", TempData["Banco"] as SelectList, "-Seleccionar-")</div>
+                </div>
+                <div class="col-xs-5">
+                    <div>
+                        @Html.Label("Cuenta Bancaria")
+                        @Html.ValidationMessageFor(model => model.CtaBancariaReintegro)
+                    </div>
+                    <div>@Html.DropDownList("CtaBancariaReintegro", TempData["CtaBancaria"] as SelectList)</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.FechaReintegro) 
+                        @Html.ValidationMessageFor(model => model.FechaReintegro)
+                    </div>
+                    <div class="input-group fecha_group">
+                        @Html.TextBox("FechaReintegro", "")
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.NoReciboReintegro) 
+                        @Html.ValidationMessageFor(model => model.NoReciboReintegro)
+                    </div>
+                    @Html.TextBox("NoReciboReintegro", "")
+                </div>
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.ImporteReintegro) 
+                        @Html.ValidationMessageFor(model => model.ImporteReintegro)
+                    </div>
+                    @Html.TextBox("ImporteReintegro", "")
+                </div>
+            </div>
+        </div>
+        <div id="OpcCvePresupuestal"  class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div>
+                        @Html.LabelFor(model=> model.FechaCvePresupuestal) 
+                        @Html.ValidationMessageFor(model => model.FechaCvePresupuestal)
+                    </div>
+                    <div class="input-group fecha_group">
+                        @Html.TextBox("FechaCvePresupuestal","")
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@if(Model.De_Comprobaciones.Count() > 0) 
+{
+    <br />
+    <div class="row"><div class="col-xs-12">
+        <table class="table table-striped table-bordered" id="tableReintegro">
+            <thead>
+                <tr style="text-align:left">
+                    <th>Acciones</th>
+                    <th>Id</th>
+                    <th>Póliza (Tipo - Folio - Mes)</th>
+                    <th>Fecha</th>
+                    <th>No. Recibo</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TesoreriaVS12.Areas.Tesoreria.Models.De_Comprobaciones m in Model.De_Comprobaciones)
+                {
+                        <tr>
+                        <td>
+                            @if (m.Id_FolioPoliza_C == null)
+                            {
+                                <span class="js_EliminarComprobacion cursorPointer" data-fecha="@m.Fecha" data-consecutivo="@m.Id_Consecutivo" data-poliza="@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(m.Id_TipoPoliza.Value, m.Id_MesPoliza.Value, m.Id_FolioPoliza.Value))"><i class="fa fa-trash-o"></i></span>
+                            }
+                        </td>
+                        <td>@Html.Encode(m.Id_Consecutivo)</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="div_inline_block">@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(m.Id_TipoPoliza.Value, m.Id_MesPoliza.Value, m.Id_FolioPoliza.Value))</div>
+                                    <div class="acciones div_inline_block js_PolizasConsulta cursorPointer" data-tipo="@m.Id_TipoPoliza" data-folio="@m.Id_FolioPoliza" data-mes="@m.Id_MesPoliza"><i class="fa fa-search"></i></div>
+                                </div>
+                                @{
+                                    if(m.Id_FolioPoliza_C != null && m.Id_MesPoliza_C != null)
+                                    {
+                                        <div class="col-xs-6">
+                                            <div class="div_inline_block">@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(m.Id_TipoPoliza_C.Value, m.Id_MesPoliza_C.Value, m.Id_FolioPoliza_C.Value))</div>
+                                            <div class="acciones div_inline_block js_PolizasConsulta cursorPointer" data-tipo="@m.Id_TipoPoliza" data-folio="@m.Id_FolioPoliza" data-mes="@m.Id_MesPoliza"><i class="fa fa-search"></i></div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </td>
+                        <td>@Html.Encode(String.Format("{0:d}",m.Fecha))</td>
+                        <td>@Html.Encode(m.Id_ReciboIng)</td>
+                        <td>@Html.Encode(m.Importe)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div></div>
+}
+@if(Model.Ma_Comprobaciones_Partida.Count() > 0) 
+{
+    <br />
+    <div class="row"><div class="col-xs-12">
+        <table class="table table-striped table-bordered " id="tableReintegro2">
+            <thead>
+                <tr style="text-align:left">
+                    <th>Acciones</th>
+                    <th>No. Comprobación</th>
+                    <th>Pólizas (Tipo - Folio - Mes)</th>
+                    <th>Fecha</th>
+                    <th>Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TesoreriaVS12.Areas.Tesoreria.BL.Ma_Comprobaciones_PartidaModel m in Model.Ma_Comprobaciones_Partida)
+                {
+                    <tr>
+                    <td>
+                        <div class="acciones cursorPointer js_DetallesComprobacions" data-tipo="@m.Id_TipoCR" data-folio="@m.Id_FolioCR" data-nocomprobacion="@m.No_Comprobacion" data-fecha="@m.Fecha"><span class="fa fa-bars"></span></div>
+                    </td>
+                    <td>@Html.Encode(m.No_Comprobacion)</td>
+                    <td>
+                        <div>
+                            <div class="div_inline_block">@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(3, m.Id_MesPolizaCR.Value, m.Id_FolioPolizaCR.Value))</div>
+                            <div class="acciones div_inline_block js_PolizasConsulta cursorPointer" data-tipo="3" data-folio="@m.Id_FolioPolizaCR" data-mes="@m.Id_MesPolizaCR"><i class="fa fa-search"></i></div>
+                        </div>
+                        <div>
+                            <div class="div_inline_block">@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(4, m.Id_MesPolizaCR.Value, m.Id_FolioPO_Comprometido.Value))</div>
+                            <div class="acciones div_inline_block js_PolizasConsulta cursorPointer" data-tipo="4" data-folio="@m.Id_FolioPO_Comprometido" data-mes="@m.Id_MesPolizaCR"><i class="fa fa-search"></i></div>
+                        </div>
+                        <div>
+                            <div class="div_inline_block">@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(4, m.Id_MesPolizaCR.Value, m.Id_FolioPO_Devengado.Value))</div>
+                            <div class="acciones div_inline_block js_PolizasConsulta cursorPointer" data-tipo="4" data-folio="@m.Id_FolioPO_Devengado" data-mes="@m.Id_MesPolizaCR"><i class="fa fa-search"></i></div>
+                        </div>
+                        <div>
+                            <div class="div_inline_block">@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(4, m.Id_MesPolizaCR.Value, m.Id_FolioPO_Ejercido.Value))</div>
+                            <div class="acciones div_inline_block js_PolizasConsulta cursorPointer" data-tipo="4" data-folio="@m.Id_FolioPO_Ejercido" data-mes="@m.Id_MesPolizaCR"><i class="fa fa-search"></i></div>
+                        </div>
+                        <div>
+                            <div class="div_inline_block">@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(4, m.Id_MesPolizaCR.Value, m.Id_FolioPO_Pagado.Value))</div>
+                            <div class="acciones div_inline_block js_PolizasConsulta cursorPointer" data-tipo="4" data-folio="@m.Id_FolioPO_Pagado" data-mes="@m.Id_MesPolizaCR"><i class="fa fa-search"></i></div>
+                        </div>
+                    </td>
+                    <td>@Html.Encode(String.Format("{0:d}",m.Fecha))</td>
+                    <td>@m.Importe</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div></div>
+}
+
+<div class="row">
+    @using (Html.BeginForm("ComprobacionPartida", "Contrarecibos", FormMethod.Post, new { id = "frmComprobacionCve" }))
+    {
+        @Html.Hidden("TipoComprobacion")
+        @Html.Hidden("FolioComprobacion")
+        @Html.Hidden("FechaComprobacion")
+    }
+</div>
+<div class="row">
+    @using (Html.BeginForm("ComprobacionPartida", "Contrarecibos", FormMethod.Post, new { id = "frmComprobacionCve" }))
+    {
+        @Html.Hidden("TipoComprobacion")
+        @Html.Hidden("FolioComprobacion")
+        @Html.Hidden("FechaComprobacion")
+    }
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#Reintegros input[type='text'], select").addClass("form-control");
+        if ($("#Reintegros").val() == "") {
+            $("#formReintegros").hide();
+            $(".btn-success").hide();
+        }
+
+        
+
+        $("#BancoReintegro").on("change", function () {
+            ajaxSelect("@Url.Action("List_CtaBancaria","Listas")", { Id_Banco: $(this).val() }, "POST", true, "CtaBancariaReintegro", "", callBackLlenarSelect);
+        });
+
+        eventFocusBalanceEfectivo();
+        //--------------------------Cuentas Efectivo --------------------//
+        $("body").on("click", ".js_searchCuentaEfectivo", function () {
+            if (typeof $(this).siblings().attr("disabled") === "undefined") {
+                customModal("@Url.Action("BuscarCuenta","Cuentas")", {}, "GET", "lg", "", "", "", "Cancelar", "Buscar Cuentas", "IdModal5");
+            }
+        });
+
+        $("body").on("click", ".IdModal5 #tblCuentasSearch .js_seleccionar", function () {
+            $("#CtaEfectivo").val($(this).data("idcuenta"));
+            $("#CtaEfectivoDesc").val($(this).data("descripcion"));
+            $(".IdModal5").modal("hide");
+        });
+
+        $("#FechaReintegro, #FechaCvePresupuestal, #FechaEfectivo").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: $("#FechaCierreGC").val(),
+            endDate: $("#Fecha_Ultima").val()
+        });
+
+        $(".js_PolizasConsulta").on("click", function () {
+            window.open("@Url.Action("V_Cuentas_Polizas_Reporte","Catalogos")"+"?TipoPoliza=" + $(this).data("tipo") + "&FolioPoliza=" + $(this).data("folio") + "&MesPoliza=" + $(this).data("mes"), "_blank");
+        });
+
+        $(".js_DetallesComprobacions").on("click", function () {
+            ajaxJson("@Url.Action("ComprobacionPartidaDetalles","Contrarecibos")", { TipoComprobacion: $("#Id_TipoCR").val(), FolioComprobacion: $("#Id_FolioCR").val(), FechaComprobacion: $(this).data("fecha"), NoComprobacion: $(this).data("nocomprobacion") }, "POST", true, function (data) {
+                if (data.Exito)
+                    $("#frmDetalles").submit(function () {
+                        $("#TipoCR").val($("#Id_TipoCR").val());
+                        $("#FolioCR").val($("#Id_FolioCR").val());
+                    }).submit();
+            });
+        });
+
+        $(".js_EliminarComprobacion").on("click", function () {
+            var Mensaje = _.template($('#js_msjCancelarPoliza').html());
+            var Consecutivo = $(this).data("consecutivo");
+            //var customHTMLModal = function (html, size, callbackOk, callbackCancel, txtBtnOk, txtBtnCancel, txtTitulo, idModal) {
+            customHTMLModal(Mensaje({ Poliza: $(this).data("poliza") }), "sm", function () {
+                if ($("#FechaPolizaC").val() != "") {
+                    ajaxJson("@Url.Action("CancelacionPolizaReintegro","Contrarecibos")", { Tipo: $("#Id_TipoCR").val(), Folio: $("#Id_FolioCR").val(), FechaC: $("#FechaPolizaC").val(), Consecutivo: Consecutivo }, "POST", true, function (data) {
+                        if (!data.Exito)
+                            ErrorCustom(data.Mensaje, "");
+                        else {
+                            $("#frmRegreso").submit(function () {
+                                $("#Tipo").val($("#Id_TipoCR").val());
+                                $("#Folio").val($("#Id_FolioCR").val());
+                            }).submit();
+                        }
+                    });
+                }
+                else {
+                    ErrorCustom("Seleccionar una Fecha", "");
+                    return false;
+                }
+            }, "", "Aceptar", "Cancelar", "", "IdModal6");
+            $("#FechaPolizaC").datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                startDate: $(this).data("fecha"),
+                endDate: $("#Fecha_Ultima").val()
+            });
+        });
+        Opcion(1);
+    });
+
+    function Opcion(opc) {
+        switch (parseInt(opc)) {
+            case 1:
+                $("#OpcEfectivo").show();
+                $("#OpcReintegro").hide();
+                $("#OpcCvePresupuestal").hide();
+                break;
+            case 2:
+                $("#OpcEfectivo").hide();
+                $("#OpcReintegro").show();
+                $("#OpcCvePresupuestal").hide();
+                break;
+            case 3:
+                $("#OpcEfectivo").hide();
+                $("#OpcReintegro").hide();
+                $("#OpcCvePresupuestal").show();
+                break;
+        }
+    }
+
+    //------------------------------Autocompletar ----------------------------------------//
+    var buildFiltros = function () {
+        var f = {};
+        var cta = ajaxJson("@Url.Action("CuentasEfectivo","FocusOut")", {}, "get", false, function (data) {
+            if (data == "")
+                ErrorCustom("Falta Inicializarlo en Parametros");
+            else
+                f.IdCuenta = data;
+        });
+        f.selectUltimoNivel = true;
+        f.UltimoNivel = true;
+        f.Descripcion = $("#Descripcion_filtro").val();
+        return f;
+    }
+    
+</script>
+
+<script type="text/template" id="js_msjCancelarPoliza">
+    <form id="frmCancelarPoliza">
+        <p>Se cancelara la poliza <b><%=Poliza %></b></p>
+        <div class="input-group fecha_group">
+            <input type="text" id="FechaPolizaC" name="FechaPolizaC" data-val="true" data-val-required="*">
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            <span class="field-validation-error" data-valmsg-for="Descripcion" data-valmsg-replace="true"><span class="" generated="true" for="FechaPolizaC">*</span></span>
+        </div>
+        <p>¿Está seguro de continuar?</p>
+    </form>
+</script>
+

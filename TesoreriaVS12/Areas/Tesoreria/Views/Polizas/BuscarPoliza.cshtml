@@ -1,0 +1,89 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel
+
+@{
+    Layout = null;
+}
+<div data-title="Búsqueda Polizas" class="TituloModal"></div>
+<div data-text="Buscar" class="btnOk"></div>
+<div data-text="Cerrar" class="btnCancel"></div>
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frmModal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Id_TipoPoliza)
+            @Html.DropDownList("Id_TipoPolizaM", new SelectList(ViewBag.tipo, "Id_TipoPoliza", "Descripcion"), "-Seleccione-", new { @class = "form-control", name = "Id_TipoPoliza" })
+            @Html.ValidationMessageFor(model => model.Id_TipoPoliza)
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Id_ClasPoliza)
+            <select id="Id_ClasPolizaM" name="Id_ClasPoliza" class="form-control input-validation-error" data-val-required="*" data-val="true">
+                <option>--Seleccione--</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Id_SubClasificaPol)
+            <select id="Id_SubClasificaPolM" name="Id_SubClasificaPol" class="form-control  input-validation-error" data-val-required="*" data-val="true">
+                <option>--Seleccione--</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Folio</label>
+            <input type="text" id="Id_FolioPolizaM" name="Id_FolioPoliza" class="form-control folio" />
+        </div>
+        <div class="col-md-3">
+            <label>Importe</label>
+            <input type="text" id="Importe" name="Cargos" class="form-control importe" />
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Id_MesPoliza)
+            <select id="Id_MesM" name="Id_MesPoliza" class="form-control  input-validation-error" data-val-required="*" data-val="true">
+                <option value="0">--Seleccione--</option>
+                <option value="1">ENERO</option>
+                <option value="2">FEBRERO</option>
+                <option value="3">MARZO</option>
+                <option value="4">ABRIL</option>
+                <option value="5">MAYO</option>
+                <option value="6">JUNIO</option>
+                <option value="7">JULIO</option>
+                <option value="8">AGOSTO</option>
+                <option value="9">SEPTIEMBRE</option>
+                <option value="10">OCTUBRE</option>
+                <option value="11">NOVIEMBRE</option>
+                <option value="12">DICIEMBRE</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Fecha)
+            <div class="input-group">
+                <input type="text" id="FechaM" name="Fecha" class="form-control datepicker" />
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.Descripcion)
+            <textarea id="DescripcioM" name="Descripcion" class="form-control"></textarea>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div id="tabla"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#FechaM").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+        $("#Id_TipoPolizaM").attr("name", "Id_TipoPoliza");
+    });
+</script>

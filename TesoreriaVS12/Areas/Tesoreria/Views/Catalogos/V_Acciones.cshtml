@@ -1,0 +1,221 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_AccionesModel>
+
+@{
+    ViewBag.Title = "Acción u Obra";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bImprimir", "bSalir" } }); }
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Catálogo de Acción u Obra</h2>
+            <div class="jsSourceActions hide"></div>
+        </div>
+        @*<div class="col-sm-3 col-sm-offset-9 text-right">
+                <div class="js_agregar btn btn-success">
+                    <i class="fa fa-plus bigger-110"></i>
+                    <span>Agregar</span>
+                </div>
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="CA_Proyecto.Id_Proceso">Proyecto/Proceso</th>
+                        <th data-title="CA_Proyecto.Descripcion">Descripción Proyecto/Proceso</th>
+                        <th data-title="CA_Actividad.Id_ActividadMIR2">Actividad MIR </th>
+                        <th data-title="CA_Actividad.Descripcion">Descripción Actividad MIR </th>
+                        <th data-title="Id_Accion2">Acción</th>
+                        <th data-title="Descripcion">Descripción Acción</th>
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Proceso)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CA_Proyecto.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_ActividadMIR2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CA_Actividad.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Accion2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <a class="fa fa-pencil js_editar cursorPointer" data-idproceso="@item.Id_Proceso" data-idactividadmir2="@item.Id_ActividadMIR2" data-id="@item.Id_Accion" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-idproceso="@item.Id_Proceso" data-idactividadmir2="@item.Id_ActividadMIR2" data-id="@item.Id_Accion" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="fa fa-bars js_detalles cursorPointer" data-idproceso="@item.Id_Proceso" data-idactividadmir2="@item.Id_ActividadMIR2" data-id="@item.Id_Accion" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/FocusOut.js"></script>
+    @*<script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>*@
+
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("AgregarAccion", "Catalogos")";//"/Tesoreria/Catalogos/AgregarAccion";
+        var RutaSave = "@Url.Action("AgregarAccion", "Catalogos")";//"/Tesoreria/Catalogos/AgregarAccion";
+        var RutaEdit = "@Url.Action("EditarAccion", "Catalogos")";//"/Tesoreria/Catalogos/EditarAccion";
+        var RutaDelete = "@Url.Action("EliminarAccion", "Catalogos")";//"/Tesoreria/Catalogos/EliminarAccion";
+        var RutaObtener = "@Url.Action("EditarAccion", "Catalogos")";//"/Tesoreria/Catalogos/EditarAccion";
+        var RutaDetalles = "@Url.Action("V_AccionDetalles", "Catalogos")";//"/Tesoreria/Catalogos/V_AccionDetalles";
+        var RutaExportarPDF = "@Url.Action("Acciones", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Acciones";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id_Accion": "response.Registro.Id_Accion" , "Id_Proceso":"response.Registro.Id_Proceso","Id_ActividadMIR2":"response.Registro.Id_ActividadMIR2"}';
+        var MsjEliminar = "¿Está seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+        var ExportarPDFCatalogo = function () {
+            window.open(RutaExportarPDF, "_blank");
+        }
+        $(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            tabla = ConstruirTabla(TableId, "No hay Acciones...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_mNuevo", function () {
+                ajaxLoad(RutaAdd, {}, "modal-body1", "GET", function () {
+                    openModal({ Modal: "MyModal1", Size: "lg" });
+                    Tipo = 1;
+                    $("#Id_Proceso").off("focusout");
+                    $("#Id_Proceso").off("change");
+                    $('#Id_Proceso').typeahead({
+                        source: function (query, process) {
+                            $.ajax({
+                                url: "@Url.Action("GetDescripcion","Presupuestos")",
+                                type: "POST",
+                                data: { id: $("#Id_Proceso").val(), objeto: 6, tipo: Tipo },
+                                dataType: "JSON",
+                                async: true,
+                                success: function (results) {
+                                    $("#Id_Proceso").data("datasource", results.Ids);
+                                    change('Id_Proceso', Tipo);
+                                    if (Tipo != 2)
+                                        focoJsCaptura(Id_ActividadMIR2);
+                                    return process(results.Data);
+                                }
+                            });
+                        }
+                    });
+                    $("#Id_ActividadMIR2").off("focusout");
+                    $("#Id_ActividadMIR2").off("change");
+                    $('#Id_ActividadMIR2').typeahead({
+                        source: function (query, process) {
+                            $.ajax({
+                                url: "@Url.Action("GetDescripcion","Presupuestos")",
+                                type: "POST",
+                                data: { id: $("#Id_Proceso").val(), objeto: 8, tipo: Tipo },
+                                dataType: "JSON",
+                                async: true,
+                                success: function (results) {
+                                    $("#Id_ActividadMIR2").data("datasource", results.Ids);
+                                    change('Id_ActividadMIR2', Tipo);
+                                    if (Tipo != 2)
+                                        focoJsCaptura(Id_ActividadMIR2);
+                                    return process(results.Data);
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            $("body").on("click", ".js_detalles", function () {
+                Detalles({ IdProceso: $(this).data("idproceso"), IdActividadMIR2: $(this).data("idactividadmir2"), Id: $(this).data("id") });
+            });
+            $("body").on("click", ".js_editar", function () {
+                Editar({ IdProceso: $(this).data("idproceso"), IdActividadMIR2: $(this).data("idactividadmir2"), Id: $(this).data("id") }, this);
+            });
+            $("#MyModal1").off("click", ".input-group-addon");
+            $("#MyModal1").on("click", ".input-group-addon", function () {
+                $("#TipoBusqueda").val(1);
+                seccion = 1;
+                if (!$(this).isSiblingDisabled()) {
+                    var elemento = $(this).parent().find("input");
+                    var label = $(this).parent().parent().parent().children()[0];
+                    label = $(label).text().trim();
+                    var hijo = $(this).parent().parent().parent().children()[1];
+                    hijo = $(hijo).children()[0];
+                    hijo = $(hijo).children()[0];
+                    seccion = 1;
+                    customModal(seccion == 1 ? urlBusquedaCatPres : urlBusquedaCatPresIng, { tipo: $(hijo).attr("objeto"), label: label, id: $(hijo).attr("id"), ProyectoProceso: $("#Id_Proceso").val() }, "GET", "lg", function () {
+                        ajaxLoad(seccion == 1 ? urlBusquedaPres : urlBusquedaPresIng, { objeto: $("#tipo_busqueda").val(), clave: $("#text_clave").val().trim(), descripcion: $("#text_descripcion").val().trim(), tipoBusqueda: $("input[name=tipoBusqueda]:checked").val(), ProyectoProceso: $("#Id_Proceso").val() }, "div_tabla", "GET",
+                                function () {
+                                    ConstruirTabla("tabla_resultados");
+                                });
+                    }, "", "Buscar", "Cancelar", "Búsqueda de " + label, "MyModal2");
+                }
+            });
+            $("body").on("click", ".MyModal2 .js_seleccionar", function () {
+                seleccionadoModal = 1;
+                var id = $(this).data("id");
+                var descripcion = $(this).data("descripcion");
+                var selector = $("#label").val();
+                $("#" + selector).val(id);
+                $("#" + selector).parent().parent().parent().find(".js_Descripcion").val(descripcion);
+                $(".MyModal2").modal("hide");
+                var input = $(".js_Captura");
+                input.eq($("#" + selector).index(".js_Captura") + 1).attr("readonly", false);
+                input = input.eq($("#" + selector).index(".js_Captura") + 1).focus();
+                $("#" + selector).trigger('change');
+                totalModal--;
+                if (totalModal > 0) {
+                    setTimeout(function () { $("body").addClass("modal-open") }, 500);
+                }
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+            $("body").on("click", ".js_eliminar", function () {
+                aPos = $("#" + TableId).dataTable().fnGetPosition($(this).parent().parent().get(0));
+                var datos = { IdProceso: $(this).data("idproceso"), IdActividadMIR2: $(this).data("idactividadmir2"), Id: $(this).data("id") };
+                ConfirmCustom(MsjEliminar, function () {
+                    ajaxJson(RutaDelete, datos , "GET", true, function (response) {
+                        if (response.Exito == true)
+                            ExitoCustom("El registro se eliminó con éxito", function () {
+                                $("#" + TableId).dataTable().fnDeleteRow(aPos);
+                                aPos = -1;
+                            });
+                        else
+                            ErrorCustom(response.Mensaje, "");
+                    });
+                });
+            });
+        });
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="fa fa-pencil js_editar cursorPointer" data-idproceso="<%= Id_Proceso%>" data-idactividadmir2="<%=Id_ActividadMIR2%>" data-id="<%=Id_Accion%>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <a class="fa fa fa-trash-o js_eliminar cursorPointer" data-idproceso="<%= Id_Proceso%>" data-idactividadmir2="<%=Id_ActividadMIR2%>" data-id="<%=Id_Accion%>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <a class="fa fa-bars js_detalles cursorPointer" data-idproceso="<%= Id_Proceso%>" data-idactividadmir2="<%=Id_ActividadMIR2%>" data-id="<%=Id_Accion%>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}

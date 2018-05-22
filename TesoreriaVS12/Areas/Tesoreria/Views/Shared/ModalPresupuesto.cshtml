@@ -1,0 +1,321 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ModalPresupuestoModel
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("BuscarPresupuestos", "Presupuestos", new { area = "Tesoreria" }, FormMethod.Post, new { @id = "frmBuscarPrespuesto", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div data-title="Buscar Presupuesto de Egreso" class="TituloModal"></div>
+    <div data-text="Buscar" class="btnOk"></div>
+    <div data-text="Cancelar" class="btnCancel"></div>
+    <input type="hidden" id="TipoBusqueda" value=""/>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_AreaModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_AreaModal, new { @class = "form-control textBoxModal", @objeto = "1", maxlength = 6 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_AreaModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_AreaModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_FuncionModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_FuncionModal, new { @class = "form-control textBoxModal", objeto = "2", maxlength = 3 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_FuncionModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_FuncionModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_ActividadModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_ActividadModal, new { @class = "form-control textBoxModal", objeto = "3", maxlength = 2 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_ActividadModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ActividadModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_ClasificacionPModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_ClasificacionPModal, new { @class = "form-control textBoxModal", objeto = "4", maxlength = 1 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_ClasificacionPModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ClasificacionPModal)
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_ProgramaModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_ProgramaModal, new { @class = "form-control textBoxModal", objeto = "5", maxlength = 2 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_ProgramaModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ProgramaModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_ProcesoModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_ProcesoModal, new { @class = "form-control textBoxModal", objeto = "6", maxlength = 4 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_ProcesoModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ProcesoModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_TipoMetaModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_TipoMetaModal, new { @class = "form-control textBoxModal", objeto = "7", maxlength = 1 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_TipoMetaModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_TipoMetaModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_ActividadMIRModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_ActividadMIRModal, new { @class = "form-control textBoxModal", objeto = "8", maxlength = 2, @atributos = "Id_ProcesoModal" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_ActividadMIRModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ActividadMIRModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_AccionModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_AccionModal, new { @class = "form-control textBoxModal", objeto = "9", maxlength = 3, @atributos = "Id_ProcesoModal,Id_ActividadMIRModal" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_AccionModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_AccionModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_AlcanceModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_AlcanceModal, new { @class = "form-control textBoxModal", objeto = "10", maxlength = 1 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_AlcanceModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_AlcanceModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_TipoGModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_TipoGModal, new { @class = "form-control textBoxModal", objeto = "11", maxlength = 1 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_TipoGModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_TipoGModal)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_FuenteModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_FuenteModal, new { @class = "form-control textBoxModal", objeto = "12", maxlength = 4 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_FuenteModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_FuenteModal)
+            </div>
+        </div>
+    </div>
+    @*<div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+                <label>@Html.LabelFor(model => model.AnioFinModal)</label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+                <select name="AnioFinModal" id="AnioFinModal" class="form-control textDescripcion">
+                </select>
+                @Html.ValidationMessageFor(model => model.AnioFinModal)
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.AnioFinModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.AnioFinModal, new { @class = "form-control textBoxModal", objeto = "16" })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.AnioFinModal)
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <label></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <label>@Html.LabelFor(model => model.Id_ObjetoGModal)</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_ObjetoGModal, new { @class = "form-control textBoxModal", objeto = "14", maxlength = 5 })
+                <span class="input-group-addon">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margen-2">
+            <div class="col-xs-11">
+                <input type="text" id="desc_Id_ObjetoGModal" class="form-control textDescripcion" />
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_ObjetoGModal)
+            </div>
+        </div>
+    </div>
+    <hr />
+}
+<hr />
+<div id="div_resultados">
+
+</div>

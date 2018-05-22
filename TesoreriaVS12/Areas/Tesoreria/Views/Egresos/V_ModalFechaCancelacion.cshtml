@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <label>Fecha cancelación</label>
+        <div class="input-group">
+            <input type="text" id="FechaC" class="form-control date" value="@DateTime.Now.ToShortDateString()" />
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.date').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Html.Raw(ViewBag.FechaInicio)',
+            endDate: '@Html.Raw(ViewBag.FechaFin)'
+        })
+    });
+</script>

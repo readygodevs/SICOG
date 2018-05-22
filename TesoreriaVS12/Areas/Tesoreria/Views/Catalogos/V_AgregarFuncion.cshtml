@@ -1,0 +1,64 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_FuncionesModel
+
+@{
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+    <h4 class="modal-title">Agregar Función</h4>
+</div>
+<div class="modal-body">
+    @using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id_Funcion)
+        if (Model.Id_Funcion == null)
+        {
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Finalidad)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Finalidad)
+            @Html.ValidationMessageFor(model => model.Finalidad)
+        </div>
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Funcion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Funcion)
+            @Html.ValidationMessageFor(model => model.Funcion)
+        </div>
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Subfuncion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Subfuncion)
+            @Html.ValidationMessageFor(model => model.Subfuncion)
+        </div>
+        }
+        else
+        {
+        @Html.HiddenFor(model => model.Finalidad)
+        @Html.HiddenFor(model => model.Funcion)
+        @Html.HiddenFor(model => model.Subfuncion)
+        }
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Descripcion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Descripcion)
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+    }
+</div>
+<div class="modal-footer">
+    <button id="Save" type="button" class="btn btn-success">Guardar</button>
+    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

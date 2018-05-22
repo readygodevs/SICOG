@@ -1,0 +1,141 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.De_ReciboIngresosModel>
+
+@{
+    Layout = null;
+}
+<table id="tbldetalles" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Id_ClavePresupuestoIng">
+                Clave Presupuestaria
+            </th>
+            <th data-title="Id_CuentaFormato">
+                Cuenta
+            </th>
+            <th data-title="Descripcion">
+                <label>Descripción</label>
+            </th>
+            <th data-title="Importe" class="text-right">
+                <label>Importe</label>
+            </th>
+            <th data-title="Acciones">
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_ClavePresupuestoIng)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_Cuentas.Id_CuentaFormato)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_Cuentas.Descripcion)
+                </td>
+                <td class="text-right">
+                    @if (item.Id_Movimiento == 2)
+                    {
+                        @Html.Encode(String.Format("{0:N}", item.Importe))
+                    }
+                    else
+                    {
+                        @Html.Encode("")
+                    }
+                </td>
+                <td class="acciones">
+                    <a class="fa fa-bars js_seleccionar cursorPointer" data-idfolio="@item.Folio" data-registro="@item.IdRegistro" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                    <a class="hide fa fa-trash-o js_Eliminar cursorPointer" data-idfolio="@item.Folio" data-registro="@item.IdRegistro" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="3" class="text-right">Total:</th>
+            <th class="js_totalfacturas text-right">
+
+            </th>
+            <th class="text-right">
+
+            </th>
+        </tr>
+    </tfoot>
+</table>
+<script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+<script>
+    var ConstruirTablaSaldos = function (div, mensaje) {
+        if (mensaje == undefined || mensaje == "")
+            mensaje = "No hay registros a mostrar";
+        var tabla = $("#" + div).dataTable({
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                        i : 0;
+                };
+                // Total over all pages
+                if ($("#" + div + " tbody tr").length > 0) {
+                    if (!ultimo) {
+                            totalCargo = api
+                            .column(3)
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            });
+                        // Total over this page
+                        // Update footer
+                        $(api.column(3).footer()).html(
+                            '<span class="js_currency">' + totalCargo + '</span>'
+                        );
+
+                    }
+                    else
+                    {
+                        $(api.column(3).footer()).html('');
+                    }
+
+                }
+                else {
+                    $(api.column(3).footer()).html('');
+                }
+                $(".js_currency").formatCurrency();
+            },
+            "sPaginationType": "full_numbers",
+            "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": "Anterior",
+                    "sNext": "Siguiente",
+                    "sLast": "Última",
+                    "sFirst": "Primera"
+                },
+                "sLengthMenu": '<div id="combo_datatable">Mostrar <select>' +
+                '<option value="5">5</option>' +
+                '<option value="10">10</option>' +
+                '<option value="20">20</option>' +
+                '<option value="30">30</option>' +
+                '<option value="40">40</option>' +
+                '<option value="50">50</option>' +
+                '<option value="-1">Todos</option>' +
+                '</select> registros',
+                "sInfo": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+                "sInfoFiltered": " - filtrados de _MAX_ registros",
+                "sInfoEmpty": "No hay resultados de búsqueda",
+                "sZeroRecords": mensaje,
+                "sProcessing": "Espere, por favor...",
+                "sSearch": "<div id='div_buscar'><i class='fa fa-search'></i>Buscar:</div>"
+            }
+        });
+        return tabla;
+    }
+    $(function () {
+        ConstruirTablaSaldos("tbldetalles", "No hay detalles...");
+        $(".js_currency").formatCurrency();
+    });
+</script>

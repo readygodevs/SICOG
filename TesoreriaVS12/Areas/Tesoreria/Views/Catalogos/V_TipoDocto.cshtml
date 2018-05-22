@@ -1,0 +1,115 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoDoctosModel>
+
+@{
+    ViewBag.Title = "Tipo de documento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Catálogo de tipos de documento</h2>
+<div class="jsSourceActions hide">
+
+</div>
+<div id="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-3 col-sm-offset-9 text-right">
+            <div class="js_agregar btn btn-success">
+                <i class="fa fa-plus bigger-110" title="Crear"></i>
+                <span>Agregar</span>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_Tipodocto">
+                            @Html.DisplayNameFor(model => model.Id_Tipodocto)
+                        </th>
+                        <th data-title="Descripcion">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Tipodocto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+
+                            <td class="acciones">
+                                <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="@item.Id_Tipodocto" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_Tipodocto" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_Tipodocto" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script>
+        var tbl = "";
+        var aPos = -1;
+        $(document).ready(function () {
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            tbl = ConstruirTabla("tbl", "No hay registros para mostrar");
+
+            $("body").on("click", ".js_detalles", function () {
+                VentanaModal(1, "/Tesoreria/Catalogos/V_TipoDocto_Detalles", { Id_Tipodocto: $(this).data("id") }, "get", "");
+            });
+
+            $("body").on("click", ".js_agregar", function () {
+                VentanaModal(1, "/Tesoreria/Catalogos/V_TipoDocto_Agregar", {}, "get", "");
+            });
+
+            $("body").on("click", ".js_eliminar", function () {
+                aPos = tbl.fnGetPosition($(this).parent().get(0));
+                aPos[1] = $(this).data("id");
+                ConfirmCustom("¿Está seguro de eliminar el tipo de documento: " + aPos[1] + "?, esta acción no se puede revertir.", Eliminar, "", "Aceptar", "Cancelar");
+            });
+
+            $("body").on("click", ".js_editar", function () {
+                aPos = tbl.fnGetPosition($(this).parent().parent().get(0));
+                VentanaModal(1, "/Tesoreria/Catalogos/V_TipoDocto_Editar", { Id_Tipodocto: $(this).data("id") }, "get", "");
+            });
+        });
+
+        var Eliminar = function () {
+            /*url, data, metodo, asincrono, callback*/
+            ajaxJson("@Url.Action("V_TipoDocto_Eliminar","Catalogos")", { Id_Tipodocto: aPos[1] }, "post", true, function (response) {
+                if (response.Exito == true)
+                    ExitoCustom("El tipo de documento ha sido eliminado con éxito", function () {
+                        tbl.fnDeleteRow(aPos[0]);
+                        aPos = -1;
+                    });
+                else
+                    ErrorCustom("El tipo de documento no se ha eliminado con éxito");
+            });
+        }
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}

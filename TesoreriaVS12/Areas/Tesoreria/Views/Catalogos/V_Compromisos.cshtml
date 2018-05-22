@@ -1,0 +1,93 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_ActividadesInstModel>
+
+@{
+    ViewBag.Title = "Compromisos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bImprimir", "bSalir" } }); }
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Catálogo Compromisos</h2>
+            <!--<a id="js_agregar" class="btn btn-success" href="#"><i class="fa fa-plus">Agregar</i></a>-->
+            <div class="jsSourceActions hide"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tbl" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_Actividad">
+                            @Html.DisplayNameFor(model => model.Id_Actividad)
+                        </th>
+                        <th data-title="Descripcion">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th data-title="Acciones" class="text-center">
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Actividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <!--<a class="fa fa-pencil js_editar cursorPointer" data-id="@item.Id_Actividad" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="fa fa-trash js_eliminar cursorPointer" data-id="@item.Id_Actividad" title="Elimnar" data-toggle="tooltip" data-placement="top"></a>-->
+                                <a class="fa fa-bars js_detalles cursorPointer" data-id="@item.Id_Actividad" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/Compromisos.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>
+
+    <script>
+        var tabla = "";
+        var aPos = -1;
+        var nuevo = -1;
+        var RutaExportarPDF = "@Url.Action("Compromisos", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Compromisos";
+        var RutaDetalles = "@Url.Action("V_DetallesCompromiso", "Catalogos")";//"/Tesoreria/Catalogos/V_DetallesCompromiso";
+        $(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            tabla = ConstruirTabla("tbl", "No hay compromisos");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_agregar", Nuevo);
+            $("body").on("click", ".js_editar", Obtener);
+            $("body").on("click", "#Save", Guardar);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", ".js_detalles", function () {
+                ajaxLoad(RutaDetalles, { IdCompromiso: $(this).data('id') }, "modal-content1", "GET", openModal);
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="fa fa-bars js_detalles cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"> </a>
+    </script>
+    <!--<a class="fa fa-trash js_eliminar cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"> </a>
+        <a class="fa fa-bars js_detalles cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"> </a>-->
+}

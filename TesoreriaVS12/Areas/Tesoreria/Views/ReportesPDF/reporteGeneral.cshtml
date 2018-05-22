@@ -1,0 +1,73 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>reporteGeneral</title>
+    <link href="~/Content/reporteGeneral.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="contenedor">
+        <div class="cabecera">
+            <div class="gobierno">GOBIERNO DEL ESTADO LIBRE Y SOBERANO DE COLIMA</div>
+            <div class="instituto">INSTITUTO COLIMENSE DE BLA BLALBA</div>
+            <div class="sistema">Sistema Integral de Contabilidad Gubernamental</div>
+            <div class="ejercicio">Ejercicio 2014</div>
+            <div class="poliza">
+                <div class="tipo">Póliza de Diario</div>
+                <div class="folio">000000</div>
+                <div class="mes">SEPTIEMBRE</div>
+                <div class="descripcion">
+                    POLIZA DE DIARIO GENERADA EN LA COMPROBACION DEL CR: 04-0000073 
+                </div>
+            </div>
+        </div>
+        @{int tipo = 3;}
+        <table class="tablaGrande">
+            <thead>
+                <tr>
+                    @if(tipo == 3){
+                         <th>
+                             Clave Presupuestaria<br />
+                             Cuenta
+                         </th>
+                    }
+                    else{
+                        <th>Cuenta</th>
+                    }
+                    <th>Descripción</th>
+                    <th class="text-right">Cargos</th>
+                    <th class="text-right">Abonos</th>
+                </tr>
+                   
+            </thead>
+            <tbody>
+                @if(tipo == 3){
+                    <tr>
+                        <td colspan="4">333333333-333333333333333333-3333333333
+                    </tr>
+                }
+                <tr>
+                    <td>222-22222-22222-22222</td>
+                    <td>POLIZA DE DIARIO GENERADA EN LA COMPROBACION asasdas</td>
+                    <td class="text-right">312,2312,123.00</td>
+                    <td class="text-right">2312,123.00</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">$332,6456,343,454.00</td>
+                    <td class="text-right">$332,6456,343,454.00</td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</body>
+</html>

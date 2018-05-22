@@ -1,0 +1,79 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Polizas</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Id_TipoPoliza) - @Html.DisplayFor(model => model.Id_TipoPoliza)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Id_FolioPoliza) - @Html.DisplayFor(model => model.Id_FolioPoliza)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Id_MesPoliza) - @Html.DisplayFor(model => model.Id_MesPoliza)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Fecha) - @Html.DisplayFor(model => model.Fecha)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Id_Beneficiario)
+            @if(Model.Ca_Beneficiarios.TipoPersona == 1)
+            {
+                @Html.Encode(Model.Ca_Beneficiarios.Nombre + " " + Model.Ca_Beneficiarios.ApellidoPaterno + " " + Model.Ca_Beneficiarios.ApellidoMaterno)
+            }
+            else
+            {
+                @Html.Encode(Model.Ca_Beneficiarios.Representante)
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Id_FolioCR) - @Html.Encode(Model.Id_TipoPoliza + " " + string.Format("0:0000", Model.Id_FolioCR))
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Cargos) - @Html.DisplayFor(model => model.Cargos)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Abonos) - @Html.DisplayFor(model => model.Abonos)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            Banco - @Html.DisplayFor(model => model.Ca_CuentasBancarias.Ca_Bancos.Descripcion)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Abonos) - @Html.DisplayFor(model => model.Abonos)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.DisplayNameFor(model => model.Abonos) - @Html.DisplayFor(model => model.Abonos)
+        </div>
+    </div>
+</body>
+</html>

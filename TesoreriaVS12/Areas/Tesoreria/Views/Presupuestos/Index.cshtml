@@ -1,0 +1,551 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.MA_PresupuestoEgModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Id_TipoMeta = Convert.ToString(ViewBag.Id_TipoMeta);
+    String Ejercicio = ViewBag.Ejercicio;
+    DateTime FechaInicioEjercicio = Convert.ToDateTime(ViewBag.Ejercicio + "-01-01");
+    DateTime FechaFinEjercicio = Convert.ToDateTime(ViewBag.Ejercicio + "-12-31");
+}
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<style>
+    #Ca_FuentesFin_Descripcion {
+        width: 383px !important;
+    }
+</style>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bSalir" } }); }
+</div>
+<br />
+<h2>Presupuesto de Egresos</h2>
+<div class="margen-2">
+
+    @using (Html.BeginForm("AgregarPresupuesto", "Presupuestos", new { area = "Tesoreria" }, FormMethod.Post, new { @id = "frmPrespuesto", @class = "form-horizontal" }))
+    {
+        <div class="row">
+            <div class="col-xs-5 text-right">
+                <label class="fecha-inline">Fecha: </label>
+            </div>
+            <div class="col-xs-2">
+                <div class='input-group date'>
+                    @Html.TextBoxFor(model => model.Fecha_Aprobado, new { @class = "form-control formPresup", maxlength = 10 })
+                    <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.Fecha_Aprobado)
+            </div>
+        </div>
+        <br />
+        <div class="col-xs-9">
+            <input type="hidden" name="idClavePresupuesto" id="idClavePresupuesto" />
+            <div class="col-xs-12" id="div_parcial">
+                @Html.Partial("ParcialPresupuesto")
+                <br />
+            </div>
+            <div class="col-xs-11 bordered js_divImportes">
+                <br />
+                <div class="row">
+                    <div class="col-xs-2">
+                        <input type="radio" value="1" name="tipo[]" class="js_radio formPresup">
+                        <label>Por mes</label>
+                    </div>
+                    <div class="col-xs-3">
+                        <input type="radio" value="2" name="tipo[]" class="js_radio formPresup">
+                        <label>Meses iguales</label>
+                    </div>
+                    <div class="col-xs-3">
+                        <input type="Radio" value="3" name="tipo[]" class="js_radio formPresup">
+                        <label>Por porcentaje</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="div_mesesIguales" style="display: none">
+                        <br />
+                        <div class="col-xs-3">
+                            <label>Importe</label>
+                            <input type="text" id="importeMeses" class="form-control formPresup importe" />
+                        </div>
+                        <div class="col-xs-6">
+                            <br />
+                            <button type="button" class="js_previsualizar btn btn-success">Previsualizar</button>
+                        </div>
+                    </div>
+                    <div id="div_porcentaje" style="display: none">
+                        <br />
+                        <div class="col-xs-3">
+                            <label>Importe</label>
+                            <input type="text" class="form-control formPresup importe" id="importe" />
+                        </div>
+                        <div class="col-xs-4">
+                            <label>Porcentaje</label>
+                            <input type="text" id="porcentaje" class="form-control formPresup" />
+                        </div>
+                        <div class="col-xs-4">
+                            <br />
+                            <button type="button" class="js_previsualizar btn btn-success">Previsualizar</button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+            <div class="col-xs-3">
+                <label>Póliza Orden Aprobado</label>
+                @Html.HiddenFor(model => model.Id_MesPO_Aprobado)
+                <div class="input-group">
+                    @Html.HiddenFor(model => model.Id_FolioPO_Aprobado)
+                    <input type="text" id="FolioPoliza" name="FolioPoliza" readonly="readonly" class="form-control" />
+                    <span class="input-group-addon js_ConsultaPoliza" data-tipo="4">
+                        <span class="fa fa-search"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <h3>Distribución Mensual</h3>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Enero:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado01" name="Aprobado01" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Febrero:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado02" name="Aprobado02" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Marzo:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado03" name="Aprobado03" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Abril:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado04" name="Aprobado04" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Mayo:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado05" name="Aprobado05" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Junio:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado06" name="Aprobado06" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Julio:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado07" name="Aprobado07" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Agosto:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado08" name="Aprobado08" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Septiembre:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado09" name="Aprobado09" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Octubre:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado10" name="Aprobado10" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Noviembre:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado11" name="Aprobado11" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Diciembre:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" value="0" id="Aprobado12" name="Aprobado12" />
+                </div>
+            </div>
+            <hr />
+            <div class="row margen-2">
+                <div class="col-xs-3">
+                    <label>Total:</label>
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(model => model.Total, new { @class = "form-control formPresup importe" })
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+@section Scripts {
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/FocusOut.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ImportePresupuestoEg.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/autoNumeric.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="@Url.Content("~/Areas/Tesoreria/Scripts/ConsultaPoliza.js")"></script>
+
+    <script type="text/javascript">
+        //-------Pide confirmación antes de salir o cerrar--------
+        var finalizado = true;
+        window.onbeforeunload =
+        function () {
+            if (!finalizado) {
+                return "Por favor termine de llenar el formulario.";
+            }
+            else {
+                $("#obtieneValores").hide();
+                //  Local Storage - Elimina datos almacenados
+                var idForm = "FPr";  // Identificador del formulario
+                $(".formPresup").each(function () {
+                    window.localStorage.removeItem(idForm + $(this).attr("id"));
+                });
+            }
+        }
+        //--------------------------------------------------------
+
+        function ocultaBoton() {
+            var idForm = "FPr"; // Identificador del formulario
+            var mes = window.localStorage.getItem(idForm + "Id_MesPoliza");
+            var mesDBL = $("#Id_MesPoliza").val();
+            $("#obtieneValores").show();
+        }
+
+        function obtieneValores() {
+            var idForm = "FPr"; // Identificador del formulario
+            $(".formPresup").each(function () {
+                var valor = window.localStorage.getItem(idForm + $(this).attr("id"));
+                $(this).val(valor);
+            });
+        };
+
+        function almacenaValores() {
+            var idForm = "FPr"; // Identificador del formulario
+            $(".formPresup").each(function () {
+                var idVal = $(this).attr("id");
+                var valor = $(this).val();
+                if (valor != "") {
+                    window.localStorage.setItem(idForm + idVal, valor);
+                    finalizado = false;
+                }
+            });
+        };
+        //--------------------------------------------------------
+        var setEventos = function () {
+            $("#MyModal1").off("click");
+            $("#MyModal1").on("click", ".js_btnCancel", function () {
+                closeModal();
+            });
+            $("#MyModal1").on("click", ".js_btnOk", function () {
+                var fecha = $("#fechaCancelacion").val().trim();
+                ajaxJson("@Url.Action("CancelarPresupuesto","Presupuestos")", { clavePresupuesto: $("#idClavePresupuesto").val(), fecha: fecha }, "POST", true, function (data) {
+                    if (data.Exito) {
+                        ExitoCustom(data.Mensaje);
+                        $("#frmPrespuesto")[0].reset();
+
+                        closeModal();
+                    } else
+                        ErrorCustom(data.Mensaje);
+                });
+
+            });
+
+        }
+
+        var setEventoBuscar = function () {
+            $("#btnBuscarModal").on("off");
+            $("#MyModal1").on("click", ".js_btnOk", function () {
+                ajaxLoad("@Url.Action("BuscarPresupuestos","Presupuestos")", $("#frmBuscarPrespuesto").serialize(), "div_resultados", "POST",
+                        function () {
+                            ConstruirTabla("tabla_presupuestos");
+                            $("#Id_AreaModal").focus();
+                        });
+            });
+        }
+        var bandera = 0;
+        var seleccionado = 0;
+
+
+        var modalEliminarPresupuesto = function () {
+            ajaxLoad("@Url.Action("ModalEliminar","Presupuestos")", {}, "modal-body1", "GET", function () {
+                openModal({ Modal: "MyModal1" });
+                $('#fechaCancelacion').datepicker({
+                    format: 'dd/mm/yyyy',
+                    autoclose: true,
+                    todayHighlight: true
+                });
+                setEventos();
+            })
+        }
+
+        var recargarPresupuesto = function (clavePresupuesto) {
+            var param = "clavePresupuesto=" + clavePresupuesto;
+            var Url = '@Url.Action("GetPresupuesto", "Presupuestos", new { Area = "Tesoreria" })' + "?" + param;
+            $("#div_parcial").ajaxLoad({ url: Url });
+        }
+        var GuardarPresupuesto = function () {
+            $.each($(".js_mes, #Total"), function (i, value) {
+                $(this).val($(this).autoNumeric("get"));
+            });
+            if ($("#frmPrespuesto").valid() && bandera == 1) {
+                //$("body").isLoading({ position: "overlay" });
+                ajaxJson("@Url.Action("AgregarPresupuesto","Presupuestos")", $("#frmPrespuesto").serialize(), "POST", true, function (response) {
+                    if (response.Exito == false) {
+                        ErrorCustom(response.Mensaje);
+                    } else {
+                        ExitoCustom(response.Mensaje);
+                        $(".js_Captura").attr("readonly", "readonly");
+                        $("#AnioFin").attr("disabled", true);
+                        $("#FolioPoliza").val(response.Poliza);
+                        $("#Id_FolioPO_Aprobado").val(response.Id_FolioPO_Aprobado);
+                        $("#Id_MesPO_Aprobado").val(response.Id_MesPO_Aprobado);
+                        $("#idClavePresupuesto").val(response.ClavePresupuestal);
+                        $.each($(".js_mes, #Total"), function (i, value) {
+                            $(this).autoNumeric();
+                        });
+                        $(".js_mes").focusout();
+                        $("#Total").focusout();
+                        recargarMenuLateral(["bNuevo", "bEliminar","bBuscar","bSalir"]);
+                    }
+                });
+            }
+        }
+        $.validator.setDefaults({ onkeyup: false });
+        var seleccionadoModal = 0;
+        var esModalBusqueda = 0;
+        $(document).on("ready", function () {
+            //-----------Local Storage--------------------------------
+            $("#obtieneValores").on("click", function () {
+                var idForm = "FPr"; // Identificador del formulario
+                $(".formPresup").each(function () {
+                    var valor = window.localStorage.getItem(idForm + $(this).attr("id"));
+                    $(this).val(valor);
+                });
+            });
+
+            $(".js-img_bus").on("click, change", function () {
+                almacenaValores();
+            });
+
+            $(".js_Captura").attr("disabled", true);
+            $(".js_mes").autoNumeric("init");
+            $(".js_mes").attr("readonly",true);
+            $("#Total").autoNumeric({ aSign: "$" });
+            $("#importeMeses").autoNumeric({ aSign: "$" });
+            $("#importe").autoNumeric({ aSign: "$" });
+            $("#Total").attr("readonly", true);
+            InicializarImportes("Aprobado", "Total");
+            $("body").on("click", "#js_mBuscar", function () {
+                ajaxLoad("@Url.Action("ModalPresupuesto","Presupuestos")", {}, "modal-body1", "GET", function () {
+                    openModal({ Modal: "MyModal1", Size: "lg" });
+
+                    var textbox = $(".textBoxModal");
+                    textbox.each(function (index, value) {
+                        EventFocus($(value).attr("id"), 2);
+                        //$("body").on("focusout", "#" + $(value).attr("id"), function () {
+                        //    var elemento = $(this);
+                        //    console.log($(this).data("dataSource"));
+                        //    if ($(this).val().length > 0 && $.inArray($(this).val(), $(this).data("dataSource")) == -1) {
+                        //        $(this).parent().parent().parent().find(".textDescripcion").val("");
+                        //        $(this).val("").focus();
+                        //        setTimeout(function () { elemento.focus(); }, 100);
+                        //    }
+                        //});
+                    });
+                    esModalBusqueda = 1;
+                    $("#MyModal1").off("click", ".input-group-addon");
+                    $("#MyModal1").on("click", ".input-group-addon", function () {
+                        $("#TipoBusqueda").val(1);
+                        if (!$(this).isSiblingDisabled()) {
+                            var elemento = $(this).parent().find("input");
+                            var label = $(this).parent().parent().parent().children()[0];
+                            label = $(label).children().text();
+                            if (label != "Año de Financiamiento") {
+                                var hijo = $(this).parent().parent().parent().children()[1];
+                                hijo = $(hijo).children()[0];
+                                hijo = $(hijo).children()[0];
+                                seccion = 1;
+                                customModal(seccion == 1 ? "@Url.Action("BuscarCatalogo","Presupuestos")" : "@Url.Action("BuscarCatalogo","PresupuestosIngresos")", { tipo: $(hijo).attr("objeto"), label: label, id: $(hijo).attr("id") }, "GET", "lg", function () {
+                                    ajaxLoad(seccion == 1 ? "@Url.Action("Buscar","Presupuestos")" : "@Url.Action("Buscar","Presupuestos")", { objeto: $("#tipo_busqueda").val(), clave: $("#text_clave").val().trim(), descripcion: $("#text_descripcion").val().trim(), tipoBusqueda: $("input[name=tipoBusqueda]:checked").val() }, "div_tabla", "GET",
+                                            function () {
+                                                ConstruirTabla("tabla_resultados");
+                                            });
+                                }, "", "Buscar", "Cancelar", "Búsqueda de " + label, "MyModal2");
+                            }
+                        }
+                    });
+                    setEventoBuscar();
+                });
+            });
+            //LoadPresupuestos("@DateTime.Now.Year.ToString().Substring(2, 2)", "@DateTime.Now.Year.ToString()", 1, 1);
+            LoadPresupuestos("@Ejercicio.Substring(2, 2)", "@Ejercicio", 1, 1);
+            $("#AnioFin").attr("disabled", true);
+            $("#Total").val(0);
+            $(".importe").css("text-align", "right");
+            $(".js_CuentaHiden").hide();
+            $(".js_Descripcion").attr("disabled", "disabled");
+            $('#Fecha_Aprobado').datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                todayHighlight: true,
+                startDate: new Date("@ViewBag.Ejercicio" + "-01-01"),
+                endDate: new Date("@ViewBag.Ejercicio" + "-12-31")
+            });
+            $(".js_mes").on("blur", function () {
+                if ($(this).val().trim() == "")
+                    $(this).val(0);
+                sumar("Aprobado");
+            });
+            $(".js_mes").on("blur, keyup", function () {
+                sumar("Aprobado");
+            });
+            $(".js_mes").on("focusout", function () {
+                if ($(this).val().trim().length == 0) {
+                    $(this).val("0");
+                    $(".js_mes").focusout();
+                }
+            });
+            $(".js_radio").on("click", function () {
+                seleccionado = $(this).val();
+                if (seleccionado == 1) {
+                    $("#div_porcentaje").hide();
+                    $("#div_mesesIguales").hide();
+                    $(".js_mes").attr("readonly", false);
+                    $(".js_mes").focusout();
+                    $("#Aprobado01").val("");
+                    $("#Aprobado01").focus();
+                } else if (seleccionado == 2) {
+                    $("#div_porcentaje").hide();
+                    $(".js_mes").attr("readonly", true);
+                    $("#div_mesesIguales").show();
+                    $("#importeMeses").focus();
+                } else if (seleccionado == 3) {
+                    $("#div_porcentaje").show();
+                    $("#div_mesesIguales").hide();
+                    $(".js_mes").attr("readonly", true);
+                    $("#importe").focus();
+                } else
+                    $(".js_meses").attr("readonly", true);
+            });
+            $("body").on("click", "#js_mNuevo", function () {
+                ajaxJson("@Url.Action("NuevoPresupuesto","Presupuestos")", {}, "GET", true, function (datos) {
+                    if (datos.Exito) {
+                        esModalBusqueda = 0;
+                        $(".js_Captura").attr("disabled", false);
+                        $(".js_Descripcion").attr("disabled", true);
+                        $("#Id_Area").focus();
+                        $("#frmPrespuesto")[0].reset();
+                        $("#AnioFin").attr("disabled", false);
+                        $("#AnioFin").val(@Ejercicio.Substring(2,2));
+                        bandera = 1;
+                        var textbox = $(".js_Captura");
+                        textbox.each(function (index, value) {
+                            EventFocus($(value).attr("id"));
+                        });
+                        $(".textBox").attr("readonly", true);
+                        $("#Id_Area").attr("readonly", false);
+                        $("#Id_Area").focus();
+                        recargarMenuLateral(["bGuardar", "bCancelar"]);
+                        $("body").off("click", ".js_Buscar");
+                        HabilitarBuscar(1);
+                        $("#Id_Area").focus();
+                        $(".js_divImportes .js_radio").attr("disabled", false);
+                        //$(".js_mes").attr("readonly", false);
+                    }
+                });
+            });
+            $("body").on("click", "#js_mGuardar", function (e) {
+                if ($("#Total").autoNumeric("get") == 0 || $("#Total").val() == "")
+                    $("#Total").val(0);
+                if ($("#Total").autoNumeric("get") == 0) {
+                    ConfirmCustom("<div class='text-justify'><b>Esta Clave Presupuestaria se registrará en el Presupuesto Aprobado con $0.00 y no se podrá editar posteriormente para ingresarle importes a los meses. " +
+                        "Para actualizar algún importe en el futuro, tendrá que hacerlo por medio de Transferencias, lo que afectará al Presupuesto Modificado.</b> <br/>¿Desea continuar?</div>", GuardarPresupuesto, "", "Si", "No");
+                } else {
+                    GuardarPresupuesto();
+                }
+            });
+            $("body").on("click", "#js_mCancelar", function () {
+                recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);
+                ReiniciarFormulario();
+            });
+            $("#importeMeses").autoNumeric({ aSign: "$" });
+            $("#importe").autoNumeric({ aSign: "$" });
+            $("#Total").autoNumeric({ aSign: "$" });
+            $("#Total").attr("readonly", true);
+            $("#MyModal1").on("click", ".js_seleccionarPresupuesto", function () {
+                $("#frmPrespuesto")[0].reset();
+                var clavePresupuesto = $(this).data("clavepresupuesto");
+                ajaxJson("@Url.Action("GetPresupuesto","Presupuestos")", { clavePresupuesto: clavePresupuesto }, "POST", true, function (data) {
+                    if (data.Exito == true) {
+                        llenarMaestro(data.Presupuesto);
+                        $("#idClavePresupuesto").val(clavePresupuesto);
+                        closeModal();
+                        $(".js_Captura").attr("readonly", true);
+                        $(".textDescripcion").attr("readonly", true);
+                        $(".js_Descripcion").attr("readonly", true);
+                        recargarMenuLateral(["bNuevo", "bBuscar", "bEliminar","bSalir"]);
+                        $(".js_divImportes .js_radio").attr("disabled", true);
+                        $(".js_mes").attr("readonly", true);
+                        $(".js_mes").focusout();
+                        $("#Total").focusout();
+                    } else {
+                        ErrorCustom(data.Mensaje);
+                    }
+                });
+            });
+
+            $("body").on("click", "#js_mEliminar", function () {
+                ConfirmCustom("El Presupuesto de Egreso será eliminado ¿Desea continuar?", modalEliminarPresupuesto, "", "Si", "No");
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+            /**************Consulta poliza*****************/
+            $(".js_ConsultaPoliza").on("click", function () {
+                console.log("consulta poliza");
+                ConsultaPoliza($(this).data("tipo"), $(this).siblings("input[type=hidden]").val(), $(this).parent().siblings("input[type=hidden]").val());
+            });
+            /************************************************************/
+        });
+    </script>
+}

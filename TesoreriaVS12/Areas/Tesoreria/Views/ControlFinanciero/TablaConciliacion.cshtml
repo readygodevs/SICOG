@@ -1,0 +1,79 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.VW_Conciliacion>
+
+@{
+    Layout = null;
+}
+
+    <table id="tbl" class="table table-responsive table-striped table-bordered tablaConciliacion">
+    <thead>
+        <tr>
+            <th data-title="Tipo" style="width:2%;padding: 10px 2px;">
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th data-title="Movimiento" style="width:19%">
+                @Html.DisplayNameFor(model => model.Movimiento)
+            </th>
+            <th data-title="No_Cheque" style="width:4%;padding: 10px 2px;">
+                Cheque
+            </th>
+            <th data-title="Cargos_formato" style="width:10%;padding: 10px 2px;">
+                @Html.DisplayNameFor(model => model.Cargos)
+            </th>
+            <th data-title="Abonos_formato" style="width:10%;padding: 10px 2px;">
+                @Html.DisplayNameFor(model => model.Abonos)
+            </th>
+            <th data-title="Estatus" style="width:15%;padding: 10px 2px;">
+                @Html.DisplayNameFor(model => model.Estatus)
+            </th>
+            <th class="js_fecha" data-title="Fecha" style="padding: 10px 2px;width:6%">
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th data-title="Referencia" style="width:100px;padding: 10px 2px;">
+                @Html.DisplayNameFor(model => model.Referencia)
+            </th>
+            <th data-title="Acciones" style="width:3%;padding: 10px 2px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="cursorPointer" data-noregistro="@item.No_Registro" data-idcta="@item.Id_CtaBancaria" data-mes="@item.Id_Mes" data-placement="bottom" data-toggle="popover" data-title="Opciones" data-container="body" type="button" data-html="true">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_Cheque)
+                </td>
+                <td class="text-right">
+                    @Html.Encode(String.Format("{0:N}", item.Cargos))
+                </td>
+                <td class="text-right">
+                    @Html.Encode(String.Format("{0:N}", item.Abonos))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estatus)
+                </td>
+                <td>
+                    @Html.Encode(item.Fecha.Value.ToShortDateString())
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Referencia)
+                </td>
+                <td class="acciones">
+                    @if (ViewBag.acciones)
+                    {
+                        <a class="js_eliminar fa fa-trash-o cursorPointer" data-noregistro="@item.No_Registro" data-idcta="@item.Id_CtaBancaria" data-mes="@item.Id_Mes" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                    }
+                    <a class="js_poliza fa fa-file-pdf-o cursorPointer" data-noregistro="@item.No_Registro" data-idcta="@item.Id_CtaBancaria" data-mes="@item.Id_Mes" title="Ver póliza" data-toggle="tooltip" data-placement="top"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+
+
+</table>

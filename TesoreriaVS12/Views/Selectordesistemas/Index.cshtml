@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <title>Index</title>
+    <link href="~/Content/selectordesistemas.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header">
+        <span>Sistemas de Administración Pública</span>
+    </div>
+    <div id="menu-sistemas">
+        <a href="@Url.Action("LogOn","Account")">
+            <div class="item">
+                <div class="imagen tesoreria"></div>
+                <div class="info">
+                    <div class="titulo">
+                        Sistema Integral de Contabilidad Gubernamental
+                    </div>
+                </div>
+            </div>
+        </a>
+        @*<a href="/adquisiciones">
+            <div class="item">
+                <div class="imagen adquisiciones"></div>
+                <div class="info">
+                    <div class="titulo">
+                        Sistema de Adquisiciones
+                    </div>
+                </div>
+            </div>
+        </a>*@
+    </div>
+</body>
+</html>

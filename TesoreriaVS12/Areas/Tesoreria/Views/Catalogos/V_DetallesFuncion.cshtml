@@ -1,0 +1,51 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_FuncionesModel
+
+@{
+    Layout = null;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+    <h4 class="modal-title">Detalles Función</h4>
+</div>
+<div class="modal-body">
+    <label>
+        @Html.DisplayNameFor(model => model.Finalidad)
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Finalidad)
+    </div>
+
+    <label>
+        @Html.DisplayNameFor(model => model.Funcion)
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Funcion)
+    </div>
+
+    <label>
+        Subfunción
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Subfuncion)
+    </div>
+
+    <label>
+        Número Función
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_Funcion)
+    </div>
+
+    <label>
+        @Html.DisplayNameFor(model => model.Descripcion)
+    </label>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Descripcion)
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

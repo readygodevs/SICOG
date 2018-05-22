@@ -1,0 +1,57 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.CancelaCR_CPModel
+
+@using (Html.BeginForm("CancelarCRCP", "Contrarecibos", FormMethod.Post, new { id = "frmCancelarCR_CP" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id_TipoCR_C)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Id_TipoCR_C, new { @class = "NonEditable" })
+            @Html.ValidationMessageFor(model => model.Id_TipoCR_C)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id_FolioCR_C)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Id_FolioCR_C, new { @class = "NonEditable" })
+            @Html.ValidationMessageFor(model => model.Id_FolioCR_C)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FechaCR_C)
+        </div>
+        <div class="">
+            <div class="input-group fecha_group">
+                @Html.TextBox("FechaCR_C", Model.FechaCR_C.Value.ToShortDateString(), new { @class = "date" })
+                <span id="dateFechaCR_C" class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            @Html.ValidationMessageFor(model => model.FechaCR_C)
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {        
+        $("#frmCancelarCR_CP input[type=text], textarea, select").addClass("form-control");
+        $("#frmCancelarCR_CP .NonEditable").attr("readonly", "readonly");
+        $("#dateFechaCR_C").on("click", function () {
+            if ($(".datepicker").is(":visible") == false)
+                $(this).parent().find(".date").focus();
+        });
+
+        $("#FechaCR_C").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Model.cfechas.Fecha_Min.ToShortDateString()',
+            endDate: '@Model.cfechas.Fecha_Max.ToShortDateString()'
+        });
+    });
+</script>

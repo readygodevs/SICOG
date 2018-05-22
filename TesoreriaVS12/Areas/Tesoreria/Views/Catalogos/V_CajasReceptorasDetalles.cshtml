@@ -1,0 +1,19 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_CajasReceptorasModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles" class="TituloModal"></div>
+<div class="row">
+    <div class="col-sm-2">@Html.LabelFor(model => model.Id_CajaR)</div>
+    <div class="col-sm-7">@Html.DisplayFor(model => model.Id_CajaR)</div>
+</div>
+<div class="row">
+    <div class="col-sm-2">@Html.LabelFor(model => model.Descripcion)</div>
+    <div class="col-sm-7">@Html.DisplayFor(model => model.Descripcion)</div>
+</div>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

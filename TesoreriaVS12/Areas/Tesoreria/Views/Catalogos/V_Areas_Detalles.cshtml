@@ -1,0 +1,26 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_AreasModel
+
+@{
+    ViewBag.Title = "Areas_Agregar";
+    Layout = null;
+}
+
+<div data-title="Detalles Centro Gestor" class="TituloModal"></div>
+
+    <p><label>Centro Gestor:</label> @Html.Encode(Model.Id_Area)</p>
+    <p><label>Descripción:</label> @Html.Encode(Model.Descripcion.ToUpper())</p>
+    <p><label>Último Nivel</label>
+    @{
+        if(Model.UltimoNivel == false){
+            @Html.Encode("NO")
+        }
+        else{
+            @Html.Encode("SI")
+        }
+    }
+    </p>
+<script>
+    $(document).ready(function () {
+        $("#js_btnOk1").hide();
+    });
+</script>

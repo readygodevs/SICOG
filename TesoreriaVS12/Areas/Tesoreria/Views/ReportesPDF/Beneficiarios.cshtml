@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.VW_Beneficiarios>
+@{
+    ViewBag.Title = "Catálogo de Beneficiarios";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Folio</th>
+            <th style="width:30%">Nombre o Razón Social</th>
+            <th style="width:42%">Clasificación de Beneficiario</th>
+            <th style="width:27%">Cuenta Contable</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_Beneficiario)
+                </td>
+                <td>
+                    @Html.Encode(item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Clasificacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_CuentaFormato)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

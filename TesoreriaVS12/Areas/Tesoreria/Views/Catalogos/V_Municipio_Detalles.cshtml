@@ -1,0 +1,19 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_MunicipiosModel
+
+@{
+    ViewBag.Title = "Estado";
+    Layout = null;
+}
+
+<p>
+    <label>
+        @Html.DisplayNameFor(model => model.Descripcion)
+    </label>
+    @Html.DisplayFor(model => model.Descripcion)
+</p>
+<p>
+    <label>
+        @Html.DisplayNameFor(model => model.CA_Estado)
+    </label>
+    @Html.DisplayFor(model => model.CA_Estado.Descripcion)
+</p>

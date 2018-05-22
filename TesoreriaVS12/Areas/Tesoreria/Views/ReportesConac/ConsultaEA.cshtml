@@ -1,0 +1,301 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.tblRepCuentasModel>
+
+@{
+    Layout = null;
+}
+
+@*<div class="row">
+    <div class="col-sm-12 text-center">
+        <label>Cuenta Pública 2012</label>
+    </div>
+</div>*@
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <label>Estado de Actividades</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <label>@ViewBag.fecha</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <label>(Pesos)</label>
+    </div>
+</div>
+<div class="row ente">
+    <div class="col-sm-offset-2 col-sm-1">
+        <label>Ente Público</label>
+    </div>
+    <div class="col-sm-7 text-center underline">
+        <label>@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</label>
+    </div>
+</div>
+<div class="row contenedor">
+    <div class="col-sm-6">
+        <table>
+            <thead>
+                <tr>
+                    <th class="text-center green">
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th class="text-center green">
+                        @ViewBag.Ejercicio1
+                    </th>
+                    <th class="text-center green">
+                        @ViewBag.Ejercicio2
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>INGRESOS Y OTROS BENEFICIOS</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="total">
+                        <label>Ingresos de la Gestión</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==4 && x.Grupo == 1).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==4 && x.Grupo == 1).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Genero == 4 && x.Grupo == 1))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="total">
+                        <label>Participaciones, Aportaciones, Transferencias, Asignaciones, Subsidios y Otras Ayudas</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==4 && x.Grupo == 2).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==4 && x.Grupo == 2).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Genero == 4 && x.Grupo == 2))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                 <tr>
+                    <td class="total">
+                        <label>Otros Ingresos y Beneficios</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==4 && x.Grupo == 3).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==4 && x.Grupo == 3).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                 @foreach (var item in Model.Where(x => x.Genero == 4 && x.Grupo == 3))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="total">
+                        <label>Total de Ingresos y Otros Beneficios</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==4).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==4).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="col-sm-6">
+        <table>
+            <thead>
+                <tr>
+                    <th class="text-center green">
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th class="text-center green">
+                        @ViewBag.Ejercicio1
+                    </th>
+                    <th class="text-center green">
+                        @ViewBag.Ejercicio2
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>GASTOS Y OTRAS PÉRDIDAS</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="total">
+                        <label>Gastos de  Funcionamiento</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 1).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 1).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Genero == 5 && x.Grupo == 1))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="total">
+                        <label>Transferencia, Asignaciones, Subsidios y Otras Ayudas</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 2).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 2).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Genero == 5 && x.Grupo == 2))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="total">
+                        <label>Participaciones y Aportaciones</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 3).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 3).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Genero == 5 && x.Grupo == 3))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="total">
+                        <label>Intereses, Comisiones y Otros Gastos de la Deuda Pública</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 4).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 4).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Genero == 5 && x.Grupo == 4))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="total">
+                        <label>Otros Gastos y Pérdidas Extraordinarias</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 5).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 5).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Genero == 5 && x.Grupo == 5))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="total">
+                        <label>Inversión Pública</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 6).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5 && x.Grupo == 6).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                @foreach (var item in Model.Where(x => x.Genero == 5 && x.Grupo == 5))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio1.Value.ToString("N")
+                        </td>
+                        <td class="text-right">
+                            @item.Ejercicio2.Value.ToString("N")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="total">
+                        <label>Total de Gastos y Otras Pérdidas</label></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5).Sum(x=>x.Ejercicio1).Value.ToString("N")</div></td>
+                    <td class="text-right total"><div>@Model.Where(x=>x.Genero==5).Sum(x=>x.Ejercicio2).Value.ToString("N")</div></td>
+                </tr>
+                 <tr>
+                    <td class="total-rojo">
+                        <label>Resultados del Ejercicio  (Ahorro/Desahorro)</label></td>
+                    <td class="text-right total-rojo"><div>@Html.Encode((Model.Where(x => x.Genero == 4).Sum(x => x.Ejercicio1).Value - Model.Where(x => x.Genero == 5).Sum(x => x.Ejercicio1).Value).ToString("N"))</div></td>
+                    <td class="text-right total-rojo"><div>@Html.Encode((Model.Where(x => x.Genero == 4).Sum(x => x.Ejercicio2).Value - Model.Where(x => x.Genero == 5).Sum(x => x.Ejercicio2).Value).ToString("N"))</div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row protesta">
+    <div class="col-sm-12 text-center">
+        <label>Bajo protesta de decir verdad declaramos que los Estados Financieros y sus Notas son razonablemente correctos y responsabilidad del emisor</label>
+    </div>
+</div>
+@if (ViewBag.firmantes)
+{
+<div class="row firmantes">
+    <div class="col-sm-offset-2 col-sm-3 text-center"><label>@ViewBag.Firmante1N</label><br /><label>@ViewBag.Firmante1C</label></div>
+    <div class="col-sm-offset-2 col-sm-3 text-center"><label>@ViewBag.Firmante2N</label><br /><label>@ViewBag.Firmante2C</label></div>
+</div>
+}

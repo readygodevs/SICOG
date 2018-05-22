@@ -1,0 +1,35 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.vVerificaPoliza>
+@if (Model.Count() > 0)
+{
+    <table id="tablaPolizas" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Tipo Póliza</th>
+                <th>Folio</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Cargos</th>
+                <th>Abonos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TipoPol)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Id_FolioPoliza)</td>
+                    <td>@String.Format("{0:d}", item.Fecha)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                    <td class="text-right">@String.Format("{0:N}", item.Cargos)</td>
+                    <td class="text-right">@String.Format("{0:N}", item.Abonos)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <br />
+    <label>No existen Pólizas descuadradas para este mes</label>
+}
+

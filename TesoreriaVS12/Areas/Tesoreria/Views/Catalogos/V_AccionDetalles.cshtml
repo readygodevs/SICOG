@@ -1,0 +1,42 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_AccionesModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles de Acción u Obra" class="TituloModal"></div>
+<div data-text="Guardar" id="btnOk"></div>
+<div data-text="Cerrar" id="btnCancel"></div>
+<label>
+    @Html.DisplayNameFor(model => model.Id_Proceso)
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.CA_Proyecto.Descripcion)
+</div>
+<label>
+    @Html.DisplayNameFor(model => model.Id_ActividadMIR2)
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.CA_Actividad.Descripcion)
+</div>
+<label>
+    Acción
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_Accion2)
+</div>
+<label>
+    @Html.DisplayNameFor(model => model.Descripcion)
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+
+</script>

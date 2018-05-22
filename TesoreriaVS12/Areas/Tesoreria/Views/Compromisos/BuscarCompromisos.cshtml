@@ -1,0 +1,76 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_CompromisosModel>
+
+@{
+    Layout = null;
+}
+<table id="tblCompromisos">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_TipoCompromiso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_FolioCompromiso)
+            </th>
+            <th>
+                Beneficiario
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha_Orden)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.No_Requisicion)
+            </th>
+            @*<th>
+                No. de Orden de Compra
+            </th>*@
+            <th>
+                Adquisiciones
+            </th>
+            <th>
+                Importe
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_TipoCompromisos.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_FolioCompromiso)
+                </td>
+                <td>
+                    @Html.Encode(item.Ca_Beneficiarios.NombreCompleto)
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:d}", item.Fecha_Orden))
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_Requisicion)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.No_Adquisicion)
+                </td>*@
+                <td class="text-center">
+                   <b> @Html.Encode((item.Adquisicion.HasValue && item.Adquisicion.Value) ? "SI" : "NO")</b>
+                </td>
+                <td>
+                    @Html.Encode(String.Format("{0:c2}", item.Cargos))
+                </td>
+                <td class="acciones">
+                    <a href="#" class="js_Seleccionar" data-tipocompromiso="@item.Id_TipoCompromiso" data-foliocompromiso="@item.Id_FolioCompromiso" ><i class="fa fa-check"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        ConstruirTabla("tblCompromisos", "No se encontraron resultados...");
+    });
+</script>

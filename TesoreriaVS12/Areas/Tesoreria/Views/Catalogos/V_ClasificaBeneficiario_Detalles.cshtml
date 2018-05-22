@@ -1,0 +1,25 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ClasificaBeneficiariosModel
+
+@{
+    ViewBag.Title = "Clasificación de beneficiario";
+    Layout = null;
+}
+<p>
+    <label>
+        @Html.DisplayNameFor(model => model.Descripcion)
+    </label>
+    @Model.Descripcion
+</p>
+
+<p>
+    <label>
+        @Html.DisplayNameFor(model => model.Id_Cuenta)
+    </label>
+    @Model.Id_Cuenta
+</p>
+
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

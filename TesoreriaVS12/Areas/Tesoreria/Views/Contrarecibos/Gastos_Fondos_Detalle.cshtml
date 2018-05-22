@@ -1,0 +1,330 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ContrarecibosFGModel
+@{
+    if(Model.Id_TipoCR == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.FondosRevolventes)
+    {
+        ViewBag.Title = "Detalles de Fondos Revolventes";
+    }
+    else
+    {
+        ViewBag.Title = "Detalles de Gastos a Comprobar";
+    } 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles de @if (Model.Id_TipoCR == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.FondosRevolventes)
+                { <label>Fondos Revolventes</label> }
+                else
+                { <label>Gastos a Comprobar</label> }</h2>
+@{
+    TesoreriaVS12.Areas.Tesoreria.Models.De_ContrarecibosModel detalle = new TesoreriaVS12.Areas.Tesoreria.Models.De_ContrarecibosModel();
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = (Model.Botonera.Count > 0 ? Model.Botonera : new List<object> { "bNuevo", "bBuscar", "bSalir" }) }); }
+</div>
+
+
+@using (Html.BeginForm("Gastos_Fondos_DetalleN", "Contrarecibos", new { area = "Tesoreria" }, FormMethod.Post, new { id = "frmContrarecibos", @class = "js_frmClavePresupuestal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_TipoCR)
+    @Html.HiddenFor(model => model.Id_FolioCR)
+    
+    if (Model.De_Contrarecibos.Count(x => Model.No_Comprobacion.HasValue ? x.No_Comprobacion == Model.No_Comprobacion : x.No_Comprobacion == null) > 0)
+    {
+        detalle = Model.De_Contrarecibos.Where(x => x.Id_TipoCR == Model.Id_TipoCR && x.Id_FolioCR == Model.Id_FolioCR && (Model.No_Comprobacion.HasValue ? x.No_Comprobacion == Model.No_Comprobacion : x.No_Comprobacion == null)).FirstOrDefault();
+        detalle.Id_Fuente_Filtro = Model.Id_Fuente;
+        @Html.Partial("_ClavePresupuestal", detalle)         
+        @Html.Hidden("Id_Registro", detalle.Id_Registro)
+        
+    }
+    else
+    {
+        @Html.Partial("_ClavePresupuestal", new TesoreriaVS12.Areas.Tesoreria.Models.De_ClavePresupuestal() { Id_Fuente_Filtro = Model.Id_Fuente })      
+        @Html.Hidden("Id_Registro")
+    }
+    @Html.Hidden("Fecha", Model.Fecha_Comprobacion.HasValue ? Model.Fecha_Comprobacion : Model.FechaCR)
+    if (Model.No_Comprobacion.HasValue)
+    {
+        @Html.Hidden("No_Comprobacion", Model.No_Comprobacion);
+    }
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-xs-2">
+            <label for="Movimiento">Movimiento</label>
+            @if (detalle.Id_Movimiento == 1 || detalle.Id_Movimiento == null)
+            {
+                @Html.TextBox("Movimiento", "CARGO", new { @readonly = "readonly", @class = "form-control cargo-abono" })
+                @Html.Hidden("Id_Movimiento", 1)
+            }
+            else if (detalle.Id_Movimiento == 2)
+            {
+                @Html.TextBox("Movimiento", "ABONO", new { @readonly = "readonly", @class = "form-control cargo-abono" })
+                @Html.Hidden("Id_Movimiento", 2)
+            }
+        </div>
+        <div class="col-xs-2">
+            <label for="Importe">Importe</label>
+            @Html.TextBox("Importe", detalle.Importe.HasValue ? detalle.Importe.Value.ToString() : "0", new { @class = "form-control importe" })
+        </div>  
+        <div class="col-xs-4">                    
+            <br />
+            <label for="Disponiblidad">Disponiblidad</label>                    
+            @Html.CheckBox("Disponiblidad", detalle.Disponibilidad.HasValue ? detalle.Disponibilidad.Value : false, new { @class = "form-control", @disabled = "disabled" })
+        </div>                
+    </div>
+}
+<br />
+<div class="row">
+    <div class="col-xs-3">
+    </div>
+    <div class="col-xs-3">
+        Reintegro: @Html.TextBoxFor(model => model.Reintegros, new { @disabled="disabled" })
+    </div>
+    <div class="col-xs-3">
+        Excedido: @Html.TextBoxFor(model=> model.Sobrantes, new { @disabled="disabled" })
+    </div>
+    <div class="col-xs-3">
+    </div>
+</div>
+<br />
+<div class="row">
+    <table id="tblDetalleContrarecibos" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Clave Presupuestaria</th>
+                <th>Cuenta</th>
+                <th>Descripción</th>
+                <th>Objeto de Gasto</th>
+                <th class="text-right">Cargo</th>
+                <th class="text-right">Abono</th>
+                <th>Acciones</th>
+            </tr>                
+        </thead>
+        <tbody>
+            @{ 
+                decimal totalCargos = 0; decimal cargo = 0;
+                decimal totalAbonos = 0; decimal abono = 0;
+                var lista = Model.De_Contrarecibos.Where(x => Model.No_Comprobacion.HasValue ? Model.No_Comprobacion == x.No_Comprobacion : x.No_Comprobacion == null);
+            }
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelitem => item.Id_ClavePresupuesto)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Ca_Cuentas.Id_CuentaFormato)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Ca_Cuentas.Descripcion)</td>
+                        <td>@Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.CvePresupuestalOG(item.Id_ClavePresupuesto))</td>
+                        <td class="text-right">@Html.Encode(String.Format("{0:N}", (item.Id_Movimiento.HasValue && item.Id_Movimiento.Value == 1 ? item.Importe.Value.ToString() : "")))</td>
+                        <td class="text-right">@Html.Encode(String.Format("{0:N}", (item.Id_Movimiento.HasValue && item.Id_Movimiento.Value == 2 ? item.Importe.Value.ToString() : "")))</td>
+                        <td class="acciones">
+                            @if (item.Id_Movimiento.HasValue && item.Id_Movimiento.Value == 1){
+                                <a href="#" class="js_DetalleCR" data-tipocr="@item.Id_TipoCR" data-foliocr="@item.Id_FolioCR" data-registro="@item.Id_Registro" data-nocomprobacion="@item.No_Comprobacion"><i class="fa fa-bars"></i></a>
+                            }
+                            <a href="#" class="js_EliminarDetalleCR" data-tipocr="@item.Id_TipoCR" data-foliocr="@item.Id_FolioCR" data-registro="@item.Id_Registro" data-nocomprobacion="@item.No_Comprobacion"><i class="fa fa-trash-o"></i></a>
+                        </td>                    
+                    </tr>
+                    cargo = item.Id_Movimiento.HasValue && item.Id_Movimiento.Value == 1 ? item.Importe.Value : 0;
+                    abono = item.Id_Movimiento.HasValue && item.Id_Movimiento.Value == 2 ? item.Importe.Value : 0;
+                    totalCargos += cargo;
+                    totalAbonos += abono;
+                }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><b>Totales</b></td>
+                <td class="text-right">@Html.Encode(String.Format("{0:C}",totalCargos))</td>
+                <td class="text-right">@Html.Encode(String.Format("{0:C}",totalAbonos))</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="row">
+    @using (Html.BeginForm("Gastos_Fondos", "Contrarecibos", FormMethod.Post, new { id = "frmRegreso" }))
+    {
+        @Html.Hidden("Tipo", Model.Id_TipoCR)
+        @Html.Hidden("Folio", Model.Id_FolioCR)
+    }
+</div>
+<div class="row">
+    @using (Html.BeginForm("Gastos_Fondos_Detalle", "Contrarecibos", FormMethod.Post, new { id = "frmRecarga" }))
+    {
+        @Html.Hidden("TipoCR", Model.Id_TipoCR);
+        @Html.Hidden("FolioCR", Model.Id_FolioCR);
+    }
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/clavePresupuestal.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script>
+        $(document).ready(function () {
+            ConstruirTabla("tblDetalleContrarecibos", "No se encontraron resultados...",2);
+            Bloquear();
+            $("#Id_Cuenta").val('@detalle.Id_Cuenta');
+            $("#Ca_Cuentas_Descripcion").val('@detalle.Ca_Cuentas.Descripcion');
+            /**************Acciones Botonera Lateral********************/
+            $("body").on("click", "#js_mNuevo", function () {
+                $("#Id_Registro").val("0");
+                $("#Importe").removeAttr("disabled");
+                recargarMenuLateral(["bGuardar", "bCancelar"]);
+                eventFocus();
+                var filtro = $("#Id_Fuente_Filtro").val();
+                ajaxJson("@Url.Action("Gastos_Fondos_Detalle","Contrarecibos")", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val(), Registro: 0, json: true }, "POST", false, function (response) {
+                    llenarMaestro(response.Registro);
+                    $(".js_Descripcion").attr("value", "");
+                });
+                $("#Id_Movimiento").val("1");
+                $("#Movimiento").val("CARGO");
+                $("#Id_Fuente_Filtro").val(filtro);
+            });
+
+            $("body").on("click", "#js_mSalir", function () {
+                if ($("#No_Comprobacion").val() != "" && $("#No_Comprobacion").length==1) {
+                    ajaxJson("@Url.Action("VerificaNoComprobacion","Contrarecibos")", { Tipo: $("#Id_TipoCR").val(), Folio: $("#Id_FolioCR").val(), NoComprobacion: $("#No_Comprobacion").val() }, "POST", true, function (response) {
+                        //console.log(response.Exito);
+                        if (!response.Exito) {
+                            var Mensaje = _.template($('#js_msjSalir').html());
+                            ConfirmCustom(Mensaje, function () {
+                                console.log($("#Id_TipoCR").val() + "-" + $("#Id_FolioCR").val() + "-" + $("#No_Comprobacion").val());
+                                ajaxJson("@Url.Action("GeneracionPolizas","Contrarecibos")""/Tesoreria/Contrarecibos/GeneracionPolizas", { Tipo: $("#Id_TipoCR").val(), Folio: $("#Id_FolioCR").val(), NoComporbacion: $("#No_Comprobacion").val() }, "POST", true, function (response) {
+                                    if (response.Exito == true) {
+                                        $("#frmRegreso").submit();
+                                    }
+                                    else
+                                        ErrorCustom(response.Mensaje, "");
+                                });
+                            }, "", "Aceptar", "Cancelar");
+                        }
+                        else
+                            $("#frmRegreso").submit();
+                    });
+                }
+                else
+                    $("#frmRegreso").submit();
+            });
+
+            $("body").on("click", "#js_mGuardar", function () {
+                DesBloquear();
+                $(".js_Descripcion").attr("disabled", "disabled");
+                if ($("#frmContrarecibos").valid()) {
+                    var cve = $("#Id_Area").val() + $("#Id_Funcion").val() + $("#Id_Actividad").val() + $("#Id_ClasificacionP").val() + $("#Id_Programa").val() + $("#Id_Proceso").val() + $("#Id_TipoMeta").val() + $("#Id_ActividadMIR").val() + $("#Id_Accion").val() + $("#Id_Alcance").val() + $("#Id_TipoG").val() + $("#Id_Fuente").val() + $("#AnioFin").val() + $("#Id_ObjetoG").val();
+                    ajaxJson("@Url.Action("getDisponibilidad","Compromisos")", { cve: cve, importe: $("#Importe").val(), fecha: $("#Fecha").val() }, "POST", true, function (response) {
+                        if (!response.Error) {
+                            if (response.Data.Disponibilidad) {
+                                ajaxJson($("#frmContrarecibos").attr("action"), $("#frmContrarecibos").serialize(), "POST", true, function (response) {
+                                    //recargar botonera Mandar a guardar detalles
+                                    if (!response.Exito) {
+                                        ErrorCustom(response.Mensaje);
+                                    }
+                                    else {
+                                        $("#frmRecarga").submit();
+                                    }
+                                });
+                            }
+                            else if (response.Data.SinDisponibilidad == false && response.Data.Disponibilidad == false) {
+                                ErrorCustom("Esta clave presupuestal no cuenta con disponibilidad.", "");
+                            }
+                            else if (response.Data.SinDisponibilidad && response.Data.Disponibilidad == false) {
+                                ConfirmCustom("Esta clave presupuestal no cuenta con disponibilidad. ¿Desea continuar?", function () {
+                                    ajaxJson($("#frmContrarecibos").attr("action"), $("#frmContrarecibos").serialize(), "POST", true, function (response) {
+                                        //recargar botonera Mandar a guardar detalles
+                                        if (!response.Exito) {
+                                            ErrorCustom(response.Mensaje);
+                                        }
+                                        else {
+                                            $("#frmRecarga").submit();
+                                        }
+                                    });
+                                }, "", "Continuar", "Cancelar");
+                            }
+                        }
+                        else
+                            ErrorCustom("Ocurrio un Error");
+                    });
+                }
+                return false;
+            });
+
+            $("body").on("click", "#js_mCancelar", function () {
+                $("#frmRecarga").submit();
+            });
+
+            $("body").on("click", "#js_mSaldar", function () {
+                var excedido = parseFloat($("#Sobrantes").val());
+                if (excedido > 0)
+                    customModal("@Url.Action("SaldarMovimientos","Contrarecibos")",{},"GET","lg", Saldar, "", "Aceptar","Cancelar","Saldar Movimientos","IdModal")
+                else
+                    Saldar();
+
+                
+            });
+
+            $("body").on("click", "#js_mEliminar", function () {
+                ajaxJson("@Url.Action("DeleteDeContrarecibos","Contrarecibos")", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val(), Registro: $("#Id_Registro").val(), NoComprobacion : $("#No_Comprobacion").val() }, "POST", true, function (response) {
+                    if (!response.Exito)
+                        ErrorCustom(response.Mensaje);
+                    else
+                        $("#frmRecarga").submit();
+                });
+            });
+
+
+            //----------------Botones tabla -------------------------------------//
+            $("body").on("click", "#tblDetalleContrarecibos .js_DetalleCR", function () {
+                ajaxJson("@Url.Action("Gastos_Fondos_Detalle","Contrarecibos")", { TipoCR: $(this).data("tipocr"), FolioCR: $(this).data("foliocr"), Registro: $(this).data("registro") }, "POST", true, function (response) {
+                    llenarMaestro(response.data);
+                });
+            });
+
+            $("body").on("click", "#tblDetalleContrarecibos .js_EliminarDetalleCR", function () {
+                ajaxJson("@Url.Action("DeleteDeContrarecibos","Contrarecibos")", { TipoCR: $(this).data("tipocr"), FolioCR: $(this).data("foliocr"), Registro: $(this).data("registro"), NoComprobacion: $(this).data("nocomprobacion") }, "POST", true, function (response) {
+                    if(!response.Exito)
+                        ErrorCustom(response.Mensaje);
+                    else
+                        $("#frmRecarga").submit();
+                });
+            });
+
+            if ($("#js_mEliminar").length != 1) 
+                $("#tblDetalleContrarecibos .js_EliminarDetalleCR").hide();
+        });
+
+        function Bloquear() {
+            $("#frmContrarecibos input[type='text'], select, textarea").attr("disabled", "disabled");
+        }
+        function DesBloquear() {
+            $("#frmContrarecibos input, select, textarea").removeAttr("disabled");
+        }
+
+        function Saldar()
+        {
+            if ($("#CtaxPagar").val() == "") {
+                ErrorCustom("Cuenta por Pagar invalida");
+                return false;
+            }
+            ajaxJson("@Url.Action("SaldarMovimientos","Contrarecibos")", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val(), CtaxPagar : $("#CtaxPagar").val()  }, "POST", true, function (response) {
+                if (!response.Exito)
+                    ErrorCustom(response.Mensaje);
+                else {
+                    $("#frmRecarga").submit();
+                }
+            });
+            $(".IdModal").modal("hide");
+        }
+    </script>
+
+    <script type="text/template" id="js_msjSalir">
+         <p>Se generarán las pólizas de diario y de orden</p>
+         <p>¿Está seguro de continuar?</p>
+    </script>
+
+}

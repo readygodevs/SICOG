@@ -1,0 +1,42 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_ReciboIngresos>
+
+@{
+    Layout = null;
+}
+
+<div class="col-xs-12">
+    <table class="table" id="tblResultados">
+        <thead>
+            <tr>
+                <th>Folio</th>
+                <th>Importe</th>
+                <th>Fecha</th>
+                <th>Observaciones</th>
+                <th>Cuenta</th>
+                <th>Seleccionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Folio</td>
+                    <td>@item.Importe</td>
+                    <td>@item.Fecha.ToShortDateString()</td>
+                    <td>@item.Observaciones</td>
+                    <td>@item.Ca_CuentasBancarias.Descripcion</td>
+                    <td class="acciones">
+                        <a href="#" class="js_SeleccionarRecibo" data-idrecibo="@item.Folio"><i class="fa fa-check"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+<script>
+    $(function () {
+        ConstruirTabla("tblResultados", "No se encontraron resultados...");
+        $('#tblResultados').on("click",'.js_SeleccionarRecibo', selectRecibo);
+    });
+</script>

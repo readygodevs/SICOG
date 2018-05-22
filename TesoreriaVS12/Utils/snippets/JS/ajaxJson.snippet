@@ -1,0 +1,32 @@
+<CodeSnippet Format="1.1.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>ajaxJson</Title>
+    <Author>Jul's</Author>
+    <Shortcut>ajaxJson</Shortcut>
+    <Description>Code snippet for a ajaxJson custom for Jul's</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+      <SnippetType>SurroundsWith</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>url</ID>
+        <ToolTip>URL</ToolTip>
+        <Default>"/controller/action"</Default>
+      </Literal>
+      <Literal>
+        <ID>metodo</ID>
+        <ToolTip>Metodo</ToolTip>
+        <Default>"POST"</Default>
+      </Literal>
+      <Literal>
+        <ID>async</ID>
+        <ToolTip>Asincrono</ToolTip>
+        <Default>true</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="JavaScript"><![CDATA[ajaxJson($url$,{},$metodo$,$async$,function(){})]]></Code>
+  </Snippet>
+</CodeSnippet>

@@ -1,0 +1,45 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_FuentesFin_IngModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles" class="TituloModal"></div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_Fuente)</div>
+    <div class="col-sm-5">@Html.DisplayFor(model => model.Id_Fuente)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_Aportacion)</div>
+    <div class="col-sm-5"> @Html.DisplayFor(model => model.Id_Aportacion)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_Convenio)</div>
+    <div class="col-sm-5">@Html.DisplayFor(model => model.Id_Convenio)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_FuenteFinancia)</div>
+    <div class="col-sm-5">@Html.DisplayFor(model => model.Id_FuenteFinancia)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Descripcion)</div>
+    <div class="col-sm-8">@Html.DisplayFor(model => model.Descripcion)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.UltimoNivel)</div>
+    <div class="col-sm-5">@{
+        if (Model.UltimoNivel == true)
+        { 
+        @Html.Encode("SI");
+        }
+        else
+        {
+        @Html.Encode("NO");
+        }
+    }</div>
+</div>
+
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

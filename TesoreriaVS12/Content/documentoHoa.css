@@ -1,0 +1,155 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Arial;
+}
+.contenedor {
+  width: 1100px;
+  margin: auto;
+}
+.row {
+  display: block;
+  clear: both;
+}
+.cabecera-reporte {
+  height: 140px;
+  position: relative;
+}
+.titulo {
+  font-size: 45px;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 50px;
+  margin-top: 30px;
+}
+.datos-emision {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 240px;
+}
+.datos-emision .tipo {
+  font-size: 20px;
+}
+.datos-emision .emision-vencimiento {
+  border: 1px solid #000;
+  border-radius: 15px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+.datos-emision .emision-vencimiento .f-emision,
+.datos-emision .emision-vencimiento .f-vencimiento {
+  padding: 12px 10px;
+}
+.datos-emision .emision-vencimiento .f-emision label,
+.datos-emision .emision-vencimiento .f-vencimiento label {
+  line-height: 27px;
+  display: block;
+}
+.contribuyente,
+.observaciones {
+  float: right;
+  border: 1px solid #000;
+  width: 100%;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.contribuyente .cabecera,
+.observaciones .cabecera {
+  width: 100%;
+  border-bottom: 1px solid #000;
+  font-weight: bold;
+}
+.contribuyente .cabecera,
+.observaciones .cabecera,
+.contribuyente .contenido,
+.observaciones .contenido {
+  box-sizing: border-box;
+  padding: 10px;
+}
+.contribuyente .cabecera label,
+.observaciones .cabecera label,
+.contribuyente .contenido label,
+.observaciones .contenido label {
+  font-weight: bold;
+  display: block;
+}
+.contribuyente {
+  height: 130px;
+  margin-bottom: 10px;
+}
+.observaciones {
+  height: 100px;
+}
+.detalle {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.detalle .contenido {
+  border: 1px solid #000;
+  border-radius: 10px;
+  height: 300px;
+}
+.detalle .contenido table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.detalle .contenido table thead th {
+  border-bottom: 1px solid #000;
+  height: 40px;
+  line-height: 40px;
+}
+.detalle .contenido table td {
+  padding: 8px 0px;
+}
+.detalle .contenido .padding-left {
+  padding-left: 10px;
+  padding-right: 35px;
+}
+.detalle .contenido .padding-right {
+  padding-right: 40px;
+}
+.recibio-total {
+  text-align: center;
+  overflow: hidden;
+}
+.recibio-total .recibio {
+  float: left;
+  width: 400px;
+  margin-left: 60px;
+}
+.recibio-total .recibio .concepto {
+  border-top: 1px solid #000;
+  margin-top: 5px;
+}
+.recibio-total .total {
+  float: right;
+}
+.recibio-total .total .cabecera {
+  display: inline-block;
+}
+.recibio-total .total .contenido {
+  display: inline-block;
+  border: 1px solid #000;
+  height: 30px;
+  line-height: 30px;
+  width: 150px;
+  text-align: right;
+  padding: 5px;
+  font-weight: bold;
+}
+label {
+  font-weight: bold;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_AccionesModel>
+
+@{
+    ViewBag.Title = "Catálogo Acción u Obra";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Id_Proceso">Proyecto/Proceso</th>
+            <th data-title="Descripcion">Actividad MIR </th>
+            <th data-title="UltimoNivel">Acción</th>
+            <th data-title="UltimoNivel">Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CA_Proyecto.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CA_Actividad.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_Accion2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

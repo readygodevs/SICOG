@@ -1,0 +1,120 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Disponibildad>
+@{
+    decimal Total1 = 0;
+    decimal Total2 = 0;
+    decimal Total3 = 0;
+    decimal TotalPre = 0;
+    decimal TotalVigente = 0;
+    decimal Total4 = 0;
+    decimal Total5 = 0;
+    decimal Total6 = 0;
+    decimal Total7 = 0;
+    decimal Total8 = 0;
+    decimal Total9 = 0;
+    decimal Total10 = 0;
+    decimal Total11 = 0;
+}
+<table id="tablaDisponibilidad" class="table table-striped table-bordered">
+    @*<tr>
+            <th colspan="2"></th>
+            <th class="text-center" colspan="2">Adecuaciones</th>
+            @*<th colspan="2">Transferencias</th>
+            <th colspan="7"></th>
+        </tr>*@
+    <tr>
+        <th class="text-center">Mes</th>
+        <th class="text-center">Aprobado</th>
+        <th class="text-center">Ampliaciones</th>
+        <th class="text-center">Reducciones</th>
+        <th class="text-center">Modificado</th>
+        @*<th class="text-center">Ampliaciones</th>
+            <th class="text-center">Reducciones</th>
+            <th class="text-center">Por Ejercer</th>*@
+        <th class="text-center">Pre Comprometido</th>
+        <th class="text-center">Comprometido</th>
+        <th class="text-center">Devengado</th>
+        <th class="text-center">Ejercido</th>
+        <th class="text-center">Pagado</th>
+        <th class="text-center"><b>Disponible</b></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td class="text-left">
+                @String.Format("{0:n}", item.Mes)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:n}", item.Aprobado)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:n}", item.Ampliaciones1)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:n}", item.Reducciones1)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:n}", item.Vigente)
+            </td>
+            @*<td class="text-right">
+                     @String.Format("{0:n}", item.Ampliaciones2)
+                </td>
+                <td class="text-right">
+                     @String.Format("{0:n}", item.Reducciones2)
+                </td>
+                <td class="text-right">
+                     @String.Format("{0:n}", item.Vigente)
+                </td>*@
+            <td class="text-right">
+                @String.Format("{0:n}", item.PreComprometido)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:n}", item.Comprometido)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:n}", item.Devengado)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:n}", item.Ejercido)
+            </td>
+            <td class="text-right">
+                @String.Format("{0:n}", item.Pagado)
+            </td>
+            <td class="text-right">
+                <b>@String.Format("{0:n}", item.Disponible)</b>
+            </td>
+            @{
+        Total1 += item.Aprobado;
+        Total2 += item.Ampliaciones1;
+        Total3 += item.Reducciones1;
+        TotalPre += item.PreComprometido;
+        TotalVigente += item.Vigente;
+        //Total4 += item.Ampliaciones2;
+        //Total5 += item.Reducciones2;
+        //Total6 += item.Vigente;
+        Total7 += item.Comprometido;
+        Total8 += item.Devengado;
+        Total9 += item.Ejercido;
+        Total10 += item.Pagado;
+        Total11 += item.Disponible;
+            }
+        </tr>
+    }
+    <tr>
+        <td><b>Total</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", Total1)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", Total2)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", Total3)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", TotalVigente)</b></td>
+        @*<td class="text-right">@Total4</td>
+            <td class="text-right">@Total5</td>
+            <td class="text-right">@Total6</td>*@
+        <td class="text-right"><b>@String.Format("{0:n}", TotalPre)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", Total7)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", Total8)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", Total9)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", Total10)</b></td>
+        <td class="text-right"><b>@String.Format("{0:n}", TotalVigente - (TotalPre + Total7 + Total8 + Total9 + Total10))</b></td>
+    </tr>
+</table>

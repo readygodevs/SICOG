@@ -1,0 +1,213 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel
+@{
+    ViewBag.Title = "DetalleDePolizas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    TesoreriaVS12.Areas.Tesoreria.Models.De_PolizasModel detalle = new TesoreriaVS12.Areas.Tesoreria.Models.De_PolizasModel();
+    if (Model.De_Polizas.Count > 0)
+    {
+        detalle = Model.De_Polizas.FirstOrDefault();
+    }
+    byte Tipo = 2;
+}
+
+<h2>Detalle de Pólizas</h2>
+
+@Html.HiddenFor(model => model.Ca_ClasificaPolizas.Automatica)
+@Html.HiddenFor(model => model.MesCerrado)
+
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = Model.Botonera }); }
+</div>
+@using (Html.BeginForm("V_Polizas", "Polizas", FormMethod.Post, new { id = "frmDetalles" }))
+{
+    <input type="hidden" id="TipoPoliza" name="TipoPoliza" value="@Model.Id_TipoPoliza" />
+    <input type="hidden" id="FolioPoliza" name="FolioPoliza" value="@Model.Id_FolioPoliza" />
+    <input type="hidden" id="MesPoliza" name="MesPoliza" value="@Model.Id_MesPoliza" />
+}
+@using (Html.BeginForm("GuardarDePoliza", "Polizas", FormMethod.Post, new { id = "frmDePolizas", @class = "js_frmClavePresupuestal" }))
+{
+    <div class="row">
+        <div class="col-xs-3">
+            <label>
+                @Html.DisplayNameFor(x => x.Id_TipoPoliza)
+            </label>
+            @Model.Ca_TipoPolizas.Descripcion
+            @Html.HiddenFor(model => model.Id_TipoPoliza)
+            @Html.HiddenFor(model => model.Id_MesPoliza)
+            @Html.HiddenFor(model => model.Id_FolioPoliza)
+            @Html.Hidden("Id_Registro", detalle.Id_Registro)
+            @Html.HiddenFor(model => model.Fecha)
+        </div>
+        <div class="col-xs-3">
+            <label> @Html.DisplayNameFor(x => x.Id_FolioPoliza) </label>
+            @Model.Id_FolioPoliza
+        </div>
+        <div class="col-xs-3">
+            <label>@Html.DisplayNameFor(x => x.Id_MesPoliza)</label>
+            @TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.Meses[Model.Id_MesPoliza]
+        </div>
+        <div class="col-xs-3">
+            <label>
+                @Html.DisplayNameFor(x => x.Fecha)
+            </label>
+            @Model.Fecha.ToShortDateString()
+
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default">
+                    <input type="radio" name="TipoCaptura" value="1" id="checkCRI"> CRI
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="TipoCaptura" value="2" id="checkCOG"> COG
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="TipoCaptura" value="3" id="checkCB"> Cuentas de Balance
+                </label>
+            </div>
+        </div>
+    </div>
+    <br /><br />
+    <div id="_detalles_polizas" class="detalle_polizas3">
+        @{
+            if (!String.IsNullOrEmpty(detalle.Id_ClavePresupuesto))
+            {
+                Html.RenderPartial("_ClavePresupuestal", detalle);
+                Tipo = 2;
+            }
+            else if (!String.IsNullOrEmpty(detalle.Id_ClavePresupuestoIng))
+            {
+                Html.RenderPartial("_ClavePresupuestalCRI", detalle);
+                Tipo = 1;
+            }
+            else
+            {
+                Html.RenderPartial("_ClavePresupuestal", detalle);
+            }
+        }
+
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-xs-4">
+
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-xs-3">
+            @Html.DisplayNameFor(x => x.Cargos)
+            <input type="text" name="Importe" id="Importe" value="@detalle.Importe" class="form-control importe" disabled="disabled" data-val-required="*" data-val="true" />
+            <span class="field-validation-error" data-valmsg-replace="true" data-valmsg-for="Importe">*</span>
+        </div>
+        <div class="col-xs-3">
+            Tipo Movimiento:
+            <select name="Id_Movimiento" id="Id_Movimiento" class="form-control" data-val-required="*" data-val="true">
+                <option value="1" selected="selected">CARGO</option>
+                <option value="2">ABONO</option>
+            </select>
+            <span class="field-validation-error" data-valmsg-replace="true" data-valmsg-for="Id_Movimiento">*</span>
+            @*<input type="text" name="Id_Movimiento" id="Id_Movimiento" />*@
+        </div>
+        <div class="col-xs-6">
+            Descripción del Movimiento:
+            <input type="text" name="DescripcionMP" id="DescripcionMP" value="@detalle.DescripcionMP" class="form-control" disabled="disabled" />
+        </div>
+    </div>
+    <div class="row hide js_MovBancario">
+        <div class="col-xs-12">
+            <label>Tipo de Movimiento Bancario</label>
+            <select id="IdTipoMovB" name="IdTipoMovB" class="form-control"></select>
+        </div>
+    </div>
+    <br /><br />
+            }
+<div id="container_DetallesPolizas"></div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/clavePresupuestal.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Polizas.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script>
+        var urlCveCRI = "@Url.Action("partialClavePresupuestalCRI", "Cuentas")";
+        var urlCve = "@Url.Action("partialClavePresupuestal", "Cuentas")";
+        var urlTbaDetPoliza = "@Url.Action("TablaDetallesPoliza", "Polizas")";//"/Tesoreria/Polizas/TablaDetallesPoliza"
+        var urlElimPoliza = "@Url.Action("EliminarDePolizas", "Polizas")";//"/Tesoreria/Polizas/EliminarDePolizas"
+        var urlGetDisp = "@Url.Action("getDisponibilidad", "Compromisos")";//"/Tesoreria/Compromisos/getDisponibilidad"
+        var urlGetDetPoliza = "@Url.Action("getDetalle", "Polizas")";//"/Tesoreria/Polizas/getDetalle"
+        var urlFocusOAreas = "@Url.Action("Areas", "FocusOut")";//"/Tesoreria/FocusOut/Areas"
+        var urlFocusOGenSearCve = "@Url.Action("GenericSearchClave", "FocusOut")";//"/Tesoreria/FocusOut/GenericSearchClave"
+        $.validator.setDefaults({ onkeyup: false });
+        $(function () {
+            $("#Importe").on("change", function () {
+                $(this).formatCurrency({ symbol: '' });
+            });
+            $("#Importe").formatCurrency({ symbol: '' });
+            var parameters = getUrlVars();
+            $("#Id_Cuenta").val('@detalle.Id_Cuenta');
+            $("#Ca_Cuentas_Descripcion").val('@detalle.Ca_Cuentas.Descripcion');
+
+            $("input[name = TipoCaptura][value='@Tipo']").attr("checked", "checked").parent().addClass("active");
+            $("#_detalles_polizas input,select,textarea").attr("disabled", "disabled");
+
+            validacionesDePolizas();
+            $("body").on("click", "#js_mEliminar", eleiminarDePolizas);
+
+            cargarTablaDePolizas();
+            //$("#container_DetallesPolizas").ajaxLoad({
+            //    url: "/Tesoreria/Polizas/TablaDetallesPoliza",
+            //    data: { IdTipo: parameters.IdTipo, IdFolio: parameters.IdFolio, IdMes: parameters.IdMes },
+            //    method: "POST"
+            //});
+
+            $("body").on("click", "#js_mNuevo", nuevoDePolizas);
+
+            $("body").on("click", "#tbldetalles .js_seleccionar", seleccionarDetalle);
+
+            $("body").on("click", "#js_mGuardar", guardarDetalle);
+
+            $("body").on("click", ".js_searchCuentas", function () {
+                if (!$(this).isSiblingDisabled() && parseInt($('input[name=TipoCaptura]:checked').val()) != 2) {
+                    customModal("@Url.Action("BuscarCuenta","Cuentas")", {}, "GET", "lg", "", "", "", "Cancelar", "Buscar Cuentas", "IdModal");
+                }
+            });
+
+            $('body').on("click", "#js_mCancelar", function () {
+                $("#frmDePolizas input[type=text], select").val("").attr("disbaled", "disabled");
+                recargarMenuLateral(["bNuevo", "bSalir"]);
+            });
+
+
+
+            $("body").on("click", "#tblCuentasSearch .js_seleccionar", seleccionarCuenta);
+
+            $("body").on("click", "#js_mSalir", function () {
+                ajaxJson("ValidarDePolizasSalir", { IdTipo: $("#Id_TipoPoliza").val(), IdFolio: $("#Id_FolioPoliza").val(), IdMes: $("#Id_MesPoliza").val() }, "POST", true, function (response) {
+                    if (response.Exito)
+                        $("#frmDetalles").submit();
+                    else
+                        ErrorCustom(response.Mensaje, "");
+                });
+            });
+        });
+
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <div class="acciones">
+            <a class="fa fa-bars js_seleccionar cursorPointer" data-idfolio="<%= Id_Folio %>" data-idtipo="<%= Id_Tipo %>" data-idmes="<%= Id_Mes %>" data-registro="<%= Id_Registro %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+            <a class="hide fa fa-trash-o js_Eliminar cursorPointer" data-idfolio="<%= Id_Folio %>" data-idtipo="<%= Id_Tipo %>" data-idmes="<%= Id_Mes %>" data-registro="<%= Id_Registro %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+        </div>
+    </script>
+}

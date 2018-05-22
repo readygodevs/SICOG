@@ -1,0 +1,96 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoImpuestosModel>
+
+@{
+    ViewBag.Title = "V_TipoImpuesto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Catálogo de Tipo de Impuesto</h2>
+            <!--<a id="js_agregar" class="btn btn-success" href="#"><i class="fa fa-plus">Agregar</i></a>-->
+            <div class="jsSourceActions hide"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="TipoImpuesto">@Html.DisplayNameFor(model => model.TipoImpuesto)</th>
+                        <th data-title="FolioImpuesto">@Html.DisplayNameFor(model => model.FolioImpuesto)</th>
+                        <th data-title="Id_TipoImpuesto">@Html.DisplayNameFor(model => model.Id_TipoImpuesto)</th>
+                        <th data-title="Descripcion">@Html.DisplayNameFor(model => model.Descripcion)</th>
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TipoImpuesto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FolioImpuesto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_TipoImpuesto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <a class="fa fa-bars js_detalles cursorPointer" data-id="@item.Id_TipoImpuesto" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                <!--<a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_TipoImpuesto" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_TipoImpuesto" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>-->
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("M_AgregarActividad", "Catalogos")";//"/Tesoreria/Catalogos/M_AgregarActividad";
+        var RutaObtener = "@Url.Action("M_ObtenerActividad", "Catalogos")";//"/Tesoreria/Catalogos/M_ObtenerActividad";
+        var RutaDelete = "@Url.Action("EliminarActividad", "Catalogos")";//"/Tesoreria/Catalogos/EliminarActividad";
+        var RutaEdit = "@Url.Action("EditarActividad", "Catalogos")";//"/Tesoreria/Catalogos/EditarActividad";
+        var RutaSave = "@Url.Action("AgregarActividad", "Catalogos")";//"/Tesoreria/Catalogos/AgregarActividad";
+        var RutaDetalles = "@Url.Action("V_TipoImpuestoDetalles", "ReportesPDF")";//"/Tesoreria/Catalogos/V_TipoImpuestoDetalles";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_Fuente" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+
+        $(function () {
+            tabla = ConstruirTabla(TableId, "No hay registros...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            /*$("body").on("click", "#js_agregar", Nuevo);
+            $("body").on("click", ".js_editar", Obtener);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", "#Save", Guardar);
+            $("body").on("click", "#Edit", Editar);*/
+            $("body").on("click", ".js_detalles", Detalles);
+        });
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="fa fa-pencil js_editar cursorPointer" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"> </a>
+    </script>
+    <!--<a class="fa fa-trash js_eliminar cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"> </a>
+        <a class="fa fa-bars js_detalles cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"> </a>-->
+
+}
+

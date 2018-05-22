@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Importar archivo de Egresos no Presupuestales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var exito = ViewBag.Exito;
+}
+<h2>Importar archivo de Egresos no Presupuestales</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <label class="label label-success">Cargar archivo en Excel</label><br />
+        <br />
+        @using (Html.BeginForm("EgresosNoPresupuestales", "ExcelCompromisos", new { @area = "Tesoreria" }, FormMethod.Post, new { id = "frmCompromiso", enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true)
+            <div class="col-lg-12">
+                <input type="file" id="archivoExcel" name="archivoExcel" />
+                <br />
+                <a class="btn btn-success" id="btnImportar">Importar</a>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).on("ready", function () {
+            $("#btnImportar").on("click", function () {
+                if ($("#archivoExcel").val() != "") {
+                    ConfirmCustom("Por favor confirme que desea importar el archivo",
+                        function () {
+                            $("#frmCompromiso").submit();
+                        }, "", "Aceptar", "Cancelar");
+                }
+            });
+            $("#archivoExcel").on("change", function () {
+                if ($(this).val() != "") {
+                    var nombre = $(this).val().split(".");
+                    var extencion = nombre[nombre.length - 1].toUpperCase();
+                    if (extencion != "XLS" && extencion != "XLSX") {
+                        $(this).val("");
+                        ErrorCustom("Solamente puede subir archivos en Excel", "");
+                    }
+                    else if (this.files[0].size > 2097152) {
+                        ErrorCustom("El archivo no debe ser mayor a 2 MB", "");
+                        $(this).val("");
+                    }
+                }
+            });
+            @if (exito!=null)
+            {
+                if (exito) {
+                    <text>
+            ExitoCustom('El archivo ha sido importado éxito');
+            </text>
+                }
+
+            }
+        });
+    </script>
+}

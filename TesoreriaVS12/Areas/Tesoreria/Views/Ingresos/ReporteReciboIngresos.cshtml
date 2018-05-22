@@ -1,0 +1,183 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ReciboIngresosModel
+
+@{
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Reporte_ContraRecibo</title>
+    <link href="@cssPath/documentoHoa.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="contenedor">
+        <div class="row cabecera-reporte">
+            <div class="titulo">Recibo de Ingresos</div>
+            <div class="datos-emision text-center">
+                <span class="tipo">Original</span>
+                <div class="emision-vencimiento">
+                    <div class="f-emision">
+                        <label>FOLIO @Html.Encode(Model.Folio)</label>
+                        <label>FECHA DE RECAUDACIÓN</label>
+                        <span>@Html.Encode((Model.FechaRecaudacion.HasValue) ? Model.FechaRecaudacion.Value.ToShortDateString() : "")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="contribuyente">
+                <div class="cabecera">CONTRIBUYENTE</div>
+                <div class="contenido">
+                    <label>@Html.DisplayFor(model => model.NombreContribuyente)</label>
+                    @Html.DisplayFor(model => model.DomicilioContribuyente)
+                </div>
+            </div>
+            <div class="observaciones">
+                <div class="cabecera">OBSERVACIONES</div>
+                <div class="contenido">
+                    @Html.DisplayFor(model => model.Observaciones)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="detalle">
+                <div class="contenido">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-left padding-left">DESCRIPCIÓN</th>
+                                <th class="text-right padding-right">IMPORTE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.De_ReciboIngresos)
+                            {
+                                if (item.Ca_Cur != null)
+                                {
+                                    if (!String.IsNullOrEmpty(item.Ca_Cur.Descripcion))
+                                    {
+                                        <tr>
+                                            <td class="padding-left">
+                                                @Html.DisplayFor(modelItem => item.Ca_Cur.Descripcion)
+                                            </td>
+                                            <td class="text-right padding-right">
+                                                @String.Format("{0:N}", item.Importe)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="recibio-total">
+                <div class="recibio">
+                    <div class="persona">@*Html.DisplayFor(model => model.Usu_CR)*@</div>
+                    <div class="concepto">ADMINISTRADOR DEL SISTEMA</div>
+                </div>
+                <div class="total">
+                    <div class="cabecera">
+                        <label>TOTAL</label>
+                    </div>
+                    <div class="contenido">@String.Format("{0:N}", Model.Importe)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <div class="contenedor">
+        <div class="row cabecera-reporte">
+            <div class="titulo">Recibo de Ingresos</div>
+            <div class="datos-emision text-center">
+                <span class="tipo">Copia</span>
+                <div class="emision-vencimiento">
+                    <div class="f-emision">
+                        <label>FOLIO @Html.Encode(Model.Folio)</label>
+                        <label>FECHA DE RECAUDACIÓN</label>
+                        <span>@Html.Encode((Model.FechaRecaudacion.HasValue) ? Model.FechaRecaudacion.Value.ToShortDateString() : "")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="contribuyente">
+                <div class="cabecera">CONTRIBUYENTE</div>
+                <div class="contenido">
+                    <label>@Html.DisplayFor(model => model.NombreContribuyente)</label>
+                    @Html.DisplayFor(model => model.DomicilioContribuyente)
+                </div>
+            </div>
+            <div class="observaciones">
+                <div class="cabecera">OBSERVACIONES</div>
+                <div class="contenido">
+                    @Html.DisplayFor(model => model.Observaciones)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="detalle">
+                <div class="contenido">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-left padding-left">DESCRIPCIÓN</th>
+                                <th class="text-right padding-right">IMPORTE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.De_ReciboIngresos)
+                            {
+                                if (item.Ca_Cur != null)
+                                {
+                                    if (!String.IsNullOrEmpty(item.Ca_Cur.Descripcion))
+                                    {
+                                        <tr>
+                                            <td class="padding-left">
+                                                @Html.DisplayFor(modelItem => item.Ca_Cur.Descripcion)
+                                            </td>
+                                            <td class="text-right padding-right">
+                                                @String.Format("{0:N}", item.Importe)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="recibio-total">
+                <div class="recibio">
+                    <div class="persona">@*Html.DisplayFor(model => model.Usu_CR)*@</div>
+                    <div class="concepto">ADMINISTRADOR DEL SISTEMA</div>
+                </div>
+                <div class="total">
+                    <div class="cabecera">
+                        <label>TOTAL</label>
+                    </div>
+                    <div class="contenido">@String.Format("{0:N}", Model.Importe)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+    
+    

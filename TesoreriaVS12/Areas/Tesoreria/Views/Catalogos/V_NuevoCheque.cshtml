@@ -1,0 +1,38 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.DE_Banco_ChequeModel
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frmCheque" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Id_CtaBancaria)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Id_CtaBancaria, new { @class="form-control",@readonly="readonly" })
+                @Html.ValidationMessageFor(model => model.Id_CtaBancaria)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Cheque_Ini)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Cheque_Ini, new { @class="form-control"})
+                @Html.ValidationMessageFor(model => model.Cheque_Ini)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Cheque_Fin)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Cheque_Fin,new { @class="form-control"})
+                @Html.ValidationMessageFor(model => model.Cheque_Fin)
+            </div>
+    @Html.HiddenFor(model=>model.Fecha_Act)
+    @Html.HiddenFor(model=>model.Usu_Act)
+    }
+     <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

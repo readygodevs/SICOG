@@ -1,0 +1,39 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.CA_InHabilModel
+
+@{
+    Layout = null;
+}
+<div data-title="Agregar" class="TituloModal"></div>
+<form id="frm">
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_Dia)
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Fecha:</label>
+            <div class="input-group">
+                <input type="text" id="Fecha" name="Fecha" class="form-control datepickerm date" value="@DateTime.Now.ToShortDateString()" />
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+        </div>
+         @Html.ValidationMessageFor(model => model.Fecha)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descrip)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Descrip, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Descrip)
+    </div>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $('.datepickerm').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Html.Raw(ViewBag.FechaInicio)',
+            endDate: '@Html.Raw(ViewBag.FechaFin)'
+        });
+    });
+</script>

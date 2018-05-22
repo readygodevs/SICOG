@@ -1,0 +1,154 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.CA_CURModel>
+
+@{
+    ViewBag.Title = "V_CUR";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Catálogo Único de Recaudación (CUR)</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bImprimir", "bSalir" } }); }
+</div>
+<div class="jsSourceActions hide"></div>
+<div id="container">
+    <br />
+    <!--<div class="row">
+        <div class="col-sm-3 col-sm-offset-9 text-right">
+            <i id="js_agregar" class="js_agregar btn btn-success Agregar fa fa-plus bigger-110">Agregar
+            </i>
+        </div>
+    </div>-->
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_Concepto">@Html.DisplayNameFor(model => model.Id_Concepto)</th>
+                        <th data-title="nivel4">@Html.DisplayNameFor(model => model.nivel4) </th>
+                        <th data-title="nivel5">@Html.DisplayNameFor(model => model.nivel5)</th>
+                        <th data-title="nivel6">@Html.DisplayNameFor(model => model.nivel6)</th>
+                        <th data-title="nivel7">@Html.DisplayNameFor(model => model.nivel7)</th>
+                        <th data-title="nivel8">@Html.DisplayNameFor(model => model.nivel8)</th>
+                        <th data-title="nivel9">@Html.DisplayNameFor(model => model.nivel9)</th>
+                        <th data-title="nivel10">@Html.DisplayNameFor(model => model.nivel10)</th>
+                        <th data-title="nivel11">@Html.DisplayNameFor(model => model.nivel11)</th>
+                        <th data-title="nivel12">@Html.DisplayNameFor(model => model.Nivel12)</th>
+                        <th data-title="Id_CRecaudador">@Html.DisplayNameFor(model => model.IdCUR)</th>
+                        <th data-title="Descripcion">@Html.DisplayNameFor(model => model.Descripcion)</th>
+                        <th data-title="UltimoNivel">@Html.DisplayNameFor(model => model.UltimoNivel)</th>
+                        <th data-title="Acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Concepto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nivel4)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nivel5)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nivel6)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nivel7)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nivel8)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nivel9)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nivel10)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nivel11)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nivel12)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdCUR)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @{
+                        if (item.UltimoNivel == true)
+                        { 
+                                    @Html.Encode("SI");
+                        }
+                        else
+                        {
+                                    @Html.Encode("NO");
+                        }
+                                }
+                            </td>
+                            <td class="acciones">
+                                <!--<a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.IdCUR" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.IdCUR" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>-->
+                                <a class="js_detalles fa fa-bars cursorPointer" data-id="@item.IdCUR" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_CentroRecaudadorAgregar", "Catalogos")";//"/Tesoreria/Catalogos/V_CentroRecaudadorAgregar";
+        var RutaObtener = "@Url.Action("V_CentroRecaudadorEditar", "Catalogos")";//"/Tesoreria/Catalogos/V_CentroRecaudadorEditar";
+        var RutaDelete = "@Url.Action("V_CentroRecaudadorEliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_CentroRecaudadorEliminar";
+        var RutaEdit = "@Url.Action("V_CentroRecaudadorEditar", "Catalogos")";//"/Tesoreria/Catalogos/V_CentroRecaudadorEditar";
+        var RutaSave = "@Url.Action("V_CentroRecaudadorAgregar", "Catalogos")";//"/Tesoreria/Catalogos/V_CentroRecaudadorAgregar";
+        var RutaDetalles = "@Url.Action("V_CURDetalles", "Catalogos")";//"/Tesoreria/Catalogos/V_CURDetalles";
+        var RutaExportarPDF = "@Url.Action("CUR", "ReportesPDF")";//"/Tesoreria/ReportesPDF/CUR";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_CRecaudador" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+        var aPos = -1;
+        $(document).ready(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            tabla = ConstruirTabla(TableId, "No hay registros...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_agregar", Nuevo);
+            $("body").on("click", ".js_editar", Obtener);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", ".js_detalles", Detalles);
+            $("body").on("click", "#js_btnOk1", GuardarEditar);
+            $("body").on("click", "#Edit", Editar);
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+        function GuardarEditar() {
+            if ($("#Id_CRecaudador").val() == "")
+                Guardar();
+            else
+                Editar();
+        }
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+         <a class="js_detalles fa fa-bars cursorPointer" data-id="<%=Id%>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+    <!-- <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%=Id%>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%=Id%>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>-->
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.colima-estado.gob.mx/kioscos/tramitesyservicios/wscorreos/wscorreos.php" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.colima-estado.gob.mx/kioscos/tramitesyservicios/wscorreos/wscorreos.php" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.colima-estado.gob.mx/kioscos/tramitesyservicios/wscorreos/wscorreos.php">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="Envia_MailRequest">
+    <wsdl:part name="correo" type="xsd:string" />
+    <wsdl:part name="titulo" type="xsd:string" />
+    <wsdl:part name="mensaje" type="xsd:string" />
+    <wsdl:part name="destinatario" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="Envia_MailResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="Envio de CorreosPortType">
+    <wsdl:operation name="Envia_Mail">
+      <wsdl:input message="tns:Envia_MailRequest" />
+      <wsdl:output message="tns:Envia_MailResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Envio de CorreosBinding" type="tns:Envio de CorreosPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="Envia_Mail">
+      <soap:operation soapAction="uri:Service/Envia_Mail" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="uri:Service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="uri:Service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Envio de Correos">
+    <wsdl:port name="Envio de CorreosPort" binding="tns:Envio de CorreosBinding">
+      <soap:address location="http://www.colima-estado.gob.mx/kioscos/tramitesyservicios/wscorreos/wscorreos.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

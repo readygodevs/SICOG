@@ -1,0 +1,295 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel>
+
+@{
+    Layout = null;
+}
+
+
+    <div data-title="Pólizas de la Cuenta: @ViewBag.IdCuentaFormato" class="TituloModal"></div>
+    <div data-text="Guardar" class="btnOk"></div>
+    <div data-text="Cerrar" class="btnCancel"></div>
+
+<style>
+    th, td { white-space: nowrap; }
+    /*#tblpolizas div.dataTables_wrapper {
+        width: 800px;
+        margin: 0 auto;
+    }*/
+</style>
+    <div><b>@ViewBag.Cuenta</b></div>
+    <table id="tblpolizas" class="table display">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Póliza</th>
+                <th>Fec. Póliza</th>
+                <th>Cargo</th>
+                <th>Abono</th>
+                <th>Contra-Recibos</th>
+                <th>Beneficiario</th>
+                <th>Banco</th>
+                <th>Cuenta</th>
+                <th>Cheque</th>
+            </tr>
+        </thead>
+        <tbody>
+        @{
+        decimal? sumaCargos = 0;
+        decimal? sumaAbonos = 0;
+        foreach (var item in Model)
+        {
+            <tr>
+                <td class="js_expandir" data-tipo="@item.Id_TipoPoliza" data-folio="@item.Id_FolioPoliza" data-mes="@item.Id_MesPoliza"><i class="fa fa-caret-down cursorPointer"></i></td>
+                <td class="acciones"><i class="fa fa-print js_Imprimir cursorPointer" data-tipo="@item.Id_TipoPoliza" data-folio="@item.Id_FolioPoliza" data-mes="@item.Id_MesPoliza" data-mesini="@ViewBag.MesIni" data-mesfin="@ViewBag.MesFin"></i></td>
+                <td>@TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(item.Id_TipoPoliza, item.Id_MesPoliza, item.Id_FolioPoliza)</td>
+                <td>@string.Format("{0:d}", item.Fecha)</td>
+                
+                @{
+                    if(item.De_Polizas != null)
+                    {
+                        decimal? Cargos = 0;
+                        decimal? Abonos = 0;
+                        TesoreriaVS12.Areas.Tesoreria.Models.De_PolizasModel depol = new TesoreriaVS12.Areas.Tesoreria.Models.De_PolizasModel();
+                        List<TesoreriaVS12.Areas.Tesoreria.Models.De_PolizasModel> depollst = item.De_Polizas.Where(x=> x.Id_TipoPoliza == item.Id_TipoPoliza && x.Id_MesPoliza == item.Id_MesPoliza && x.Id_FolioPoliza == item.Id_FolioPoliza && x.Id_Cuenta == ViewBag.IdCuenta).ToList();
+                        if (depollst.Count() > 1)
+                        {
+                            Cargos = item.De_Polizas.Where(x => x.Id_TipoPoliza == item.Id_TipoPoliza && x.Id_MesPoliza == item.Id_MesPoliza && x.Id_FolioPoliza == item.Id_FolioPoliza && x.Id_Cuenta == ViewBag.IdCuenta && x.Id_Movimiento == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.ValorMovimientos.CARGO).Sum(x => x.Importe);
+                            Abonos = item.De_Polizas.Where(x => x.Id_TipoPoliza == item.Id_TipoPoliza && x.Id_MesPoliza == item.Id_MesPoliza && x.Id_FolioPoliza == item.Id_FolioPoliza && x.Id_Cuenta == ViewBag.IdCuenta && x.Id_Movimiento == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.ValorMovimientos.ABONO).Sum(x => x.Importe);
+                            sumaCargos += Cargos;
+                            sumaAbonos += Abonos;
+                        }
+                        else
+                        {
+                            depol = depollst.FirstOrDefault();
+                            if (depol.Id_Movimiento == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.ValorMovimientos.CARGO)
+                            {
+                                Cargos = depol.Importe;
+                                sumaCargos += Cargos;
+                            }
+                            else
+                            {
+                                Abonos = depol.Importe;
+                                sumaAbonos += Abonos;
+                            }
+                        }
+                        <td style="text-align:right">@String.Format("{0:N}", Cargos > 0 ? Cargos : null)</td>
+                        <td style="text-align:right">@String.Format("{0:N}", Abonos > 0 ? Abonos : null)</td>
+                    }        
+                    
+                }
+                <td>@(item.Id_TipoCR != null ?  TesoreriaVS12.Areas.Tesoreria.Models.StringID.ContrareciboFormatoLetra(item.Id_TipoCR, item.Id_FolioCR) : null )</td>
+                @if (item.Ma_Contrarecibos != null)
+                {
+                    if(item.Ma_Contrarecibos.Ca_Beneficiarios != null)
+                    {
+                       <td>@item.Ma_Contrarecibos.Ca_Beneficiarios.NombreCompleto</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    
+                    if(item.Ma_Contrarecibos.Ca_CuentasBancarias != null)
+                    {
+                        if (item.Ma_Contrarecibos.Ca_CuentasBancarias.Ca_Bancos != null)
+                        {
+                            <td>@item.Ma_Contrarecibos.Ca_CuentasBancarias.Ca_Bancos.Descripcion</td>
+                        }
+                        else{
+                            <td></td>    
+                        }
+                        <td>@item.Ma_Contrarecibos.Ca_CuentasBancarias.Descripcion</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                    <td style="text-align:right">@(item.Ma_Contrarecibos.No_Cheque.HasValue ? (item.Ma_Contrarecibos.No_Cheque == 0 ? "TE": item.Ma_Contrarecibos.No_Cheque.ToString() ): null)</td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                }
+            </tr>
+        }
+        }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan ="2"></td>
+                <td><input type="text" class="form-control" /></td>
+                <td><input type="text" class="form-control" /></td>
+                <td><input type="text" class="form-control" /></td>
+                <td><input type="text" class="form-control" /></td>
+                <td><input type="text" class="form-control" /></td>
+                <td><input type="text" class="form-control" /></td>
+                <td><input type="text" class="form-control" /></td>
+                <td><input type="text" class="form-control" /></td>
+                <td><input type="text" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td colspan="3" style='text-align:right'><b>Total:</b></td>
+                <td colspan="2" style='text-align:right'><b>@string.Format("{0:N}", (sumaCargos > 0 ? sumaCargos : null))</b></td>
+                <td colspan="2" style='text-align:left'><b>@string.Format("{0:N}", (sumaAbonos > 0 ? sumaAbonos : null))</b></td>
+                <td colspan="4"></td>
+            </tr>
+        </tfoot>
+    </table>
+
+<script>
+    $("#MyModal2 .js_btnOk").hide();
+
+    function format(d) {
+        var tabla = "";
+        // `d` is the original data object for the row
+        //ajaxLoad("/Tesoreria/Catalogos/V_Cuentas_Poliza_Detalle", { IdTipoPoliza: d.tipo, IdFolioPoliza: d.folio, IdMesPoliza: d.mes }, "divContainer", "POST", function () { })
+        ajaxJson("@Url.Action("V_Cuentas_Polizas_Detalle","Catalogos")", { IdTipoPoliza: d.tipo, IdFolioPoliza: d.folio, IdMesPoliza: d.mes }, "POST", false, function (data) {
+            var sumaCargos = 0;
+            var SumaAbonos = 0;
+            tabla += "<table id='tbldetalle" + d.tipo + d.folio + d.mes + "'>";
+            tabla += "<thead>";
+            tabla += "<tr>";
+            tabla += "<th>Registro</th>";
+            tabla += "<th>Clave Presupuestal</th>";
+            tabla += "<th>Cuenta</th>";
+            tabla += "<th>Descripción</th>";
+            tabla += "<th>Cargos</th>";
+            tabla += "<th>Abonos</th>";
+            tabla += "</tr>";
+            tabla += "</thead>";
+            tabla += "<tbody>";
+            $.each(data, function (item, value) {
+            tabla += "<tr>";
+            tabla += "<td>" + value.Id_Registro + "</td>";
+            tabla += "<td>" + (value.Ma_PresupuestoEg != null ? value.Ma_PresupuestoEg.Id_ClavePresupuestoEgFormato : (value.Ma_PresupuestoIng != null ? value.Ma_PresupuestoIng.Id_ClavePresupuestoFormato : "")) + "</td>";
+            tabla += "<td>" + (value.Ca_Cuentas != null ? value.Ca_Cuentas.Id_CuentaFormato : "") + "</td>";
+            tabla += "<td>" + value.Ca_Cuentas.Descripcion + "</td>";
+            if(value.Id_Movimiento == 1)
+            {
+                tabla += "<td><span class='js_currency'>" + value.Importe + "</span></td>";
+                tabla += "<td></td>";
+                sumaCargos += value.Importe;
+            }
+            else{
+                tabla += "<td></td>";
+                tabla += "<td><span class='js_currency'>" + value.Importe + "</span></td>";
+                SumaAbonos += value.Importe;
+            }
+            tabla += "</tr>";
+            });
+            tabla += "</tbody>";
+            tabla += "<tfoot>";
+            tabla += "<tr>";
+            tabla += "<td colspan='4' style='text-align:right'><b>Total:</b></td>";
+            tabla += "<td><b class='js_currency'>" + sumaCargos + "</b></td>";
+            tabla += "<td><b class='js_currency'>" + SumaAbonos + "</b></td>";
+            tabla += "</tr>";
+            tabla += "</tfoot>";
+            tabla += "</table>";
+            
+        });
+        //console.log(tabla);
+        return tabla;
+        
+    }
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            table = $('#tblpolizas').DataTable({
+                "sPaginationType": "full_numbers",
+                "oLanguage": {
+                    "oPaginate": {
+                        "sPrevious": "Anterior",
+                        "sNext": "Siguiente",
+                        "sLast": "Última",
+                        "sFirst": "Primera"
+                    },
+                    "sLengthMenu": '<div id="combo_datatable">Mostrar <select>' +
+                    '<option value="5">5</option>' +
+                    '<option value="10">10</option>' +
+                    '<option value="20">20</option>' +
+                    '<option value="30">30</option>' +
+                    '<option value="40">40</option>' +
+                    '<option value="50">50</option>' +
+                    '<option value="-1">Todos</option>' +
+                    '</select> registros',
+                    "sInfo": "Mostrando del _START_ a _END_ (Total: _TOTAL_ resultados)",
+                    "sInfoFiltered": " - filtrados de _MAX_ registros",
+                    "sInfoEmpty": "No hay resultados de búsqueda",
+                    "sZeroRecords": "Ho hay Registros",
+                    "sProcessing": "Espere, por favor...",
+                    "sSearch": "<div id='div_buscar'><i class='fa fa-search'></i>Buscar:</div>"
+                },
+                "scrollX": true
+            });
+            table.columns().eq(0).each(function (colIdx) {
+                $('input', table.column(colIdx).footer()).on('keyup change', function () {
+                    table
+                        .column(colIdx)
+                        .search(this.value)
+                        .draw();
+                });
+            });
+        }, 500);
+
+        // Array to track the ids of the details displayed rows
+        var detailRows = [];
+
+        $('#tblpolizas tbody').on('click', '.js_expandir', function () {
+            dt = $(this);
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            var idx = $.inArray(tr.attr('id'), detailRows);
+
+            var valores = { tipo: $(this).data("tipo"), folio: $(this).data("folio"), mes: $(this).data("mes") };
+
+            if (row.child.isShown()) {
+                tr.removeClass('details');
+                row.child.hide();
+                // Remove from the 'open' array
+                detailRows.splice(idx, 1);
+            }
+            else {
+                tr.addClass('details');
+                row.child(format(valores)).show();
+                $(".js_currency").formatCurrency({ symbol:'' });
+                // Add to the 'open' array
+                if (idx === -1) {
+                    detailRows.push(tr.attr('id'));
+                }
+
+                setTimeout(function () {
+                    $("#tbldetalle" + $(this).data("tipo") + $(this).data("folio") + $(this).data("mes")).DataTable({
+                        "paging": false,
+                        "info": false,
+                        "bInfo": false,
+                        "bFilter": false,
+                        "scrollX": true
+                    });
+                }, 500);
+
+            }
+        });
+
+        $("#tblpolizas tbody").on("click", ".js_Imprimir", function () {
+            var tipo = $(this).data("tipo");
+            var folio = $(this).data("folio");
+            var mes = $(this).data("mes");
+            window.open("@Url.Action("V_Cuentas_Polizas_Reporte","Catalogos")"+"?TipoPoliza=" + tipo + "&FolioPoliza=" + folio + "&MesPoliza=" + mes, '_blank');
+        });
+
+        // On each draw, loop over the `detailRows` array and show any child rows
+        //dt.on('draw', function () {
+        //    $.each(detailRows, function (i, id) {
+        //        $('#' + id + ' td:first-child').trigger('click');
+        //    });
+        //});
+    });
+    
+</script>
+

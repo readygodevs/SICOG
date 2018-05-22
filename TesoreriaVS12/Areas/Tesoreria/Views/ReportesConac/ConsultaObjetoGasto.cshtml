@@ -1,0 +1,211 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.ReporteClavePresupuestariaModel>
+
+@if (ViewBag.Imprimir)
+{
+    ViewBag.Title = "Clasificación por Objeto del Gasto";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+
+    @Html.Partial("PdfHeader")
+    <link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+    <link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+    <link href="@cssPath/ReporteClave.css" rel="stylesheet" />
+}
+else
+{
+    Layout = null;
+}
+<div class="green titulos">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>Estado Analítico del Ejercicio del Presupuesto de Egresos</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>Clasificación por Objeto del Gasto (Capítulo y Concepto)</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>@HttpContext.Current.Session["Ejercicio"]</label>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-sm-12">
+        <table class="contenedor tablaGrande">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="text-center">
+                        @Html.DisplayNameFor(model => model.Clave)
+                    </th>
+                    <th rowspan="2" class="text-center">
+                        @Html.DisplayNameFor(model => model.Concepto)
+                    </th>
+                    <th colspan="5" class="text-center">
+                        Egresos
+                    </th>
+                    <th rowspan="2" class="text-center">
+                        @Html.DisplayNameFor(model => model.Subejercicio)
+                    </th>
+                </tr>
+                <tr>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Aprobado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.AmpRed)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Modificado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Devengado)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Pagado)
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.Clave.Substring(1, 4) == "0000")
+                    {
+                        if (item.Clave.Substring(0, 1) != "1")
+                        {
+                            <tr class="espacio">
+                                <td class="text-center txtNegritas"></td>
+                                <td class="txtNegritas"></td>
+                                <td class="text-right txtNegritas"></td>
+                                <td class="text-right txtNegritas"></td>
+                                <td class="text-right txtNegritas yellow"></td>
+                                <td class="text-right txtNegritas"></td>
+                                <td class="text-right txtNegritas"></td>
+                                <td class="text-right txtNegritas yellow"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center txtNegritas ">
+                                    @Html.DisplayFor(modelItem => item.Clave)
+                                </td>
+                                <td class="txtNegritas  ">
+                                    @Html.DisplayFor(modelItem => item.Concepto)
+                                </td>
+                                <td class="text-right txtNegritas  yellow">
+                                   @Html.Encode(item.Aprobado.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas  yellow">
+                                    @Html.Encode(item.AmpRed.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas  yellow">
+                                   @Html.Encode(item.Modificado.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas  yellow">
+                                   @Html.Encode(item.Devengado.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas  yellow">
+                                    @Html.Encode(item.Pagado.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas  yellow">
+                                    @Html.Encode(item.Subejercicio.ToString("N"))
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="text-center txtNegritas ">
+                                    @Html.DisplayFor(modelItem => item.Clave)
+                                </td>
+                                <td class="txtNegritas ">
+                                    @Html.DisplayFor(modelItem => item.Concepto)
+                                </td>
+                                <td class="text-right txtNegritas yellow">
+                                    @Html.Encode(item.Aprobado.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas yellow">
+                                   @Html.Encode(item.AmpRed.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas yellow">
+                                    @Html.Encode(item.Modificado.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas yellow">
+                                   @Html.Encode(item.Devengado.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas yellow">
+                                    @Html.Encode(item.Pagado.ToString("N"))
+                                </td>
+                                <td class="text-right txtNegritas yellow">
+                                    @Html.Encode(item.Subejercicio.ToString("N"))
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.Clave)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Concepto)
+                            </td>
+                            <td class="text-right">
+                                @Html.Encode(item.Aprobado.ToString("N"))
+                            </td>
+                            <td class="text-right">
+                                @Html.Encode(item.AmpRed.ToString("N"))
+                            </td>
+                            <td class="text-right yellow">
+                                @Html.Encode(item.Modificado.ToString("N"))
+                            </td>
+                            <td class="text-right">
+                                @Html.Encode(item.Devengado.ToString("N"))
+                            </td>
+                            <td class="text-right">
+                                @Html.Encode(item.Pagado.ToString("N"))
+                            </td>
+                            <td class="text-right yellow">
+                               @Html.Encode(item.Subejercicio.ToString("N"))
+                            </td>
+                        </tr>
+                    }
+
+                }
+                <tr class="border">
+                    <td colspan="2" class="text-center txtNegritas">
+                        Total del Gasto
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Aprobado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.AmpRed).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Modificado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Devengado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Pagado).ToString("N")
+                    </td>
+                    <td class="text-right yellow txtNegritas">
+                        @Model.Sum(x => x.Subejercicio).ToString("N")
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

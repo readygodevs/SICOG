@@ -1,0 +1,39 @@
+﻿@model TesoreriaVS12.Models.CA_PerfilesModel
+
+@{
+    Layout = null;
+}
+<div data-title="Editar Perfil" class="TituloModal"></div>
+<div data-text="Guardar" class="btnOk"></div>
+<div data-text="Cancelar" class="btnCancel"></div>
+@using (Html.BeginForm("AgregarUsuario", "Catalogos", FormMethod.Post, new { id = "frmPrf" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.IdPerfil)
+
+    <div class="editor-label">
+        Descripción
+    </div>
+    <div class="row">
+        <div class="col-xs-11">
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "notMayus form-control" })
+        </div>
+        <div class="col-xs-1">
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(function () {
+        $("#frmPrf").on("submit", function (e) {
+            e.preventDefault();
+        });
+        /*url, data, metodo, asincrono, div, seleccion, callback*/
+        $("body").off("click", ".js_btnOk");
+        $("body").on("click", ".js_btnOk", GuardarEdit);
+    });
+</script>

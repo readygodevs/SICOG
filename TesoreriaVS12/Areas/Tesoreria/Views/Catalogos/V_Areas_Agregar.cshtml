@@ -1,0 +1,66 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_AreasModel
+
+@{
+    Layout = null;
+}
+<div data-title="Agregar Centro Gestor" class="TituloModal"></div>
+    <form id="frm" >
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id_UP)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Id_UP, new { style="width:45px",maxlength=2})
+            @Html.ValidationMessageFor(model => model.Id_UP)
+        </div>
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id_UR)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Id_UR, new { style = "width:45px", maxlength = 2 })
+            @Html.ValidationMessageFor(model => model.Id_UR)
+        </div>
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id_UE)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Id_UE, new { style = "width:45px", maxlength = 2 })
+            @Html.ValidationMessageFor(model => model.Id_UE)
+        </div>
+    
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Descripcion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Descripcion)
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+            
+   </form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+        $("body").off("click", "#js_btnOk1");
+        $("body").on("click","#js_btnOk1", function () {
+            if ($("#frm").valid()) {
+                ajaxJson("@Url.Action("V_Areas_Agregar","Catalogos")", $("form").serialize(), "post", false, callbackGuardar)
+            }
+        });
+
+    function callbackGuardar(response)
+    {
+        if (response.Exito == false)
+            ErrorCustom(response.Mensaje, "");
+        else {
+            ExitoCustom("", closeModal);
+            var Acciones = _.template($('#jsActionsource').html());
+            response.Datos.Acciones = Acciones({ Id_Area: response.Datos.Id_Area });
+            AddTbl(response.Datos, "tbl");
+        }
+    }
+</script>
+   

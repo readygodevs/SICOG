@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+         <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+      <Title>getEntity</Title>
+      <Author>Jul's</Author>
+      <Description>Obtener Entidad</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>getEntity</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>T</ID>
+          <ToolTip>T Object</ToolTip>
+          <Default>T</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[EntityFactory.getEntity<$T$>($selected$,new $T$())]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

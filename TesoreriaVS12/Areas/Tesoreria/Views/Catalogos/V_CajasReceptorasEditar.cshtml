@@ -1,0 +1,27 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_CajasReceptorasModel
+
+@{
+    Layout = null;
+}
+<div data-title="Editar" class="TituloModal"></div>
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_CajaR)
+    <div class="row">
+        <div class="col-sm-2">@Html.LabelFor(model => model.Id_CajaR)</div>
+        <div class="col-sm-7">@Html.DisplayFor(model => model.Id_CajaR)</div>
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Descripcion, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+}
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

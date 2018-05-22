@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_ClasificaPolizasModel>
+
+@{
+    ViewBag.Title = "Catálogo de Clasificación de Pólizas";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Id_TipoPoliza">@Html.DisplayNameFor(model => model.Id_TipoPoliza)</th>
+            <th data-title="Id_ClasificaPoliza">@Html.DisplayNameFor(model => model.Id_ClasificaPoliza) </th>
+            <th data-title="Id_SubClasificaPoliza">@Html.DisplayNameFor(model => model.Id_SubClasificaPoliza)</th>
+            <th data-title="Descripcion">@Html.DisplayNameFor(model => model.Descripcion)</th>
+            <th data-title="Automatica">@Html.DisplayNameFor(model => model.Automatica)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_TipoPoliza)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_ClasificaPoliza)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_SubClasificaPoliza)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @{
+            if (item.Automatica == true)
+            {
+                @Html.Encode("SI");
+            }
+            else
+            {
+                @Html.Encode("NO");
+            }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

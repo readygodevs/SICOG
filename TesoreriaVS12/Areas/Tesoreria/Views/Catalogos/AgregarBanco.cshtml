@@ -1,0 +1,117 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_BancosModel
+
+@{
+    Layout = null;
+}
+
+<div data-title="Agregar banco" class="TituloModal"></div>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmBnc" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="hiden">
+        @Html.HiddenFor(model => model.Id_Banco)
+        @Html.ValidationMessageFor(model => model.Id_Banco)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Id_BancoRH)
+    </div>
+    <div class="editor-label">
+        @*@Html.DropDownListFor(model=> model.Id_BancoRH)*@
+       @Html.DropDownListFor(model => model.Id_BancoRH, Model.ListaIdBancoRH, "-Seleccionar-", new { @class="form-control"})
+         @Html.ValidationMessageFor(model => model.Id_BancoRH)
+    </div>@*
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+        
+    </div>*@
+    <div class="row">
+        <div class="col-xs-5">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Id_Cuenta)
+            </div>
+            <div class="input-group ">
+                @Html.TextBoxFor(model => model.Id_Cuenta, new { @class = "form-control js_focus", maxlength = 26, @objeto = "15"})
+                <span class="input-group-addon js_search">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Id_Cuenta)
+        </div>
+        <div class="col-xs-7">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Descripcion)
+            </div>
+            <input type="text" class="form-control" id="desc_Id_Cuenta" name="Descripcion" readonly="readonly" />
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+    </div>
+
+    <div class="hiden">
+        @Html.HiddenFor(model => model.Usu_Act)
+            
+    </div>
+
+    <div class="hiden">
+        @Html.HiddenFor(model => model.Fecha_Act)
+    </div>
+     
+    <div class="hiden">
+        <input type="hidden" id="filters" name="filters" />
+    </div>
+}
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Areas/Tesoreria/Scripts/Catalogos/FocusOut.js"></script>
+<script>
+    var filtros = {};
+    $(function () {
+        //url, data, metodo, asincrono, div, seleccion, callback
+        
+        $(".modal-body").on("click", ".js_search", function () {
+            ajaxLoad("@Url.Action("BuscarCuenta","Cuentas")", {}, "MyModal2 .modal-body", "GET", function () {
+                openModal({ Modal: "MyModal2", Size: "lg" });
+                $("#MyModal2 .js_btnOk").hide();
+            });
+        });
+        $("body").on("click", ".js_seleccionar", function () {
+            var elemento = $(this);
+            $("#desc_Id_Cuenta").val(elemento.data("descripcion"));
+            $("#Id_Cuenta").val(elemento.data("idcuenta"));
+            closeModal({ Modal: "MyModal2" });
+        });
+        FocusOut("Id_Cuenta", "", 25, "");
+
+        $("#MyModal1").on("click", "#js_btnOk1", function () {
+            if ($("#" + FrmId).valid())
+            {
+                var f = buildFiltros();
+                $("#filters").val(JSON.stringify(f));
+                ajaxJson(RutaAdd, $("#" + FrmId).serialize(), "POST", true, callBackSave);
+            }
+        });
+    });
+    var buildFiltros = function () {
+        var f = {};
+        f.GeneroStr = "1";
+        f.RestringirCuentas = true;
+        if ($("#IdCuenta").length > 0)
+            f.IdCuenta = $("#IdCuenta").val();
+        else
+            f.IdCuenta = $("#Id_Cuenta").val();
+        if ($("#Descripcion_filtro").length > 0)
+            f.Descripcion = $("#Descripcion_filtro").val();
+        else
+            f.Descipcion = $("#Descripcion").val();
+        f.Completa = false;
+        return f;
+    }
+</script>
+

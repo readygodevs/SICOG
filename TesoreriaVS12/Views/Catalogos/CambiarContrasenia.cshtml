@@ -1,0 +1,71 @@
+﻿@model TesoreriaVS12.Models.LocalPasswordModel
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("CambiarContrasenia", "Account", FormMethod.Post, new { id = "ChangePassForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="Error" style="color: #ea1b1b;"></div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.OldPassword)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.OldPassword, new { placeholder = "Ingrese contraseña actual", @type = "password", @rel = "Actual" })
+                @Html.ValidationMessageFor(model => model.OldPassword)
+            </div>
+        </div>
+        @*<div class="col-sm-1">
+                <i class="fa fa-eye visor" data-rel="Actual" title="Mostrar Contraseña" data-toggle="tooltip" data-placement="top"></i>
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.NewPassword)
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.NewPassword, new { @placeholder = "Capture nueva contraseña", @type = "password", @rel = "Nueva" })
+                @Html.ValidationMessageFor(model => model.NewPassword)
+            </div>
+        </div>
+        @*<div class="col-sm-1">
+                <i class="fa fa-eye visor" data-rel="Nueva" title="Mostrar Contraseña" data-toggle="tooltip" data-placement="top"></i>
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.ConfirmPassword, new { @placeholder = "Confirme nueva contraseña", @type = "password", @rel = "Confirmada" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+        @*<div class="col-sm-1">
+                <i class="fa fa-eye visor" data-rel="Confirmada" title="Mostrar Contraseña" data-toggle="tooltip" data-placement="top"></i>
+            </div>*@
+    </div>
+
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script type="text/javascript">
+    $("#OldPassword").val("");
+</script>

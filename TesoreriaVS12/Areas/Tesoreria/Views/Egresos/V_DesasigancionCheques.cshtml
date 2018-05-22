@@ -1,0 +1,244 @@
+﻿@{
+    ViewBag.Title = "V_DesasugancionCheques";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> {"bSalir" } }); }
+</div>
+<div class="container">
+    <h2>Desasignación de Cheques</h2>
+    <div class="row">
+        <div class="col-sm-10">
+            <label>Cuenta Bancaria: </label>
+            <select id="js_selectCuenta" class="form-control">
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <div id="js_desasignar" class="btn btn-success margin-25 pull-right">Desasignar Cheques</div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12 js_grid">
+            <div id="jqxgrid">
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/Tree/jqxcore.js"></script>
+    <script src="~/Scripts/Tree/jqxdata.js"></script>
+    <script src="~/Scripts/Tree/jqxbuttons.js"></script>
+    <script src="~/Scripts/Tree/jqxscrollbar.js"></script>
+    <script src="~/Scripts/Tree/jqxmenu.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.sort.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.filter.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.selection.js"></script>
+    <script src="~/Scripts/Tree/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxcheckbox.js"></script>
+    <script src="~/Scripts/Tree/jqxlistbox.js"></script>
+    <script src="~/Scripts/Tree/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxdatatable.js"></script>
+    <script src="~/Scripts/Tree/demos.js"></script>
+    <script type="text/javascript">
+        $(document).on("ready", function () {
+            ajaxSelect("@Url.Action("List_BancosDesasignacion","Listas")", {}, "POST", true, "js_selectCuenta", "", callBackLlenarSelect);
+            $("#js_selectCuenta").on("change", changeSelect);
+            $("#js_desasignar").on("click", desasignar);
+            $("body").on("click", "#js_mSalir", GoHome);
+        });
+        var jsonChequesDes = {};
+        function desasignar()
+        {
+            var selec = $('#jqxgrid').jqxGrid('getselectedrowindexes');
+            if (selec.length > 0) {
+                var rows = $('#jqxgrid').jqxGrid('getrows');
+                if (rows.length == selec.length)
+                {
+                    ajaxJson("DesasignaCheques", { idCuenta: $("#js_selectCuenta").val(), todos:1 }, "POST", true, function (result) {
+                        console.log(result);
+                        if (result.Exito) {
+                            ExitoCustom(result.Mensaje, "");
+                            DestroyGrid();
+                            ConstruirGrid();
+                        }
+                        else
+                            ErrorCustom(result.Mensaje, "");
+                    });
+                }
+                else
+                {
+                    for (i = 0; i < selec.length; i++) {
+                        var selectedRowData = $('#jqxgrid').jqxGrid('getrowdata', selec[i]);
+                        ajaxJson("DesasignaCheques", { idCuenta: $("#js_selectCuenta").val(),NoCheque:selectedRowData.No_Cheque, todos: 2 }, "POST", true, function (result) {
+                            console.log(result);
+                            if (result.Exito) {
+                                //ExitoCustom(result.Mensaje, "");
+                                DestroyGrid();
+                                ConstruirGrid();
+                            }
+                            else
+                                ErrorCustom(result.Mensaje, "");
+                        });
+                    }
+                }
+            }
+            else
+                ErrorCustom("Debe de seleccionar un cheque", "");
+        }
+        function changeSelect()
+        {
+            //ajaxLoad("V_TablaCheques", { IdCuenta: $(this).val() }, "js_tablaCheques", "POST", function () { });
+            DestroyGrid();
+            url = "/Tesoreria/Egresos/ListaChequesDesasignacion?IdCuenta=" + $(this).val();
+            ConstruirGrid();
+
+        }
+        var url = "/Tesoreria/Egresos/ListaChequesDesasignacion?IdCuenta=" + $("#js_selectCuenta").val();
+        function DestroyGrid() {
+            $('#jqxgrid').jqxGrid('destroy');
+            $(".js_grid").append("<div id='jqxgrid'></div>");
+        }
+        function ConstruirGrid() {
+            DestroyGrid();
+            $("#jqxgrid").empty();
+            var Localization = {
+                // separator of parts of a date (e.g. '/' in 11/05/1955)
+                '/': "/",
+                // separator of parts of a time (e.g. ':' in 05:44 PM)
+                ':': ":",
+                // the first day of the week (0 = Sunday, 1 = Monday, etc)
+                firstDay: 0,
+                days: {
+                    // full day names
+                    names: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
+                    // abbreviated day names
+                    namesAbbr: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                    // shortest day names
+                    namesShort: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+                },
+                months: {
+                    // full month names (13 months for lunar calendards -- 13th month should be "" if not lunar)
+                    names: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", ""],
+                    // abbreviated month names
+                    namesAbbr: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", ""]
+                },
+                // AM and PM designators in one of these forms:
+                // The usual view, and the upper and lower case versions
+                //      [standard,lowercase,uppercase]
+                // The culture does not use AM or PM (likely all standard date formats use 24 hour time)
+                //      null
+                AM: ["AM", "am", "AM"],
+                PM: ["PM", "pm", "PM"],
+                eras: [
+                // eras in reverse chronological order.
+                // name: the name of the era in this culture (e.g. A.D., C.E.)
+                // start: when the era starts in ticks (gregorian, gmt), null if it is the earliest supported era.
+                // offset: offset in years from gregorian calendar
+                { "name": "A.D.", "start": null, "offset": 0 }
+                ],
+                twoDigitYearMax: 2029,
+                patterns: {
+                    // short date pattern
+                    d: "M/d/yyyy",
+                    // long date pattern
+                    D: "dddd, MMMM dd, yyyy",
+                    // short time pattern
+                    t: "h:mm tt",
+                    // long time pattern
+                    T: "h:mm:ss tt",
+                    // long date, short time pattern
+                    f: "dddd, MMMM dd, yyyy h:mm tt",
+                    // long date, long time pattern
+                    F: "dddd, MMMM dd, yyyy h:mm:ss tt",
+                    // month/day pattern
+                    M: "MMMM dd",
+                    // month/year pattern
+                    Y: "yyyy MMMM",
+                    // S is a sortable format that does not vary by culture
+                    S: "yyyy\u0027-\u0027MM\u0027-\u0027dd\u0027T\u0027HH\u0027:\u0027mm\u0027:\u0027ss"
+                },
+                percentsymbol: "%",
+                currencysymbol: "$",
+                currencysymbolposition: "antes",
+                decimalseparator: '.',
+                thousandsseparator: ',',
+                pagergotopagestring: "Ir a la ´página:",
+                pagershowrowsstring: "Mostrar englones:",
+                pagerrangestring: " de ",
+                pagerpreviousbuttonstring: "anterior",
+                pagernextbuttonstring: "siguiente",
+                groupsheaderstring: "Drag a column and drop it here to group by that column",
+                sortascendingstring: "Ascendente",
+                sortdescendingstring: "Descendente",
+                sortremovestring: "Quitar filtro",
+                groupbystring: "Group By this column",
+                groupremovestring: "Remove from groups",
+                filterclearstring: "Clear",
+                filterstring: "Filter",
+                filtershowrowstring: "Show rows where:",
+                filtershowrowdatestring: "Show rows where date:",
+                filterorconditionstring: "Or",
+                filterandconditionstring: "And",
+                filterselectallstring: "(Select All)",
+                filterchoosestring: "Please Choose:",
+                filterstringcomparisonoperators: ['empty', 'not empty', 'contains', 'contains(match case)',
+                    'does not contain', 'does not contain(match case)', 'starts with', 'starts with(match case)',
+                    'ends with', 'ends with(match case)', 'equal', 'equal(match case)', 'null', 'not null'],
+                filternumericcomparisonoperators: ['equal', 'not equal', 'less than', 'less than or equal', 'greater than', 'greater than or equal', 'null', 'not null'],
+                filterdatecomparisonoperators: ['equal', 'not equal', 'less than', 'less than or equal', 'greater than', 'greater than or equal', 'null', 'not null'],
+                filterbooleancomparisonoperators: ['equal', 'not equal'],
+                validationstring: "Entered value is not valid",
+                emptydatastring: "No hay datos para mostrar",
+                filterselectstring: "Select Filter",
+                loadtext: "Cargando...",
+                clearstring: "Clear",
+                todaystring: "Today"
+            };
+            var source =
+                {
+                    dataType: "json",
+                    type: "POST",
+                    dataFields: [
+                         { name: "Id_TipoCR", type: "number" },
+                         { name: "Id_FolioCR", type: "number" },
+                         //{ name: "Id_CuentaFR", type: "string", },
+                         { name: "TipoPersona", type: "string" },
+                         { name: "FechaVen", type: "date" },
+                         { name: "No_Cheque", type: "number" },
+                         { name: "Importe", type: "number" }
+                    ],
+                    url: url,
+                    id: "id"
+                };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // create jqxgrid.
+
+            $("#jqxgrid").jqxGrid(
+            {
+                width: "100%",
+                height: 450,
+                source: dataAdapter,
+                sortable: true,
+                filterable: false,
+                ready: function () {
+                    $("#jqxgrid").jqxGrid('localizestrings', Localization);
+                },
+                selectionmode: 'checkbox',
+                theme: 'metro',
+                columns: [
+                      { text: "Tipo CR", cellsAlign: "center", align: "center", dataField: "Id_TipoCR" },
+                      { text: "Folio CR", cellsAlign: "center", align: "center", dataField: "Id_FolioCR" },
+                      //{ text: "Cuenta", cellsAlign: "center", align: "center", dataField: "Id_CuentaFR", width: 150 },
+                      { text: "Beneficiario", cellsAlign: "center", align: "center", dataField: "TipoPersona" },
+                      { text: "Vencimiento", dataField: "FechaVen", cellsAlign: "center", align: "center", cellsformat: "dd/MM/yyyy" },
+                      { text: "No. Cheque", dataField: "No_Cheque", cellsAlign: "center", align: "center"},
+                      { text: "Importe", dataField: "Importe", cellsAlign: "right", align: "right", cellsformat: "f2" }
+                ]
+            });
+
+        }
+    </script>
+}

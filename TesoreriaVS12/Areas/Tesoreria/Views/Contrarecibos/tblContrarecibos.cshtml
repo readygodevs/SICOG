@@ -1,0 +1,92 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_ContrarecibosModel>
+
+@{
+    Layout = null;
+    String TipoCRStr = ViewBag.TipoCRStr;
+}
+
+<table id="tblContraSearch">
+    <thead>
+        <tr>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Id_TipoCR)
+                </th>*@
+            <th>
+                Folio CxL
+                @*@Html.DisplayNameFor(model => model.Id_FolioCR)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaVen)
+            </th>
+            @if (TipoCRStr == "PAGO A PROVEEDORES")
+            {
+                <th>
+                    No. Orden Compra
+                </th>
+                <th>
+                    Folio Compromiso
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Beneficiario)
+            </th>
+            <th>
+                No. Cheque
+            </th>
+            <th>
+                Importe
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.TipoCRstr)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_FolioCR)
+                </td>
+                <td>
+                    @Html.Encode((item.FechaVen.HasValue) ? item.FechaVen.Value.ToShortDateString() : "")
+                </td>
+                @if (TipoCRStr == "PAGO A PROVEEDORES")
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.No_Adquisicion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id_FolioCompromiso)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_Cheque)
+                </td>
+                <td class="text-right">
+                    @if (item.Cargos.HasValue)
+                    {
+                        @Html.Encode(String.Format("{0:N}", item.Abonos)) 
+                    }
+                    else
+                    {
+                        @Html.Encode(String.Format("{0:N}", 0))     
+                    }
+                    
+                </td>
+                <td class="acciones">
+                    <i class="fa fa-check js_seleccionar" data-folio="@item.Id_FolioCR" data-tipo="@item.Id_TipoCR"></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(function () {
+        ConstruirTabla("tblContraSearch", "No se encontraron Cuentas por Liquidar...");
+    });
+</script>

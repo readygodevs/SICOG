@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_CentroRecaudadorModel>
+@{
+    ViewBag.Title = "Catálogo de Centros Recaudadores";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Id_UPI">@Html.DisplayNameFor(model => model.Id_UPI)</th>
+            <th data-title="Id_URI">@Html.DisplayNameFor(model => model.Id_URI)</th>
+            <th data-title="Id_UEI">@Html.DisplayNameFor(model => model.Id_UEI) </th>
+            <th data-title="Id_CRecaudador">@Html.DisplayNameFor(model => model.Id_CRecaudador)</th>
+            <th data-title="Descripcion">@Html.DisplayNameFor(model => model.Descripcion)</th>
+            <th data-title="UltimoNivel">@Html.DisplayNameFor(model => model.UltimoNivel)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_UPI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_URI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_UEI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_CRecaudador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @{
+            if (item.UltimoNivel == true)
+            {
+                @Html.Encode("SI");
+            }
+            else
+            {
+                @Html.Encode("NO");
+            }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

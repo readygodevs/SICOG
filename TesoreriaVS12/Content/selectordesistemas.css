@@ -1,0 +1,54 @@
+body {
+  background: #ccc;
+  font-family: Arial;
+  margin: 0;
+  padding: 0;
+}
+#header {
+  text-align: center;
+  background: #283c48;
+  font-size: 30px;
+  color: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+#menu-sistemas a {
+  text-decoration: none;
+}
+#menu-sistemas .item {
+  width: 80%;
+  height: 170px;
+  background: #fff;
+  margin: auto;
+  max-width: 1020px;
+  min-width: 600px;
+  box-shadow: 10px 10px 5px #888;
+  margin-bottom: 30px;
+}
+#menu-sistemas .item .imagen {
+  width: 50%;
+  height: 100%;
+  background-size: 100% 100%;
+  background-position: center center;
+  float: right;
+}
+#menu-sistemas .item .imagen.adquisiciones {
+  background-image: url("../Images/selectordesistemas/responsive_adquisiciones.png");
+}
+#menu-sistemas .item .imagen.tesoreria {
+  background-image: url("../Images/selectordesistemas/responsive_tesoreria.png");
+}
+#menu-sistemas .item .info {
+  width: 50%;
+  height: 100%;
+}
+#menu-sistemas .item .info .titulo {
+  font-size: 30px;
+  color: #939393;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+  width: 90%;
+  margin: auto;
+  padding: 10px;
+}

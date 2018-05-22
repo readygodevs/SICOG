@@ -1,0 +1,69 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.DE_Banco_ChequeModel>
+
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <label>Cuenta Bancaria: </label><label>@ViewBag.CuentaFormato</label>
+        <button id="js_agregarCheque" class="btn btn-success pull-right"><i class="fa fa-plus"> Agregar</i></button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table  id="tbl_cheques" class="table table-responsive table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th data-title="Ca_CuentasBancarias.NoCuenta">
+                        @Html.DisplayNameFor(model => model.Id_CtaBancaria)
+                    </th>
+                    <th data-title="Id_Asignacion">
+                        @Html.DisplayNameFor(model => model.Id_Asignacion)
+                    </th>
+                    <th data-title="Cheque_Ini">
+                        @Html.DisplayNameFor(model => model.Cheque_Ini)
+                    </th>
+                    <th data-title="Cheque_Fin">
+                        @Html.DisplayNameFor(model => model.Cheque_Fin)
+                    </th>
+                    <th data-title="Fecha_Asigna">
+                        @Html.DisplayNameFor(model => model.Fecha_Asigna)
+                    </th>
+                    <th data-title="Acciones"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ca_CuentasBancarias.NoCuenta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id_Asignacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cheque_Ini)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cheque_Fin)
+                        </td>
+                        <td>
+                            @Html.Encode(item.Fecha_Asigna.Value.ToString("dd/MM/yyyy"))
+                        </td>
+                        <td class="acciones">
+                           <a class="js_eliminarCheque fa fa-trash-o cursorPointer" data-id="@item.Id_Asignacion" data-idcta="@item.Id_CtaBancaria" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<input type="hidden" id="js_idCtaBancaria" value="@ViewBag.Cuenta" />
+
+<script>
+    $(function () {
+        TablaCheque=ConstruirTabla("tbl_cheques", "No hay resultados...");
+    });
+</script>

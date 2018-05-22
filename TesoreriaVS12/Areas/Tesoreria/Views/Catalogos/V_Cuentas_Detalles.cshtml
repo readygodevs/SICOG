@@ -1,0 +1,51 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_CuentasModel
+
+@{
+    Layout = null;
+}
+<div data-title="Listado de Cuentas" class="TituloModal"></div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div><label>Cuenta</label></div>
+        <div>@Model.Id_CuentaFormato</div>
+    </div>
+    <div class="col-sm-3">
+        <div><label>@Html.DisplayNameFor(model => model.Nivel)</label> </div>
+        <div>@{if(Model.Nivel) 
+               { 
+                   <span>SI</span>
+               }
+               else {
+                   <span>NO</span>
+               } 
+              }
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div><label>@Html.DisplayNameFor(model => model.Naturaleza)</label></div>
+        <div>@Html.DisplayFor(model => model.Di_Naturaleza.SingleOrDefault(x=> x.Value == model.Naturaleza.ToString()).Text)</div>
+    </div>
+</div>
+<br />
+<table class="tabla-detalle">
+    <tr>
+        <td><label>@Html.DisplayNameFor(model => model.Descripcion):</label></td>
+        <td>@Model.Descripcion</td>
+    </tr>
+    <tr>
+        <td><label>@Html.DisplayNameFor(model => model.Observaciones): </label></td>
+        <td>@Model.Observaciones</td>
+    </tr>
+    <tr>
+        <td><label>@Html.DisplayNameFor(model => model.Id_ObjetoG):</label></td>
+        <td>@Model.Id_ObjetoG</td>
+    </tr>
+    <tr>
+        <td><label>@Html.DisplayNameFor(model => model.Id_Concepto):</label></td>
+        <td>@Model.Id_Concepto</td>
+    </tr>
+</table>
+
+
+    

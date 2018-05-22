@@ -1,0 +1,97 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.DE_EvolucionModel
+
+@{
+    ViewBag.Title = "Evolución de Ingresos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Evolución Presupuestaria de Ingresos</h2>
+
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bSalir" } }); }
+</div>
+
+<div class="container">
+    @using (Html.BeginForm("tblEvolucion", "Ingresos", FormMethod.Post, new { @id = "frmEvolucion" }))
+    {
+        if (Model != null)
+        {
+            @Html.Partial("_ClavePresupuestalCRI", Model)
+        }
+        else
+        {
+            @Html.Partial("_ClavePresupuestalCRI", new TesoreriaVS12.Areas.Tesoreria.Models.De_ClavePresupuestal())
+        }
+    }
+    <br />
+    <br />
+    <div class="row" id="div_resultados"></div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/PresupuestoIngresos.js"></script>
+    <script>
+        var esModalBusqueda = 0;
+        $(document).ready(function () {
+            $(".js_CuentaHiden").remove();
+            $(".js_cur").remove();
+            $(".js_Descripcion").attr("disabled", "disabled");
+            $("body").on("click", "#js_mBuscar", function () {
+                $("#div_resultados").ajaxLoad({
+                    url: $("#frmEvolucion").attr("action"), data: $("#frmEvolucion").serialize(), method: "POST", callback: function () {
+                        recargarMenuLateral(["bNuevo", "bSalir"]);
+                        $(".textBox").attr("disabled", true);
+                    }
+                });
+            });
+            var textbox = $(".js_Captura");
+            textbox.each(function (index, value) {
+                $("body").off("change", "#" + ($(value).attr("id")));
+                EventFocus($(value).attr("id"), "2");
+                change($(value).attr("id"));
+            });
+            $("body").on("click", "#js_mNuevo", function () {
+                $("#div_resultados").children().remove();
+                $(".textBox").val("");
+                $(".js_Descripcion").val("");
+                recargarMenuLateral(["bBuscar", "bSalir"]);
+                $(".textBox").attr("disabled", false);
+            });
+            $("body").on("click", ".input-group-addon", function () {
+                seccion = 2;
+                if (!$(this).isSiblingDisabled() && !$(this).hasClass("js_AnioFin")) {
+                    var elemento = $(this).parent().find("input");
+                    var label = $(this).parent().parent().parent().children()[0];
+                    label = $(label).children().text();
+                    var hijo = $(this).parent().parent().parent().children()[1];
+                    hijo = $(hijo).children()[0];
+                    hijo = $(hijo).children()[0];
+                    $("#TipoBusqueda").val(0);
+                    customModal(seccion == 1 ? "/Tesoreria/Presupuestos/BuscarCatalogo" : "/Tesoreria/PresupuestosIngresos/BuscarCatalogo", { tipo: $(hijo).attr("objeto"), label: label, id: $(hijo).attr("id") }, "GET", "lg", function () {
+                        ajaxLoad(seccion == 1 ? "/Tesoreria/Presupuestos/Buscar" : "/Tesoreria/PresupuestosIngresos/Buscar", { objeto: $("#tipo_busqueda").val(), clave: $("#text_clave").val().trim(), descripcion: $("#text_descripcion").val().trim(), tipoBusqueda: $("input[name=tipoBusqueda]:checked").val() }, "div_tabla", "GET",
+                                function () {
+                                    ConstruirTabla("tabla_resultados");
+                                });
+                    }, "", "Buscar", "Cancelar", "Búsqueda de " + label, "MyModal1");
+                }
+            });
+            $("body").on("click", ".MyModal1 .js_seleccionar", function () {
+                var id = $(this).data("id");
+                var descripcion = $(this).data("descripcion");
+                var selector = $("#label").val();
+                $("#" + selector).val(id + "-" + descripcion);
+                $(".MyModal1").modal("hide");
+                var input = $(".js_Captura");
+                input.eq($("#" + selector).index(".js_Captura") + 1).attr("readonly", false);
+                input = input.eq($("#" + selector).index(".js_Captura") + 1).focus();
+                $("#" + selector).trigger('change');
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+    </script>
+}
+

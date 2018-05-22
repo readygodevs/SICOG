@@ -1,0 +1,32 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_LocalidadesModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles Localidad" class="TituloModal"></div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Id_Estado)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.CA_Estado.Descripcion)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Id_Municipio)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.CA_Municipio.Descripcion)
+</div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Descripcion)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

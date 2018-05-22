@@ -1,0 +1,108 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_PresupuestoIngModel
+@{
+    Layout = null;
+}
+
+<div id="ParcialPresupuesto">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="row">
+        <div class="col-xs-3 margen-2">
+            <label>@Html.LabelFor(model => model.Id_CentroRecaudador)</label>
+        </div>
+        <div class="col-xs-2 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_CentroRecaudador, new { @class = "form-control textBox js_Captura", @objeto = "1"})
+                <span class="input-group-addon js_Buscar"><span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_CentroRecaudador.Descripcion, new { @class = "form-control js_Descripcion"})
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_CentroRecaudador)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2">
+            <label>@Html.LabelFor(model => model.Id_Fuente)</label>
+        </div>
+        <div class="col-xs-2 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_Fuente, new { @class = "form-control textBox js_Captura", @objeto = "2"})
+                <span class="input-group-addon js_Buscar">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_FuentesFin_Ing.Descripcion, new { @class = "form-control js_Descripcion" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Fuente)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2">
+            <label>@Html.LabelFor(model => model.AnioFin)</label>
+        </div>
+        <div class="col-xs-2 margen-2">
+            <select name="AnioFin" id="AnioFin" class="form-control textDescripcion">
+                @if (!String.IsNullOrEmpty(Model.AnioFin))
+                {
+                    <option selected value="@Model.AnioFin">@String.Format("20{0}", Model.AnioFin)</option>
+                }
+            </select>
+            @Html.ValidationMessageFor(model => model.AnioFin)
+        </div>
+        <div class="col-xs-7 margen-2">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2">
+            <label>@Html.LabelFor(model => model.Id_Alcance)</label>
+        </div>
+        <div class="col-xs-2 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_Alcance, new { @class = "form-control textBox js_Captura", objeto = "3"})
+                <span class="input-group-addon js_Buscar">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_AlcanceGeo.Descripcion, new { @class = "form-control js_Descripcion" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Alcance)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 margen-2">
+            <label>@Html.LabelFor(model => model.Id_Concepto)</label>
+        </div>
+        <div class="col-xs-2 margen-2">
+            <div class="input-group">
+                @Html.TextBoxFor(model => model.Id_Concepto, new { @class = "form-control textBox js_Captura", objeto = "4"})
+                <span class="input-group-addon js_Buscar"><span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-7 margen-2">
+            <div class="col-xs-11">
+                @Html.TextBoxFor(model => model.Ca_ConceptosIngresos.Descripcion, new { @class = "form-control js_Descripcion" })
+            </div>
+            <div class="col-xs-1">
+                @Html.ValidationMessageFor(model => model.Id_Concepto)
+            </div>
+        </div>
+    </div>
+    <input type="hidden" class="js_Captura"/>
+</div>

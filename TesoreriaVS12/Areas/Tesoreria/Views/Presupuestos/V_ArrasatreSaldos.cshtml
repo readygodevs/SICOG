@@ -1,0 +1,226 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_TransferenciasModel
+
+@{
+    ViewBag.Title = "Arrastre de Saldos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="_menu_lateral">
+    @if (ViewBag.post)
+    {
+        if (Model.De_Transferencias.Count() > 0)
+        {
+            if (Model.Id_Estatus == 3)
+            {
+                Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bDetalles", "bSalir" } });
+            }
+            else
+            {
+                if (Model.Id_Estatus == 1)
+                {
+                    Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bEditar", "bDetalles", "bEliminar", "bAfectar", "bSalir" } });
+                }
+                else {
+                    Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bDetalles", "bEliminar", "bSalir" } });
+                }
+                
+            }
+        }else{
+            if (Model.Id_Estatus == 3)
+            {
+                Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bDetalles", "bSalir" } });
+            }
+            else
+            {
+                Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bEditar", "bDetalles", "bEliminar", "bSalir" } });
+            }
+            
+        }
+    }
+    else
+    {
+        Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bSalir" } }); 
+    }
+    
+</div>
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<div class="container">
+    <h2>Arrastre de Saldos</h2>
+
+    @using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model=>model.Id_TipoT)
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>Folio</label>
+                        @Html.TextBoxFor(model => model.Id_Transferencia, new { @class = "form-control jsEnabledAgregar jsEnabledEditar", disabled = "disabled", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Id_Transferencia)
+                    </div>
+                    <div class="col-sm-2">
+                        <label>Fecha:</label>
+                        <div class="input-group">
+                            <input type="text" name="Fecha" id="Fecha" class="form-control date jsEnabledAgregar jsEnabledEditar" disabled = "disabled" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Mes Origen</label>
+                        @Html.DropDownListFor(model => model.Id_Mes_Origen, Model.ListaMeses, "--Seleccione una opción--", new { @class = "form-control jsEnabledAgregar jsEnabledEditar", disabled = "disabled" })
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Mes Destino</label>
+                        @Html.DropDownListFor(model => model.Id_Mes, Model.ListaMeses, "--Seleccione una opción--", new { @class = "form-control jsEnabledAgregar jsEnabledEditar", disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Descripción</label>
+                        @Html.TextBoxFor(model => model.Descrip, new { @class = "form-control jsEnabledAgregar jsEnabledEditar", disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.Descrip)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <label>Estatus</label>
+                @Html.DropDownListFor(model => model.Id_Estatus, Model.ListaEstatus, "--Seleccione una opción--", new { disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Id_Estatus)
+                <label>Fecha de afectación</label>
+                @Html.TextBoxFor(model => model.Fecha_Afecta, new { @class = "form-control", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Fecha_Afecta)
+            </div>
+        </div>
+        
+        <div id="div_oculta">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>Centro Gestor</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Id_Area, new { @class = "form-control jsEnabledAgregar jsEnabledEditar", disabled = "disabled" })
+                        <span class="input-group-addon js_buscar">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.Ca_Areas.Descripcion, new { @class = "form-control js_Descripcion", disabled = "disabled" })
+                </div>
+                <div class="col-sm-3">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="checkbox" id="js_check" class="jsEnabledAgregar jsEnabledEditar" disabled="disabled" />
+                    <label>Rango de Objeto de Gasto</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>Objeto Inicial</label>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Id_OGInicial, new { @class = "form-control js_rango", @readonly="readonly", maxlength = "5" })
+                        <span class="input-group-addon js_buscarObjeto"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" id="Desc_Id_OGInicial" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>Objeto final</label>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Id_OGFinal, new { @class = "form-control js_rango", @readonly="readonly", maxlength = "5" })
+                        <span class="input-group-addon js_buscarObjeto"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" id="Desc_Id_OGFinal" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+@section scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ArrastreSaldos.js"></script>
+    <script type="text/javascript">
+        var cancelar = 0;
+        var tempDesc = "";
+        var elemento = "";
+        var modelo = "";
+        var nuevo = false;
+        var rutaFocusFunciones = "@Url.Action("Funciones","FocusOut")";
+        var rutaFocusAreas = "@Url.Action("Areas","FocusOut")";
+        var rutaVDeTrans = "@Url.Action("V_DeTransferencia", "Presupuestos")";
+        var rutaBuscarCatalogo = "@Url.Action("BuscarCatalogo", "Presupuestos")";
+        var rutaBuscar = "@Url.Action("Buscar", "Presupuestos")";
+        $(document).ready(function () {
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $('.date').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                startDate: '@Html.Raw(ViewBag.FechaInicio)',
+                endDate: '@Html.Raw(ViewBag.FechaFin)'
+            })
+            $('body').on("click", ".js_radio", changeRadio);
+            $("body").on("click", ".ModalBuscar .js_seleccionar", Seleccionar);
+            $("#js_check").on("click", chekeado);
+            $("body").on("change", "#Id_Area", changeArea);
+            $("#Id_Area").on("focusout", focusout);
+            $(".js_buscar").on("click", ModalBuscarArea);
+            $(".js_buscarObjeto").on("click", ModalBuscarObjeto);
+            $(".js_rango").on("focusout", focusoutRango);
+            $("body").on("click", ".ModalBuscarArea .js_seleccionar", function () {
+                var id = $(this).data("id");
+                var descripcion = $(this).data("descripcion");
+                $("#Id_Area").val(id);
+                $("#Ca_Areas_Descripcion").val(descripcion);
+                $(".ModalBuscarArea").modal("hide");
+            });
+            $("body").on("click", ".MyModal1 .js_seleccionar", function () {
+                var id = $(this).data("id");
+                var descripcion = $(this).data("descripcion");
+                var input = elemento.attr("id");
+                $("#" + input).val(id);
+                $("#Desc_" + input).val(descripcion);
+                $(".MyModal1").modal("hide");
+            });
+            //OPCIONES DEL MENU
+            $('body').on("click", "#js_mNuevo", Agregar);
+            $('body').on("click", "#js_mCancelar", Cancelar);
+            $('body').on("click", "#js_mBuscar", ModalBuscar);
+            $('body').on("click", "#js_mGuardar", Guardar);
+            $('body').on("click", "#js_mEditar", Editar);
+            $('body').on("click", "#js_mEliminar", ModalEliminar);
+            $('body').on("click", "#js_mAfectar", ModalAfectar);
+            $('body').on("click", "#js_mDetalles", Detalles);
+            $('body').on("click", "#js_mGeneralPolizas", GenerarDetalles);
+            $('body').on("click", "#js_mSalir", GoHome);
+            @if (ViewBag.post && Model.Id_OGFinal != null)
+            {
+                <text>  $(".js_rango").trigger("focusout");  </text>
+            }
+        });
+
+    </script>
+
+
+}

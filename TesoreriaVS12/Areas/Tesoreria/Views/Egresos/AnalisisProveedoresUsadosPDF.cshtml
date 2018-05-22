@@ -1,0 +1,50 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.VW_ProvedoresUsadosModel>
+
+@{
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+    <table id="tbl" class="table table-responsive table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    No.
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CURP)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RFC)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdPersona)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CURP)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RFC)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

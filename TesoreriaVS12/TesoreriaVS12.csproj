@@ -1,0 +1,2423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D106E64F-1E2A-46AA-86BD-7B0498812B3C}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TesoreriaVS12</RootNamespace>
+    <AssemblyName>TesoreriaVS12</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="HiQPdf, Version=6.0.0.0, Culture=neutral, PublicKeyToken=acd8b62594985b24, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Utils\HiQPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\HashFoo.SqlServer.SpatialTypes.10.0.0.0\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.0\lib\net45\System.Diagnostics.DiagnosticSource.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.20710.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.1.4.12333\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.4.0.0\lib\net40\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Tesoreria\BL\AccionesBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\AmpliacionesReduccionesBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\ChequesBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\CompromisosBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\ControlFinancieroBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\CuentasBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\DeCompromisosBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\DeContrarecibosBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\FoliadorBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\DeCompromisosHBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\Fondos_GastosBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\ImportacionNSICG2015BL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\ImpuestoDeduccionBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\IngresosBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\NominaBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\PolizasBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\PresupuestosEgresosBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\PresupuestosIngresosBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\TipoCompromisoBL.cs" />
+    <Compile Include="Areas\Tesoreria\BL\RecibosBL.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\BusquedasController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\CatalogosController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ChequesController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\CompromisosController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ContabilidadController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ContrarecibosController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ControlFinancieroController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\CuentasController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\EgresosController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ExcelCompromisosController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ExcelController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\FocusOutController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ImportarController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\IngresosController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\PresupuestosIngresosController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ListasController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\LlenadoController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\NominaController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\PresupuestosController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\PolizasController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ReportesConacController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ReportesController.cs" />
+    <Compile Include="Areas\Tesoreria\Controllers\ReportesPDFController.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\CaCajasReceptorasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\Ca_CURDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\CentroRecaudadorDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\DiasInhabilesDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\FirmasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\FuenteIngDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeArchivosContraRecibosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeComrpobacionesDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeCRFacturasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeEvolucionDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeRecibosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeReferenciasPolizasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeTransferenciaIngDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaEstadosCuentaDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaMovimientosConciliacionDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaRecibosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaTransferenciasIngDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaComprobacionesDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaComprobacionesPartidasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\VistasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\ProceduresDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\AlcanceDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\AccionDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ActividadDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ActividadMIRDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\AreasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\BancosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\BancosRHDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\GirosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\BeneficiariosCuentasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\BeneficiariosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeBeneficiariosContactosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeBeneficiariosGirosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeCompromisosHDAL.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Ca_CajasReceptoras.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_CamaraComercio.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_CentroRecaudador.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_CUR.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_FuentesFin_Ing.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_Giros.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_InHabil.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Chequestbl.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\DetalleCompromisoExcel.cs" />
+    <Compile Include="Areas\Tesoreria\Models\DE_BeneficiarioContactos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\DE_ContrarecibosArchivos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\DE_Evolucion.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_ReciboIngresos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_ReferenciasPolizas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_TransferenciaIng.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_EstadosCuenta.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_PreComprometido.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_ReciboIngresos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_TransferenciasIng.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Modelos.cs" />
+    <Compile Include="Areas\Tesoreria\Models\PA_ConciliacionReporte_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_ConciliacionReporte_Result1.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_ConciliacionReporte_Result2.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_Genera_Poliza_Egresos_TE_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_ReporteCuentasEjercicios_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_WSConsultaArticulo_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaCentroGestor_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_WSConsultaClasificacion_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaClasProvedor_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_WSConsultaProvedor_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSEstatusCompromiso_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PresupuestosIngresos.cs" />
+    <Compile Include="Areas\Tesoreria\Models\tblRepConciliacion.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\tblRepCuentas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vBancosDesasignacionCheques.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vBancosImpresionCheques.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vDisponibilidadAnual.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vEjercido.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vEjercido_MovimientosPolizas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vEvolucionAnual.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vFechaAsignacionPPyPD.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vFechasAsignacionFRyGC.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Vistas.cs" />
+    <Compile Include="Areas\Tesoreria\Models\vListaChequesDesasignacion.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vListaChequesImpresion.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vListaChequesImpresionNomina.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vListaContraRecibosAsignacionCheques12.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vListaContraRecibosAsignacionCheques34.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vPagado_MovimientosPolizas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\vVerificaPoliza.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_Beneficiarios.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_Conciliacion.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_Contrarecibos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_contrarecibosSinFuente.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_CuentasConPadres.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_CuentasId.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_DetalleReciboIng.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_DisponibilidadMeses.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_ProvedoresUsados.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\VW_ProvedoresUsadosAgrupado.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BL\PermisosBL.cs" />
+    <Compile Include="Areas\Tesoreria\Models\VW_ListaContraRecibosAsignacionCheques.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\CallesDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\CausasCancelacionDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\CierreBancoDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\CierreMensualDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ClasificaBeneficiariosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ClasificacionPDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ClasificaPolizaDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ClasProgramaticaDAL.cs" />
+    <Compile Include="DAL\ColoniasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ConceptosIngresos.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\CuentasBancariasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\CuentasDAL.cs" />
+    <Compile Include="DAL\DeOpcionesGrupo.cs" />
+    <Compile Include="DAL\DeGruposOpcionesDAL.cs" />
+    <Compile Include="DAL\DePermisosAccionesDAL.cs" />
+    <Compile Include="DAL\EstadosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\FuenteDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\FuncionDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ImpuestosDeduccionDAL.cs" />
+    <Compile Include="DAL\GruposDAL.cs" />
+    <Compile Include="DAL\LocalidadesDAL.cs" />
+    <Compile Include="DAL\MunicipiosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ObjetoGDAL.cs" />
+    <Compile Include="DAL\PaisesDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ParametrosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\PercepDeducDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ProcesoDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\ProgramaDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoBeneficiariosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoCompromisosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoContrarecibosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoDoctosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoFormatosChequesDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoGastosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoImpuestosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoMetaDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoMovBancariosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoPagosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoPolizasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoTransferenciasEgDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Catalogos\TipoTransferenciasIng.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeNominaDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeBancoChequeDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeBancoDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeCompromisosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeContrarecibosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeDisponibilidadDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeFacturasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DePolizasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Detalles\DeTransferenciaDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\GenericDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaCompromisosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaContrarecibosDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaNominaDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaPolizasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaPresupuestoEgDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaPresupuestoIngDAL.cs" />
+    <Compile Include="Areas\Tesoreria\DAL\Maestros\MaTransferenciasDAL.cs" />
+    <Compile Include="Areas\Tesoreria\Models\BD_Tesoreria.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BD_Tesoreria.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\BD_Tesoreria.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\BD_Tesoreria.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BD_Tesoreria.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Busquedas.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Catalogos.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Ca_Acciones.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_Actividad.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_ActividadesInst.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_AlcanceGeo.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_Areas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_Bancos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_BancosRH.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_Beneficiarios.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_BeneficiariosCuentas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_CausasCancelacion.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_CierreBanco.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_CierreMensual.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_ClasificaBeneficiarios.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_ClasificaPolizas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_ClasProgramatica.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_ConceptosIngresos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_Cuentas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_CuentasBancarias.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_CuentasModel.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Ca_FuentesFin.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_Funciones.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_Impuestos_Deduccion.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_ObjetoGasto.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_Parametros.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_Percep_Deduc.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\CA_Programas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_Proyecto.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoBeneficiarios.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoCompromisos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoContrarecibos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoDoctos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoFormatosCheques.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoGastos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoImpuestos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoMeta.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoMovBancarios.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoPagos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoPolizas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoTransferenciasEg.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_TipoTransferenciasIng.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ca_UsuariosModel.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Clases.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Detalles.cs" />
+    <Compile Include="Areas\Tesoreria\Models\DE_Bancos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\DE_Banco_Cheque.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_Beneficiarios_Giros.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_Comprobaciones.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_Compromisos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_Compromisos_H.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_Contrarecibos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_CR_Facturas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\DE_Disponibilidad.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_Nomina.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_Polizas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\De_Transferencia.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Diccionarios.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Listas.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Llenado.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Maestros.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Ma_Comprobaciones.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_Comprobaciones_Partida.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_Compromisos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_Contrarecibos.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_MovimientosConciliacion.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_Nomina.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_Polizas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\MA_PresupuestoEg.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_PresupuestoIng.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Ma_Transferencias.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaAcciones_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaActividadesMIR_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaActividades_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaAlcancesGeo_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaCentroGestro_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaClasProg_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_WSConsultaCompromisos_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_WSConsultaDetalleCompromiso_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaFuentesFin_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaFunciones_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaObjetosGasto_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaProcesos_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaProgramas_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_WSConsultarArticulos_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaTiposGasto_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Pa_WSConsultaTiposMeta_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\PA_WSObtencionAreasValidas_Result.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\Models\Presupuestos.cs" />
+    <Compile Include="Areas\Tesoreria\Models\Reportes.cs" />
+    <Compile Include="Areas\Tesoreria\Models\TA_Firmas.cs">
+      <DependentUpon>BD_Tesoreria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Tesoreria\TesoreriaAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministradorController.cs" />
+    <Compile Include="Controllers\CatalogosController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListasController.cs" />
+    <Compile Include="Controllers\SelectordesistemasController.cs" />
+    <Compile Include="DAL\BdTesoreriasDAL.cs" />
+    <Compile Include="DAL\ErroresDAL.cs" />
+    <Compile Include="DAL\GenericDAL.cs" />
+    <Compile Include="DAL\IRepository.cs" />
+    <Compile Include="DAL\OpcionesDAL.cs" />
+    <Compile Include="DAL\PerfilesDAL.cs" />
+    <Compile Include="DAL\DeGrupoPerfilDAL.cs" />
+    <Compile Include="DAL\PermisosDAL.cs" />
+    <Compile Include="DAL\PersonasDAL.cs" />
+    <Compile Include="DAL\UsuariosDAL.cs" />
+    <Compile Include="DAL\VWPermisosDAL.cs" />
+    <Compile Include="Filters\Autorize.cs" />
+    <Compile Include="Filters\Permisos.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Arbol.cs" />
+    <Compile Include="Models\CA_Acciones.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CA_Articulos.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CA_Botones.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ca_Calles.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CA_CamarasComercio.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ca_ClasificacionArticulos.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ca_Colonias.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ca_Estados.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CA_Grupos.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ca_Localidades.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ca_MensajesError.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ca_Municipios.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CA_Opciones.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ca_Paises.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CA_Perfiles.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CA_Personas.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CA_Usuarios.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Change.cs" />
+    <Compile Include="Models\ControlGeneral.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlGeneral.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ControlGeneral.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ControlGeneral.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ControlGeneral.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DE_AccionesPermisos.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DE_ArticuloClasificacion.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\De_GrupoPerfil.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DE_GruposOpciones.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DE_OpcionesGrupos.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DE_Permisos.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Errores.cs" />
+    <Compile Include="Models\Logueo.cs" />
+    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\Modelos.cs" />
+    <Compile Include="Models\VW_Bases.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_Permisos.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_Permisos2.cs">
+      <DependentUpon>ControlGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Utils\ConvertHtmlToString.cs" />
+    <Compile Include="Utils\DAL.cs" />
+    <Compile Include="Utils\EntityFactory.cs" />
+    <Compile Include="Utils\Ftp.cs" />
+    <Compile Include="Utils\Mapear.cs" />
+    <Compile Include="Utils\ModelFactory.cs" />
+    <Compile Include="Utils\RESTConsume.cs" />
+    <Compile Include="WebReferences\EnviaCorreo\Reference.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Tesoreria\Scripts\AmpliacionesReducciones.js" />
+    <Content Include="Areas\Tesoreria\Scripts\AmpliacionesReduccionIng.js" />
+    <Content Include="Areas\Tesoreria\Scripts\ArrastreSaldos.js" />
+    <Content Include="Areas\Tesoreria\Scripts\ArrendamientosHonorarios.js" />
+    <Content Include="Areas\Tesoreria\Scripts\autoNumeric.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Beneficiarios.js" />
+    <Content Include="Areas\Tesoreria\Scripts\busqueda.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Catalogos\Catalogos.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Catalogos\Compromisos.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Catalogos\CuentaBancarias.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Catalogos\FocusOut.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Catalogos\FocusOut.min.js">
+      <DependentUpon>FocusOut.js</DependentUpon>
+    </Content>
+    <Content Include="Areas\Tesoreria\Scripts\Catalogos\Funciones.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Cheques.js" />
+    <Content Include="Areas\Tesoreria\Scripts\clavePresupuestal.js" />
+    <Content Include="Areas\Tesoreria\Scripts\clavePresupuestal.min.js" />
+    <Content Include="Areas\Tesoreria\Scripts\ConsultaPoliza.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Contrarecibos.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Busquedas.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Compromisos.js" />
+    <Content Include="Areas\Tesoreria\Scripts\ContrarecibosCP.js" />
+    <Content Include="Areas\Tesoreria\Scripts\contribuyentes.js" />
+    <Content Include="Areas\Tesoreria\Scripts\DeCompromisos.js" />
+    <Content Include="Areas\Tesoreria\Scripts\DeTransferencias.js" />
+    <Content Include="Areas\Tesoreria\Scripts\EgresosNoPresupuestales.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Egresos\AsignacionCheques.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Egresos\ExportacionCheques.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Facturas.js" />
+    <Content Include="Areas\Tesoreria\Scripts\GastosComprobar.js" />
+    <Content Include="Areas\Tesoreria\Scripts\ImportePresupuestoEg.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Polizas.min.js" />
+    <Content Include="Areas\Tesoreria\Scripts\PresupuestoIngresos.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Polizas.js" />
+    <Content Include="Areas\Tesoreria\Scripts\ReciboIngresos.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Transferencias.js" />
+    <Content Include="Areas\Tesoreria\Scripts\underscore.js" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\contraRecibo.css" />
+    <Content Include="Content\DataTable\dataTables.fixedColumns.css" />
+    <Content Include="Content\DataTable\demo_page.css" />
+    <Content Include="Content\DataTable\demo_table.css" />
+    <Content Include="Content\DataTable\demo_table_jui.css" />
+    <Content Include="Content\DataTable\images\back_disabled.png" />
+    <Content Include="Content\DataTable\images\back_enabled.png" />
+    <Content Include="Content\DataTable\images\back_enabled_hover.png" />
+    <Content Include="Content\DataTable\images\favicon.ico" />
+    <Content Include="Content\DataTable\images\forward_disabled.png" />
+    <Content Include="Content\DataTable\images\forward_enabled.png" />
+    <Content Include="Content\DataTable\images\forward_enabled_hover.png" />
+    <Content Include="Content\DataTable\images\sort_asc.png" />
+    <Content Include="Content\DataTable\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTable\images\sort_both.png" />
+    <Content Include="Content\DataTable\images\sort_desc.png" />
+    <Content Include="Content\DataTable\images\sort_desc_disabled.png" />
+    <Content Include="Content\DataTable\jquery.dataTables.css" />
+    <Content Include="Content\DataTable\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\DataTable\js\Consulta_jquery.dataTables.js" />
+    <Content Include="Content\DataTable\js\dataTables.fixedColumns.min.js" />
+    <Content Include="Content\DataTable\js\jquery.dataTables.js" />
+    <Content Include="Content\DataTable\js\jquery.dataTables.min.js" />
+    <Content Include="Content\DataTable\js\jquery.js" />
+    <Content Include="Content\datepicker3.css" />
+    <Content Include="Content\documentoHoa.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\images\back_disabled.png" />
+    <Content Include="Content\images\back_enabled.png" />
+    <Content Include="Content\images\back_enabled_hover.png" />
+    <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\images\forward_disabled.png" />
+    <Content Include="Content\images\forward_enabled.png" />
+    <Content Include="Content\images\forward_enabled_hover.png" />
+    <Content Include="Content\images\sort_asc.png" />
+    <Content Include="Content\images\sort_asc_disabled.png" />
+    <Content Include="Content\images\sort_both.png" />
+    <Content Include="Content\images\sort_desc.png" />
+    <Content Include="Content\images\sort_desc_disabled.png" />
+    <Content Include="Content\img\ajax-loader.gif" />
+    <Content Include="Content\img\generalFile.png" />
+    <Content Include="Content\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\img\loading.gif" />
+    <Content Include="Content\img\progressbar.gif" />
+    <Content Include="Content\img\Site.css" />
+    <Content Include="Content\isLoading.css" />
+    <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Content\logOn.css" />
+    <Content Include="Content\menu.css" />
+    <Content Include="Content\ReporteESF.css" />
+    <Content Include="Content\reporteGeneral.css" />
+    <Content Include="Content\selectordesistemas.css" />
+    <Content Include="Content\Tree\images\backgroundTop.png" />
+    <Content Include="Content\Tree\images\backImage.png" />
+    <Content Include="Content\Tree\images\bg_black.png" />
+    <Content Include="Content\Tree\images\bg_blackhover.png" />
+    <Content Include="Content\Tree\images\bg_blackhover_horizontal.png" />
+    <Content Include="Content\Tree\images\bg_blackpressed.png" />
+    <Content Include="Content\Tree\images\bg_blackpressed_horizontal.png" />
+    <Content Include="Content\Tree\images\bg_black_horizontal.png" />
+    <Content Include="Content\Tree\images\bg_blueenergy.png" />
+    <Content Include="Content\Tree\images\bg_darkblue.png" />
+    <Content Include="Content\Tree\images\bg_darkbluehover.png" />
+    <Content Include="Content\Tree\images\bg_darkbluepressed.png" />
+    <Content Include="Content\Tree\images\blackbackground.png" />
+    <Content Include="Content\Tree\images\black_gradient.png" />
+    <Content Include="Content\Tree\images\check_black.png" />
+    <Content Include="Content\Tree\images\check_blue.png" />
+    <Content Include="Content\Tree\images\check_blue_indeterminate.png" />
+    <Content Include="Content\Tree\images\check_disabled.png" />
+    <Content Include="Content\Tree\images\check_indeterminate_black.png" />
+    <Content Include="Content\Tree\images\check_indeterminate_disabled.png" />
+    <Content Include="Content\Tree\images\check_indeterminate_white.png" />
+    <Content Include="Content\Tree\images\check_lightblue.png" />
+    <Content Include="Content\Tree\images\check_lightblue_indeterminate.png" />
+    <Content Include="Content\Tree\images\check_white.png" />
+    <Content Include="Content\Tree\images\close.png" />
+    <Content Include="Content\Tree\images\close_black.png" />
+    <Content Include="Content\Tree\images\close_blue.png" />
+    <Content Include="Content\Tree\images\close_white.png" />
+    <Content Include="Content\Tree\images\colorpicker\bar-hue.png" />
+    <Content Include="Content\Tree\images\colorpicker\bar-saturation.png" />
+    <Content Include="Content\Tree\images\colorpicker\map-hue.png" />
+    <Content Include="Content\Tree\images\colorpicker\map-saturation-overlay.png" />
+    <Content Include="Content\Tree\images\colorpicker\map-saturation.png" />
+    <Content Include="Content\Tree\images\colorpicker\ReadMe.txt" />
+    <Content Include="Content\Tree\images\crosshair-white.png" />
+    <Content Include="Content\Tree\images\crosshair.png" />
+    <Content Include="Content\Tree\images\darkness\ReadMe.txt" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_flat_30_cccccc_40x100.png" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_flat_50_5c5c5c_40x100.png" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_glass_20_555555_1x400.png" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_glass_40_0078a3_1x400.png" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_glass_40_ffc73d_1x400.png" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_gloss-wave_25_333333_500x100.png" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_highlight-soft_80_eeeeee_1x100.png" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_inset-soft_25_000000_1x100.png" />
+    <Content Include="Content\Tree\images\darkness\ui-bg_inset-soft_30_f58400_1x100.png" />
+    <Content Include="Content\Tree\images\darkness\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Tree\images\darkness\ui-icons_4b8e0b_256x240.png" />
+    <Content Include="Content\Tree\images\darkness\ui-icons_a83300_256x240.png" />
+    <Content Include="Content\Tree\images\darkness\ui-icons_cccccc_256x240.png" />
+    <Content Include="Content\Tree\images\darkness\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Tree\images\darkred_gradient.png" />
+    <Content Include="Content\Tree\images\drag.png" />
+    <Content Include="Content\Tree\images\dragcancel.png" />
+    <Content Include="Content\Tree\images\error.png" />
+    <Content Include="Content\Tree\images\filter.png" />
+    <Content Include="Content\Tree\images\html_editor.png" />
+    <Content Include="Content\Tree\images\html_editor_white.png" />
+    <Content Include="Content\Tree\images\icon-calendar-white.png" />
+    <Content Include="Content\Tree\images\icon-calendar.png" />
+    <Content Include="Content\Tree\images\icon-cancel-white.png" />
+    <Content Include="Content\Tree\images\icon-cancel.png" />
+    <Content Include="Content\Tree\images\icon-delete-white.png" />
+    <Content Include="Content\Tree\images\icon-delete.png" />
+    <Content Include="Content\Tree\images\icon-down-blue.png" />
+    <Content Include="Content\Tree\images\icon-down-transparent.png" />
+    <Content Include="Content\Tree\images\icon-down-white.png" />
+    <Content Include="Content\Tree\images\icon-down.png" />
+    <Content Include="Content\Tree\images\icon-edit-white.png" />
+    <Content Include="Content\Tree\images\icon-edit.png" />
+    <Content Include="Content\Tree\images\icon-first-blue.png" />
+    <Content Include="Content\Tree\images\icon-first-transparent.png" />
+    <Content Include="Content\Tree\images\icon-first-white.png" />
+    <Content Include="Content\Tree\images\icon-first.png" />
+    <Content Include="Content\Tree\images\icon-last-blue.png" />
+    <Content Include="Content\Tree\images\icon-last-transparent.png" />
+    <Content Include="Content\Tree\images\icon-last-white.png" />
+    <Content Include="Content\Tree\images\icon-last.png" />
+    <Content Include="Content\Tree\images\icon-left-blue.png" />
+    <Content Include="Content\Tree\images\icon-left-transparent.png" />
+    <Content Include="Content\Tree\images\icon-left-white.png" />
+    <Content Include="Content\Tree\images\icon-left.png" />
+    <Content Include="Content\Tree\images\icon-menu-minimized-white.png" />
+    <Content Include="Content\Tree\images\icon-menu-minimized.png" />
+    <Content Include="Content\Tree\images\icon-right-blue.png" />
+    <Content Include="Content\Tree\images\icon-right-transparent.png" />
+    <Content Include="Content\Tree\images\icon-right-white.png" />
+    <Content Include="Content\Tree\images\icon-right.png" />
+    <Content Include="Content\Tree\images\icon-save-white.png" />
+    <Content Include="Content\Tree\images\icon-save.png" />
+    <Content Include="Content\Tree\images\icon-showpassword-white.png" />
+    <Content Include="Content\Tree\images\icon-showpassword.png" />
+    <Content Include="Content\Tree\images\icon-up-blue.png" />
+    <Content Include="Content\Tree\images\icon-up-transparent.png" />
+    <Content Include="Content\Tree\images\icon-up-white.png" />
+    <Content Include="Content\Tree\images\icon-up.png" />
+    <Content Include="Content\Tree\images\info.png" />
+    <Content Include="Content\Tree\images\le-frog\ReadMe.txt" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_diagonals-small_0_aaaaaa_40x40.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_diagonals-thick_15_444444_40x40.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_diagonals-thick_95_ffdc2e_40x40.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_glass_55_fbf5d0_1x400.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_highlight-hard_30_285c00_1x100.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_highlight-soft_33_3a8104_1x100.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_highlight-soft_50_4eb305_1x100.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_highlight-soft_60_4ca20b_1x100.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-bg_inset-soft_10_285c00_1x100.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-icons_4eb305_256x240.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-icons_72b42d_256x240.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\Tree\images\le-frog\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Tree\images\lightness\icon-first.png" />
+    <Content Include="Content\Tree\images\lightness\icon-last.png" />
+    <Content Include="Content\Tree\images\lightness\ReadMe.txt" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\Tree\images\lightness\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\Tree\images\lightness\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Tree\images\lightness\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\Tree\images\lightness\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\Tree\images\lightness\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\Tree\images\lightness\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Tree\images\loader.gif" />
+    <Content Include="Content\Tree\images\mail.png" />
+    <Content Include="Content\Tree\images\menubutton.png" />
+    <Content Include="Content\Tree\images\metro-icon-down-white.png" />
+    <Content Include="Content\Tree\images\metro-icon-down.png" />
+    <Content Include="Content\Tree\images\metro-icon-first-white.png" />
+    <Content Include="Content\Tree\images\metro-icon-first.png" />
+    <Content Include="Content\Tree\images\metro-icon-last-white.png" />
+    <Content Include="Content\Tree\images\metro-icon-last.png" />
+    <Content Include="Content\Tree\images\metro-icon-left-white.png" />
+    <Content Include="Content\Tree\images\metro-icon-left.png" />
+    <Content Include="Content\Tree\images\metro-icon-right - Copy.png" />
+    <Content Include="Content\Tree\images\metro-icon-right-white.png" />
+    <Content Include="Content\Tree\images\metro-icon-right.png" />
+    <Content Include="Content\Tree\images\metro-icon-up-white.png" />
+    <Content Include="Content\Tree\images\metro-icon-up.png" />
+    <Content Include="Content\Tree\images\multi-arrow.gif" />
+    <Content Include="Content\Tree\images\office-icon-down.png" />
+    <Content Include="Content\Tree\images\office-icon-first.png" />
+    <Content Include="Content\Tree\images\office-icon-last.png" />
+    <Content Include="Content\Tree\images\office-icon-left.png" />
+    <Content Include="Content\Tree\images\office-icon-right.png" />
+    <Content Include="Content\Tree\images\office-icon-up.png" />
+    <Content Include="Content\Tree\images\overcast\ReadMe.txt" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_flat_0_eeeeee_40x100.png" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_flat_55_c0402a_40x100.png" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_flat_55_eeeeee_40x100.png" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_glass_100_f8f8f8_1x400.png" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_glass_35_dddddd_1x400.png" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_glass_60_eeeeee_1x400.png" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_inset-hard_75_999999_1x100.png" />
+    <Content Include="Content\Tree\images\overcast\ui-bg_inset-soft_50_c9c9c9_1x100.png" />
+    <Content Include="Content\Tree\images\overcast\ui-icons_3383bb_256x240.png" />
+    <Content Include="Content\Tree\images\overcast\ui-icons_454545_256x240.png" />
+    <Content Include="Content\Tree\images\overcast\ui-icons_70b2e1_256x240.png" />
+    <Content Include="Content\Tree\images\overcast\ui-icons_999999_256x240.png" />
+    <Content Include="Content\Tree\images\overcast\ui-icons_fbc856_256x240.png" />
+    <Content Include="Content\Tree\images\plus.png" />
+    <Content Include="Content\Tree\images\plus_white.png" />
+    <Content Include="Content\Tree\images\pointer.png" />
+    <Content Include="Content\Tree\images\rangebar_classic.png" />
+    <Content Include="Content\Tree\images\rangebar_darkblue.png" />
+    <Content Include="Content\Tree\images\rangebar_shinyblack.png" />
+    <Content Include="Content\Tree\images\rangebar_summer.png" />
+    <Content Include="Content\Tree\images\redmond\icon-first.png" />
+    <Content Include="Content\Tree\images\redmond\icon-last.png" />
+    <Content Include="Content\Tree\images\redmond\ReadMe.txt" />
+    <Content Include="Content\Tree\images\redmond\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\Tree\images\redmond\ui-bg_flat_55_fbec88_40x100.png" />
+    <Content Include="Content\Tree\images\redmond\ui-bg_glass_75_d0e5f5_1x400.png" />
+    <Content Include="Content\Tree\images\redmond\ui-bg_glass_85_dfeffc_1x400.png" />
+    <Content Include="Content\Tree\images\redmond\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\Tree\images\redmond\ui-bg_gloss-wave_55_5c9ccc_500x100.png" />
+    <Content Include="Content\Tree\images\redmond\ui-bg_inset-hard_100_f5f8f9_1x100.png" />
+    <Content Include="Content\Tree\images\redmond\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Content\Tree\images\redmond\ui-icons_217bc0_256x240.png" />
+    <Content Include="Content\Tree\images\redmond\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\Tree\images\redmond\ui-icons_469bdd_256x240.png" />
+    <Content Include="Content\Tree\images\redmond\ui-icons_6da8d5_256x240.png" />
+    <Content Include="Content\Tree\images\redmond\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\Tree\images\redmond\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Content\Tree\images\redmond\ui-icons_f9bd01_256x240.png" />
+    <Content Include="Content\Tree\images\red_arrow_down.png" />
+    <Content Include="Content\Tree\images\red_arrow_up.png" />
+    <Content Include="Content\Tree\images\red_gradient.png" />
+    <Content Include="Content\Tree\images\roundbg_check_black.png" />
+    <Content Include="Content\Tree\images\roundbg_check_disabled.png" />
+    <Content Include="Content\Tree\images\roundbg_check_indeterminate.png" />
+    <Content Include="Content\Tree\images\roundbg_check_white.png" />
+    <Content Include="Content\Tree\images\roundbg_classic_hover.png" />
+    <Content Include="Content\Tree\images\roundbg_classic_normal.png" />
+    <Content Include="Content\Tree\images\roundbg_disabled.png" />
+    <Content Include="Content\Tree\images\search.png" />
+    <Content Include="Content\Tree\images\search_white.png" />
+    <Content Include="Content\Tree\images\smoothness\ReadMe.txt" />
+    <Content Include="Content\Tree\images\smoothness\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-icons_454545_256x240.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-icons_888888_256x240.png" />
+    <Content Include="Content\Tree\images\smoothness\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\Tree\images\sortasc.png" />
+    <Content Include="Content\Tree\images\sortascbutton.png" />
+    <Content Include="Content\Tree\images\sortdesc.png" />
+    <Content Include="Content\Tree\images\sortdescbutton.png" />
+    <Content Include="Content\Tree\images\sortremove.png" />
+    <Content Include="Content\Tree\images\star.png" />
+    <Content Include="Content\Tree\images\start\ReadMe.txt" />
+    <Content Include="Content\Tree\images\start\ui-bg_flat_55_999999_40x100.png" />
+    <Content Include="Content\Tree\images\start\ui-bg_flat_75_aaaaaa_40x100.png" />
+    <Content Include="Content\Tree\images\start\ui-bg_glass_45_0078ae_1x400.png" />
+    <Content Include="Content\Tree\images\start\ui-bg_glass_55_f8da4e_1x400.png" />
+    <Content Include="Content\Tree\images\start\ui-bg_glass_75_79c9ec_1x400.png" />
+    <Content Include="Content\Tree\images\start\ui-bg_gloss-wave_45_e14f1c_500x100.png" />
+    <Content Include="Content\Tree\images\start\ui-bg_gloss-wave_50_6eac2c_500x100.png" />
+    <Content Include="Content\Tree\images\start\ui-bg_gloss-wave_75_2191c0_500x100.png" />
+    <Content Include="Content\Tree\images\start\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Content\Tree\images\start\ui-icons_0078ae_256x240.png" />
+    <Content Include="Content\Tree\images\start\ui-icons_056b93_256x240.png" />
+    <Content Include="Content\Tree\images\start\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Content\Tree\images\start\ui-icons_e0fdff_256x240.png" />
+    <Content Include="Content\Tree\images\start\ui-icons_f5e175_256x240.png" />
+    <Content Include="Content\Tree\images\start\ui-icons_f7a50d_256x240.png" />
+    <Content Include="Content\Tree\images\start\ui-icons_fcd113_256x240.png" />
+    <Content Include="Content\Tree\images\star_disabled.png" />
+    <Content Include="Content\Tree\images\star_hover.png" />
+    <Content Include="Content\Tree\images\success.png" />
+    <Content Include="Content\Tree\images\sunny\ReadMe.txt" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_flat_30_cccccc_40x100.png" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_flat_50_5c5c5c_40x100.png" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_gloss-wave_45_817865_500x100.png" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_gloss-wave_60_fece2f_500x100.png" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_gloss-wave_70_ffdd57_500x100.png" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_gloss-wave_90_fff9e5_500x100.png" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_highlight-soft_100_feeebd_1x100.png" />
+    <Content Include="Content\Tree\images\sunny\ui-bg_inset-soft_30_ffffff_1x100.png" />
+    <Content Include="Content\Tree\images\sunny\ui-icons_3d3d3d_256x240.png" />
+    <Content Include="Content\Tree\images\sunny\ui-icons_bd7b00_256x240.png" />
+    <Content Include="Content\Tree\images\sunny\ui-icons_d19405_256x240.png" />
+    <Content Include="Content\Tree\images\sunny\ui-icons_eb990f_256x240.png" />
+    <Content Include="Content\Tree\images\sunny\ui-icons_ed9f26_256x240.png" />
+    <Content Include="Content\Tree\images\sunny\ui-icons_fadc7a_256x240.png" />
+    <Content Include="Content\Tree\images\sunny\ui-icons_ffe180_256x240.png" />
+    <Content Include="Content\Tree\images\tick.png" />
+    <Content Include="Content\Tree\images\time.png" />
+    <Content Include="Content\Tree\images\track_classic.png" />
+    <Content Include="Content\Tree\images\track_darkblue.png" />
+    <Content Include="Content\Tree\images\track_shinyblack.png" />
+    <Content Include="Content\Tree\images\track_summer.png" />
+    <Content Include="Content\Tree\images\warning.png" />
+    <Content Include="Content\Tree\images\wp_check_indeterminate_white.png" />
+    <Content Include="Content\Tree\images\wp_check_white.png" />
+    <Content Include="Content\Tree\jqx.base.css" />
+    <Content Include="Content\Tree\jqx.web.css" />
+    <Content Include="Content\layout.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Fonts\fontawesome-webfont.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Areas\Tesoreria\Views\Web.config" />
+    <Content Include="Fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\FontAwesome.otf" />
+    <EntityDeploy Include="Areas\Tesoreria\Models\BD_Tesoreria.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BD_Tesoreria.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Areas\Tesoreria\Models\BD_Tesoreria.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BD_Tesoreria.edmx</DependentUpon>
+      <LastGenOutput>BD_Tesoreria.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Tesoreria\Models\BD_Tesoreria.edmx.diagram">
+      <DependentUpon>BD_Tesoreria.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Tesoreria\Models\BD_Tesoreria.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BD_Tesoreria.edmx</DependentUpon>
+      <LastGenOutput>BD_Tesoreria.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Areas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Areas_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Areas_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Areas_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Acciones.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Funciones.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Cuentas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Cuentas_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Cuentas_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AgregarFuncion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DetallesFuncion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Compromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AgregarCompromiso.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DetallesCompromiso.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ClasProgramatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AgregarClasProgramatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_EditarClasProgramatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DetallesClasProgramatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoBeneficiario.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoCompromiso.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoCompromiso_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoCompromiso_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoCompromiso_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoContrarecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoContrarecibo_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoContrarecibo_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoContrarecibo_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoDocto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoDocto_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoDocto_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoDocto_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoBeneficiario_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoBeneficiario_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoBeneficiario_Editar.cshtml" />
+    <Content Include="Content\DataTable\images\Sorting icons.psd" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Programas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AgregarProgramas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ObtenerProgramas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DetallesProgramas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ObtenerClasProgramatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Proyectos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AgregarProyectos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ObtenerProyectos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DetallesProyectos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoMeta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AgregarTipoMeta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ObtenerTipoMeta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DetallesTipoMeta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Actividades.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AgregarActividad.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ClasificaBeneficiario.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ClasificaBeneficiario_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ClasificaBeneficiario_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ClasificaBeneficiario_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoPago.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoPago_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoPago_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoPago_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Sector.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Sector_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Sector_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Sector_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Pais.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Pais_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Pais_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Pais_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Estado.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Estado_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Estado_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Estado_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Municipio.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ObtenerActividad.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DetallesActividad.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AccionDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_FuentesFin.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_FuentesFinDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ObjetoGasto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ObjetoGastoDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AlcanceGeo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_AlcanceGeoDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoGasto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoGastoDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoTransferenciasEg.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoTransferenciasEgDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Cuentas_Tree.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Municipio_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Localidades.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_LocalidadesDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Colonias.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ColoniasDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Calles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CallesDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoImpuesto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoImpuestoDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CausasCancelacion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CausasCancelacionDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ActEconomica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ActEconomicaDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios_Detalles.cshtml" />
+    <Content Include="Images\login_user.png" />
+    <Content Include="Images\logOn\icon-lock.png" />
+    <Content Include="Images\logOn\icon-user.png" />
+    <Content Include="Images\logo_gob_hd.jpg" />
+    <Content Include="Scripts\autoNumeric.js" />
+    <Content Include="Scripts\autoNumeric.min.js" />
+    <Content Include="Scripts\bootstrap3-typeahead.js" />
+    <Content Include="Scripts\bootstrap3-typeahead.min.js" />
+    <Content Include="Scripts\Catalogos\Usuarios.min.js">
+      <DependentUpon>Usuarios.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\fileAjax.js" />
+    <Content Include="Scripts\fnDisplayRow.js" />
+    <Content Include="Scripts\fnFindCellRows.js" />
+    <Content Include="Scripts\General.min.js">
+      <DependentUpon>General.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\globalize\cultures\globalize.culture.es-MX.js" />
+    <Content Include="Scripts\globalize\cultures\globalize.cultures.js" />
+    <Content Include="Scripts\globalize\globalize.js" />
+    <Content Include="Scripts\globinfo\jQuery.glob.es-MX.js" />
+    <Content Include="Scripts\globinfo\jQuery.glob.es-MX.min.js" />
+    <Content Include="Scripts\jquery-juls.js" />
+    <Content Include="Scripts\jquery-juls.min.js" />
+    <Content Include="Scripts\jquery.formatCurrency-1.4.0.min.js" />
+    <Content Include="Scripts\jquery.validate.globalize.js" />
+    <Content Include="Scripts\jquery.validate.globalize.min.js" />
+    <Content Include="Scripts\jscolor.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.cs-CZ.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.de-DE.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.en-CA.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.en-US.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.fr-FR.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.he-IL.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.hr-HR.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.hu-HU.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.it-IT.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.ja-JP.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.lt.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.ru-RU.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.culture.sa-IN.js" />
+    <Content Include="Scripts\Tree\globalization\globalize.js" />
+    <Content Include="Scripts\Tree\globalization\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\backgroundTop.png" />
+    <Content Include="Scripts\Tree\styles\images\backImage.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_black.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_blackhover.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_blackhover_horizontal.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_blackpressed.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_blackpressed_horizontal.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_black_horizontal.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_blueenergy.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_darkblue.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_darkbluehover.png" />
+    <Content Include="Scripts\Tree\styles\images\bg_darkbluepressed.png" />
+    <Content Include="Scripts\Tree\styles\images\blackbackground.png" />
+    <Content Include="Scripts\Tree\styles\images\black_gradient.png" />
+    <Content Include="Scripts\Tree\styles\images\check_black.png" />
+    <Content Include="Scripts\Tree\styles\images\check_blue.png" />
+    <Content Include="Scripts\Tree\styles\images\check_blue_indeterminate.png" />
+    <Content Include="Scripts\Tree\styles\images\check_disabled.png" />
+    <Content Include="Scripts\Tree\styles\images\check_indeterminate_black.png" />
+    <Content Include="Scripts\Tree\styles\images\check_indeterminate_disabled.png" />
+    <Content Include="Scripts\Tree\styles\images\check_indeterminate_white.png" />
+    <Content Include="Scripts\Tree\styles\images\check_lightblue.png" />
+    <Content Include="Scripts\Tree\styles\images\check_lightblue_indeterminate.png" />
+    <Content Include="Scripts\Tree\styles\images\check_white.png" />
+    <Content Include="Scripts\Tree\styles\images\close.png" />
+    <Content Include="Scripts\Tree\styles\images\close_black.png" />
+    <Content Include="Scripts\Tree\styles\images\close_blue.png" />
+    <Content Include="Scripts\Tree\styles\images\close_white.png" />
+    <Content Include="Scripts\Tree\styles\images\colorpicker\bar-hue.png" />
+    <Content Include="Scripts\Tree\styles\images\colorpicker\bar-saturation.png" />
+    <Content Include="Scripts\Tree\styles\images\colorpicker\map-hue.png" />
+    <Content Include="Scripts\Tree\styles\images\colorpicker\map-saturation-overlay.png" />
+    <Content Include="Scripts\Tree\styles\images\colorpicker\map-saturation.png" />
+    <Content Include="Scripts\Tree\styles\images\colorpicker\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\crosshair-white.png" />
+    <Content Include="Scripts\Tree\styles\images\crosshair.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_flat_30_cccccc_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_flat_50_5c5c5c_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_glass_20_555555_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_glass_40_0078a3_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_glass_40_ffc73d_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_gloss-wave_25_333333_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_highlight-soft_80_eeeeee_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_inset-soft_25_000000_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-bg_inset-soft_30_f58400_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-icons_222222_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-icons_4b8e0b_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-icons_a83300_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-icons_cccccc_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\darkness\ui-icons_ffffff_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\darkred_gradient.png" />
+    <Content Include="Scripts\Tree\styles\images\drag.png" />
+    <Content Include="Scripts\Tree\styles\images\dragcancel.png" />
+    <Content Include="Scripts\Tree\styles\images\error.png" />
+    <Content Include="Scripts\Tree\styles\images\filter.png" />
+    <Content Include="Scripts\Tree\styles\images\html_editor.png" />
+    <Content Include="Scripts\Tree\styles\images\html_editor_white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-calendar-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-calendar.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-cancel-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-cancel.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-delete-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-delete.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-down-blue.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-down-transparent.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-down-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-down.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-edit-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-edit.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-first-blue.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-first-transparent.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-first-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-first.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-last-blue.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-last-transparent.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-last-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-last.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-left-blue.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-left-transparent.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-left-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-left.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-menu-minimized-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-menu-minimized.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-right-blue.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-right-transparent.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-right-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-right.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-save-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-save.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-showpassword-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-showpassword.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-up-blue.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-up-transparent.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-up-white.png" />
+    <Content Include="Scripts\Tree\styles\images\icon-up.png" />
+    <Content Include="Scripts\Tree\styles\images\info.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_diagonals-small_0_aaaaaa_40x40.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_diagonals-thick_15_444444_40x40.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_diagonals-thick_95_ffdc2e_40x40.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_glass_55_fbf5d0_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_highlight-hard_30_285c00_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_highlight-soft_33_3a8104_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_highlight-soft_50_4eb305_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_highlight-soft_60_4ca20b_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-bg_inset-soft_10_285c00_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-icons_4eb305_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-icons_72b42d_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\le-frog\ui-icons_ffffff_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\icon-first.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\icon-last.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-icons_222222_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-icons_228ef1_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\lightness\ui-icons_ffffff_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\loader.gif" />
+    <Content Include="Scripts\Tree\styles\images\mail.png" />
+    <Content Include="Scripts\Tree\styles\images\menubutton.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-down-white.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-down.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-first-white.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-first.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-last-white.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-last.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-left-white.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-left.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-right - Copy.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-right-white.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-right.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-up-white.png" />
+    <Content Include="Scripts\Tree\styles\images\metro-icon-up.png" />
+    <Content Include="Scripts\Tree\styles\images\multi-arrow.gif" />
+    <Content Include="Scripts\Tree\styles\images\office-icon-down.png" />
+    <Content Include="Scripts\Tree\styles\images\office-icon-first.png" />
+    <Content Include="Scripts\Tree\styles\images\office-icon-last.png" />
+    <Content Include="Scripts\Tree\styles\images\office-icon-left.png" />
+    <Content Include="Scripts\Tree\styles\images\office-icon-right.png" />
+    <Content Include="Scripts\Tree\styles\images\office-icon-up.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_flat_0_eeeeee_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_flat_55_c0402a_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_flat_55_eeeeee_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_glass_100_f8f8f8_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_glass_35_dddddd_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_glass_60_eeeeee_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_inset-hard_75_999999_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-bg_inset-soft_50_c9c9c9_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-icons_3383bb_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-icons_454545_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-icons_70b2e1_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-icons_999999_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\overcast\ui-icons_fbc856_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\plus.png" />
+    <Content Include="Scripts\Tree\styles\images\plus_white.png" />
+    <Content Include="Scripts\Tree\styles\images\pointer.png" />
+    <Content Include="Scripts\Tree\styles\images\rangebar_classic.png" />
+    <Content Include="Scripts\Tree\styles\images\rangebar_darkblue.png" />
+    <Content Include="Scripts\Tree\styles\images\rangebar_shinyblack.png" />
+    <Content Include="Scripts\Tree\styles\images\rangebar_summer.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\icon-first.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\icon-last.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-bg_flat_55_fbec88_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-bg_glass_75_d0e5f5_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-bg_glass_85_dfeffc_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-bg_gloss-wave_55_5c9ccc_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-bg_inset-hard_100_f5f8f9_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-icons_217bc0_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-icons_469bdd_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-icons_6da8d5_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\redmond\ui-icons_f9bd01_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\red_arrow_down.png" />
+    <Content Include="Scripts\Tree\styles\images\red_arrow_up.png" />
+    <Content Include="Scripts\Tree\styles\images\red_gradient.png" />
+    <Content Include="Scripts\Tree\styles\images\roundbg_check_black.png" />
+    <Content Include="Scripts\Tree\styles\images\roundbg_check_disabled.png" />
+    <Content Include="Scripts\Tree\styles\images\roundbg_check_indeterminate.png" />
+    <Content Include="Scripts\Tree\styles\images\roundbg_check_white.png" />
+    <Content Include="Scripts\Tree\styles\images\roundbg_classic_hover.png" />
+    <Content Include="Scripts\Tree\styles\images\roundbg_classic_normal.png" />
+    <Content Include="Scripts\Tree\styles\images\roundbg_disabled.png" />
+    <Content Include="Scripts\Tree\styles\images\search.png" />
+    <Content Include="Scripts\Tree\styles\images\search_white.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-icons_222222_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-icons_454545_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-icons_888888_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\smoothness\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\sortasc.png" />
+    <Content Include="Scripts\Tree\styles\images\sortascbutton.png" />
+    <Content Include="Scripts\Tree\styles\images\sortdesc.png" />
+    <Content Include="Scripts\Tree\styles\images\sortdescbutton.png" />
+    <Content Include="Scripts\Tree\styles\images\sortremove.png" />
+    <Content Include="Scripts\Tree\styles\images\star.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_flat_55_999999_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_flat_75_aaaaaa_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_glass_45_0078ae_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_glass_55_f8da4e_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_glass_75_79c9ec_1x400.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_gloss-wave_45_e14f1c_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_gloss-wave_50_6eac2c_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_gloss-wave_75_2191c0_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-icons_0078ae_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-icons_056b93_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-icons_e0fdff_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-icons_f5e175_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-icons_f7a50d_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\start\ui-icons_fcd113_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\star_disabled.png" />
+    <Content Include="Scripts\Tree\styles\images\star_hover.png" />
+    <Content Include="Scripts\Tree\styles\images\success.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ReadMe.txt" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_flat_30_cccccc_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_flat_50_5c5c5c_40x100.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_gloss-wave_45_817865_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_gloss-wave_60_fece2f_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_gloss-wave_70_ffdd57_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_gloss-wave_90_fff9e5_500x100.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_highlight-soft_100_feeebd_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-bg_inset-soft_30_ffffff_1x100.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-icons_3d3d3d_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-icons_bd7b00_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-icons_d19405_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-icons_eb990f_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-icons_ed9f26_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-icons_fadc7a_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\sunny\ui-icons_ffe180_256x240.png" />
+    <Content Include="Scripts\Tree\styles\images\tick.png" />
+    <Content Include="Scripts\Tree\styles\images\time.png" />
+    <Content Include="Scripts\Tree\styles\images\track_classic.png" />
+    <Content Include="Scripts\Tree\styles\images\track_darkblue.png" />
+    <Content Include="Scripts\Tree\styles\images\track_shinyblack.png" />
+    <Content Include="Scripts\Tree\styles\images\track_summer.png" />
+    <Content Include="Scripts\Tree\styles\images\warning.png" />
+    <Content Include="Scripts\Tree\styles\images\wp_check_indeterminate_white.png" />
+    <Content Include="Scripts\Tree\styles\images\wp_check_white.png" />
+    <Content Include="Scripts\Tree\styles\jqx.android.css" />
+    <Content Include="Scripts\Tree\styles\jqx.arctic.css" />
+    <Content Include="Scripts\Tree\styles\jqx.base.css" />
+    <Content Include="Scripts\Tree\styles\jqx.black.css" />
+    <Content Include="Scripts\Tree\styles\jqx.blackberry.css" />
+    <Content Include="Scripts\Tree\styles\jqx.bootstrap.css" />
+    <Content Include="Scripts\Tree\styles\jqx.classic.css" />
+    <Content Include="Scripts\Tree\styles\jqx.darkblue.css" />
+    <Content Include="Scripts\Tree\styles\jqx.energyblue.css" />
+    <Content Include="Scripts\Tree\styles\jqx.fresh.css" />
+    <Content Include="Scripts\Tree\styles\jqx.highcontrast.css" />
+    <Content Include="Scripts\Tree\styles\jqx.metro.css" />
+    <Content Include="Scripts\Tree\styles\jqx.metrodark.css" />
+    <Content Include="Scripts\Tree\styles\jqx.mobile.css" />
+    <Content Include="Scripts\Tree\styles\jqx.office.css" />
+    <Content Include="Scripts\Tree\styles\jqx.orange.css" />
+    <Content Include="Scripts\Tree\styles\jqx.shinyblack.css" />
+    <Content Include="Scripts\Tree\styles\jqx.summer.css" />
+    <Content Include="Scripts\Tree\styles\jqx.ui-darkness.css" />
+    <Content Include="Scripts\Tree\styles\jqx.ui-le-frog.css" />
+    <Content Include="Scripts\Tree\styles\jqx.ui-lightness.css" />
+    <Content Include="Scripts\Tree\styles\jqx.ui-overcast.css" />
+    <Content Include="Scripts\Tree\styles\jqx.ui-redmond.css" />
+    <Content Include="Scripts\Tree\styles\jqx.ui-smoothness.css" />
+    <Content Include="Scripts\Tree\styles\jqx.ui-start.css" />
+    <Content Include="Scripts\Tree\styles\jqx.ui-sunny.css" />
+    <Content Include="Scripts\Tree\styles\jqx.web.css" />
+    <Content Include="Scripts\Tree\styles\jqx.windowsphone.css" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utils\HiQPdf.dll" />
+    <Content Include="Utils\HiQPdf.xml" />
+    <Content Include="Areas\Tesoreria\Views\Shared\ParcialPresupuesto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Compromisos\OrdenCompra.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Compromisos\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Compromisos\BuscarCompromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ConceptoIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ConceptoIngresosAgregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ConceptoIngresosEditar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ConceptoIngresosDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Cuentas_Meses.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Cuentas_Polizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\Bancos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\AgregarBanco.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\DetallesBanco.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\Buscar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\V_Polizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Cuentas\BuscarCuenta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Cuentas\tblBuscarCuenta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\BuscarPoliza.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\TablaPoliza.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\TablaDetallesPoliza.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\V_BuscarCuenta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Reportes\Polizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\BuscarPresupuestos.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\ModalEliminar.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\DisponibilidadEgresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\BuscarPresupuestos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\ModalEliminar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\BuscarContrarecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\tblContrarecibos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\TablaSaldos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\V_SaldosIniciales.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\DivAgregarSaldo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\Error.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\BuscarCompromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\BuscarDisponibilidad.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\AutorizacionCompromisos.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Tesoreria\Views\FocusOut\Buscar_Beneficiario.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\DetallesContrarecibos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\FocusOut\Tbl_Beneficiario.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\AutorizacionCompromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Cuentas_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\V_AsignacionCheques.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\GetPartidasSinDisponibilidad.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\AutorizacionContrarecibos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\GetPartidasSinDisponibilidadCR.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\Documentos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\tblDocumentos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Excel\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Excel\ProcesarExcel.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Nomina\ProcesarCatalogoPyD.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Nomina\CatalogoPyD.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Nomina\ImportarNomina.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Compromisos\CompromisoNomina.cshtml" />
+    <Content Include="Content\images\Sorting icons.psd" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ControlCheques.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_NuevoCheque.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CuentasBancariasEditar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CuentasBancariasValidar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\v_CuentasBancarias.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CuentasBancariasAgregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\DetallesCuentasBancarias.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Busquedas\Buscar_Beneficiario.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Busquedas\Tbl_Beneficiario.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Busquedas\Area.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Busquedas\Tbl_Area.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\DetalleDePolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Importar\Compromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios_Clasificacion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios_Giros.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios_Contactos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios_ClasificacionTbl.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios_ContactosTbl.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Beneficiarios_GirosTbl.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Shared\_ClavePresupuestal.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Compromisos\DetalleCompromiso.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\ModalNextChequeManual.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\ModalNextChequeAutomatico.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\V_DesasigancionCheques.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\V_TablaCheques.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\V_CancelacionFormatoCheques.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\V_ModalDescripCancelacionFormato.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\V_ModalBuscarCancelacionFormato.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\DivTablaBusqueda.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\CierreMes.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Compromisos\Recibir.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\V_CancelacionCheque.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\V_ModalFechaCancelacion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_AmpliacionesReducciones.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\PresupuestosIngresos\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Shared\ParcialPresupuestoIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_BuscarAmpliacionReduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_TablaBusquedaAmpliacionReduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\CancelarContrarecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_ModalAfectacion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_DetalleDeTransferencia.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_TablaDetallesTransferencia.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\PresupuestosIngresos\Buscar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\PresupuestosIngresos\ModalEliminar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\CancelarContrarecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Shared\ModalPresupuestoIng.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\Reporte_ContraRecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Shared\_ClavePresupuestalCRI.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Compromisos\Cancelar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\PresupuestosIngresos\BuscarPresupuestos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_ModalEliminar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_Transferencias.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Importar\Nomina.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_DeTransferencia.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Cuentas_Polizas_Reporte.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Importar\Egresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\Gastos_Fondos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Areas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Cheques\Impresion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Cheques\TblCheques.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_ArrasatreSaldos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\CancelarPoliza.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Acciones.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Actividades.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\AlcanceGeo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\ClasProgramatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Compromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\FuentesFinanciamiento.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Funciones.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Programas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Proyectos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\TipoMeta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\TipoGasto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\ObjetoGasto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Cheques\ImprimirCheques.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\Cancelacion_Pasivos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\V_AmpliacionesReduccionesIng.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\V_BuscarAmpliacionReduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\V_TablaBusquedaAmpliacionReduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\V_DetalleDeTransferencia.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\V_TablaDetallesTransferencia.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\V_ModalAfectacion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\V_ModalEliminar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\ContraRecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\CancelarCRCP.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\PolizaDeCheque.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\Gastos_Fondos_Detalle.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\Evolucion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\tblEvolucion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\VerificacionPolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\GetPolizasMes.cshtml" />
+    <Content Include="Areas\Tesoreria\Scripts\clavePresupuestal.min.js.map">
+      <DependentUpon>clavePresupuestal.min.js</DependentUpon>
+    </Content>
+    <Content Include="Areas\Tesoreria\Views\Ingresos\ReciboIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\rptDisponibilidad.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\PresupuestosIngresos\tblEvolucion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\PresupuestosIngresos\rptEvolucion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\PresupuestosIngresos\Evolucion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\SaldarMovimientos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\AnalisisContraRecibos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CajasReceptoras.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CajasReceptorasDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CajasReceptorasAgregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CajasReceptorasEditar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_FuentesFinIng.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_FuentesFinIngDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_FuentesFinIngAgregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_FuentesFinIngEditar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CentroRecaudador.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CentroRecaudadorDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CentroRecaudadorAgregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CentroRecaudadorEditar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CUR.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_CURDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Personas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Busquedas\Tbl_Personas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\BuscarRecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\tblResultadosRecibos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\DetallesReciboIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\TablaDetallesRecibos.cshtml" />
+    <Content Include="Areas\Tesoreria\Scripts\Polizas.min.js.map">
+      <DependentUpon>Polizas.min.js</DependentUpon>
+    </Content>
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\Disponibilidad.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\PresupuestoAprobado.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\tblDisponibilidad.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\PresupuestosIngresos\PresupuestoEstimado.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\ImpuestosDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\AddImpuestosDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\GetImpuestoDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\EditImpuestoDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\tblContraRecibos.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Tesoreria\Views\Ingresos\tblEvolucion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\reciboIndividual.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\reporteGeneral.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\ClasificacionPolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_ClasificacionPolizasDetalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\TipoDocumentos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoDocumentos_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoDocumentos_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoDocumentos_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\DiasInhabiles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DiasInhabiles_Detalles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DiasInhabiles_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DiasInhabiles_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\Reintegros.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Municipio_Agregar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Municipio_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\EditarBanco.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Localidad_Guardar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Localidad_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Colonias_Guardar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Colonias_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Calles_Guardar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Calles_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\AddImpuestosDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\ClasificacionPolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\EditImpuestoDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\GetImpuestoDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\ImpuestosDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\tblContraRecibos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\rptContraRecibos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Municipio_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Parametros.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\ExportarCheques.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\AnalisisCompromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\BuscarCompromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\ReporteCompromisos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\CancelarRecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\AnalisisIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\BuscarIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\ReporteIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Parametros_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Firmas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_Firmas_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\ImprimirRecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\ReporteReciboIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\CorteCaja.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\BuscarCorteCaja.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Ingresos\ReporteCorteCaja.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\V_AnaliticoPolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\V_AnaliticoPolizasTbl.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Polizas\ReportePolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Scripts\Catalogos\FocusOut.min.js.map">
+      <DependentUpon>FocusOut.min.js</DependentUpon>
+    </Content>
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\V_ReporteDisponibles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\V_AnaliticoPolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\V_AnaliticoPolizasTbl.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contabilidad\ReportePolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\ContrarecibosSinCuentaBancaria.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_FirmasFinanciero.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_FirmasFinanciero_Editar.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_EstadoSituacionFinanciera.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaESF.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ReporteESF.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_EstadoActividades.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaEA.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ReporteEA.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\ReporteContrarecibosSinCuenta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\V_EgresosNoPresupuestales.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\AgregarAccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\tblArchivos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\UploadFile.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\AnticiposPrestamos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\TablaSaldos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\EditarAccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Shared\PdfHeader.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\ClasificacionPolizas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Cuentas.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\TiposCompromiso.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\TiposContrarecibo.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\TipoBeneficiario.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\ClasificacionBeneficiario.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\TipoPago.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Estados.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Municipios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Localidades.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Colonias.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Calles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Bancos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\CuentasBancarias.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\ImpuestosDeduccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\TipoDocumentos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\DiasInhabiles.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\CajasReceptoras.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\CentrosRecaudadores.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\FuentesFinIng.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\ConceptoIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\CUR.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Contribuyentes.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\Beneficiarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_TipoMovBancarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Catalogos\V_DetallesTipoMovBancarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesPDF\TiposMovBancarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\V_Reset.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\V_ConciliarMes.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\V_ConciliarBancaria.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\V_ActulizaMovi.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\TablaConciliacion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\AgregarConcilia.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\V_AnalisisMovimientosBancarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\ReporteMovimientosBancarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\V_AnalisisSaldosBancarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\ReporteSaldosBancarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\V_AnalisisConciliacionBancaria.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\ReporteConciliacionBancaria.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\PagoProveedores.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Presupuestos\BusquedaDisponibilidadAvanzada.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\FondosRevolventes.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\PagoProveedoresErrores.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\ConciliacionAutomatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\ArvhicoEstadosCuenta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\ReciboIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\ConciliacionAutomatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\TablaConciliacionAuto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\V_AnalisisEstadosCuenta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ControlFinanciero\ReporteEstadosCuenta.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_ObjetoGasto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaObjetoGasto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\CancelacionPasivos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\EgresosNoPresupuestales.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\ArrendamientosyHonorarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\Arrendamientos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_Funcion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaFuncion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_Programatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaProgramatica.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_TipoGasto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaTipoGasto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_Proyecto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaProyecto.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_Accion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaAccion.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_CentroGestor.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaCentroGestor.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_FuenteFin.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaFuenteFin.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\V_AnaliticoIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ReportesConac\ConsultaAnaliticoIngresos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\AnalisisProveedoresUsados.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\AnalisisProveedoresUsadosPDF.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Contrarecibos\AgregarImporte.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Egresos\SeleccionTipoExcel.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos\Beneficiarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\ArrendamientosyHonorarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\Beneficiarios.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\CancelacionPasivos.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\EgresosNoPresupuestales.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\FondosRevolventes.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\Index.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\PagoProveedores.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\PagoProveedoresErrores.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\ExcelCompromisos _\ReciboIngresos.cshtml" />
+    <None Include="Properties\PublishProfiles\PubOwn.pubxml" />
+    <None Include="Properties\PublishProfiles\Soto.pubxml" />
+    <EntityDeploy Include="Models\ControlGeneral.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ControlGeneral.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ControlGeneral.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ControlGeneral.edmx</DependentUpon>
+      <LastGenOutput>ControlGeneral.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ControlGeneral.edmx.diagram">
+      <DependentUpon>ControlGeneral.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\ControlGeneral.edmx.sql" />
+    <Content Include="Models\ControlGeneral.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ControlGeneral.edmx</DependentUpon>
+      <LastGenOutput>ControlGeneral.cs</LastGenOutput>
+    </Content>
+    <None Include="Properties\PublishProfiles\Soto.pubxml" />
+    <Content Include="Scripts\General.min.js.map">
+      <DependentUpon>General.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Catalogos\Usuarios.min.js.map">
+      <DependentUpon>Usuarios.min.js</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\TesoreriaRelease.pubxml" />
+    <None Include="Properties\PublishProfiles\TesoreriaV12.pubxml" />
+    <None Include="Properties\PublishProfiles\TesoreríaBin.pubxml" />
+    <None Include="Properties\PublishProfiles\tesorrerivs12.pubxml" />
+    <None Include="Properties\PublishProfiles\winazo.pubxml" />
+    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Tesoreria\Scripts\Catalogos\Centro_Gestor.js" />
+    <Content Include="Scripts\Catalogos\Usuarios.js" />
+    <Content Include="Scripts\General.js" />
+    <Content Include="Scripts\jquery-1.11.1.min.js" />
+    <Content Include="Scripts\jquery-1.8.2.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery-juls.min.js.map">
+      <DependentUpon>jquery-juls.min.js</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-isloading.js" />
+    <Content Include="Scripts\jquery-ui-1.8.24.js" />
+    <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.2.0.debug.js" />
+    <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Tree\demos.js" />
+    <Content Include="Scripts\Tree\jqx-all.js" />
+    <Content Include="Scripts\Tree\jqxangular.js" />
+    <Content Include="Scripts\Tree\jqxbulletchart.js" />
+    <Content Include="Scripts\Tree\jqxbuttongroup.js" />
+    <Content Include="Scripts\Tree\jqxbuttons.js" />
+    <Content Include="Scripts\Tree\jqxcalendar.js" />
+    <Content Include="Scripts\Tree\jqxchart.core.js" />
+    <Content Include="Scripts\Tree\jqxchart.js" />
+    <Content Include="Scripts\Tree\jqxchart.rangeselector.js" />
+    <Content Include="Scripts\Tree\jqxcheckbox.js" />
+    <Content Include="Scripts\Tree\jqxcolorpicker.js" />
+    <Content Include="Scripts\Tree\jqxcombobox.js" />
+    <Content Include="Scripts\Tree\jqxcore.js" />
+    <Content Include="Scripts\Tree\jqxdata.export.js" />
+    <Content Include="Scripts\Tree\jqxdata.js" />
+    <Content Include="Scripts\Tree\jqxdatatable.js" />
+    <Content Include="Scripts\Tree\jqxdatetimeinput.js" />
+    <Content Include="Scripts\Tree\jqxdocking.js" />
+    <Content Include="Scripts\Tree\jqxdockpanel.js" />
+    <Content Include="Scripts\Tree\jqxdragdrop.js" />
+    <Content Include="Scripts\Tree\jqxdraw.js" />
+    <Content Include="Scripts\Tree\jqxdropdownbutton.js" />
+    <Content Include="Scripts\Tree\jqxdropdownlist.js" />
+    <Content Include="Scripts\Tree\jqxeditor.js" />
+    <Content Include="Scripts\Tree\jqxexpander.js" />
+    <Content Include="Scripts\Tree\jqxgauge.js" />
+    <Content Include="Scripts\Tree\jqxgrid.aggregates.js" />
+    <Content Include="Scripts\Tree\jqxgrid.columnsreorder.js" />
+    <Content Include="Scripts\Tree\jqxgrid.columnsresize.js" />
+    <Content Include="Scripts\Tree\jqxgrid.edit.js" />
+    <Content Include="Scripts\Tree\jqxgrid.export.js" />
+    <Content Include="Scripts\Tree\jqxgrid.filter.js" />
+    <Content Include="Scripts\Tree\jqxgrid.grouping.js" />
+    <Content Include="Scripts\Tree\jqxgrid.js" />
+    <Content Include="Scripts\Tree\jqxgrid.pager.js" />
+    <Content Include="Scripts\Tree\jqxgrid.selection.js" />
+    <Content Include="Scripts\Tree\jqxgrid.sort.js" />
+    <Content Include="Scripts\Tree\jqxgrid.storage.js" />
+    <Content Include="Scripts\Tree\jqxinput.js" />
+    <Content Include="Scripts\Tree\jqxknockout.js" />
+    <Content Include="Scripts\Tree\jqxlistbox.js" />
+    <Content Include="Scripts\Tree\jqxlistmenu.js" />
+    <Content Include="Scripts\Tree\jqxmaskedinput.js" />
+    <Content Include="Scripts\Tree\jqxmenu.js" />
+    <Content Include="Scripts\Tree\jqxnavigationbar.js" />
+    <Content Include="Scripts\Tree\jqxnotification.js" />
+    <Content Include="Scripts\Tree\jqxnumberinput.js" />
+    <Content Include="Scripts\Tree\jqxpanel.js" />
+    <Content Include="Scripts\Tree\jqxpasswordinput.js" />
+    <Content Include="Scripts\Tree\jqxprogressbar.js" />
+    <Content Include="Scripts\Tree\jqxradiobutton.js" />
+    <Content Include="Scripts\Tree\jqxrangeselector.js" />
+    <Content Include="Scripts\Tree\jqxrating.js" />
+    <Content Include="Scripts\Tree\jqxresponse.js" />
+    <Content Include="Scripts\Tree\jqxscrollbar.js" />
+    <Content Include="Scripts\Tree\jqxscrollview.js" />
+    <Content Include="Scripts\Tree\jqxslider.js" />
+    <Content Include="Scripts\Tree\jqxsplitter.js" />
+    <Content Include="Scripts\Tree\jqxswitchbutton.js" />
+    <Content Include="Scripts\Tree\jqxtabs.js" />
+    <Content Include="Scripts\Tree\jqxtooltip.js" />
+    <Content Include="Scripts\Tree\jqxtouch.js" />
+    <Content Include="Scripts\Tree\jqxtree.js" />
+    <Content Include="Scripts\Tree\jqxtreegrid.js" />
+    <Content Include="Scripts\Tree\jqxtreemap.js" />
+    <Content Include="Scripts\Tree\jqxvalidator.js" />
+    <Content Include="Scripts\Tree\jqxwindow.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Catalogos\Usuarios.cshtml" />
+    <Content Include="Views\Catalogos\AgregarUsuario.cshtml" />
+    <Content Include="Views\Account\SeleccionarBase.cshtml" />
+    <Content Include="Views\Catalogos\Perfiles.cshtml" />
+    <Content Include="Views\Catalogos\AgregarPerfil.cshtml" />
+    <Content Include="Views\Catalogos\EditarPerfil.cshtml" />
+    <Content Include="Views\Catalogos\Permisos.cshtml" />
+    <Content Include="Views\Administrador\Menu.cshtml" />
+    <Content Include="Views\Administrador\EditarMenu.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Shared\BuscarCatalogo.cshtml" />
+    <Content Include="Views\Home\Botonera.cshtml" />
+    <Content Include="Areas\Tesoreria\Views\Shared\ModalPresupuesto.cshtml" />
+    <Content Include="Utils\HiQPdf.dep" />
+    <Content Include="Views\Selectordesistemas\Index.cshtml" />
+    <Content Include="Utils\snippets\C#\getEntity.snippet" />
+    <Content Include="Utils\snippets\C#\getModel.snippet" />
+    <Content Include="Utils\snippets\C#\tryJ.snippet" />
+    <Content Include="Utils\snippets\JS\customModal.snippet" />
+    <Content Include="Scripts\jquery.validate.globalize.min.js.map" />
+    <Content Include="Views\Catalogos\EditarUsuario.cshtml" />
+    <Content Include="WebReferences\EnviaCorreo\Reference.map" />
+    <Content Include="Views\Catalogos\CambiarContrasenia.cshtml" />
+    <Content Include="Views\Account\Cambiar_Color.cshtml" />
+    <None Include="WebReferences\EnviaCorreo\wscorreos.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Tesoreria\CSS\" />
+    <Folder Include="Content\Archivos\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3250</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:3250/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

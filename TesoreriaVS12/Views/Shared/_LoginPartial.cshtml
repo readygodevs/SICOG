@@ -1,0 +1,32 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <text>
+        Usuario: <label class="username">@User.Identity.Name</label>
+@*@Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Administrar" })*@
+        <br />
+        Ejercicio: @HttpContext.Current.Session["Ejercicio"]
+        <br />
+        <br />
+        <div class="pull-right">
+            <a href="#" class="js_cambiarpassword label label-warning">Cambiar contraseña</a>
+        </div>
+
+        @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Get, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
+        }
+
+    </text>
+}
+else
+{
+    <ul>
+        <li>@Html.ActionLink("Registrarse", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+<script>
+
+
+</script>

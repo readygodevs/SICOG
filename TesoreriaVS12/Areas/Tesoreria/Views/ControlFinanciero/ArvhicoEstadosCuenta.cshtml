@@ -1,0 +1,195 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_EstadosCuenta>
+
+@{
+    ViewBag.Title = "Importar archivo de Conciliación";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var exito = ViewBag.Exito;
+}
+<div id="_menu_lateral" class="js_ocultaSubMenu">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bUploadFiles", "bLimpiarConci", "bSalir" } }); }
+</div>
+<h2>Importación de Estados de Cuenta</h2>
+<div class="row">
+    <div class="col-lg-12">
+        @using (Html.BeginForm("ArvhicoEstadosCuenta", "ControlFinanciero", new { @area = "Tesoreria" }, FormMethod.Post, new { id = "frmCompromiso", enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true)
+            <div class="col-sm-3">
+                <label>Banco</label>
+                <select class="form-control" id="banco" name="banco"></select>
+            </div>
+            <div class="col-sm-3">
+                <label>Mes</label>
+                <select class="form-control" id="mes" name="mes"></select>
+            </div>
+            <div class="col-sm-6">
+                <input type="file" id="archivoExcel" name="archivoExcel" />
+            </div>
+        }
+    </div>
+</div>
+@if (Model.Count() > 0)
+{   <div id="div_detalle">
+        <h3>Detalle</h3>
+        <table id="tablaNomina" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        No. Cuenta
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sucursal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cargos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Abonos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Saldos)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Referencia)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Concepto)
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.No_CuentaBancaria)
+                        </td>
+                        <td>
+                            @Html.Encode(item.Fecha.Value.ToShortDateString())
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sucursal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-right">
+                            @Html.Encode(String.Format("{0:N}", item.Cargos))
+                        </td>
+                        <td class="text-right">
+                            @Html.Encode(String.Format("{0:N}", item.Abonos))
+                        </td>
+                        <td class="text-right">
+                            @Html.Encode(String.Format("{0:N}", item.Saldos))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Referencia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Concepto)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+@section Scripts {
+    <script type="text/javascript">
+        var ErrorMessage = "";
+        $(document).on("ready", function () {
+            @if(Model.Count() > 0)
+            {
+                <text>
+                    ConstruirTabla("tablaNomina");
+                 </text>
+            }
+            ajaxSelect("@Url.Action("List_Bancos","Listas")", {}, "post", false, "banco", "", callBackLlenarSelect);
+            ajaxSelect("@Url.Action("List_Meses,"Listas")", {}, "post", false, "mes", "", callBackLlenarSelect);
+            $("#js_mUploadFiles").on("click", Upload);
+            $("#js_mLimpiarConci").on("click", clean);
+            $("#archivoExcel").on("change", changeExcel);
+            @if (exito!=null)
+            {
+                if (exito) {
+                    <text>
+                    ExitoCustom('El archivo ha sido importado éxito.');
+                    </text>
+                }
+
+            }
+        });
+        function clean()
+        {
+            if (validar(1))
+            {
+                var funcion = function () {
+                    ajaxJson("CleanEstadosCuenta", $("#frmCompromiso").serialize(), "POST", true, function (result) {
+                        if (result.Exito) {
+                            ExitoCustom(result.Mensaje);
+                            $("#div_detalle").hide();
+                        }
+                        else
+                            ErrorCustom(result.Mensaje);
+                    });
+                }
+                ConfirmCustom("Los registros de eliminarán. Por favor confirme que desea realizar está operación",funcion, "", "Aceptar", "Cancelar");
+            }
+            else
+                ErrorCustom(ErrorMessage);
+        }
+        function changeExcel() {
+            if ($(this).val() != "") {
+                var nombre = $(this).val().split(".");
+                var extencion = nombre[nombre.length - 1].toUpperCase();
+                if (extencion != "TXT") {
+                    $(this).val("");
+                    ErrorCustom("Solamente puede subir archivos txt", "");
+                }
+                else if (this.files[0].size > 2097152) {
+                    ErrorCustom("El archivo no debe ser mayor a 2 MB", "");
+                    $(this).val("");
+                }
+            }
+        }
+        function Upload() {
+            if (validar(2)) {
+                ConfirmCustom("Por favor confirme que desea importar el archivo de Estados de Cuenta",
+                    function () {
+                        $("#frmCompromiso").submit();
+                    }, "", "Aceptar", "Cancelar");
+            }
+            else
+                ErrorCustom(ErrorMessage);
+        }
+        function validar(tipo)
+        {
+            if ($("#banco").val() == "")
+            {
+                ErrorMessage = "Debe de seleccionar un banco";
+                return false;
+            }
+            if ($("#mes").val() == "")
+            {
+                ErrorMessage = "Debe de seleccionar un mes.";
+                return false;
+            }
+            if ($("#archivoExcel").val() == "" && tipo==2)
+            {
+                ErrorMessage = "Debe de seleccionar un archivo.";
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+}

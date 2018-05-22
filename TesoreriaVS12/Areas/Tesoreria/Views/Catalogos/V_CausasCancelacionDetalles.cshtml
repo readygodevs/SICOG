@@ -1,0 +1,33 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_CausaCancelacionModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles Causa Cacelación" class="TituloModal"></div>
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Id_TipoCausa)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_TipoCausa)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Id_Causa)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_Causa)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Descrip)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descrip)
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

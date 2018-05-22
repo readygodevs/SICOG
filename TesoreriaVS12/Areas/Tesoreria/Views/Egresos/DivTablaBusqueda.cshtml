@@ -1,0 +1,69 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.DE_BancosModel>
+
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <table id="tblCheques" class="table table-responsive table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-sm-1">
+                        @Html.DisplayNameFor(model => model.No_Cheque)
+                    </th>
+                    <th class="col-sm-1">
+                        @Html.DisplayNameFor(model => model.Id_TipoPol)
+                    </th>
+                    <th class="col-sm-1">
+                        @Html.DisplayNameFor(model => model.Id_Beneficiario)
+                    </th>
+                    <th class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Importe)
+                    </th>
+                    <th class="col-sm-3">
+                        @Html.DisplayNameFor(model => model.Id_Estatus)
+                    </th>
+                    <th class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Observa)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.No_Cheque)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id_TipoPol)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id_Beneficiario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Importe)
+                        </td>
+                        <td>
+                            @if (item.Id_Estatus == 1) { 
+                                 @Html.Encode("Sin utilizar")
+                            }
+                            @if (item.Id_Estatus == 2) { 
+                                 @Html.Encode("Utilizado")
+                            }
+                            @if (item.Id_Estatus == 3) { 
+                                 @Html.Encode("Formato cancelado")
+                            }
+                            @if (item.Id_Estatus == 4) { 
+                                 @Html.Encode("Cheque cancelado")
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Observa)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

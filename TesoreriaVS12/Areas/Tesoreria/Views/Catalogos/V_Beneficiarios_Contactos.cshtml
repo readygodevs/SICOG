@@ -1,0 +1,22 @@
+﻿@model  TesoreriaVS12.Areas.Tesoreria.Models.De_BeneficiarioContactosModel
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        <label>C.U.R.P.</label>
+        @Html.TextBox("Contactos_CURP", Model.CURP, new { @class = "form-control" })
+    </div>
+    <div class="col-sm-6">
+        <label>Nombre Completo</label>
+        @Html.TextBox("Contactos_Nombre", Model.Nombre, new { @class = "form-control" })
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#bsqContactos input,textarea,select").addClass("form-control");
+    });
+</script>

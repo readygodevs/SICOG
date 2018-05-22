@@ -1,0 +1,27 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ClasProgramaticaModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles Clasificación Programática" class="TituloModal"></div>
+<label>
+    @Html.DisplayNameFor(model => model.Id_ClasificacionP)
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Id_ClasificacionP)
+</div>
+
+<label>
+    @Html.DisplayNameFor(model => model.Descripcion)
+</label>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

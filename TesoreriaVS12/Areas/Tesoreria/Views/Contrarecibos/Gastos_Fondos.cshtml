@@ -1,0 +1,930 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ContrarecibosFGModel
+
+@{
+    if (Model.Id_TipoCR == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.FondosRevolventes)
+    {
+        ViewBag.Title = "Fondos Revolventes";
+    }
+    else
+    {
+        ViewBag.Title = "Gastos a Comprobar";
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .separador_tres {
+        background-color: #FAF9F3;
+        border-top: 1px solid #CCC;
+        padding: 10px;
+    }
+</style>
+
+@if (Model.Id_TipoCR == TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.TiposCR.FondosRevolventes)
+{
+    <h2>Fondos Revolventes</h2>
+}
+else
+{
+    <h2>Gastos a Comprobar</h2>    
+}
+
+@section sin_contenedor{
+    <link href="~/Content/datepicker3.css" rel="stylesheet" />
+    <div id="_menu_lateral">
+        @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = (Model.Botonera.Count > 0 ? Model.Botonera : new List<object> { "bNuevo", "bBuscar", "bSalir" }) }); }
+    </div>
+    @Html.Hidden("Fecha_Ultima", String.Format("{0:d}", TempData["FechaUltima"]));
+    @Html.Hidden("Fecha_Inicio", String.Format("{0:d}", TempData["FechaInicio"]));
+    <div class="container">
+    @using (Html.BeginForm("GuardarContrareciboFG", "Contrarecibos", new { area = "Tesoreria" }, FormMethod.Post, new { id = "frmContrarecibos" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        
+        <br />
+        <div class="row datosIniciales">
+            <div class="col-xs-3">
+                @Html.LabelFor(model => model.Id_TipoCR)
+                @Html.HiddenFor(x => x.Id_TipoCR)
+                @Html.TextBoxFor(model => model.Ca_TipoContrarecibos.Descripcion)
+                @Html.ValidationMessageFor(model => model.Id_TipoCR)
+            </div>
+            <div class="col-xs-1">
+                @Html.LabelFor(model => model.Id_FolioCR)
+                @Html.TextBoxFor(model => model.Id_FolioCR, "", new { @class = "folio" })
+                @Html.ValidationMessageFor(model => model.Id_FolioCR)
+            </div>
+            <div class="col-xs-3">
+                <div>
+                    @Html.LabelFor(model => model.FechaCR)
+                    @Html.ValidationMessageFor(model => model.FechaCR)
+                </div>
+                <div class="input-group fecha_group">
+                    @Html.TextBox("FechaCR", Model.FechaCR.HasValue ? Model.FechaCR.Value.ToShortDateString() : "", new { @class = "date js_Nuevo" })
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                @*@Html.TextBoxFor(model => model.FechaCR, new { @class = "datepicker" })*@
+                        
+            </div>
+            <div class="col-xs-2">
+                @Html.LabelFor(model => model.Id_EstatusCR)
+                @Html.HiddenFor(model => model.Id_EstatusCR)
+                @Html.TextBoxFor(model => model.EstatusCR)
+                @Html.ValidationMessageFor(model => model.Id_EstatusCR)
+            </div>
+            <div class="col-xs-3">
+                <div>
+                    @Html.LabelFor(model => model.Id_TipoCompromiso)
+                    @Html.ValidationMessageFor(model => model.Id_TipoCompromiso)
+                </div>
+                <div>
+                    @Html.DropDownList("Id_TipoCompromiso", Model.ListaId_TipoCompromiso != null ? Model.ListaId_TipoCompromiso : new SelectList(new TesoreriaVS12.Areas.Tesoreria.DAL.Catalogos.TipoCompromisosDAL().Get().ToList(), "Id_TipoCompromiso", "Descripcion"), "-Seleccionar Uno-" , new { @class="js_Nuevo" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-7">
+                <div>
+                    @Html.LabelFor(model => model.Descripcion)
+                    @Html.ValidationMessageFor(model => model.Descripcion)
+                </div>
+                <div>
+                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "js_Nuevo" })
+                </div>
+            </div>
+            <div class="col-xs-5">
+               <div class="row">
+                   <div class="col-sm-5">
+                       @Html.LabelFor(model => model.Estatus_GC)
+                       @Html.HiddenFor(model => model.Estatus_GC)
+                       @Html.TextBoxFor(model => model.EstatusGCDesc)
+                       @Html.ValidationMessageFor(model => model.Estatus_GC)
+                   </div>
+                   <div class="col-sm-6">
+                       <div>
+                           @Html.LabelFor(model => model.FechaVen)
+                           @Html.ValidationMessageFor(model => model.FechaVen)
+                       </div>
+                       <div class="input-group fecha_group">
+                           @Html.TextBoxFor(model => model.FechaVen, new { @class = "date" })
+                           <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                       </div>
+                       @*@Html.TextBoxFor(model => model.FechaVen, new { @class = "datepicker" })*@
+                   </div>
+               </div>
+                <div class="row">
+                    <div class="col-sm-12 text-right">
+                        @Html.LabelFor(model => model.Impreso_CR)
+                        @Html.CheckBox("Impreso_CR", Model.Impreso_CR)
+                        @Html.ValidationMessageFor(model => model.Impreso_CR)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-xs-8">
+                    <label>Aplicación Contable</label>
+                    @Html.ValidationMessageFor(model => model.Id_CuentaFR)
+                    <div class="div_inline">
+                        <div class="input-group aplicacion-contable-group pull-left">
+                            @Html.TextBoxFor(model => model.Id_CuentaFR, new { @class = "js_Captura js_Nuevo" })
+                            <span class="input-group-addon js_searchCuentas"><i class="fa fa-search"></i></span>
+                        </div>
+                        &nbsp;
+                        @Html.TextBoxFor(model => model.Ca_Cuentas_FR.Descripcion, new { @class = "NonEditable js_Descripcion Ca_Cuentas_Descripcion " })
+                        
+                    </div>
+                </div> 
+                <div class="col-xs-4">
+                    <label>Fuente de Financiamiento</label>
+                    @Html.ValidationMessageFor(model => model.Id_Fuente)
+                    <div class="div_inline">
+                        <div class="input-group fuente-finc-group pull-left">
+                            @Html.TextBoxFor(model => model.Id_Fuente, new { @class = "js_Nuevo" })
+                            <span class="input-group-addon js_searchFuente"><i class="fa fa-search"></i></span>
+                        </div>
+                        &nbsp;
+                        @Html.TextBoxFor(model => model.Ca_FuentesFin.Descripcion, new { @class = "NonEditable " })
+                        
+                    </div>
+                </div>                               
+            </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Cargos)
+                    @Html.ValidationMessageFor(model => model.Cargos)
+                </div>
+                <div>
+                    @Html.TextBoxFor(m => m.Cargos, new { @class = "js_Nuevo importe" })
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Usu_CR)
+                    @Html.ValidationMessageFor(model => model.Usu_CR)
+                </div>
+                <div>
+                    @Html.TextBoxFor(m => m.Usu_CR)
+                </div>
+            </div>
+        </div>
+        
+    }
+    </div>
+    <br />
+
+
+    <div class="separador_tres">
+        <div class="container">
+            <div>
+                <fieldset>
+            <legend>Comprobaciones</legend>
+            <div class="row">
+                <div class="col-xs-2">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Original)
+                        @Html.ValidationMessageFor(model => model.Original)
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(m => m.Original, new { @disabled="disabled" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.TotalReintegro)
+                        @Html.ValidationMessageFor(model => model.TotalReintegro)
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(m => m.TotalReintegro, new { @disabled="disabled" })
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Reintegros)
+                        @Html.ValidationMessageFor(model => model.Reintegros)
+                    </div>
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Reintegros, new { @disabled="disabled" })
+                        @Html.Hidden("Id_FolioGC", Model.Id_FolioGC)
+                        @Html.Hidden("SeReintegra", Model.SeReintegra)
+                        <span class="input-group-addon js_Reintegrar">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Sobrantes)
+                        @Html.ValidationMessageFor(model => model.Sobrantes)
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(m => m.Sobrantes, new { @disabled="disabled" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.FechaCierreGC)
+                        @Html.ValidationMessageFor(model => model.FechaCierreGC)
+                    </div>
+                    <div>
+                        @Html.TextBox("FechaCierreGC", string.Format("{0:d}", Model.FechaCierreGC), new { @class = "fecha", @disabled="disabled" })
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+            </div>
+        </div>
+    </div>
+    
+    <div class="separador_dos">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-3">
+                    @Html.Hidden("Id_MesPolizaCR", Model.Id_MesPolizaCR)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.PolizaCR)
+                        @Html.ValidationMessageFor(model => model.PolizaCR)
+                    </div>
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.PolizaCR)
+                        @Html.Hidden("Id_FolioPolizaCR", Model.Id_FolioPolizaCR)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo ="3">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    @Html.Hidden("Id_MesPolizaCH", Model.Id_MesPolizaCH)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.PolizaCheque)
+                        @Html.ValidationMessageFor(model => model.PolizaCheque)
+                    </div>
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.PolizaCheque)
+                        @Html.Hidden("Id_FolioPolizaCH", Model.Id_FolioPolizaCH)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo ="2">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    @Html.Hidden("Id_MesPolizaCH", Model.Id_MesPolizaCH_C)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.PolizaCheque_C)
+                        @Html.ValidationMessageFor(model => model.PolizaCheque_C)
+                    </div>
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.PolizaCheque_C)
+                        @Html.Hidden("Id_FolioPolizaCH", Model.Id_FolioPolizaCH_C)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo ="2">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.FechaCancelacion_CH)
+                        @Html.ValidationMessageFor(model => model.FechaCancelacion_CH)
+                    </div>
+                    <div>
+                        @Html.TextBox("FechaCancelacion_CH", string.Format("{0:d}", Model.FechaCancelacion_CH), new { @class = "fecha" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="editor-label">
+                        <label>Banco</label>
+                        @*@Html.LabelFor(model => model.Ca_CuentasBancarias)
+                        @Html.ValidationMessageFor(model => model.Ca_CuentasBancarias)*@
+                    </div>
+                    <div>
+                        @*@Html.Hidden("Id_MesPolizaCR", Model.Id_MesPolizaCR);
+                        @Html.Hidden("Id_FolioPolizaCR", Model.Id_FolioPolizaCR);
+                        @Html.TextBoxFor(model => model.PolizaCR)*@
+                        @Html.TextBoxFor(model => model.Ca_CuentasBancarias.Ca_Bancos.Descripcion)
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.No_Cheque)
+                        @Html.ValidationMessageFor(model => model.No_Cheque)
+                    </div>
+                    <div>
+                        @Html.TextBox("No_Cheque", Model.No_Cheque == 0 ? "TE" : Model.No_Cheque.ToString() , new { @class = "cheque" })
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div><br /></div>
+                    <div>
+                        @Html.CheckBox("Impreso_CH", Model.Impreso_CH == true ? true : false)
+                        @Html.LabelFor(model => model.Impreso_CH)
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Fecha_Pago)
+                        @Html.ValidationMessageFor(model => model.Fecha_Pago)
+                    </div>
+                    <div>
+                        @Html.TextBox("Fecha_Pago", string.Format("{0:d}", Model.Fecha_Pago), new { @class = "fecha" })
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Spei, new { @class = "js_Editar" })
+                        @Html.ValidationMessageFor(model => model.Spei)
+                    </div>
+                    <div>
+                        @Html.TextBoxFor(m => m.Spei, new { @class = "js_Editar" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    @Html.Hidden("Id_MesPO_Comprometido", Model.Id_MesPO_Comprometido)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Poliza_Comprometido)
+                        @Html.ValidationMessageFor(model => model.Poliza_Comprometido)
+                    </div>
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_Comprometido)
+                        @Html.Hidden("Id_FolioPO_Comprometido", Model.Id_FolioPO_Comprometido)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo ="4">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    @Html.Hidden("Id_MesPO_Devengado", Model.Id_MesPO_Devengado)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Poliza_Devengado)
+                        @Html.ValidationMessageFor(model => model.Poliza_Devengado)
+                    </div>
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Poliza_Devengado)
+                        @Html.Hidden("Id_FolioPO_Devengado", Model.Id_FolioPO_Devengado)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo ="4">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    @Html.Hidden("Id_MesPO_Ejercido", Model.Id_MesPO_Ejercido)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Poliza_Ejercido)
+                        @Html.ValidationMessageFor(model => model.Poliza_Ejercido)
+                    </div>
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_Ejercido)
+                        @Html.Hidden("Id_FolioPO_Ejercido", Model.Id_FolioPO_Ejercido)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo ="4">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    @Html.Hidden("Id_MesPO_Pagado", Model.Id_MesPO_Pagado)
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Poliza_Pagado)
+                        @Html.ValidationMessageFor(model => model.Poliza_Pagado)
+                    </div>
+                    <div class="input-group folio_mes">
+                        @Html.TextBoxFor(model => model.Poliza_Pagado)
+                        @Html.Hidden("Id_FolioPO_Pagado", Model.Id_FolioPO_Pagado)
+                        <span class="input-group-addon js_ConsultaPoliza" data-tipo ="4">
+                            <span class="fa fa-search"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    
+}
+
+<div class="row">
+    @using (Html.BeginForm("Gastos_Fondos_Detalle", "Contrarecibos", FormMethod.Post, new { id = "frmDetalles" }))
+    {
+        @Html.Hidden("TipoCR", Model.Id_TipoCR)
+        @Html.Hidden("FolioCR", Model.Id_FolioCR)
+    }
+</div>
+<div class="row">
+    @using (Html.BeginForm("Gastos_Fondos", "Contrarecibos", FormMethod.Post, new { id = "frmRegreso" }))
+    {
+        @Html.Hidden("Tipo", Model.Id_TipoCR)
+        @Html.Hidden("Folio", Model.Id_FolioCR)
+    }
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Contrarecibos.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+@*<script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>*@
+<script src="~/Scripts/autoNumeric.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
+    <script>
+        var Btn = "";
+        $(document).ready(function () {
+            
+            $(".container input, textarea, select").addClass("form-control");
+            $(".separador_dos input[type='text'], textarea, select").addClass("form-control");
+            $("#Cargos").autoNumeric("init");
+            //$("#Cargos").formatCurrency({ symbol: '' });
+            //$("#Cargos").on("input", function () { $(this).formatCurrency({ symbol: '' }) });
+            Reintegra($("#SeReintegra").val());
+            Bloquear();
+            $("body").on("click", "#js_mNuevo", function () {
+                Btn="Nuevo";
+                $("body .js_Nuevo").removeAttr("disabled");
+                Limpiar();
+                recargarMenuLateral(["bGuardar", "bCancelar"]);
+                eventFocusBalance();
+                $("#FechaCR").datepicker({
+                    format: "dd/mm/yyyy",
+                    autoclose: true,
+                    startDate: $("#Fecha_Inicio").val(),
+                    endDate: $("#Fecha_Ultima").val()
+                });
+            });
+
+            $("body").on("change", "#FechaCR", function () {
+                $("#FechaVen").val($("#FechaCR").val());
+            });
+
+            $("body").on("click", "#js_mGuardar", function () {
+                if ($("#frmContrarecibos").valid()) {
+                    DesBloquear();
+                    if (Btn == "Nuevo") {
+                        $("#Cargos").val($("#Cargos").autoNumeric("get"));
+                        ajaxJson("@Url.Action("Gastos_FondosN","Contrarecibos")", $("#frmContrarecibos").serialize(), "POST", true, NuevoG);
+                    }
+                    else
+                        ajaxJson("@Url.Action("Gastos_FondosE","Contrarecibos")", $("#frmContrarecibos").serialize() + "&Spei=" + $("#Spei").val(), "POST", true, NuevoG);
+                }
+            });
+
+            $("body").on("click", "#js_mEditar", function () {
+                Btn = "Editar";
+                if ($("#No_Cheque").val() == "") {
+                    $("body .js_Nuevo").removeAttr("disabled");
+                    eventFocusBalance();
+                    $("#FechaCR").datepicker({
+                        format: "dd/mm/yyyy",
+                        autoclose: true,
+                        startDate: $("#Fecha_Inicio").val(),
+                        endDate: $("#Fecha_Ultima").val()
+                    });
+                } else {
+                    $("body .js_Editar").removeAttr("disabled");
+                }
+                recargarMenuLateral(["bGuardar", "bCancelar"]);
+            });
+
+            $("body").on("click", "#js_mCancelar", function () {
+                if (Btn == "Editar") {
+                    $("#frmRegreso").submit(function () {
+                        $("#Tipo").val($("#Id_TipoCR").val());
+                        $("#Folio").val($("#Id_FolioCR").val());
+                    }).submit();
+                }
+                else
+                {
+                    Bloquear();
+                    recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);
+                }
+            });
+
+            $("body").on("click", "#js_mBuscar", function () {
+                customModal("@Url.Action("BuscarContrarecibo","Contrarecibos")", { Tipo: $("#Id_TipoCR").val() }, "GET", "lg", "", "", "", "Cerrar", "Buscar Cuenta por Liquidar", "Modal1");
+            });
+
+            $("body").on("click", "#js_mDetalles", function () {
+                $("#TipoCR").val($("#Id_TipoCR").val());
+                $("#FolioCR").val($("#Id_FolioCR").val());
+                $("#frmDetalles").submit();
+                //window.location.href = "/Tesoreria/Contrarecibos/Gastos_Fondos_Detalle?FolioCR=" + $("#Id_FolioCR").val() + "&TipoCR=" + $("#Id_TipoCR").val() + "&json=false";
+            });
+
+            $("body").on("click", "#js_mDocumentos", function () {
+                window.location.href = "@Url.Action("Documentos","Contrarecibos")"+"?tipo=" + $("#Id_TipoCR").val() + "&folio=" + $("#Id_FolioCR").val();
+            });
+
+            $("body").on("click", "#js_mImprimir", function () {
+
+                var Mensaje = _.template($('#js_msjImprimir').html());
+                ConfirmCustom(Mensaje({ TipoCR: $("#Ca_TipoContrarecibos_Descripcion").val(), FolioCR: $("#Id_FolioCR").val(), Total: $("#Cargos").val() }), function () {
+                    ajaxJson("@Url.Action("ImprimirContraRecibo","Contrarecibos")", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val() }, "POST", true, function (response) {
+                        if (response.Exito == true) {
+                            window.open("@Url.Action("Reporte_ContraRecibo","Contrarecibos")"+"?TipoCR=" + $("#Id_TipoCR").val() + "&FolioCR=" + $("#Id_FolioCR").val(), '_blank');
+                            $("#frmRegreso").submit(function () {
+                                $("#Tipo").val($("#Id_TipoCR").val());
+                                $("#Folio").val($("#Id_FolioCR").val());
+                            }).submit();
+                        }
+                        else
+                            ErrorCustom(response.Mensaje, "");
+                    });
+                }, "", "Aceptar", "Cancelar");
+            });
+
+            $("body").on("click", "#js_mCerrarComprobacion", function () {
+                var Mensaje = _.template($('#js_msjCerrarComprobacion').html());
+                customHTMLModal(Mensaje, "md", function () {
+                    if ($("#Fecha_Comprobacion").val() != "") {
+                        ajaxJson("@Url.Action("CerrarComprobacion","Contrarecibos")", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val(), FechaC: $("#Fecha_Comprobacion").val() }, "POST", true, function (response) {
+                            if (response.Exito == true) {
+                                $("#frmRegreso").submit(function () {
+                                    $("#Tipo").val($("#Id_TipoCR").val());
+                                    $("#Folio").val($("#Id_FolioCR").val());
+                                }).submit();
+                            }
+                            else
+                                ErrorCustom(response.Mensaje, "");
+                        });
+                    }
+                    else {
+                        ErrorCustom("Insertar una Fecha", "");
+                        return false;
+                    }
+
+                }, "", "Aceptar", "Cancelar", "");
+
+
+                $("#Fecha_Comprobacion").datepicker({
+                    format: "dd/mm/yyyy",
+                    autoclose: true,
+                    startDate: $("#Fecha_Pago").val(),
+                    endDate: $("#Fecha_Ultima").val()
+                });
+            });
+
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+            });
+
+            $("body").on("click", "#js_mCancelarGral", function () {
+                var Mensaje = _.template($('#js_msjCancelar').html());
+                customHTMLModal(Mensaje, "sm", function () {
+                    if ($("#FechaC").val() != "")
+                        ajaxJson("@Url.Action("Gastos_FondosC","Contrarecibos")", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val(), FechaC: $("#FechaC").val() }, "POST", true, function (response) {
+                            if (response.Exito == true) {
+                                $("#frmRegreso").submit(function () {
+                                    $("#Tipo").val($("#Id_TipoCR").val());
+                                    $("#Folio").val($("#Id_FolioCR").val());
+                                }).submit();
+                            }
+                            else
+                                ErrorCustom(response.Mensaje, "");
+                        });
+                    else {
+                        ErrorCustom("Insertar una Fecha", "");
+                        return false;
+                    }
+                }, "", "Aceptar", "Cancelar", "", "IdModal2");
+                $("#FechaC").datepicker({
+                    format: "dd/mm/yyyy",
+                    autoclose: true,
+                    startDate: $("#FechaCR").val(),
+                    endDate: $("#Fecha_Ultima").val()
+                });
+
+            });
+
+            //--------------------Select Banco --------------------------------//
+            $("body").on("change", "Id_Banco", function () {
+                ajaxSelect("@Url.Action("List_CtaBancaria","Listas")", { Id_Banco : $("#Id_Banco").val() }, "post", true, "Id_CtaBancaria", "", callBackLlenarSelect);
+            });
+
+            //------------------Busqueda--------------------------------------//
+            $("body").on("click", ".js_searchC", function () {
+                $("#Resultados").ajaxLoad({ url: "@Url.Action("tblContrarecibos","Contrarecibos")", data: $("#frmSearchContra").serialize(), method: "POST" });
+            });
+
+            $("body").on("click", "#tblContraSearch .js_seleccionar", function () {
+                var elemento = $(this);
+                ajaxJson("@Url.Action("GetContrarecibo","Contrarecibos")"", { IdFolio: elemento.data("folio"), IdTipoCR: elemento.data("tipo") }, "POST", true, function (response) {
+                    if (response.Exito == true) {
+                        DesBloquear();
+                        LimpiarFechas();
+                        llenarMaestro(response.Registro);
+                        Bloquear();
+                        $(".Modal1").modal("hide");
+                        Reintegra(response.Registro.SeReintegra);
+                        if (response.Registro.Ca_CuentasBancarias.Ca_Bancos != null)
+                            $("#Ca_CuentasBancarias_Ca_Bancos_Descripcion").val(response.Registro.Ca_CuentasBancarias.Ca_Bancos.Descripcion);
+                        createBotonera(response.Botonera);
+                        $("#Cargos,.importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").attr("disabled", false);
+                        $("#Cargos,.importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").autoNumeric("init");
+                        $("#Cargos,.importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").trigger("focusout");
+                        $("#Cargos,.importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").attr("disabled", true);
+                        //$(".importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").formatCurrency({ symbol: '' })
+                    }
+                    else
+                        ErrorCustom(response.Mensaje, "");
+                    return false;
+                });
+            });
+            //--------------------------Cuentas FR --------------------//
+            $("body").on("click", ".js_searchCuenta", function () {
+                if (typeof $(this).siblings().attr("disabled") === "undefined") {
+                    customModal("@Url.Action("BuscarCuenta","Cuentas")", {}, "GET", "lg", "", "", "", "Cancelar", "Buscar Cuentas", "IdModal");
+                }
+            });
+
+            $("body").on("click", "#tblCuentasSearch .js_seleccionar", function () {
+                $("#Id_CuentaFR").val($(this).data("idcuenta"));
+                $("#Ca_Cuentas_FR_Descripcion").val($(this).data("descripcion"));
+                $(".IdModal").modal("hide");
+            });
+
+            $('#Id_Fuente').typeahead({
+                source: function (query, process) {
+                    $.ajax({
+                        url: "@Url.Action("FuenteCP","FocusOut")",
+                        type: "POST",
+                        data: { name: $("#Id_Fuente").val() },
+                        dataType: "JSON",
+                        async: true,
+                        success: function (results) {
+                            $('#Id_Fuente').data("datasource", results.Ids);
+                            return process(results.Data);
+                        }
+                    });
+                }
+            });
+            $('#Id_Fuente').on('change', function () {
+                if ($(this).val().split('-').length != 1) {
+                    $("#Ca_FuentesFin_Descripcion").val($(this).val().split('-')[1]);
+                    $(this).val($(this).val().split('-')[0]);
+                } else {
+                    if (!$(this).val().length > 0) {
+                        $(this).val("");
+                        $("#Ca_FuentesFin_Descripcion").val("");
+                    }
+                }
+            });
+
+            /**************Consulta poliza*****************/
+            $(".js_ConsultaPoliza").on("click", function () {
+                //if (!$(this).isSiblingDisabled()) {
+                ConsultaPoliza($(this).data("tipo"), $(this).siblings("input[type=hidden]").val(), $(this).parent().siblings("input[type=hidden]").val());
+                //}
+            });
+        });
+
+        function Bloquear() {
+            $("#frmContrarecibos input, textarea, select").attr("disabled", "disabled");
+            $(".separador_dos input[type='text'],input[type='checkbox'], textarea, select").attr("disabled", "disabled");
+        }
+
+        function DesBloquear() {
+            $("#frmContrarecibos input, textarea, select").removeAttr("disabled");
+        }
+
+        function Limpiar() {
+            ajaxJson("@Url.Action("Gastos_Fondos","Contrarecibos")", { Tipo: $("#Id_TipoCR").val(), json: true }, "Get", true, function (data) {
+                LimpiarFechas();
+                llenarMaestro(data.data);
+            });
+        }
+
+        function LimpiarFechas() {
+            $("#FechaCierreGC").val("");
+            $("#FechaCancelacion_CH").val("");
+            $("#Fecha_Pago").val("");
+            $("#FechaCR").val("");
+            $("#FechaVen").val("");
+            $("#Cargos").val("");
+            $("#Ca_CuentasBancarias_Ca_Bancos_Descripcion").val("");
+        }
+
+        function NuevoG(data) {
+            if (data.Exito == true) {
+                llenarMaestro(data.Registro);
+                createBotonera(data.Botonera);
+                Bloquear();
+                //setTimeout(function () {
+                    $("#Cargos,.importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").attr("disabled", false);
+                    $("#Cargos,.importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").autoNumeric("init");
+                    $("#Cargos,.importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").trigger("focusout");
+                    $("#Cargos,.importe,#Original,#TotalReintegro,#Reintegros,#Sobrantes").attr("disabled", true);
+                //}, 500);
+            }
+            else {
+                ErrorCustom(data.Mensaje,"")
+            }
+        }
+
+        function Reintegra(bool) {
+            if (bool != "" && bool != null) {
+                if (bool.toString().toLowerCase() == "true")
+                    $("body").on("click", ".js_Reintegrar", function () {
+                        customModal("@Url.Action("Reintegros","Contrarecibos")", { FolioGC: $("#Id_FolioGC").val() }, "GET", "lg", AceptarReintegros, "", "Aceptar", "Cancelar", "Reintegros", "IdModal3")
+                    });
+                else
+                    $("body").off("click", ".js_Reintegrar");
+            }
+        }
+
+
+        //------------------------------Autocompletar ----------------------------------------//
+        var focoJsCaptura = function () {
+            $(".js_Captura").on("focusout", function () {
+                var elemento = $(this);
+                if ($(this).val().length > 0 && $.inArray($(this).val(), $(this).data("dataSource")) == -1) {
+                    $(this).parent().parent().parent().find(".js_Descripcion").val("");
+                    $(this).val("").focus();
+                    $(this).parent().parent().parent().nextAll().find(".js_Captura").attr("disabled", "disabled").val("").typeahead('destroy');
+                    $(this).parent().parent().parent().nextAll().find(".js_Descripcion").val("");
+                    $("#Id_Cuenta").empty();
+                    setTimeout(function () { elemento.focus(); }, 100);
+                }
+            });
+
+        }
+
+        var eventFocusBalance = function () {
+            $.each($(".js_Captura"), function (key, value) {
+                $("body").off("change", "#" + ($(value).attr("id")));
+            });
+
+            ajaxJson("@Url.Action("Gastos_Fondos","FocusOut")", { TipoCR: $("#Id_TipoCR").val() }, "POST", true, function (response) {
+                focoJsCaptura();
+                $("#Id_CuentaFR").typeahead({ source: response.Data, items: 15, });
+                $("#Id_CuentaFR").data("dataSource", response.Ids);
+                $("#Id_CuentaFR").data("dataBancos", response.cuentasBancos);
+                if (response.Data.length == 1) {
+                    $("#Id_CuentaFR").val(response.Data[0]);
+                    $("#Id_CuentaFR").trigger('change');
+                }
+            });
+
+            $("body").on("change", "#Id_CuentaFR", function () {
+                if ($(this).val().split('-').length != 1) {
+                    $("#Ca_Cuentas_FR_Descripcion").val($(this).val().split('-')[1]);
+                    $(this).val($(this).val().split('-')[0]);
+                    if ($(this).val().length == 20) {
+                        $("#Id_CuentaFR").removeAttr('disabled').focus();
+                    }
+                }
+            });
+        }
+
+        var focoJsCapturaEfectivo = function () {
+            $(".js_CapturaCtaEfectivo").on("focusout", function () {
+                var elemento = $(this);
+                if ($(this).val().length > 0 && $.inArray($(this).val(), $(this).data("dataSource")) == -1) {
+                    $(this).parent().parent().parent().find(".js_DescripcionCtaEfectivo").val("");
+                    $(this).val("").focus();
+                    $(this).parent().parent().parent().nextAll().find(".js_CapturaCtaEfectivo").attr("disabled", "disabled").val("").typeahead('destroy');
+                    $(this).parent().parent().parent().nextAll().find(".js_DescripcionCtaEfectivo").val("");
+                    $("#CtaEfectivo").empty();
+                    setTimeout(function () { elemento.focus(); }, 100);
+                }
+            });
+
+        }
+
+        var eventFocusBalanceEfectivo = function () {
+            $.each($(".js_CapturaCtaEfectivo"), function (key, value) {
+                $("body").off("change", "#" + ($(value).attr("id")));
+            });
+
+            $("body").on("change", "#CtaEfectivo", function () {
+                if ($(this).val().split('-').length != 1) {
+                    $("#CtaEfectivoDesc").val($(this).val().split('-')[1]);
+                    $(this).val($(this).val().split('-')[0]);
+                    if ($(this).val().length == 20) {
+                        $("#CtaEfectivo").removeAttr('disabled').focus();
+                    }
+                }
+            });
+
+            ajaxJson("@Url.Action("CuentasEfectivo","FocusOut")", {}, "POST", false, function (response) {
+                focoJsCapturaEfectivo();
+                $("#CtaEfectivo").typeahead({ source: response.Data, items: 15, });
+                $("#CtaEfectivo").data("dataSource", response.Ids);
+                $("#CtaEfectivo").data("dataBancos", response.cuentasBancos);
+                if (response.Data.length == 1) {
+                    $("#CtaEfectivo").val(response.Data[0]);
+                    $("#CtaEfectivo").trigger('change');
+                }
+            });
+        }
+
+        var buildFiltros = function () {
+            var f = {};
+            var cta = ajaxJson("@Url.Action("CuentaGC","FocusOut")", { TipoCR: $("#Id_TipoCR").val() }, "get", false, function (data) {
+                if (data.Exito == false)
+                    ErrorCustom(data.Mensaje);
+                else
+                    f.IdCuenta = data;
+            });
+            f.selectUltimoNivel = true;
+            f.UltimoNivel = true;
+            f.Descripcion = $("#Descripcion_filtro").val();
+            return f;
+        }
+
+        function AceptarReintegros() {
+            if ($("#formReintegros").valid()) {
+                switch (parseInt($("input[type='radio'][name='TipoReintegro']:checked").val())) {
+                    case 1:
+                        $("#TipoCREfectivo").val($("#Id_TipoCR").val());
+                        $("#FolioCREfectivo").val($("#Id_FolioCR").val());
+                        $("#FolioGCEfectivo").val($("#Id_FolioGC").val());
+
+                        ajaxJson("@Url.Action("Reintegros","Contrarecibos")", $("#formReintegros").serialize(), "POST", true, function (data) {
+                            if (!data.Exito)
+                                ErrorCustom(data.Mensaje,"");
+                            else {
+                                $(".IdModal3").modal("hide");
+                                $("#frmRegreso").submit(function () {
+                                    $("#Tipo").val($("#Id_TipoCR").val());
+                                    $("#Folio").val($("#Id_FolioCR").val());
+                                }).submit();
+                            }
+                        });
+                        break;
+                    case 2:
+                        $("#TipoCREfectivo").val($("#Id_TipoCR").val());
+                        $("#FolioCREfectivo").val($("#Id_FolioCR").val());
+                        $("#FolioGCEfectivo").val($("#Id_FolioGC").val());
+                        ajaxJson("@Url.Action("Reintegros","Contrarecibos")", $("#formReintegros").serialize(), "POST", true, function (data) {
+                            if (!data.Exito)
+                                ErrorCustom(data.Mensaje, "");
+                            else {
+                                $(".IdModal3").modal("hide");
+                                $("#frmRegreso").submit(function () {
+                                    $("#Tipo").val($("#Id_TipoCR").val());
+                                    $("#Folio").val($("#Id_FolioCR").val());
+                                }).submit();
+                            }
+                        });
+                        break;
+                    case 3:
+                        $("#TipoComprobacion").val($("#Id_TipoCR").val());
+                        $("#FolioComprobacion").val($("#Id_FolioCR").val());
+                        $("#FechaComprobacion").val($("#FechaCvePresupuestal").val());
+                        ajaxJson("@Url.Action("ComprobacionPartida","Contrarecibos")", $("#frmComprobacionCve").serialize(), "POST", true, function (data) {
+                            if (!data.Exito)
+                                ErrorCustom(data.Mensaje, "");
+                            else {
+                                $("#frmDetalles").submit(function () {
+                                    $("#TipoCR").val($("#Id_TipoCR").val());
+                                    $("#FolioCR").val($("#Id_FolioCR").val());
+                                }).submit();
+                            }
+                        });
+                        //$("#frmComprobacionCve").submit();
+                        break;
+                }
+            }
+        }
+
+    </script>
+}
+
+<script type="text/template" id="js_msjImprimir">
+    <p>Por favor confirme que desea imprimir la Cuenta por Liquidar con la siguiente información</p>
+    <label> Tipo de Cuenta por Liquidar:</label>
+    <span><%= TipoCR %></span>
+    <br />
+    <label> Folio de Cuenta por Liquidar:</label>
+    <span><%= FolioCR %></span>
+    <br />
+    <label> Importe:</label>
+    <span><%= Total %></span>
+</script>
+
+<script type="text/template" id="js_msjCerrarComprobacion">
+   <p>Por favor confirme que desea cerrar la comprobación con la siguiente fecha</p>
+   <p>Fecha: 
+       <span class="field-validation-error" data-valmsg-for="Descripcion" data-valmsg-replace="true"><span class="" generated="true" for="Fecha_Comprobacion">*</span></span>
+       <div class="input-group fecha_group">
+            <input type="text" id="Fecha_Comprobacion" name="Fecha_Comprobacion" class="date"  data-val="true" data-val-required="*" />
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+   </p>
+</script>
+
+<script type="text/template" id="js_msjCancelar">
+   <p>Por favor confirme que desea cerrar la comprobación con la siguiente fecha</p>
+   <p>Fecha: 
+       <span class="field-validation-error" data-valmsg-for="Descripcion" data-valmsg-replace="true"><span class="" generated="true" for="FechaC">*</span></span>
+       <div class="input-group fecha_group">
+            <input type="text" id="FechaC" name="FechaC" class="date"  data-val="true" data-val-required="*" />
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+   </p>
+</script>

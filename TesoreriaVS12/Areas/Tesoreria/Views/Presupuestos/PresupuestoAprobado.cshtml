@@ -1,0 +1,178 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.MA_PresupuestoEgModel>
+
+@{
+    Layout = null;
+    decimal Total01 = 0;
+    decimal Total02 = 0;
+    decimal Total03 = 0;
+    decimal Total04 = 0;
+    decimal Total05 = 0;
+    decimal Total06 = 0;
+    decimal Total07 = 0;
+    decimal Total08 = 0;
+    decimal Total09 = 0;
+    decimal Total10 = 0;
+    decimal Total11 = 0;
+    decimal Total12 = 0;
+    
+    ViewBag.Title = "Presupuesto Aprobado";
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>reporteGeneral</title>
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="cabecera">
+        <div class="logo">
+            <img src="@imagePath/reportes/@TesoreriaVS12.Models.Logueo.GetParametro("EscudoReportes")" class="logo-ente" alt="" />
+        </div>
+        <div class="parametros">
+            <div class="gobierno">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo1")</div>
+            <div class="instituto">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</div>
+            <div class="ejercicio">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo3")</div>
+            <div class="sistema">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo4")</div>
+        </div>
+        <div class="poliza">
+            REPORTE DE PRESUPUESTO APROBADO 
+        </div>
+    </div>
+    <style>
+        #tblAprobado{
+            font-size:9px;
+        }
+    </style>
+    <table class="tablaGrande" id="tblAprobado">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id_ClavePresupuesto)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado01)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado02)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado03)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado04)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado05)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado06)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado07)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado08)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado09)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado10)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado11)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Aprobado12)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.IdClavePresupuestoFormato(item.Id_ClavePresupuesto).Trim())
+                        @*@Html.Encode(item.Id_ClavePresupuesto)*@
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado01))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado02))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado03))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado04))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado05))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado06))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado07))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado08))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado09))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado10))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado11))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Aprobado12))
+                    </td>
+                    <td class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Total))
+                    </td>
+                </tr>
+                Total01 += item.Aprobado01.HasValue ? item.Aprobado01.Value : 0;
+                Total02 += item.Aprobado02.HasValue ? item.Aprobado02.Value : 0;
+                Total03 += item.Aprobado03.HasValue ? item.Aprobado03.Value : 0;
+                Total04 += item.Aprobado04.HasValue ? item.Aprobado04.Value : 0;
+                Total05 += item.Aprobado05.HasValue ? item.Aprobado05.Value : 0;
+                Total06 += item.Aprobado06.HasValue ? item.Aprobado06.Value : 0;
+                Total07 += item.Aprobado07.HasValue ? item.Aprobado07.Value : 0;
+                Total08 += item.Aprobado08.HasValue ? item.Aprobado08.Value : 0;
+                Total09 += item.Aprobado09.HasValue ? item.Aprobado09.Value : 0;
+                Total10 += item.Aprobado10.HasValue ? item.Aprobado10.Value : 0;
+                Total11 += item.Aprobado11.HasValue ? item.Aprobado11.Value : 0;
+                Total12 += item.Aprobado12.HasValue ? item.Aprobado12.Value : 0;
+            }
+            <tr class="tfoot">
+                <td class="text-right"><b>Total</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total01)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total02)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total03)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total04)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total05)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total06)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total07)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total08)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total09)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total10)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total11)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total12)</b></td>
+                <td class="text-right totales"><b>@String.Format("{0:n}", Total01 + Total02 + Total03 + Total04 + Total05 + Total06 + Total07 + Total08 + Total09 + Total10 + Total11 + Total12)</b></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

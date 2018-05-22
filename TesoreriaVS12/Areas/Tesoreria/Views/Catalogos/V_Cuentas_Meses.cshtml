@@ -1,0 +1,253 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.CA_Cuentas
+
+@{
+    Layout = null;
+}
+<div data-title="Cuenta: @Model.Id_CuentaFormato" class="TituloModal"></div>
+<label>@Model.Descripcion</label>
+<div data-text="Guardar" class="btnOk"></div>
+<div data-text="Cerrar" class="btnCancel"></div>
+<br />
+<table id="tbl_CuentasMeses" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <td>Saldos Iniciales</td>
+            @{
+                if(Model.Naturaleza == 1) //acreedor
+                {
+                    <td></td>
+                    <td style="text-align:right">@String.Format("{0:N}",(Model.Abono_Inicial-Model.Cargo_Inicial)) </td>   
+                }
+                else //deudora
+                {
+                    <td style="text-align:right">@String.Format("{0:N}",(Model.Cargo_Inicial-Model.Abono_Inicial)) </td>   
+                    <td></td>
+                }
+            }
+
+            @*<td class="text-right">@Html.DisplayFor(model => model.Cargo_Inicial)</td>
+            <td class="text-right">@Html.DisplayFor(model => model.Abono_Inicial)</td>*@
+        </tr>
+        <tr>
+            <th>
+                @if (ViewBag.Polizas > 0)
+                {
+                    <i data-id="@Model.Id_Cuenta" data-mesi="@ViewBag.MesIni" data-mesf="@ViewBag.MesFin" class="fa fa-newspaper-o cursorPointer fa-1x js_Polizas text-success" title="Polizas" ></i>
+                }
+                else
+                {
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-newspaper-o fa-stack-1x"></i>
+                        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+                    </span>
+                }
+            </th>
+            <th class="text-right">Cargos</th>
+            <th class="text-right">Abonos</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            bool[] meses = ViewBag.Meses;
+        }
+        <tr>
+            @if (meses[1] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="1">Enero</td>
+            }
+            else
+            {
+                <td style="">Enero</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo01))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono01))</td>
+        </tr>
+        <tr>
+            @if (meses[2] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="2">Febrero</td>
+            }
+            else
+            {
+                <td style="">Febrero</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo02))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono02))</td>
+        </tr>
+        <tr>
+            @if (meses[3] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="3">Marzo</td>
+            }
+            else
+            {
+                <td style="">Marzo</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo03))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono03))</td>
+        </tr>
+        <tr>
+            @if (meses[4] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="4">Abril</td>
+            }
+            else
+            {
+                <td style="">Abril</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo04))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono04))</td>
+        </tr>
+        <tr>
+            @if (meses[5] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="2">Mayo</td>
+            }
+            else
+            {
+                <td style="">Mayo</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo05))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono05))</td>
+        </tr>
+        <tr>
+            @if (meses[6] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="6">Junio</td>
+            }
+            else
+            {
+                <td style="">Junio</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo06))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono06))</td>
+        </tr>
+        <tr>
+            @if (meses[7] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="7">Julio</td>
+            }
+            else
+            {
+                <td style="">Julio</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo07))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono07))</td>
+        </tr>
+        <tr>
+            @if (meses[8] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="8">Agosto</td>
+            }
+            else
+            {
+                <td style="">Agosto</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo08))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono08))</td>
+        </tr>
+        <tr>
+            @if (meses[9] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="9">Septiembre</td>
+            }
+            else
+            {
+                <td style="">Septiembre</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo09))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono09))</td>
+        </tr>
+        <tr>
+            @if (meses[10] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="10">Octubre</td>
+            }
+            else
+            {
+                <td style="">Octubre</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo10))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono10))</td>
+        </tr>
+        <tr>
+            @if (meses[11] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="11">Noviembre</td>
+            }
+            else
+            {
+                <td style="">Noviembre</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo11))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono11))</td>
+        </tr>
+        <tr>
+            @if (meses[12] == true)
+            {
+                <td class="cursorPointer js_Meses"  data-id="@Model.Id_Cuenta" data-mes="12">Diciembre</td>
+            }
+            else
+            {
+                <td style="">Diciembre</td>
+            }
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo12))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono12))</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr style="font-weight:bold">
+            <td>Totales</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.cargo01 + Model.cargo02 + Model.cargo03 + Model.cargo04 + Model.cargo05 + Model.cargo06 + Model.cargo07 + Model.cargo08 + Model.cargo09 + Model.cargo10 + Model.cargo11 + Model.cargo12))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}", Model.abono01 + Model.abono02 + Model.abono03 + Model.abono04 + Model.abono05 + Model.abono06 + Model.abono07 + Model.abono08 + Model.abono09 + Model.abono10 + Model.abono11 + Model.abono12))</td>
+        </tr>
+        <tr style="font-weight:bold">
+            <td>Saldo Final</td>
+            @{
+                if (Model.Naturaleza == 1) //acreedor
+                {
+                    <td></td>
+                    <td style="text-align:right">@String.Format("{0:N}", (Model.Abono_Final - Model.Cargo_Final)) </td>   
+                }
+                else //deudora
+                {
+                    <td style="text-align:right">@String.Format("{0:N}", (Model.Cargo_Final - Model.Abono_Final)) </td>   
+                    <td></td>
+                }
+            }
+
+
+            @*<td class="text-right">@Html.Encode(String.Format("{0:N}",Model.Cargo_Final))</td>
+            <td class="text-right">@Html.Encode(String.Format("{0:N}",Model.Abono_Final))</td>*@
+        </tr>
+    </tfoot>
+</table>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#tbl_CuentasMeses').DataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "bInfo": false,
+            "bFilter": false
+        });
+
+        $(".js_Polizas").on("click", function () {
+            ajaxLoad("@Url.Action("V_Cuentas_Polizas","Catalogos")", { IdCuenta: $(this).data("id"), MesIni: $(this).data("mesi"), MesFin: $(this).data("mesf") }, "MyModal2 .modal-body", "get", function () {
+                openModal({ Modal: "MyModal2", Size: "lg" });
+            })
+        });
+
+        $(".js_Meses").on("click", function () {
+            ajaxLoad("@Url.Action("V_Cuentas_Polizas","Catalogos")", { IdCuenta: $(this).data("id"), MesIni : $(this).data("mes"), MesFin : $(this).data("mes") }, "MyModal2 .modal-body", "get", function () {
+                openModal({ Modal: "MyModal2", Size: "lg" });
+            })
+        });
+
+
+        $("#MyModal1 .js_btnOk").hide()
+    });
+</script>

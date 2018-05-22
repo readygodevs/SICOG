@@ -1,0 +1,72 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.CA_CURModel
+
+@{
+    Layout = null;
+}
+<div data-title="Detalles" class="TituloModal"></div>
+<div class="row">
+    <div class="col-sm-3"> @Html.DisplayNameFor(model => model.Id_Concepto)</div>
+    <div class="col-sm-6"> @Html.DisplayFor(model => model.Id_Concepto)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3"> @Html.DisplayNameFor(model => model.nivel4)</div>
+    <div class="col-sm-6"> @Html.DisplayFor(model => model.nivel4)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.nivel5)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.nivel5)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.nivel6)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.nivel6)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.nivel7)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.nivel7)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.nivel8)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.nivel8)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.nivel9)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.nivel9)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.nivel10)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.nivel10)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.nivel11)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.nivel11)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.Nivel12)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.Nivel12)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.IdCUR)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.IdCUR)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.Descripcion)</div>
+    <div class="col-sm-6">@Html.DisplayFor(model => model.Descripcion)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.DisplayNameFor(model => model.UltimoNivel)</div>
+    <div class="col-sm-6">@{
+        if (Model.UltimoNivel == true)
+        { 
+        @Html.Encode("SI");
+        }
+        else
+        {
+        @Html.Encode("NO");
+        }
+    }</div>
+</div>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

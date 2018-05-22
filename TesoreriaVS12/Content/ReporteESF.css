@@ -1,0 +1,69 @@
+.consultar {
+  margin-top: 23px;
+}
+#js_busqueda {
+  font-family: 'Arimo', sans-serif;
+  font-size: 9px;
+}
+#js_busqueda .contenedor {
+  border: 1px solid #000;
+  padding-bottom: 10px;
+}
+#js_busqueda .ente {
+  margin: 10px 0px 10px 0px;
+}
+#js_busqueda .firmantes {
+  margin-top: 110px;
+}
+#js_busqueda .firmantes div {
+  border-top: 1px solid #000;
+}
+#js_busqueda .protesta {
+  border-top: 1px solid #000;
+  margin-top: 15px;
+  padding-top: 5px;
+}
+#js_busqueda .underline {
+  border-bottom: 1px solid #000;
+}
+#js_busqueda table {
+  width: 100%;
+}
+#js_busqueda table thead tr {
+  border: 1px solid #000;
+  height: 26px;
+}
+#js_busqueda table thead .red {
+  background-color: #f00;
+  color: #fafafa;
+}
+#js_busqueda table thead .green {
+  background-color: #393;
+  color: #fafafa;
+}
+#js_busqueda table tbody .yellow {
+  background-color: #ffc000;
+  text-align: center;
+  vertical-align: top;
+}
+#js_busqueda table tbody .total {
+  padding: 10px 0px 10px 0px;
+}
+#js_busqueda table tbody .total div {
+  background-color: #ff0;
+  font-weight: bold;
+  vertical-align: middle;
+}
+#js_busqueda table tbody .total-rojo {
+  padding: 10px 0px 10px 0px;
+}
+#js_busqueda table tbody .total-rojo div {
+  background-color: #c00000;
+  color: #fff;
+  font-weight: bold;
+  vertical-align: middle;
+}
+#js_busqueda table tbody .text-right {
+  padding-left: 15px;
+  width: 100px;
+}

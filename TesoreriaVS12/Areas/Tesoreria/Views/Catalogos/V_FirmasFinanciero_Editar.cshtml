@@ -1,0 +1,32 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.TA_FirmasModel
+
+@{
+    Layout = null;
+}
+
+<div data-title="Editar" class="TituloModal"></div>
+@using (Html.BeginForm("V_Parametros_Editar_File", "Catalogos", FormMethod.Post, new { Area = "Tesoreria", id = "frm", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="editor-label">
+        @Html.HiddenFor(model => model.Id_Firma)
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+            @Html.LabelFor(model => model.Nombre)
+            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control notMayus" })
+        </div>
+        <div class="col-sm-1"><br />@Html.ValidationMessageFor(model => model.Nombre)</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+            @Html.LabelFor(model => model.Cargo)
+            @Html.TextBoxFor(model => model.Cargo, new { @class = "form-control notMayus" })
+        </div>
+        <div class="col-sm-1"><br />@Html.ValidationMessageFor(model => model.Cargo)</div>
+    </div>
+    @Html.HiddenFor(model=>model.IdTipo)
+
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

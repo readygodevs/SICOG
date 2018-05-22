@@ -1,0 +1,50 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_SectoresModel
+
+@{
+    ViewBag.Title = "Editar Sector";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Editar Sector</h4>
+</div>
+<div class="modal-body">
+    <form id="frm">
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Sector</legend>
+
+
+            @Html.Hidden("Id_Sector", Model.Id_Sector)
+            <p><label>Tipo de beneficiario:</label> @Html.Encode(Model.Id_Sector)</p>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Descripcion)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Descripcion)
+                @Html.ValidationMessageFor(model => model.Descripcion)
+            </div>
+
+
+        </fieldset>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button id="CerrarM1" type="button" class="btn btn-default">Cerrar</button>
+    <button id="GuardarM1" type="button" class="btn btn-default">Guardar</button>
+</div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $("#CerrarM1").on("click", function () {
+            CerrarModal();
+        });
+        /*url, data, metodo, asincrono, div, seleccion, callback*/
+        $(".modal-footer").on("click", "#GuardarM1", GuardarEdit);
+    });
+</script>

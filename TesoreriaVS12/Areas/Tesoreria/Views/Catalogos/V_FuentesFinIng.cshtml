@@ -1,0 +1,135 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_FuentesFin_IngModel>
+
+@{
+    ViewBag.Title = "V_FuentesFinIng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Catálogo de Fuentes Financiamiento Ingresos</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bImprimir","bSalir"} }); }
+</div>
+<div class="jsSourceActions hide"></div>
+<div id="container">
+    <br />
+   @* <div class="row">
+        <div class="col-sm-3 col-sm-offset-9 text-right">
+            <i id="js_agregar" class="js_agregar btn btn-success Agregar fa fa-plus bigger-110">Agregar
+            </i>
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_Fuente">@Html.DisplayNameFor(model => model.Id_Fuente)</th>
+                        <th data-title="Id_Aportacion">@Html.DisplayNameFor(model => model.Id_Aportacion) </th>
+                        <th data-title="Id_Convenio">@Html.DisplayNameFor(model => model.Id_Convenio)</th>
+                        <th data-title="Id_FuenteFinancia">@Html.DisplayNameFor(model => model.Id_FuenteFinancia)</th>
+                        <th data-title="Descripcion">@Html.DisplayNameFor(model => model.Descripcion)</th>
+                        <th data-title="UltimoNivel">Último Nivel</th>
+                        <th data-title="Acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Fuente)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Aportacion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_Convenio)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_FuenteFinancia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @{
+                        if (item.UltimoNivel == true)
+                        { 
+                                    @Html.Encode("SI");
+                        }
+                        else
+                        {
+                                    @Html.Encode("NO");
+                        }
+                                }
+                            </td>
+                            <td class="acciones">
+                                @*<a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.Id_FuenteFinancia" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_FuenteFinancia" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>*@
+                                <a class="js_detalles fa fa-bars cursorPointer" data-id="@item.Id_FuenteFinancia" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+<script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_FuentesFinIngAgregar", "Catalogos")";//"/Tesoreria/Catalogos/V_FuentesFinIngAgregar";
+        var RutaObtener = "@Url.Action("V_FuentesFinIngEditar", "Catalogos")";//"/Tesoreria/Catalogos/V_FuentesFinIngEditar";
+        var RutaDelete = "@Url.Action("V_FuentesFinIngEliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_FuentesFinIngEliminar";
+        var RutaEdit = "@Url.Action("V_FuentesFinIngEditar", "Catalogos")";//"/Tesoreria/Catalogos/V_FuentesFinIngEditar";
+        var RutaSave = "@Url.Action("V_FuentesFinIngAgregar", "Catalogos")";//"/Tesoreria/Catalogos/V_FuentesFinIngAgregar";
+        var RutaDetalles = "@Url.Action("V_FuentesFinIngDetalles", "Catalogos")";//"/Tesoreria/Catalogos/V_FuentesFinIngDetalles";
+        var RutaExportarPDF = "@Url.Action("FuentesFinIng", "ReportesPDF")";//"/Tesoreria/ReportesPDF/FuentesFinIng";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_FuenteFinancia" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+        var SourceAction = "jsActionsource";
+        var aPos = -1;
+        $(document).ready(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            tabla = ConstruirTabla(TableId, "No hay registros...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_agregar", Nuevo);
+            $("body").on("click", ".js_editar", Editar);
+            $("body").on("click", ".js_eliminar", Eliminar);
+            $("body").on("click", ".js_detalles", function () {
+                customModal("@Url.Action("V_FuentesFinIngDetalles","Catalogos")", { Id: $(this).data("id") }, "GET", "size", "", "", "", "Cancelar", "Detalle beneficiario", "IdModal")
+                //VentanaModal(1, "/Tesoreria/Catalogos/V_ClasificaBeneficiario_Detalles", { Id: $(this).data("id") }, "get", "");
+            });
+            $("#MyModal1").on("click", "#js_btnOk1", GuadarEditar);
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+        function GuadarEditar() {
+            if ($("#Id_FuenteFinancia").val() == "") {
+                if ($("#" + FrmId).valid()) {
+                    ajaxJson(RutaAdd, $("#" + FrmId).serialize(), "POST", true, callBackSave);
+                }
+            }
+            else {
+                GuardarEdit();
+            }
+
+        }
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%=Id%>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%=Id%>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+         <a class="js_detalles fa fa-bars cursorPointer" data-id="<%=Id%>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}
+

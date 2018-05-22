@@ -1,0 +1,90 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.ReporteCorteCaja>
+
+@{
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+    String FechaInicio = ViewBag.FechaInicio;
+    String FechaFin = ViewBag.FechaFin;
+    String CajaReceptora = ViewBag.CajaReceptora;
+    decimal suma = 0;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CORTE DE CAJA</title>
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="cabecera">
+        <div class="logo">
+            <img src="@imagePath/reportes/@TesoreriaVS12.Models.Logueo.GetParametro("EscudoReportes")" class="logo-ente" alt="" />
+        </div>
+        <div class="parametros">
+            <div class="gobierno">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo1")</div>
+            <div class="instituto">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</div>
+            <div class="ejercicio">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo3")</div>
+            <div class="sistema">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo4")</div>
+        </div>
+        <div class="poliza">
+            CORTE DE CAJA
+        </div>
+    </div>
+    @if (!String.IsNullOrEmpty(CajaReceptora))
+    {
+        <span><b>Caja Receptora</b> @CajaReceptora</span>
+    }
+    <br />
+    <br />
+    @if (!String.IsNullOrEmpty(FechaInicio))
+    {
+        <span><b>Fecha de: </b> @FechaInicio <b>hasta</b> @FechaFin</span>
+    }
+    <br />
+    <br />
+    @foreach (var item in Model)
+    {
+        <span><b>CRI</b> @item.Id_Concepto @item.CRI</span> <br /><br/>
+        <table id="tblCompromisos" class="table table-responsive table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-left" width="250px">CUR</th>
+                    <th class="text-left" width="100px">Fecha</th>
+                    <th class="text-left" width="100px">No. de Recibo</th>
+                    <th class="text-left" width="400px">Nombre del Contribuyente</th>
+                    <th class="text-left" width="100px">Estatus</th>
+                    <th class="text-right" width="200px">Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in item.detalleCUR)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => detalle.CUR)</td>
+                        <td>
+                            @if (detalle.FechaRecaudacion.HasValue)
+                            {
+                                @detalle.FechaRecaudacion.Value.ToShortDateString();
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => detalle.Folio)</td>
+                        <td>@Html.DisplayFor(modelItem => detalle.NombreContribuyente)</td>
+                        <td>@Html.DisplayFor(modelItem => detalle.DescripcionEstatus)</td>
+                        <td class="text-right"><b>@String.Format("{0:N}", detalle.Importe)</b></td>
+                    </tr>
+                    suma += detalle.Importe.HasValue ? detalle.Importe.Value : 0;
+                    
+                }
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="text-right"><b>Total</b></td>
+                    <td class="text-right"><b>@String.Format("{0:N}", suma)</b></td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+</body>
+</html>

@@ -1,0 +1,138 @@
+﻿@model IEnumerable<TesoreriaVS12.Models.CA_UsuariosModel>
+
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Usuarios</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bSalir" } }); }
+</div>
+@*<a id="js_agregar" class="btn btn-success" href="#">
+    <i class="fa fa-plus"></i>
+    <span>agregar</span>
+</a>*@
+
+<table id="tblUsr" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Nombre">
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th data-title="Usuario">
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th data-title="email">
+                E-mail
+            </th>
+            <th data-title="CA_Perfiles.Descripcion">
+                @Html.DisplayNameFor(model => model.IdPerfil)
+            </th>
+            <th data-title="FechaRegistro">
+                Fecha de Registro
+            </th>
+            <th data-title="Acciones">
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @String.Format("{0} {1} {2}", item.Nombre, item.ApellidoPaterno, item.ApellidoMaterno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario)
+                </td>
+                <td>
+                    @Html.Encode(item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CA_Perfiles.Descripcion)
+                </td>
+                <td>
+                    @String.Format("{0:d}", item.FechaRegistro)
+                </td>
+                <td class="acciones">
+                    <a class="fa fa-pencil js_editar" data-id="@item.IdUsuario" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                    @*<a class="fa fa-trash-o js_eliminar" data-id="@item.IdUsuario" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>*@
+                    @if (item.Activo == false)
+                    {
+                        <a class="fa fa-lock js_bloqueado" data-id="@item.IdUsuario" data-bloqueado="@item.Activo" title="Desbloquear" data-toggle="tooltip" data-placement="top"></a>
+                    }
+                    else
+                    {
+                        <a class="fa fa-unlock js_bloqueado" data-id="@item.IdUsuario" data-bloqueado="@item.Activo" title="Bloquear" data-toggle="tooltip" data-placement="top"></a>
+                    }
+                    <a class="fa fa-history js_restablecer" data-id="@item.IdUsuario" title="Restablecer contraseña" data-toggle="tooltip" data-placement="top"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("AgregarUsuario", "Catalogos")";//"/Catalogos/AgregarUsuario";
+        var RutaEdit = "@Url.Action("EditarUsuario", "Catalogos")";//"/Catalogos/EditarUsuario";
+        var TableId = "tblUsr";
+        var FrmId = "frmUsr";
+        var idUsuario = 0;
+        var Propiedades = '{ "Id": "response.Registro.IdUsuario" }';
+        var SourceAction = "jsActionsource";
+        var RutaDelete = "@Url.Action("EliminarUsuario", "Catalogos")";//"/Catalogos/EliminarUsuario";
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var restablecerPassword = function () {
+            ajaxJson("@Url.Action("RestablecerPassword","Catalogos")", {idUsuario:idUsuario}, "POST", true, function (resultado) {
+                if (resultado.Exito)
+                    ExitoCustom(resultado.Mensaje, "");
+                else
+                    ErrorCustom(resultado.Mensaje,"");
+            });
+        };
+        $(function () {
+            ConstruirTabla("tblUsr", "No hay usuarios");
+
+            $("body").on("click", "#js_mNuevo", Nuevo);
+            $("#tblUsr").on("click", ".js_editar", Editar);
+            $("#" + TableId).on("click", ".js_eliminar", Eliminar);
+            //$("#MyModal1").openModal({ url: "/Catalogos/AgregarUsuario" });
+            $("body").on("click", "#js_mSalir", function () {
+                window.location.href = "@Url.Action("Index","Home")";
+                return false;
+            });
+            $("body").on("click", ".js_bloqueado", function () {
+                var $this = $(this);
+                ajaxJson("@Url.Action("Bloquear","Catalogos")", { Id: $(this).data("id"), bloqueo: $(this).data("bloqueado") }, "POST", true, function (response) {
+                    if (response.Exito) {
+                        ExitoCustom(response.Mensaje);
+                        $($this).toggleClass("fa-lock fa-unlock");
+                    }
+                    else {
+                        ErrorCustom(response.Mensaje);
+                    }
+                });
+            });
+            $("body").on("click", ".js_restablecer", function () {
+                idUsuario = $(this).data("id");
+                ConfirmCustom("¿Está seguro de restablecer la contraseña?",restablecerPassword,"","Si","No");
+            });
+        });
+
+
+    </script>
+    
+    <script type="text/template" id="jsActionsource">
+        <a class="fa fa-pencil js_editar" data-id="<%= Id %>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        @*<a class="fa fa-trash-o js_eliminar" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>*@
+        <a class="fa fa-lock js_bloqueado" data-id="<%= Id %>" data-bloqueado="False" title="Desbloquear" data-toggle="tooltip" data-placement="top"></a>
+        <a class="fa fa-history js_restablecer" data-id="<%= Id %>" title="Restablecer contraseña" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+    
+}

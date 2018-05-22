@@ -1,0 +1,74 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.vVerificaPoliza>
+
+@{
+    ViewBag.Title = "CierreMes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Mes = ViewBag.Mes;
+    bool Cerrados = ViewBag.Cerrados;
+}
+
+<h2>Cierre de Mes</h2>
+<div id="_menu_lateral">
+    @if (Cerrados)
+    {
+        <label>Todos los meses se encuentran cerrados</label>
+    }
+    else
+    {
+        <label>Mes: @Mes</label>
+        if (Model.Count() > 0)
+        {
+            <label class="label-warning">No se puede cerrar el mes, existen Pólizas sin cuadrar</label>
+        }
+        else
+        {
+            Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bCerrar" } });
+        }
+        <table id="tablaPolizas" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Tipo Póliza</th>
+                    <th>Folio</th>
+                    <th>Fecha</th>
+                    <th>Descripción</th>
+                    <th>Cargos</th>
+                    <th>Abonos</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.TipoPol)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Id_FolioPoliza)</td>
+                        <td>@String.Format("{0:d}", item.Fecha)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                        <td class="text-right">@String.Format("{0:N}", item.Cargos)</td>
+                        <td class="text-right">@String.Format("{0:N}", item.Abonos)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>
+@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script type="text/javascript">
+        var CerrarMes = function () {
+            ajaxJson("@Url.Action("CerrarMes","Contabilidad")", "", "POST", true, function (data) {
+                if (data.Exito)
+                    ExitoCustom(data.Mensaje, function () { window.location.href = "@Url.Action("CierreMes","Contabilidad")"; });
+                else
+                    ErrorCustom(data.Mensaje);
+            });
+        }
+        $(document).on("ready", function () {
+            ConstruirTabla("tablaPolizas");
+            $("#js_mCerrar").on("click", function () {
+                ConfirmCustom("El mes va a ser cerrado ¿Desea continuar?", CerrarMes, "", "Si", "No");
+            });
+        });
+    </script>
+}

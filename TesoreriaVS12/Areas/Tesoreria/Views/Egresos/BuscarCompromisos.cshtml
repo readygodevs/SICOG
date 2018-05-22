@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_CompromisosModel>
+<table id="tblCompromisos" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Tipo Compromiso</th>
+            <th>Folio Compromiso</th>
+            <th>Fecha Compromiso</th>
+            <th>Fecha Devengado</th>
+            <th>Proveedor</th>
+            <th>Procedente de Adquisiciones</th>
+            <th>Estatus</th>
+            <th>Importe</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Ca_TipoCompromisos.Descripcion)</td>
+                <td>@Html.DisplayFor(modelItem => item.Id_FolioCompromiso)</td>
+                <td>
+                    @if (item.Fecha_Orden.HasValue)
+                    {
+                        @item.Fecha_Orden.Value.ToShortDateString();
+                    }
+                </td>
+                <td>
+                    @if (item.Fecha_Devengado.HasValue)
+                    {
+                        @item.Fecha_Devengado.Value.ToShortDateString();
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Ca_Beneficiarios.NombreCompleto)</td>
+                @if (item.Adquisicion != null)
+                {
+                    if (item.Adquisicion.Value)
+                    {
+                        <td>Si</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+                }
+                else
+                {
+                    <td></td>
+                }
+                <td>@item.Descripcion_Estatus</td>
+                <td class="text-right"><b>@String.Format("{0:N}", item.Cargos)</b></td>
+            </tr>
+        }
+    </tbody>
+</table>

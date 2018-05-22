@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+<form enctype="multipart/form-data" method="post" name="fileinfo" id="fileinfo" action="/Tesoreria/Contrarecibos/UploadFile">
+    <label>Archivo:</label>
+    <input type="file" name="file" id="file" required accept="application/pdf" />
+    <input type="hidden" name="fFolioCR" id="fFolioCR">
+    <input type="hidden" name="fTipoCR" id="fTipoCR">
+</form>
+<script>
+    $(function () {
+        $("#file").on("change", function () {
+            if ($(this).val() != "") {
+                var nombre = $(this).val().split(".");
+                var extencion = nombre[nombre.length - 1].toUpperCase();
+                if (extencion != "PDF") {
+                    $(this).val("");
+                    ErrorCustom("Solamente puede subir archivos en formato PDF", "");
+                }
+                else if (this.files[0].size > 2097152) {
+                    ErrorCustom("El archivo no debe ser mayor a 2 MB", "");
+                    $(this).val("");
+                }
+                $("#fFolioCR").val($("#FolioCR").val());
+                $("#fTipoCR").val($("#TipoCR").val());
+            }
+        });
+    });
+    $("#fileinfo").ajaxForm({
+        beforeSubmit:function(){
+            $(".IdModal").isLoading({ position: "overlay" });
+        },
+        success: function (data) {
+            console.log(data);
+            $(".IdModal").isLoading('hide');
+            if (data.Exito == true) {
+                $(".IdModal").modal("hide");
+                recargarTablaArchivos();
+            }
+            else
+                ErrorCustom(data.Mensaje, "");
+        },
+        error: function (data) {
+            $(".IdModal").isLoading('hide');
+            ErrorCustom("El servidor de archivos no se encuentra disponible. Favor de intentar más tarde", "");
+        }
+
+    });
+    
+</script>

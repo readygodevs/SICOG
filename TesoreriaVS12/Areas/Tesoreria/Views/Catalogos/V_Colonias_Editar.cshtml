@@ -1,0 +1,24 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ColoniasModel
+
+@{
+    Layout = null;
+}
+<div data-title="Editar" class="TituloModal"></div>
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_Localidad)
+    @Html.HiddenFor(model => model.Id_Estado)
+    @Html.HiddenFor(model => model.Id_Municipio)
+    @Html.HiddenFor(model => model.id_colonia)
+    <div class="row">
+        <div class="col-sm-11">
+             @Html.LabelFor(model => model.Descripcion)
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-1"> @Html.ValidationMessageFor(model => model.Descripcion)</div>
+    </div>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

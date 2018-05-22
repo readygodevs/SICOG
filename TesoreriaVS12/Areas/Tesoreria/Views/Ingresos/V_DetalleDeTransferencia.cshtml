@@ -1,0 +1,442 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_TransferenciasIngModel
+
+@{
+    ViewBag.Title = "V_DetalleDeTransferencia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="_menu_lateral">
+    
+        @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar" } }); }
+   
+</div>
+
+<div class="contenedor-fijo">
+
+</div>
+<form id="frmSalir" method="post" action="">
+    <input type="hidden" name="Folio" value="@Model.Folio" />
+</form>
+<h2>Detalles de Ampliaciones y Reducciones Mensuales Ingresos</h2>
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmDeTransferencia" }))
+{
+    @Html.HiddenFor(model=>model.Id_Estatus)
+    <div class="row">
+        <div class="col-xs-2 col-xs-offset-3">
+            @Html.LabelFor(model => model.Folio)
+            @Html.TextBoxFor(model => model.Folio, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Folio)
+        </div>
+        <div class="col-xs-2">
+            <label>Consecutivo</label>
+            <input type="text" class="form-control" readonly="readonly" id="IdRegistro" name="IdRegistro" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                         { @Html.Encode(Model.De_Transferencias.FirstOrDefault().IdRegistro);
+                                                                                                                         }
+                                                                                                                         else
+                                                                                                                         { @Html.Encode("0");
+                                                                                                                         }" />
+        </div>
+        <div class="col-xs-2">
+            <label>Movimiento</label>
+            <input type="text" class="form-control" readonly="readonly" value="@if (Model.Id_TipoT == 1)
+                                                                               { @Html.Encode("AMPLIACION");
+                                                                               }
+                                                                               else
+                                                                               { @Html.Encode("REDUCCION");
+                                                                               }" />
+            <input type="hidden" name="Id_Movimiento"  value="@Model.Id_TipoT" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div id="_detalles_polizas" class="col-sm-8">
+            @if (Model.De_Transferencias.Count > 0)
+            {
+                @Html.Partial("_ClavePresupuestalCRI", Model.De_Transferencias.FirstOrDefault())
+            }
+            else
+            {
+                @Html.Partial("_ClavePresupuestalCRI", new TesoreriaVS12.Areas.Tesoreria.Models.De_ClavePresupuestal())
+            }
+        </div>
+        <div id="_distribucion" class="col-sm-3">
+            <h5>Distribución Mensual</h5>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Enero:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est01" name="Est01" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est01);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Febrero:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formEstsup importe" id="Est02" name="Est02" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est02);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Marzo:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est03" name="Est03" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est03);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }" />
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Abril:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est04" name="Est04" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est04);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }"/>
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Mayo:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est05" name="Est05" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est05);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }"/>
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Junio:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est06" name="Est06" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est06);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }"/>
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Julio:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est07" name="Est07" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est07);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }"/>
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Agosto:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe"  id="Est08" name="Est08" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                        { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est08);
+                                                                                                                        }
+                                                                                                                        else
+                                                                                                                        { @Html.Encode("0");
+                                                                                                                        }"/>
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Septiembre:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe"  id="Est09" name="Est09" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                        { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est09);
+                                                                                                                        }
+                                                                                                                        else
+                                                                                                                        { @Html.Encode("0");
+                                                                                                                        }"/>
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Octubre:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est10" name="Est10" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est10);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }"/>
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Noviembre:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est11" name="Est11" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est11);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }"/>
+                </div>
+            </div>
+            <div class="row margen-2">
+                <div class="col-xs-4">
+                    <label>Diciembre:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control js_mes formPresup importe" id="Est12" name="Est12" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                       { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Est12);
+                                                                                                                       }
+                                                                                                                       else
+                                                                                                                       { @Html.Encode("0");
+                                                                                                                       }"/>
+                </div>
+            </div>
+            <hr />
+            <div class="row margen-2">
+                <div class="col-xs-3">
+                    <label>Total:</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" id="Importe" name="Importe" class="form-control formPresup importe" readonly="readonly" value=  "@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                                        { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Importe);
+                                                                                                                                        }
+                                                                                                                                        else
+                                                                                                                                        { @Html.Encode("0");
+                                                                                                                                        }" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="container_DetallesTransferencias"></div>
+
+@section scripts
+{
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/FocusOut.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/clavePresupuestal.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/autoNumeric.js"></script>
+
+    <script>
+        var tablaDetalles="";
+        $.validator.setDefaults({ onkeyup: false });
+        $(document).on("ready",function(){
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("#_detalles_polizas input,select,textarea").attr("disabled", "disabled");
+            $("#_distribucion input").attr("disabled", "disabled");
+            @{ if (ViewBag.origen == 1) { 
+                   <text> $("#frmSalir").attr("action","/Tesoreria/Ingresos/V_AmpliacionesReduccionesIng");</text> 
+                }
+               else
+               {  <text> $("#frmSalir").attr("action","/Tesoreria/Presupuestos/V_ArrasatreSaldos");</text>;
+               }
+            }
+            if(@Model.De_Transferencias.Count > 0)
+            {
+                @if(Model.Id_Estatus == 1 && Model.Id_PptoModificado != null)
+                {
+                    <text>  recargarMenuLateral(["bNuevo","bEliminar", "bSalir"]); </text>
+                }
+                else{
+                    <text>recargarMenuLateral(["bSalir"]);</text>
+                }
+            }
+            else
+            {
+                @if(Model.Id_Estatus == 1 && Model.Id_PptoModificado != null)
+                {
+                    <text>  recargarMenuLateral(["bNuevo", "bSalir"]); </text>
+                }
+                else{
+                    <text>recargarMenuLateral(["bSalir"]);</text>
+                }
+            }
+            
+            ajaxLoad("V_TablaDetallesTransferencia",{Folio:$("#Folio").val()},"container_DetallesTransferencias","POST",function(result){
+                tablaDetalles=ConstruirTabla("tblDetallesTransferencia", "No hay resultado para mostrar.");
+            });
+            $(".js_mes").autoNumeric("init");
+            $("#Importe").autoNumeric({ aSign: "$" });
+            $("body").on("click", "#js_mNuevo", nuevoDeTrans);
+            $("body").on("click", "#js_mGuardar", guardarDetalle);
+            $("body").on("click", "#js_mEliminar", eliminarDeTransferenciasM);
+            $("body").on("click", "#js_mCancelar", Cancelar);
+            $("body").on("click", "#js_mSalir", Salir);
+            $("body").on("click", "#tblDetallesTransferencia .js_seleccionar", seleccionarDetalle);
+            $("body").on("click",".js_Eliminar",eliminarDeTransferencias);
+            $(".js_mes").on("blur", function () {
+                if ($(this).val().trim() == "")
+                    $(this).val(0);
+                sumar();
+            });
+            $(".js_mes").on("blur, keyup", function () {
+                sumar();
+            });
+            $(".js_CuentaHiden").remove();
+            $(".js_cur").remove();
+            
+        });
+        function Salir()
+        {
+            $("#frmSalir").submit();
+        }
+        function Cancelar()
+        {
+            Reset();
+        }
+        function eliminarDeTransferenciasM()
+        {
+            var idT = $("#Id_Transferencia").val();
+            var idC = $("#Id_Consecutivo").val();
+            ConfirmCustom("¿Esta seguro de eliminar el detalle?",function(){
+                //$(".js_Eliminar[data-registro='6'][data-idmes='12'][data-idtipo=''][data-idfolio='']")
+                ajaxJson("EliminarDeTransferencia", { Folio: idT, Id_Consecutivo:idC }, "POST", true, function (response){
+                    if(response.Exito == true){
+                        ExitoCustom(response.Mensaje,function(){
+                            Reset();
+                        });
+                    }
+                });
+            },"","Si","No");
+        }
+        function Reset()
+        {
+            $("#_detalles_polizas input,select,textarea").attr("disabled", "disabled");
+            $("#_distribucion input").attr("disabled", "disabled");
+            $("#_detalles_polizas input[type=text], textarea").val("");
+            $("#_distribucion input[type=text], textarea").val("0");
+            $("#Id_Consecutivo").val("0");
+            recargarMenuLateral(["bNuevo", "bSalir"]);
+            ajaxLoad("V_TablaDetallesTransferencia",{Folio:$("#Folio").val()},"container_DetallesTransferencias","POST",function(result){
+                tablaDetalles=ConstruirTabla("tblDetallesTransferencia", "No hay resultado para mostrar.");
+            });
+        }
+        function eliminarDeTransferencias()
+        {
+            var elemento = $(this);
+            ConfirmCustom("¿Esta seguro de eliminar el detalle?",function(){
+                //$(".js_Eliminar[data-registro='6'][data-idmes='12'][data-idtipo=''][data-idfolio='']")
+                ajaxJson("EliminarDeTransferencia", { Folio: elemento.data("idtrans"), Id_Consecutivo: elemento.data("idcon") }, "POST", true, function (response){
+                    if(response.Exito == true){
+                        ExitoCustom(response.Mensaje,function(){
+                            aPos = tablaDetalles.fnGetPosition(elemento.parent().parent().get(0));
+                            tablaDetalles.fnDeleteRow(aPos);
+                        });
+                    }
+                });
+            },"","Si","No");
+        }
+        function seleccionarDetalle () {
+            ajaxJson("getDetalleTransferencia", { Folio: $(this).data("idtrans"), Id_Consecutivo: $(this).data("idcon") }, "POST", true, function (response) {
+                llenarMaestro(response.Registro);
+                if($("#Id_Estatus").val()==1)
+                    recargarMenuLateral(["bNuevo","bEliminar", "bSalir"]);
+            });
+        }
+        function guardarDetalle()
+        {
+            $.each($(".js_mes, #Importe"), function (i, value) {
+                $(this).val($(this).autoNumeric("get"));
+            });
+            ajaxJson("GuardarDeTransferencia", $("#frmDeTransferencia").serialize(), "POST", true, function (response) {
+                $(".js_mes").autoNumeric("init");
+                $("#Importe").autoNumeric({ aSign: "$" });
+                if (response.Exito == true) {
+                    recargarMenuLateral(["bNuevo","bEliminar", "bSalir"]);
+                    $("#Id_Consecutivo").val(response.Registro.Id_Consecutivo);
+                    $("#container_DetallesTransferencias").empty();
+                    ajaxLoad("V_TablaDetallesTransferencia",{Folio:$("#Folio").val()},"container_DetallesTransferencias","POST",function(result){
+                        tablaDetalles=ConstruirTabla("tblDetallesTransferencia", "No hay resultado para mostrar.");
+                    });
+                    $("#_detalles_polizas input,select,textarea").attr("disabled", "disabled");
+                    $("#_distribucion input").attr("disabled", "disabled");
+                    ExitoCustom(response.Mensaje,"");
+                    /*var Acciones = _.template($('#jsActionsource').html());
+                    response.Registro.Acciones = Acciones({ Id_Transferencia: response.Registro.Id_Transferencia, Id_Consecutivo: response.Registro.Id_Consecutivo});
+                    if(response.Registro.Id_Movimiento == 1){
+                        response.Registro.Cargos = response.Registro.Importe;
+                        response.Registro.Abonos = 0;
+                    }
+                    else{
+                        response.Registro.Abonos = response.Registro.Importe;
+                        response.Registro.Cargos = 0;
+                    }
+                    AddTbl(response.Registro, "tblDetallesTransferencia");*/
+                }else
+                    ErrorCustom(response.Mensaje,"");
+            });
+        }
+        function sumar () {
+            var total = parseFloat($("#Est01").autoNumeric("get"));
+            var o = 0;
+            for (i = 2; i < 13; i++) {
+                if (i < 10) {
+                    o = i;
+                    total += parseFloat($("#Est0" + o).autoNumeric("get"));
+                } else {
+                    total += parseFloat($("#Est" + i).autoNumeric("get"));
+                }
+            }
+            $("#Importe").autoNumeric("set", total);
+        };
+        function nuevoDeTrans()
+        {
+            $("#_distribucion  input[type=text]").removeAttr("disabled");
+            $("#Id_Cuenta, .js_Descripcion").attr("readonly", "readonly");
+            $("#_detalles_polizas input[type=text], textarea").val("");
+            $("#_distribucion input[type=text], textarea").val("0");
+            $("#Id_Consecutivo").val("0");
+            $(".container select").attr("disabled", "disabled");
+            $("#Id_Area").removeAttr("disabled");
+            $("#Id_Area").removeAttr("readonly");
+            recargarMenuLateral(["bGuardar", "bCancelar"]);
+            eventFocusCRI();
+            //Valiar los meses cerrados
+            ajaxJson("GetMesesCerrados",{},"POST",true,function(result){
+                $.each(result.Meses, function(i, item) {
+                    if (item.Id_Mes < 10) {
+                        $("#Est0" + item.Id_Mes).attr("disabled", "disabled");
+                    } else {
+                        $("#Est" + item.Id_Mes).attr("disabled", "disabled");
+                    }
+                });
+            });
+        }
+        
+    </script>
+    <script type="text/template" id="jsActionsource">
+    <div class="acciones">
+        <a class="fa fa-bars js_seleccionar cursorPointer" data-idtrans="<%= Id_Transferencia %>" data-idcon="<%= Id_Consecutivo %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <a class="fa fa-trash-o js_Eliminar cursorPointer" data-idtrans="<%= Id_Transferencia %>" data-idcon="<%= Id_Consecutivo %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </div>
+    </script>
+}

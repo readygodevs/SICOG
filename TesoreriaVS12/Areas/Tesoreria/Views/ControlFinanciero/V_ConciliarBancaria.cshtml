@@ -1,0 +1,287 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ResetControlFinanciero
+
+@{
+    ViewBag.Title = "V_ConciliarBancaria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+<div id="_menu_lateral" class="js_ocultaSubMenu">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bConciliarCheques", "bMovimientos", "bImprimir", "bSalir" } }); }
+</div>
+<div class="container">
+    <h2>Conciliación Bancaria</h2>
+    <br />
+    @using (Html.BeginForm("V_Reset", "ControlFinanciero", FormMethod.Post, new { id = "Frm", @class = "js_ocultaSubMenu" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.IdCtaBancaria)
+                @Html.DropDownList("IdCtaBancaria", Model.Lista_CtaBancarias, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdCtaBancaria)
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Mes)
+                @Html.DropDownListFor(model => model.IdMes, Model.Lista_Meses, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdMes)
+                @*@Html.LabelFor(model => model.Mes)
+                    @Html.TextBoxFor(model => model.Mes, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Mes)*@
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Estatus)
+                @Html.DropDownListFor(model => model.Estatus, Model.Lista_Estatus, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Estatus)
+            </div>
+            <div class="col-sm-2 col-sm-offset-1">
+                @Html.LabelFor(model => model.Saldo)
+                @Html.TextBoxFor(model => model.Saldo, new { @class = "form-control importe" })
+                @Html.ValidationMessageFor(model => model.Saldo)
+            </div>
+            <div class="col-sm-1">
+                <button id="js_saveSaldo" type="button" class="btn btn-success fa fa-floppy-o in-line"></button>
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.borrado)
+    }
+    <div class="row">
+        <div id="div_tabla" class="col-sm-12">
+
+        </div>
+    </div>
+    <div id="popover-content" class="hide">
+        <ul id="submenu"></ul>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
+    <script type="text/javascript">
+        $(document).on("ready", inicio);
+        var tabla = "";
+        var aPos = -1;
+        var RutaDelete = "@Url.Action("eliminarConciliacion", "ControlFinanciero")";//"eliminarConciliacion";
+        var MsjEliminar = "¿Esta seguro de eliminar el registro?";
+        var TableId = "tbl";
+        var Propiedades = '{ "Id": "response.Registro.No_Registro","IdC":"response.Registro.Id_CtaBancaria","IdM":"response.Registro.Id_Mes" }';
+        var SourceAction = "jsActionsource";
+        function inicio() {
+            $("#Saldo").on("change", function () {
+                $(this).formatCurrency({ symbol: '' });
+            });
+            $("#Saldo").formatCurrency({ symbol: '' });
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            //$("body").popover({
+            //    selector: "[data-toggle='popover']",
+            //    html: true,
+            //    content: function () {
+            //        return $('#popover-content').html();
+            //    }
+            //});
+            $("#IdCtaBancaria").on("change", changeIdCta);
+            $("#IdMes").on("change", changeIdCta);
+            $("#js_mBuscar").on("click", iniciar);
+            $("#js_mNuevo").on("click", nuevo);
+            $("#js_mMovimientos").on("click", movimientos);
+            $("#js_saveSaldo").on("click", saveSaldo);
+            $("#js_mConciliarCheques").on("click", conciliarCheques);
+            $("#js_mImprimir").on("click", reporte);
+            $("#js_mSalir").on("click", GoHome);
+            $("body").on("click", ".js_eliminar", eliminar);
+            $("body").on("click", ".js_poliza", poliza);
+            $("body").on("click", "#Id_TipoMovimientoBancario", changeTipoMov);
+            $('#div_tabla').on('click', 'tbody tr', selectRow);
+            $('#div_tabla').on('click', 'tbody td:not(.acciones)',getMenu);
+            $("body").on("click", ".js_submenu", selectOpcion);
+            $("body").on("click", ".js_ocultaSubMenu", closeSubMenu); 
+            $("body").on("click", ".dataTables_paginate a", closeSubMenu);
+            $("body").on("click", ".paginate_button", closeSubMenu);
+            $("body").on("click", function (e) {
+                $('[data-toggle="popover"]').each(function () {
+                    //the 'is' for buttons that trigger popups
+                    //the 'has' for icons within a button that triggers a popup
+                    if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                        $(this).popover('hide');
+                    }
+                });
+            });
+        }
+        function getMenu()
+        {
+            elemento = $(this);
+            elementoPadre = $(this).parent();
+            tabla.$('tr').popover('hide');
+            ajaxJson("ValidarMenu", { NoRegistro: elementoPadre.data("noregistro"), idCtaBancaria: elementoPadre.data("idcta"), idMes: elementoPadre.data("mes") }, "POST", true, function (result) {
+                if (result.Exito) {
+                    if (result.Menu) {
+                        $("#submenu").empty();
+                        for (var i = 0; i < result.Elementos.length; i++) {
+                            if (i == 0)
+                                $("#submenu").append("<li class='js_submenu " + result.Mensaje + "' data-folio=" + result.Elementos[i].Id_FolioMovB + " data-tipo=" + result.Elementos[i].Id_TipoMovB + ">" + result.Elementos[i].Descripcion + "</li>");
+                            else
+                                $("#submenu").append("<li class='js_submenu' data-folio=" + result.Elementos[i].Id_FolioMovB + " data-tipo=" + result.Elementos[i].Id_TipoMovB + ">" + result.Elementos[i].Descripcion + "</li>");
+                        }
+                        elementoPadre.popover("show", {
+                            html: true,
+                            content: function () {
+                                return $('#popover-content').html();
+                            }
+                        });
+                        $('.popover-content').html($('#popover-content').html());
+                    }
+                }
+            });
+        }
+        var elemento = "";
+        function reporte() {
+            if ($("#div_tabla table").length > 0)
+                window.open("@Url.Action("ReporteConciliacionBancaria","ControlFinanciero")"+"?IdCtaBancaria=" + $("#IdCtaBancaria").val() + "&IdMes=" + $("#IdMes").val(), '_blank');
+            else
+                ErrorCustom("Debes de realizar una busqueda.");
+        }
+        function poliza()
+        {
+            ajaxJson("verPoliza", { NoRegistro: elemento.data("noregistro"), idCtaBancaria: elemento.data("idcta"), idMes: elemento.data("mes") }, "POST", true, function (result) {
+                if (result.Exito) {
+                    ConsultaPoliza(result.Registro.Id_TipoPoliza, result.Registro.Id_FolioPoliza, result.Registro.Id_MesPoliza);
+                }
+                else
+                    ErrorCustom("El registro no contiene póliza.");
+            });
+        }
+        function conciliarCheques()
+        {
+            if ($("#Frm").valid()) {
+                var funcion = function () {
+                    ajaxJson("conciliarCheques", $("#Frm").serialize(), "POST", true, function (result) {
+                    if (result.Exito)
+                        iniciar();
+                    });
+                }
+                ConfirmCustom("Se cambiarán los Cheques Expedidos del Mes con estatus Por Revisar a: Cheques en Circulación con estatus En Conciliación. ¿Está seguro de realizar la operación?", funcion, "", "Si", "No");
+            }
+
+        }
+        function saveSaldo()
+        {
+            if ($("#Frm").valid()) {
+                $("#Saldo").toNumber();
+                ajaxJson("saveSaldo", $("#Frm").serialize(), "POST", true, function (result) {
+                    if (result.Exito) {
+                        $("#Saldo").formatCurrency({ symbol: '' });
+                    }
+                    else
+                        ErrorCustom(result.Mensaje, "");
+                });
+            }
+            else
+                $("#Frm").validate()
+        }
+        function closeSubMenu()
+        {
+            if (tabla != "")
+                tabla.$('tr').popover('hide');
+        }
+        function selectOpcion()
+        {
+            ajaxJson("changeStatus", { Id_Folio: $(this).data("folio"), Id_Tipo: $(this).data("tipo"), NoRegistro: elemento.data("noregistro"), idCtaBancaria: elemento.data("idcta"), idMes: elemento.data("mes") }, "POST", true, function (result) {
+                elemento.popover('hide');
+                result.Registro.Acciones = returnAcciones(result);
+                UpdateTbl(result.Registro, TableId, aPos);
+            });
+        }
+        function selectRow() {
+            elemento = $(this);
+            aPos = $("#" + TableId).dataTable().fnGetPosition($(this).get(0));
+            tabla.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            
+        }
+        function changeTipoMov()
+        {
+            ajaxSelect("@Url.Action("Lista_FolioMovBancarios","Listas")", { Id_TipoMovimiento: $(this).val() }, "post", false, "Id_FolioMovimienotBancario", "", callBackLlenarSelect);
+        }
+        function movimientos()
+        {
+            window.location.href = "@Url.Action("V_AnalisisMovimientosBancarios","ControlFinanciero")"+"?origen=1";
+        }
+        function eliminar()
+        {
+            Eliminar({ NoRegistro: $(this).data("noregistro"), idCtaBancaria: $(this).data("idcta"), idMes: $(this).data("mes") }, $(this));
+            
+        }
+        function nuevo()
+        {
+            if ($("#IdCtaBancaria").val() != "" && $("#IdMes").val() != "")
+            {
+                ajaxJson("ValidarMes", { idCtaBancaria: $("#IdCtaBancaria").val(), idMes: $("#IdMes").val() }, "POST", true, function (result) {
+                    if (result.Exito) {
+                        customModal("AgregarConcilia", { idCtaBancaria: $("#IdCtaBancaria").val() }, "GET", "md", callbackSaveConcilia, "", "Guardar", "Cancelar", "Nuevo", "IdModal");
+                    }
+                    else
+                        ErrorCustom(result.Mensaje, "");
+                });
+                
+            }
+            else
+                ErrorCustom("Debe de seleccionar una cuenta bancaria y mes");
+        }
+        function callbackSaveConcilia()
+        {
+            if ($("#frmNew").valid()) {
+                ajaxJson("AgregarConcilia", $("#frmNew").serialize(), "POST", true, function (result) {
+                    if (result.Exito) {
+                        if ($("#div_tabla table").length>0)
+                        {
+                            result.Registro.Acciones = returnAcciones(result);
+                            var nTr = AddTbl(result.Registro, "tbl");
+                            $('td', nTr)[3].setAttribute('class', 'text-right');
+                            $('td', nTr)[4].setAttribute('class', 'text-right');
+                        }
+                        ExitoCustom(result.Mensaje, "");
+                        $(".IdModal").modal("hide");
+                    }
+                    else
+                        ErrorCustom(result.Mensaje, "");
+                });
+            }
+            else
+                $("#frmNew").validate()
+        }
+        function changeIdCta() {
+            var elemento = $(this);
+            $("#div_tabla").empty();
+            $("#Saldo").val("");
+        }
+        function iniciar()
+        {
+            if ($("#Frm").valid())
+            {
+                ajaxLoad("TablaConciliacion", { idCtaBancaria: $("#IdCtaBancaria").val(), idMes: $("#IdMes").val(), estatus: $("#Estatus").val() }, "div_tabla", "POST", function () {
+                    tabla = ConstruirTabla("tbl", "No hay registros para mostrar", 1, false, false);
+                    $(".js_fecha").css("width", "90px");
+                });
+                ajaxJson("getSaldo", { idCtaBancaria: $("#IdCtaBancaria").val(), idMes: $("#IdMes").val() }, "POST", true, function (result) {
+                    if (result.Exito)
+                        $("#Saldo").val(result.Saldo);
+                    $("#Saldo").formatCurrency({ symbol: '' });
+                });
+            }
+            else
+                $("#Frm").validate()
+
+        }
+    </script>
+    <script type="text/template" id="jsActionsource">
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-noregistro="<%= Id %>" data-idcta="<%= IdC %>" data-mes="<%= IdM %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_poliza fa fa-file-pdf-o cursorPointer" data-noregistro="<%= Id %>" data-idcta="<%= IdC %>" data-mes="<%= IdM %>" title="Ver póliza" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}

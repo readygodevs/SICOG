@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_BancosModel>
+@{
+    ViewBag.Title = "Catálogo de Bancos";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tblBnc" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Descripcion">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th data-title="Ca_Cuentas.Id_CuentaFormato">
+                @Html.DisplayNameFor(model => model.Id_Cuenta)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_Cuentas.Id_CuentaFormato)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

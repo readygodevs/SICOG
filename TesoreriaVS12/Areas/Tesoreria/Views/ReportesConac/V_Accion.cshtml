@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "V_Accion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="_menu_lateral">
+    @{Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bConsultar", "bImprimir", "bSalir" } });}
+</div>
+<link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href="~/Content/ReporteClave.css" rel="stylesheet" />
+<h2>Clasificación por Acción u Obra</h2>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <label>Mes Inicial</label>
+            <select id="IdMes" class="form-control"></select>
+        </div>
+        <div class="col-sm-3">
+            <label>Mes Final</label>
+            <select id="IdMesFin" class="form-control"></select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div id="js_busqueda" class="col-sm-12"></div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script>
+        var MensajeError = "";
+        $(document).on("ready", function () {
+            ajaxSelect("@Url.Action("List_Meses","Listas")", {}, "post", false, "IdMes", "", callBackLlenarSelect);
+            ajaxSelect("@Url.Action("List_Meses","Listas")", {}, "post", false, "IdMesFin", "", callBackLlenarSelect);
+            $("#js_mConsultar").on("click", consultar);
+            $('body').on('click', '#js_mSalir', GoHome);
+            $('body').on('click', '#js_mImprimir', Imprimir);
+        });
+        function Imprimir()
+        {
+            if (validar())
+                window.open("@Url.Action("ConsultaAccion","ReportesConac")"+"?IdMes=" + $("#IdMes").val() + "&IdMesFin=" + $("#IdMesFin").val(), "_blank");
+            else
+                ErrorCustom(MensajeError);
+        }
+        function consultar()
+        {
+            if (validar())
+            {
+                ajaxLoad("ConsultaAccion", { IdMes: $("#IdMes").val(), IdMesFin: $("#IdMesFin").val() }, "js_busqueda", "POST", function (result) { });
+            }
+            else
+                ErrorCustom(MensajeError);
+        }
+        function validar()
+        {
+            if ($("#IdMes").val() != "" && $("#IdMesFin").val() != "") {
+                if ($("#IdMes").val() > $("#IdMesFin").val()) {
+                    MensajeError = "El mes inicial debe ser menor que el final.";
+                    return false;
+                }
+                else
+                    return true;
+
+            }
+            else {
+                MensajeError = "Seleccione un rango de meses.";
+                return false;
+            }
+
+        }
+    </script>
+}
+
+
+
+

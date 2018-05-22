@@ -1,0 +1,62 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Modelos.EvolucionModel
+
+@{
+    ViewBag.Title = "Evolución por Clave Presupuestaria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Evolución por Clave Presupuestaria</h2>
+
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bSalir" } }); }
+</div>
+
+@using (Html.BeginForm("tblEvolucion", "PresupuestosIngresos", FormMethod.Post, new { id = "frmEvolucion" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+                @Html.LabelFor(model => model.Id_Mes)
+                @Html.DropDownList("Id_Mes", Model.Lista_Meses, "--Seleccione una opción--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_Mes)
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <div id="div_resultados" class="row">
+        </div>
+    </div>
+}
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("body").on("click", "#js_mBuscar", function () {
+                if ($("#Id_Mes").val() > 0) {
+                    $("#div_resultados").ajaxLoad({
+                        url: $("#frmEvolucion").attr("action"), data: $("#frmEvolucion").serialize(), method: "POST", callback: function () {
+                            ConstruirTabla("tblEvolucion", "", 0);
+                            createBotonera(["bBuscar","bImprimir", "bSalir"]);
+                        }
+                    });
+                    
+                }
+            });
+            $("body").on("click", "#js_mImprimir", function () {
+                window.open("@Url.Action("rptEvolucion","PresupuestosIngresos")"+"?Id_Mes=" + $("#Id_Mes").val(), "_blank");
+            });
+            $("#Id_Mes").on("change", function () {
+                $("#div_resultados").empty();
+                if($(this).val()<1)
+                    createBotonera(["bBuscar", "bSalir"]);
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+    </script>
+}

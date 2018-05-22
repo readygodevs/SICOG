@@ -1,0 +1,142 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ReporteConciliacion
+
+@if (ViewBag.Imprimir)
+{
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+    ViewBag.Title = String.Format("Conciliación Bancaria al {0} de {1} del {2}",DateTime.Now.Day,TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.Meses[DateTime.Now.Month],DateTime.Now.Year);
+    @Html.Partial("PdfHeader")
+
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+}
+else
+{
+    Layout = null;
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h4>Conciliación Bancaria</h4>
+        </div>
+    </div>
+}
+<div class="contenedorConciliacion">
+    <table id="tbl" class="table-conciliacion">
+        <tr>
+            <th class="Nivel1">
+                SALDO SEGUN ESTADO DE CUENTA
+            </th>
+            <th class="text-right">
+                @Html.Encode(String.Format("{0:N}", Model.SaldoEstadoCuenta))
+            </th>
+        </tr>
+        @if (Model.ListaAbonos.Count() > 0)
+        {
+            <tr>
+                <td class="Nivel2">
+                    Más
+                </td>
+                <td></td>
+            </tr>
+            foreach (var item in Model.ListaAbonos)
+            {
+                <tr>
+                    <th class="Nivel3">
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </th>
+                    <th class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Total))
+                    </th>
+                </tr>
+            }
+        }
+        @if (Model.ListaCargos.Count() > 0)
+        {
+            <tr>
+                <td class="Nivel2">
+                    Menos
+                </td>
+                <td></td>
+            </tr>
+            foreach (var item in Model.ListaCargos)
+            {
+                <tr>
+                    <th class="Nivel3">
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </th>
+                    <th class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Total))
+                    </th>
+                </tr>
+            }
+        }
+        <tr>
+            <th class="Nivel4">
+                SALDO CONCILIADO
+            </th>
+            <th class="total text-right">
+                @Html.Encode(String.Format("{0:N}", Model.SaldoEstadoCuenta + Model.ListaAbonos.Sum(x => x.Total) - Model.ListaCargos.Sum(x => x.Total)))
+            </th>
+        </tr>
+        <tr>
+            <th class="Nivel1">
+                SALDO CONCILIADO MES ANTERIOR
+            </th>
+            <th class="text-right">
+                @Html.Encode(String.Format("{0:N}", Model.SaldoMesAnterior))
+            </th>
+        </tr>
+        
+        @if (Model.ListaSaldos.Where(x => x.Id_TipoMovimientoBancario == 1).Count() > 0)
+        {
+            <tr>
+                <td class="Nivel2">
+                    Más Depósitos
+                </td>
+                <td></td>
+            </tr>
+            foreach (var item in Model.ListaSaldos.Where(x => x.Id_TipoMovimientoBancario == 1))
+            {
+                <tr>
+                    <th class="Nivel3">
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </th>
+                    <th class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Total))
+                    </th>
+                </tr>
+            }
+        }
+       
+        @if (Model.ListaSaldos.Where(x => x.Id_TipoMovimientoBancario == 2).Count() > 0)
+        {
+             <tr>
+                <td class="Nivel2">
+                    Menos Retiros
+                </td>
+                <td></td>
+            </tr>
+            foreach (var item in Model.ListaSaldos.Where(x => x.Id_TipoMovimientoBancario == 2))
+            {
+                <tr>
+                    <th class="Nivel3">
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </th>
+                    <th class="text-right">
+                        @Html.Encode(String.Format("{0:N}", item.Total))
+                    </th>
+                </tr>
+            }
+        }
+        <tr>
+            <th class="Nivel4">
+                SALDO CONCILIADO
+            </th>
+            <th class="total text-right">
+                @Html.Encode(String.Format("{0:N}", Model.SaldoMesAnterior + Model.ListaSaldos.Where(x => x.Id_TipoMovimientoBancario == 1).Sum(x => x.Total) - Model.ListaSaldos.Where(x => x.Id_TipoMovimientoBancario == 2).Sum(x => x.Total)))
+            </th>
+        </tr>
+    </table>
+</div>

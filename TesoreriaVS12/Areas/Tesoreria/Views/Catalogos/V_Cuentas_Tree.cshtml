@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "V_Cuentas_Tree";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Tree/jqx.base.css" rel="stylesheet" />
+<link href="~/Content/Tree/jqx.web.css" rel="stylesheet" />
+<style type="text/css">
+        .bold
+        {
+            font-weight:bold;
+        }
+
+        .jqx-grid-table{
+          overflow-x:scroll; 
+        }
+    </style>
+
+<h2>Saldos Contables</h2>
+<br />
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bSalir" } }); }
+</div>
+<div id="Busqueda">
+    <div class="row" >
+        <div class="col-md-2">
+            Mes Inicial <br />
+            @Html.DropDownList("MesIni", new SelectList(ViewBag.MesIni, "Key", "Value"), new { @class = "js_Mes" })
+        </div>
+        <div class="col-md-2">
+            Mes Final <br />
+            @Html.DropDownList("MesFin", new SelectList(ViewBag.MesIni, "Key", "Value"), new { @class = "js_Mes" })
+        </div>
+        <div class="col-md-4">
+            <br />
+            <div class="btn btn-success jsSearch">
+                <i class="fa fa-search"></i>
+                <span>Buscar</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<div id="treeGrid" ></div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/Tree/jqxcore.js"></script>
+    <script src="~/Scripts/Tree/jqxdata.js"></script>
+    <script src="~/Scripts/Tree/jqxdatatable.js"></script>
+    <script src="~/Scripts/Tree/jqxtreegrid.js"></script>
+    <script src="~/Scripts/Tree/demos.js"></script>
+    <script src="~/Scripts/Tree/jqxbuttons.js"></script>
+    <script src="~/Scripts/Tree/jqxcheckbox.js"></script>
+    <script src="~/Scripts/Tree/jqxscrollbar.js"></script>
+    <script src="~/Scripts/Tree/jqxlistbox.js"></script>
+    <script src="~/Scripts/General.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+            $("#MesIni").val(1);
+            $("#MesFin").val(1);
+            // prepare the data
+            var source =
+            {
+                dataType: "json",
+                type: "post",
+                dataFields: [
+                    { name: 'IdCuenta', type: 'string' },
+                    { name: 'Genero', type: 'number' },
+                    { name: 'Grupo', type: 'number' },
+                    { name: 'Rubro', type: 'number' },
+                    { name: 'Cuenta', type: 'number' },
+                    { name: 'SubCuentaO1', type: 'number' },
+                    { name: 'SubCuentaO2', type: 'number' },
+                    { name: 'SubCuentaO3', type: 'number' },
+                    { name: 'SubCuentaO4', type: 'number' },
+                    { name: 'IdCuentaFormato', type: 'string' },
+                    { name: 'SaldoAnteriorDebe', type: 'number' },
+                    { name: 'SaldoAnteriorHaber', type: 'number' },
+                    { name: 'MovimientoDebe', type: 'number' },
+                    { name: 'MovimientoHaber', type: 'number' },
+                    { name: 'SaldoActualDebe', type: 'number' },
+                    { name: 'SaldoActualHaber', type: 'number' },
+                    { name: 'IdCuentaPadre', type: 'string' },
+                    { name: 'Hijos', type: 'boolean' }
+                ],
+                timeout: 10000,
+                hierarchy:
+                {
+                    keyDataField: { name: 'IdCuenta' },
+                    parentDataField: { name: 'IdCuentaPadre' }
+                },
+                id: 'IdCuenta',
+                url: "@Url.Action("V_Cuentas_TreeDatos","Catalogos")"
+            };
+            var cellclassname = function (row, column, value, data) {
+                if (data.Hijos == false) {
+                    return "bold";
+                };
+            };
+            var myGrid = $("#treeGrid").jqxTreeGrid(
+            {
+                //width: 1024,
+                //checkboxes: true,
+                theme: 'metro',
+                virtualModeCreateRecords: function (expandedRecord, done) {
+                    var dataAdapter = new $.jqx.dataAdapter(source,
+                        {
+                            formatData: function (data) {
+                                //data.Nivel = $("#NivelDesc").val();
+                                data.MesIni = $("#MesIni").val();
+                                data.MesFin = $("#MesFin").val();
+                                if (expandedRecord == null) {
+                                    data.IdCuenta = 0
+                                }
+                                else {
+                                    data.IdCuenta = expandedRecord.IdCuenta
+                                }
+                                return data;
+                            },
+                            loadComplete: function () {
+                                done(dataAdapter.records);
+                            },
+                            loadError: function (xhr, status, error) {
+                                done(false);
+                                //throw new Error(error.toString());
+                            }
+                            
+                        }
+                    );
+                    dataAdapter.dataBind();
+                },
+                virtualModeRecordCreating: function (record) {
+                    // record is creating.
+                    if (record.Hijos == true) {
+                        record.leaf = true;
+                        record.IdCuentaFormato = "<span class='cursorPointer jsMeses' style='display:inline' data-id='" + record.IdCuenta + "'>" + record.IdCuentaFormato + "</span>";
+                    } else {
+                        record.IdCuentaFormato = "<label style='font-weight:bold; font-size: inherit; display:inline'>" + record.IdCuentaFormato + "</label>";
+                    }
+                },
+                columnsResize: true,
+                columns: [
+                    { text: 'Cuenta', dataField: 'IdCuentaFormato', width: 350, cellclassname: cellclassname,  },
+                    { text: 'Debe', columnGroup: "SaldoAnterior", dataField: 'SaldoAnteriorDebe', cellsFormat: "f2", align: "center", cellclassname: cellclassname },
+                    { text: 'Haber', columnGroup: "SaldoAnterior", dataField: 'SaldoAnteriorHaber', cellsFormat: "f2", align: "center", cellclassname: cellclassname },
+                    { text: 'Debe', columnGroup: "Movimientos", dataField: 'MovimientoDebe', cellsFormat: "f2", align: "center", cellclassname: cellclassname },
+                    { text: 'Haber', columnGroup: "Movimientos", dataField: 'MovimientoHaber', cellsFormat: "f2", align: "center", cellclassname: cellclassname },
+                    { text: 'Debe', columnGroup: "SaldoActual", dataField: 'SaldoActualDebe', cellsFormat: "f2", align: "center", cellclassname: cellclassname },
+                    { text: 'Haber', columnGroup: "SaldoActual", dataField: 'SaldoActualHaber', cellsFormat: "f2", align: "center", cellclassname: cellclassname },
+                ],
+                columnGroups: [
+                    { text: "Saldo Anterior", name: "SaldoAnterior", align: "center" },
+                    { text: "Movimientos", name: "Movimientos", align: "center" },
+                    { text: "Saldo Actual", name: "SaldoActual", align: "center" }
+                ]
+            });
+
+            $("body").on("click", ".jsMeses", function () {
+                ajaxLoad("@Url.Action("V_Cuentas_Meses","Catalogos")", { IdCuenta: $(this).data("id"), MesIni:$("#MesIni").val(), MesFin : $("#MesFin").val() }, "MyModal1 .modal-body", "get", openModal);
+            });
+
+
+            $("#Busqueda").on("click", ".jsSearch", function () {
+                var Mes1 = $("#MesIni").val();
+                var Mes2 = $("#MesFin").val();
+                if (parseInt(Mes1) <= parseInt(Mes2)) {
+                    $("#treeGrid").jqxTreeGrid({ disabled: false });
+                    $("#treeGrid").jqxTreeGrid('clear');
+                    FormatoCeldas();
+                    $("#treeGrid").jqxTreeGrid('refresh');
+                }
+                else {
+                    ErrorCustom("El Mes Inicial tiene que ser menor al Mes Final", "");
+                }
+            });
+
+            $("body").on("change", ".js_Mes", function () {
+                var Mes1 = $("#MesIni").val();
+                var Mes2 = $("#MesFin").val();
+                if (parseInt(Mes1) > parseInt(Mes2)) {
+                    $("#treeGrid").jqxTreeGrid({ disabled: true });
+                    ErrorCustom("El Mes Inicial tiene que ser menor al Mes Final", "");
+                }
+            });
+            FormatoCeldas();
+
+            $(".jqx-cell").attr("style", "display:inline");
+
+        });
+
+        function FormatoCeldas() {
+            $("#treeGrid").jqxTreeGrid('setColumnProperty', 'SaldoAnteriorDebe', 'cellsAlign', 'right');
+            $("#treeGrid").jqxTreeGrid('setColumnProperty', 'SaldoAnteriorHaber', 'cellsAlign', 'right');
+            $("#treeGrid").jqxTreeGrid('setColumnProperty', 'MovimientoDebe', 'cellsAlign', 'right');
+            $("#treeGrid").jqxTreeGrid('setColumnProperty', 'MovimientoHaber', 'cellsAlign', 'right');
+            $("#treeGrid").jqxTreeGrid('setColumnProperty', 'SaldoActualDebe', 'cellsAlign', 'right');
+            $("#treeGrid").jqxTreeGrid('setColumnProperty', 'SaldoActualHaber', 'cellsAlign', 'right');
+        }
+        
+    </script>
+}

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_NominaModel>
+
+@{
+    ViewBag.Title = "ImportarNomina";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    String Exito = ViewBag.Exito;
+}
+
+<h2>Importación de Nómina</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="msg success">Cargar documento de Nómina en Excel</div><br />
+        <br />
+        @using (Html.BeginForm("ProcesarNomina", "Nomina", new { @area = "Tesoreria" }, FormMethod.Post, new { id = "frmNomina", enctype = "multipart/form-data" }))
+        {
+            if (!String.IsNullOrEmpty(Exito))
+            {
+            <label>Nómina importada con éxito</label>
+            }
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-xs-3">
+                    <label>Número de Nómina (NNAAAA)</label>
+                    <input type="text" class="form-control num-nomina" name="No_Nomina" id="No_Nomina" />
+                </div>
+                <div class="col-xs-5">
+                    <label>Archivo:</label><br />
+                    <input id="uploadFile" placeholder="Elija un archivo" disabled="disabled" />
+                    <div class="fileUpload btn btn-primary">
+                        <span>Examinar</span>
+                        <input type="file" id="archivoExcel" name="archivoExcel" class="upload" />
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <a class="btn btn-success margin-25" id="btnImportar">Importar</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<table id="tablaNomina" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>No. de Control</th>
+            <th>Nombre Completo</th>
+            <th>Tipo de Nómina</th>
+            <th>Banco Nómina</th>
+            <th>No. de Tarjeta</th>
+            <th>Tipo de Pago</th>
+            <th>Neto a Pagar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Fecha.Value)</td>
+                <td>@Html.DisplayFor(modelItem => item.No_Control)</td>
+                <td>@String.Format("{0} {1} {2}",item.Nombre,item.Apellido_Pat,item.Apellido_Mat)</td>
+                <td>@Html.DisplayFor(modelItem => item.Tipo_Nomina)</td>
+                <td>@Html.DisplayFor(modelItem => item.Id_Banco_RH)</td>
+                <td>@Html.DisplayFor(modelItem => item.No_Tarjeta)</td>
+                <td>@Html.DisplayFor(modelItem => item.Tipo_Pago)</td>
+                <td>@String.Format("{0:C}",item.Neto)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).on("ready", function () {
+            ConstruirTabla("tablaNomina");
+            $("#btnImportar").on("click", function () {
+                if ($("#frmNomina").valid()) {
+                    if ($("#archivoExcel").val() != "") {
+                        ConfirmCustom("La nómina seleccionada será importada ¿Desea continuar?",
+                            function () {
+                                $("#frmNomina").submit();
+                            }, "", "Aceptar", "Cancelar");
+                    }
+                }
+            });
+
+            document.getElementById("archivoExcel").onchange = function () {
+                document.getElementById("uploadFile").value = this.value;
+            };
+        });
+    </script>
+}

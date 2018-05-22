@@ -1,0 +1,79 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ResetControlFinanciero
+
+@{
+    ViewBag.Title = "V_AnalisisSaldosBancarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bImprimir", "bSalir" } }); }
+</div>
+<div class="container">
+    <h2>Análisis Saldos Bancarios</h2>
+    <br />
+    @using (Html.BeginForm("V_Reset", "ControlFinanciero", FormMethod.Post, new { id = "Frm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.IdCtaBancaria)
+                @Html.DropDownList("IdCtaBancaria", Model.Lista_CtaBancarias, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdCtaBancaria)
+            </div>
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.Mes)
+                @Html.DropDownListFor(model => model.IdMes, Model.Lista_Meses, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Mes)
+            </div>
+         </div>
+        @Html.HiddenFor(model => model.borrado)
+    }
+    <div class="row">
+        <div id="div_tabla" class="col-sm-12">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script type="text/javascript">
+        $(document).on("ready", inicio);
+        var tabla = "";
+        var RutaDelete = "@Url.Action("eliminarConciliacion", "ControlFinanciero")";//"eliminarConciliacion";
+        var MsjEliminar = "¿Esta seguro de eliminar el registro?";
+        var TableId = "tbl";
+        var Propiedades = '{ "Id": "response.Registro.No_Registro","IdC":"response.Registro.Id_CtaBancaria","IdM":"response.Registro.Id_Mes" }';
+        var SourceAction = "jsActionsource";
+        function inicio() {
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("#IdCtaBancaria").on("change", changeIdCta);
+            $("#js_mBuscar").on("click", iniciar);
+            $("#js_mSalir").on("click", salir);
+            $("body").on("click", "#js_mImprimir", function () {
+                if ($("#div_tabla table").length > 0)
+                    window.open("@Url.Action("ReporteSaldosBancarios","ControlFinanciero")"+"?IdCtaBancaria=" + $("#IdCtaBancaria").val() + "&IdMes=" + $("#IdMes").val(), "_blank");
+                else
+                    ErrorCustom("Debes de realizar una busqueda.");
+            });
+        }
+        function salir()
+        {
+            GoHome();
+        }
+        function changeIdCta() {
+            var elemento = $(this);
+            $("#div_tabla").empty();
+        }
+        function iniciar()
+        {
+            ajaxLoad("ReporteSaldosBancarios", $("#Frm").serialize(), "div_tabla", "POST", function () {
+                ConstruirTabla("tbl", "No hay registros para mostrar", "");
+            });
+        }
+    </script>
+}

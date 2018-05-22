@@ -1,0 +1,38 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoDoctosModel
+
+@{
+    ViewBag.Title = "tipo de contrarecibo";
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title">Detalle tipo de documento</h4>
+</div>
+<div class="modal-body">
+
+
+    <p><label>
+        @Html.DisplayNameFor(model => model.Id_Tipodocto)
+        </label>
+        @Html.DisplayFor(model => model.Id_Tipodocto)
+    </p>
+
+    <p><label>
+        @Html.DisplayNameFor(model => model.Descripcion)
+        </label>
+        @Html.DisplayFor(model => model.Descripcion)
+    </p>
+
+
+</div>
+<div class="modal-footer">
+    <button id="CerrarM1" type="button" class="btn btn-default">Cerrar</button>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#CerrarM1").on("click", function () {
+            CerrarModal();
+        });
+    });
+</script>

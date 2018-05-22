@@ -1,0 +1,64 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.CA_Cuentas>
+
+@{
+    ViewBag.Title = "Catálogo de Cuentas";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="Id_CuentaFormato" id="Id_CuentaFormato" style="width:350px">
+                Cuenta
+            </th>
+            <th data-title="Descripcion">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th data-title="Id_ObjetoG">
+                COG
+            </th>
+            <th data-title="Id_Concepto">
+                CRI
+            </th>
+            <th data-title="Nivel">
+                @Html.DisplayNameFor(model => model.Nivel)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_CuentaFormato)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_ObjetoG)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_Concepto)
+                </td>
+                <td>
+                    @if (item.Nivel == true)
+                    {
+                        @Html.Encode("SI")
+                    }
+                    else
+                    {
+                        @Html.Encode("NO")
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

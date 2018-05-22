@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_LocalidadesModel>
+@{
+    ViewBag.Title = "Catálogo de Localidades";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+@Html.Partial("PdfHeader")
+<link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+<link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+<link href="@cssPath/layout.css" rel="stylesheet" />
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th data-title="CA_Estado.Descripcion">@Html.DisplayNameFor(model => model.Id_Estado)</th>
+            <th data-title="CA_Municipio.Descripcion">@Html.DisplayNameFor(model => model.Id_Municipio)</th>
+            <th data-title="Descripcion">@Html.DisplayNameFor(model => model.Descripcion)</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CA_Estado.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CA_Municipio.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

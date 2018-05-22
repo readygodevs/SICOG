@@ -1,0 +1,33 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_FuentesFin_IngModel
+
+@{
+    Layout = null;
+}
+<div data-title="Editar" class="TituloModal"></div>
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_FuenteFinancia)
+    @Html.HiddenFor(model => model.Id_Fuente)
+    @Html.HiddenFor(model => model.Id_Aportacion)
+    @Html.HiddenFor(model => model.Id_Convenio)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Id_FuenteFinancia)
+    </div>
+    <div class="editor-field">
+        @Html.Encode(Model.Id_FuenteFinancia)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Descripcion)
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+    <div class="editor-label">
+        @Html.HiddenFor(model => model.UltimoNivel)
+    </div>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

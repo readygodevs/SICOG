@@ -1,0 +1,25 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Control_Fechas
+
+@{
+    Layout = null;
+}
+
+<p>Por favor capture la fecha de Cancelación</p>
+<div class="input-group fecha_group">
+    <input type="text" id="FechaCancelacion2" name="FechaCancelacion" class="form-control date" value="@Model.Fecha_Min.ToShortDateString()"/>
+    <span class="input-group-addon group-date"><i class="fa fa-calendar"></i></span>
+</div>
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+
+<script>
+    $(function () {
+        $("#FechaCancelacion2").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Model.Fecha_Min.ToShortDateString()',
+            endDate: '@Model.Fecha_Max.ToShortDateString()'
+        });
+        $("#FechaCancelacion2").datepicker("setStartDate", '@Model.Fecha_Min.ToShortDateString()');
+        $("#FechaCancelacion2").datepicker("setEndDate", '@Model.Fecha_Max.ToShortDateString()');
+    });
+</script>

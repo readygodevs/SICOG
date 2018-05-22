@@ -1,0 +1,57 @@
+﻿﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ObjetoGastoModel
+
+@{
+    Layout = null;
+}
+
+
+<div data-title="Detalles Objeto de Gasto" class="TituloModal"></div>
+<div class="display-label">
+    Capítulo
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Capitulo)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.Concepto)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Concepto)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.PartidaGen)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.PartidaGen)
+</div>
+
+<div class="display-label">
+    @Html.DisplayNameFor(model => model.PartidaEsp)
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.PartidaEsp)
+</div>
+<div class="display-label">
+    Descripción
+</div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Descripcion)
+</div>
+
+<div class="display-label">
+    Último Nivel
+</div>
+<div class="display-field">
+    @Html.Raw(Model.UltimoNivel ?? false ? "VERDADERO" : "FALSO")
+</div>
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

@@ -1,0 +1,1029 @@
+﻿﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_BeneficiariosModel
+@{
+    ViewBag.Title = "Beneficiarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .has-error {
+        border-color: #f97171 !important;
+        box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-8">
+        <h2>Catálogo de Beneficiarios</h2>
+    </div>
+    <div class="col-sm-4 text-right">
+        <h3>ID: <label id="lid">@Model.Id_Beneficiario</label></h3>
+    </div>
+</div>
+<div class="jsSourceActions hide"></div>
+<div id="_menu_lateral">
+    @{
+        Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bImprimir", "bSalir" } });
+    }
+</div>
+<div id="container">
+    <form id="frmBen">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.Hidden("Id_Beneficiario", Model.Id_Beneficiario)
+        @Html.Hidden("IdPersona", Model.IdPersona)
+        <div class="row">
+            <div class="col-sm-3 editor-field">
+                @Html.ValidationMessageFor(model => model.PersonaFisica)
+                <label>Tipo de proveedor:</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="btn-group" data-toggle="buttons">
+                    <label data-val="2" class="btn btn-primary js_TipoCaptura" id="lblPerMoral">
+                        <input type="radio" name="TipoCaptura">
+                        Empresa (persona moral)
+                    </label>
+                    <label data-val="1" class="btn btn-primary js_TipoCaptura" id="lblPerFisica">
+                        <input type="radio" name="TipoCaptura">
+                        Persona (persona física)
+                    </label>
+                </div>
+                @*<div class="btn-group " data-toggle="buttons">
+                        <label class="btn btn-primary js_TipoCaptura">
+                            <input type="radio" name="TipoCaptura" value="2"> Empresa (persona moral)
+                        </label>
+                        <label class="btn btn-primary active js_TipoCaptura">
+                            <input type="radio" name="TipoCaptura" value="1" checked ="checked"> Persona (persona física)
+                        </label>
+                    </div>*@
+                @Html.HiddenFor(model => model.PersonaFisica)
+            </div>
+        </div>
+        <br />
+        <div class="js_PersonaFisica">
+            <div class="row">
+                <div class="col-sm-3 editor-field">
+                    <label>Curp:</label>
+                    @Html.ValidationMessageFor(model => model.CURP)
+                </div>
+                <div class="col-sm-3 editor-field">
+                    @Html.TextBoxFor(model => model.CURP, new { maxlength = "18" })
+                </div>
+                <div class="col-sm-6 display-label">
+                </div>
+            </div>
+            <fieldset>
+                <legend>Nombre proveedor:</legend>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="editor-field">
+                            @Html.DisplayNameFor(model => model.Nombre)
+                            @Html.ValidationMessageFor(model => model.Nombre)
+                        </div>
+                        <div class="display-label">
+                            @Html.EditorFor(model => model.Nombre)
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="editor-field">
+                            @Html.DisplayNameFor(model => model.ApellidoPaterno)
+                            @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.ApellidoPaterno)
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="editor-field">
+                            @Html.DisplayNameFor(model => model.ApellidoMaterno)
+                            @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                        </div>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.ApellidoMaterno)
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="js_PersonaMoral">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="editor-field">
+                        @Html.DisplayNameFor(model => model.RazonSocial)
+                        @Html.ValidationMessageFor(model => model.RazonSocial)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(model => model.RazonSocial, new { maxlength = "300" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row iconos_wraper">
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.IdEstado)
+                    @Html.ValidationMessageFor(model => model.IdEstado)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownList("IdEstado", Model.ListaIdEstado, "-Seleccionar-")
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="col-xs-12">
+                    @Html.DisplayNameFor(model => model.IdMunicipio)
+                    @Html.ValidationMessageFor(model => model.IdMunicipio)
+                </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        @Html.TextBox("Municipio")
+                    </div>
+                    <div class="col-xs-2 acciones">
+                        <i class="fa fa-save cursorPointer js_MunicipioGuardar" title="Guardar" data-toggle="tooltip" data-placement="right"></i>
+                        <i class="fa fa-ban cursorPointer js_MunicipioCancelar" title="Cancelar" data-toggle="tooltip" data-placement="right"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        @Html.DropDownList("IdMunicipio", Model.ListaIdMunicipio, "-Seleccionar-")
+                    </div>
+                    <div class="col-xs-2 acciones">
+                        <i class="fa fa-pencil-square-o cursorPointer js_Municipio" title="Agregar" data-toggle="tooltip" data-placement="right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="col-xs-12">
+                    @Html.DisplayNameFor(model => model.IdLocalidad)
+                    @Html.ValidationMessageFor(model => model.IdLocalidad)
+                </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        @Html.TextBox("Localidad")
+                    </div>
+                    <div class="col-xs-2 acciones">
+                        <i class="fa fa-save cursorPointer js_LocalidadGuardar" title="Guardar" data-toggle="tooltip" data-placement="right"></i>
+                        <i class="fa fa-ban cursorPointer js_LocalidadCancelar" title="Cancelar" data-toggle="tooltip" data-placement="right"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        @Html.DropDownList("IdLocalidad", Model.ListaIdLocalidad, "-Seleccionar-")
+                    </div>
+                    <div class="col-xs-2 acciones">
+                        <i class="fa fa-pencil-square-o cursorPointer js_Localidad" title="Agregar" data-toggle="tooltip" data-placement="right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="col-xs-12">
+                    @Html.DisplayNameFor(model => model.IdColonia)
+                    @Html.ValidationMessageFor(model => model.IdColonia)
+                </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        @Html.TextBox("Colonia")
+                    </div>
+                    <div class="col-xs-2 acciones">
+                        <i class="fa fa-save cursorPointer js_ColoniaGuardar" title="Guardar" data-toggle="tooltip" data-placement="right"></i>
+                        <i class="fa fa-ban cursorPointer js_ColoniaCancelar" title="Cancelar" data-toggle="tooltip" data-placement="right"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        @Html.DropDownList("IdColonia", Model.ListaIdColonia, "-Seleccionar-")
+                    </div>
+                    <div class="col-xs-2 acciones">
+                        <i class="fa fa-pencil-square-o cursorPointer js_Colonia" title="Agregar" data-toggle="tooltip" data-placement="right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row iconos_wraper">
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-xs-12">
+                        @Html.DisplayNameFor(model => model.IdCalle)
+                        @Html.ValidationMessageFor(model => model.IdCalle)
+                    </div>
+                    <div class="col-xs-10">
+                        @Html.DropDownList("IdCalle", Model.ListaIdCalle, "-Seleccionar-")
+                    </div>
+                    <div class="col-xs-2 acciones">
+                        <i class="fa fa-pencil-square-o cursorPointer js_Calle" title="Agregar" data-toggle="tooltip" data-placement="right"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        @Html.TextBox("Calle", Model.Calle)
+                    </div>
+                    <div class="col-xs-2 acciones">
+                        <i class="fa fa-save cursorPointer js_CalleGuardar" title="Guardar" data-toggle="tooltip" data-placement="right"></i>
+                        <i class="fa fa-ban cursorPointer js_CalleCancelar" title="Cancelar" data-toggle="tooltip" data-placement="right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.NumeroExt)
+                    @Html.ValidationMessageFor(model => model.NumeroExt)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.NumeroExt, new { maxlength = "10" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.NumeroInt)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.NumeroInt, new { maxlength = "10" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.CP)
+                    @Html.ValidationMessageFor(model => model.CP)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.CP, new { maxlength = "5" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.RFC)
+                    @Html.ValidationMessageFor(model => model.RFC)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.RFC, new { maxlength = "13" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.Telefono1)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Telefono1, new { maxlength = "30" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.Fax)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Fax, new { maxlength = "30" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.Email)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Email, new { maxlength = "100" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.Referencia)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Referencia)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="editor-field">
+                    @Html.DisplayNameFor(model => model.Observaciones)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Observaciones)
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-3 editor-field">
+                @Html.TextBox("listaidclasificacion", Model.listaidclasificacion, new { @style = "opacity:0; width:1px; height:1px;" })
+                @Html.DisplayNameFor(model => model.listaidclasificacion)
+                @Html.ValidationMessageFor(model => model.listaidclasificacion)
+            </div>
+            <div class="col-sm-3 col-sm-offset-6 text-right ">
+                <div data-id="clasificacion" class="btn btn-success js_Agregar">
+                    <i class="fa fa-plus bigger-110" title="Crear"></i>
+                    Agregar
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="tblclasificacion" class="table table-responsive table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th data-title="Id_ClasBeneficiario">
+                                <label>Clasificación</label>
+                            </th>
+                            <th data-title="Descripcion">
+                                <label>Descripción</label>
+                            </th>
+                            <th data-title="Cuenta">
+                                <label>Cuenta</label>
+                            </th>
+                            <th data-title="Acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListaCa_BeneficiariosCuentasModel)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id_ClasBeneficiario)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ca_ClasificaBeneficiarios.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ca_Cuentas.Id_CuentaFormato)
+                                </td>
+                                <td>
+                                    <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_ClasBeneficiario" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-3 editor-field">
+                @Html.DisplayNameFor(model => model.listaidgiros)
+                @Html.ValidationMessageFor(model => model.listaidgiros)
+                @Html.TextBoxFor(model => model.listaidgiros, new { @style = "opacity:0; width:1px; height:1px;" })
+            </div>
+            <div class="col-sm-3 col-sm-offset-6 text-right ">
+                <div data-id="giros" class="btn btn-success js_Agregar">
+                    <i class="fa fa-plus bigger-110" title="Crear"></i>
+                    Agregar
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="tblgiros" class="table table-responsive table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th data-title="Id_GiroComercial">
+                                <label>Giros</label>
+                            </th>
+                            <th data-title="Descripcion">
+                                <label>Descripción</label>
+                            </th>
+                            <th data-title="Acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListaDe_Beneficiarios_GirosModel)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id_GiroComercial)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ca_GirosModel.Descripcion)
+                                </td>
+                                <td>
+                                    <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.Id_Beneficiario" data-id2="@item.Id_GiroComercial" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-3 editor-field">
+                @Html.DisplayNameFor(model => model.listacontactos)
+                @Html.ValidationMessageFor(model => model.listacontactos)
+                @Html.TextBoxFor(model => model.listacontactos, new { @style = "opacity:0; width:1px; height:1px;" })
+            </div>
+            <div class="col-sm-3 col-sm-offset-6 text-right ">
+                <div data-id="contactos" class="btn btn-success js_Agregar">
+                    <i class="fa fa-plus bigger-110" title="Crear"></i>
+                    Agregar
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="tblcontactos" class="table table-responsive table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th data-title="IdContacto">
+                                <label>Contacto</label>
+                            </th>
+                            <th data-title="CURP">
+                                <label>C.U.R.P</label>
+                            </th>
+                            <th data-title="Nombre">
+                                <label>Nombre</label>
+                            </th>
+                            <th data-title="Acciones">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListaDE_BeneficiarioContactosModel)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdContacto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CURP)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.IdContacto" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>
+
+    <script>
+        var SourceAction = "jsActionsource";
+        var aPos = -1;
+        var Btn = "";
+        var RutaExportarPDF = "@Url.Action("Beneficiarios", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Beneficiarios";
+        $(document).ready(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            $("#frmBen input,textarea,select").addClass("form-control");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            ConstruirTablaEmpty("tblcontactos", "No hay contactos...");
+            ConstruirTablaEmpty("tblgiros", "No hay giros...");
+            ConstruirTablaEmpty("tblclasificacion", "No hay clasificaciones...");
+            Bloquear();
+            ColoniaHide();
+            CalleHide();
+            MunicipioHide();
+            LocalidadHide();
+            OcultatJS();
+            $("body").on("click", "#js_mSalir", GoHome);
+            $("body").on("click", ".js_Agregar", function () {
+                var id = $(this).data("id");
+                switch (id) {
+                    case "clasificacion":
+                        customModal("@Url.Action("V_Beneficiarios_Clasificacion","Catalogos")", {}, "GET", "lg", function () { Buscar(id); }, "", "Buscar", "Cancelar", "Busqueda de Clasificación", "IdModal")
+                        break;
+                    case "giros":
+                        customModal("@Url.Action("V_Beneficiarios_Giros","Catalogos")", {}, "GET", "lg", function () { Buscar(id); }, "", "Buscar", "Cancelar", "Busqueda de Giros", "IdModal")
+                        break;
+                    case "contactos":
+                        customModal("@Url.Action("V_Beneficiarios_Contactos","Catalogos")", {}, "GET", "lg", function () { GuardarContactos(); }, "", "Guardar", "Cancelar", "Agregar Contactos", "IdModal")
+                        break;
+                }
+            });
+
+            $("body").on("click", "#js_mNuevo", function () {
+                Btn = "Nuevo";
+                Desbloquear();
+                recargarMenuLateral(["bGuardar", "bCancelar"]);
+                LimpiarCampos();
+                MostrarJS();
+            });
+
+            $("body").on("click", "#js_mCancelar", function () {
+                Bloquear();
+                if (Btn == "Nuevo")
+                    recargarMenuLateral(["bNuevo", "bBuscar", "bImprimir","bSalir"]);
+                else
+                    recargarMenuLateral(["bNuevo", "bEditar", "bEliminar", "bBuscar","bImprimir", "bSalir"]);
+                ColoniaHide();
+                CalleHide();
+                OcultatJS();
+            });
+
+            //$("#tblgiros tbody>tr>td:first-child").length;
+            $("body").on("click", "#js_mGuardar", function () {
+                if ($('#IdMunicipio').is(':hidden')) {
+                    ErrorCustom("No se puede agregar si no termina de guardar el Municipio");
+                    return false;
+                }
+                if ($('#IdLocalidad').is(':hidden')) {
+                    ErrorCustom("No se puede agregar si no termina de guardar la Localidad");
+                    return false;
+                }
+                if ($('#IdCalle').is(':hidden')) {
+                    ErrorCustom("No se puede agregar si no termina de guardar la Calle");
+                    return false;
+                }
+                if ($('#IdColonia').is(':hidden')) {
+                    ErrorCustom("No se puede agregar si no termina de guardar la Colonia");
+                    return false;
+                }
+
+                LlenarListas("tblclasificacion", "listaidclasificacion", 1, 2);
+                LlenarListas("tblgiros", "listaidgiros", 1, 2);
+                LlenarListas("tblcontactos", "listacontactos", 1, 4);
+                if ($("#frmBen").valid()) {
+                    Desbloquear();
+                    if (Btn == "Nuevo")
+                        ajaxJson("@Url.Action("V_Beneficiarios","Catalogos")", $("form").serialize(), "post", false, callbackGuardar)
+                    else
+                        ajaxJson("@Url.Action("V_BeneficiariosEdit","Catalogos")", $("form").serialize(), "post", false, callbackGuardar)
+                }
+
+
+            });
+
+            $("body").on("click", "#js_mBuscar", function () {
+                customModal("@Url.Action("Buscar_Beneficiario","Busquedas")", {}, "get", "lg", callBackBuscarBeneficiario, "", "Buscar", "Cancelar", "Buscar Beneficiario", "IdModal")
+            });
+
+            $("body").on("click", "#js_mEditar", function () {
+                Btn = "Editar";
+                Desbloquear();
+                ActivarBorrados();
+                recargarMenuLateral(["bGuardar", "bCancelar"]);
+
+            });
+
+            $("body").on("click", "#js_mEliminar", function () {
+                ConfirmCustom("¿Realmente deseas borrar este beneficiario?", callBackBorrar, "", "Eliminar", "Cancelar");
+            });
+
+
+            //----------------LLenado de Calles y el Guardado-----------------//
+            $("body").on("click", ".js_Municipio", MunicipioShow);
+            $("body").on("click", ".js_MunicipioCancelar", MunicipioHide);
+            $("body").on("click", ".js_MunicipioGuardar", MunicipioSave);
+
+            $("body").on("click", ".js_Localidad", LocalidadShow);
+            $("body").on("click", ".js_LocalidadCancelar", LocalidadHide);
+            $("body").on("click", ".js_LocalidadGuardar", LocalidadSave);
+            $("body").on("click", ".js_Colonia", function () {
+                ColoniaShow();
+            });
+            $("body").on("click", ".js_ColoniaCancelar", function () {
+                ColoniaHide();
+            });
+            $("body").on("click", ".js_ColoniaGuardar", function () {
+                if ($("#IdEstado").val() == "" || $("#IdMunicipio").val() == "" || $("#IdLocalidad").val() == "") {
+                    ErrorCustom("Favor de Ingresar los Campos Anteriores");
+                    return false;
+                }
+                ajaxJson("@Url.Action("V_ColoniasGuardar","Catalogos")", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#IdLocalidad").val(), Colonia: $("#Colonia").val() }, "POST", true, function (Data) {
+                    callBackLlenarSelect(Data, "IdColonia", "");
+                    $(".js_ColoniaCancelar").click();
+                });
+            });
+
+            $("body").on("click", ".js_Calle", function () {
+                CalleShow();
+            });
+            $("body").on("click", ".js_CalleCancelar", function () {
+                CalleHide();
+            });
+            $("body").on("click", ".js_CalleGuardar", function () {
+                if ($("#IdEstado").val() == "" || $("#IdMunicipio").val() == "" || $("#IdLocalidad").val() == "") {
+                    ErrorCustom("Favor de Ingresar los Campos Anteriores");
+                    return false;
+                }
+                ajaxJson("@Url.Action("V_CallesGuardar","Catalogos")", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#IdLocalidad").val(), Calle: $("#Calle").val() }, "POST", true, function (Data) {
+                    callBackLlenarSelect(Data, "IdCalle", "");
+                    $(".js_CalleCancelar").click();
+                });
+            });
+            //---------------Carga de los Select de Domicilio---------------------//
+            $("body").on("change", "#IdEstado", function () {
+                callBackLlenarSelect("", "IdMunicipio", "");
+                callBackLlenarSelect("", "IdLocalidad", "");
+                callBackLlenarSelect("", "IdCalle", "");
+                callBackLlenarSelect("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Municipios","Listas")", { Id_Estado: $(this).val() }, "post", false, "IdMunicipio", "", callBackLlenarSelect);
+            });
+            $("body").on("change", "#IdMunicipio", function () {
+                callBackLlenarSelect("", "IdLocalidad", "");
+                callBackLlenarSelect("", "IdCalle", "");
+                callBackLlenarSelect("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Localidades","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $(this).val() }, "post", false, "IdLocalidad", "", callBackLlenarSelect);
+            });
+            $("body").on("change", "#IdLocalidad", function () {
+                callBackLlenarSelect("", "IdCalle", "");
+                callBackLlenarSelect("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Colonias","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdColonia", "", callBackLlenarSelect);
+                ajaxSelect("@Url.Action("Lista_Calles","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdCalle", "", callBackLlenarSelect);
+            });
+            //---------Acciones de Eliminar de las Tablas-----------------//
+            ActivarBorrados();
+            //-------------Persona Fisica/Moral-----------------//
+            $("body").on("click", ".js_TipoCaptura", function () {
+                if ($(this).data("val") == 1) {//Fisica
+                    $(".js_PersonaMoral").hide();
+                    $(".js_PersonaFisica").show();
+                    $("#PersonaFisica").val(true);
+                } else {//Moral
+                    $(".js_PersonaMoral").show();
+                    $(".js_PersonaFisica").hide();
+                    $("#PersonaFisica").val(false);
+                }
+            });
+
+            $(".js_TipoCaptura").click();
+
+            //--------------------Busqueda Beneficiario -------------------//
+            $("body").on("click", ".js_SeleccionarBeneficiario", function () {
+                var beneficiario = $(this).data("idbeneficiario");
+                ajaxJson("@Url.Action("V_Beneficiarios_Buscar","Catalogos")", { IdBeneficiario: beneficiario }, "POST", true, function (data) {
+                    LimpiarCampos();
+                    data.RFC = data.RFC.trim();
+                    llenarMaestro(data);
+					$('#lblPerFisica').attr("class", "btn btn-primary js_TipoCaptura active");
+                    $('#lblPerMoral').attr("class", "btn btn-primary js_TipoCaptura");
+					$(".js_PersonaMoral").hide();
+                    $(".js_PersonaFisica").show();
+                    $("#PersonaFisica").val(true);
+
+                    if (!data.PersonaFisica) {
+						console.log("no es persona fisica");
+                        $('#lblPerFisica').attr("class", "btn btn-primary js_TipoCaptura");
+                        $('#lblPerMoral').attr("class", "btn btn-primary js_TipoCaptura active");
+
+						$(".js_PersonaMoral").show();
+                    	$(".js_PersonaFisica").hide();
+                    	$("#PersonaFisica").val(false);
+                    }
+                    CargarListaClasificacion(1, data.ListaCa_BeneficiariosCuentasModel)
+                    CargarListaGiros(1, data.ListaDe_Beneficiarios_GirosModel)
+                    CargarListaContactos(1, data.ListaDE_BeneficiarioContactosModel)
+                    recargarMenuLateral(["bNuevo", "bEditar", "bEliminar", "bBuscar","bCancelar", "bSalir"]);
+                    DesactivarBorrados();
+                    putId(data.Id_Beneficiario);
+                    $(".IdModal").modal("hide");
+                });
+            });
+            //-----------------------------busqueda modales--------------//
+            $("body").on("click", ".js_tblmodalgiros", function () {
+                if ($("#tblgiros .dataTables_empty").length == 0) {
+                    var c = $("#tblgiros tbody>tr>td:first-child").length
+                    for (var i = 0; i < c; i++) {
+                        if ($("#tblgiros tbody>tr>td:first-child")[i].textContent == $(this).data("id")) {
+                            ErrorCustom("No se puede insertar un giro repetido");
+                            return false;
+                        }
+                    }
+                }
+                var Datos = {};
+                var Acciones = _.template($('#jsActionsource').html());
+                Datos.Id_GiroComercial = $(this).data("id")
+                Datos.Descripcion = $(this).data("desc")
+                Datos.Acciones = Acciones({ Id: $(this).data("id") });
+                AddTbl(Datos, "tblgiros");
+                $(".IdModal").modal("hide");
+            });
+        });
+        function OcultatJS() {
+            $(".js_Colonia").hide();
+            $(".js_Calle").hide();
+            $(".js_Localidad").hide();
+            $(".js_Municipio").hide();
+        }
+        function MostrarJS() {
+            $(".js_Colonia").show();
+            $(".js_Calle").show();
+            $(".js_Localidad").show();
+            $(".js_Municipio").show();
+        }
+        function Bloquear() {
+            $("input, select, textarea").attr("disabled", "disabled");
+            $(".js_Agregar").attr("disabled", "disabled");
+            $("#tblclasificacion .js_eliminar").attr("style", "display:none");
+            $("#tblgiros .js_eliminar").attr("style", "display:none");
+            $("#tblcontactos .js_eliminar").attr("style", "display:none");
+        }
+
+        function Desbloquear() {
+            $("input, select, textarea").removeAttr("disabled");
+            $(".js_Agregar").removeAttr("disabled");
+            $("#tblclasificacion .js_eliminar").attr("style", "display:block");
+            $("#tblgiros .js_eliminar").attr("style", "display:block");
+            $("#tblcontactos .js_eliminar").attr("style", "display:block");
+
+        }
+        function MunicipioSave() {
+            if ($("#IdEstado").val() == "") {
+                ErrorCustom("Favor de Ingresar los Campos Anteriores");
+                return false;
+            }
+            ajaxJson("@Url.Action("V_MunicipioGuardar","Catalogos")", { Estado: $("#IdEstado").val(), Municipio: $("#Municipio").val() }, "POST", true, function (Data) {
+                callBackLlenarSelect(Data, "IdMunicipio", "");
+                $(".js_MunicipioCancelar").click();
+            });
+        }
+        function MunicipioHide() {
+            $("#Municipio").hide();
+            $("#IdMunicipio").show();
+            $(".js_MunicipioGuardar").hide();
+            $(".js_MunicipioCancelar").hide();
+            $(".js_Municipio").show();
+        }
+        function MunicipioShow() {
+            $("#Municipio").show();
+            $("#IdMunicipio").hide();
+            $(".js_MunicipioGuardar").show();
+            $(".js_MunicipioCancelar").show();
+            $(".js_Municipio").hide();
+        }
+        function LocalidadSave() {
+            if ($("#IdEstado").val() == "" || $("#IdMunicipio").val() == "") {
+                ErrorCustom("Favor de Ingresar los Campos Anteriores");
+                return false;
+            }
+            ajaxJson("@Url.Action("V_LocalidadGuardar","Catalogos")", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#Localidad").val() }, "POST", true, function (Data) {
+                callBackLlenarSelect(Data, "IdLocalidad", "");
+                $(".js_LocalidadCancelar").click();
+            });
+        }
+        function LocalidadHide() {
+            $("#Localidad").hide();
+            $("#IdLocalidad").show();
+            $(".js_LocalidadGuardar").hide();
+            $(".js_LocalidadCancelar").hide();
+            $(".js_Localidad").show();
+        }
+        function LocalidadShow() {
+            $("#Localidad").show();
+            $("#IdLocalidad").hide();
+            $(".js_LocalidadGuardar").show();
+            $(".js_LocalidadCancelar").show();
+            $(".js_Localidad").hide();
+        }
+        function ColoniaHide() {
+            $("#Colonia").hide();
+            $("#IdColonia").show();
+            $(".js_ColoniaGuardar").hide();
+            $(".js_ColoniaCancelar").hide();
+            $(".js_Colonia").show();
+        }
+        function ColoniaShow() {
+            $("#Colonia").show();
+            $("#IdColonia").hide();
+            $(".js_ColoniaGuardar").show();
+            $(".js_ColoniaCancelar").show();
+            $(".js_Colonia").hide();
+        }
+
+        function CalleHide() {
+            $("#Calle").hide();
+            $("#IdCalle").show();
+            $(".js_CalleGuardar").hide();
+            $(".js_CalleCancelar").hide();
+            $(".js_Calle").show();
+        }
+        function CalleShow() {
+            $("#Calle").show();
+            $("#IdCalle").hide();
+            $(".js_CalleGuardar").show();
+            $(".js_CalleCancelar").show();
+            $(".js_Calle").hide();
+        }
+
+        function Buscar(id) {
+            switch (id) {
+                case "clasificacion":
+                    ajaxLoad("@Url.Action("V_Beneficiarios_ClasificacionTbl","Catalogos")", { Descripcion: $("#bsqClasificacion #Descripcion").val() }, "bsqClasificacionTbl", "POST", "");
+                    break;
+                case "giros":
+                    ajaxLoad("@Url.Action("V_Beneficiarios_GirosTbl","Catalogos")", { Descripcion: $("#bsqGiros #Descripcion").val() }, "bsqGirosTbl", "POST", "");
+                    break;
+            }
+        }
+
+        function GuardarContactos() {
+			if ($("#Contactos_Nombre").val().trim() == "") {
+				$("#Contactos_Nombre").addClass("has-error");
+                $("#Contactos_Nombre").focus();
+                return;
+            }
+			$("#Contactos_Nombre").attr("required",false);
+            var Datos = {};
+            var id = 1;
+            var Acciones = _.template($('#jsActionsource').html());
+            if ($("#tblcontactos .dataTables_empty").length == 0) {
+                var c = $("#tblcontactos tbody>tr>td:first-child").length
+                var max = 0;
+                for (var i = 0; i < c; i++) {
+                    if (max < $("#tblcontactos tbody>tr>td:first-child")[i].textContent)
+                        max = $("#tblcontactos tbody>tr>td:first-child")[i].textContent;
+                }
+                max++;
+                id = max;
+            }
+
+            Datos.IdContacto = id;
+            Datos.CURP = $("#Contactos_CURP").val();
+            Datos.Nombre = $("#Contactos_Nombre").val();
+            Datos.ApellidoPaterno = $("#Contactos_ApellidoPaterno").val();
+            Datos.ApellidoMaterno = $("#Contactos_ApellidoMaterno").val();
+            Datos.Acciones = Acciones({ Id: id });
+            AddTbl(Datos, "tblcontactos");
+            $(".IdModal").modal("hide");
+        }
+
+        function LlenarListas(div, divlista, colIni, colFin) {
+            if ($("#" + div + " .dataTables_empty").length == 0) {
+                $("#" + divlista).val("");
+                for (var cols = colIni; cols < colFin; cols++) {
+                    var c = $("#" + div + " tbody>tr>td:nth-child(" + cols + ")").length;
+                    for (var i = 0; i < c; i++) {
+                        CargarDatos(divlista, $("#" + div + " tbody>tr>td:nth-child(" + cols + ")")[i].textContent);
+                    }
+                }
+            }
+        }
+
+        function CargarDatos(div, dato) {
+            if ($("#" + div).val().length == 0) {
+                $("#" + div).val(dato);
+            } else {
+                $("#" + div).val($("#" + div).val() + "," + dato);
+            }
+        }
+
+        function callbackGuardar(data) {
+            if (data.Exito == false)
+                ErrorCustom(data.Mensaje, "");
+            else {
+                LimpiarCampos();
+                llenarMaestro(data.Registro);
+                CargarListaClasificacion(1, data.Registro.ListaCa_BeneficiariosCuentasModel)
+                CargarListaGiros(1, data.Registro.ListaDe_Beneficiarios_GirosModel)
+                CargarListaContactos(1, data.Registro.ListaDE_BeneficiarioContactosModel)
+                recargarMenuLateral(["bNuevo", "bEditar", "bEliminar", "bBuscar", "bSalir"]);
+                Bloquear();
+                putId(data.Registro.Id_Beneficiario);
+                //ExitoCustom("Se Guardo Correctamente", "");
+                //llenarMaestro(data.Registro);
+                //CargarListaClasificacion(2, data.ListaClasificacion);
+                //CargarListaGiros(2, data.ListaGiros);
+                //CargarListaContactos(2, data.ListaContactos);
+                //Bloquear();
+                //recargarMenuLateral(["bNuevo", "bEditar", "bEliminar", "bBuscar", "bSalir"]);
+            }
+        }
+
+        function callBackEliminar(data) {
+            if (data.Exito == false)
+                ErrorCustom(data.Mensaje, "");
+            else {
+                ExitoCustom(data.Mensaje, "");
+                LimpiarCampos();
+                Bloquear();
+                recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);
+            }
+        }
+
+        function CargarListaClasificacion(opc, Lista) {
+            var pos = 0;
+            if (Lista != null)
+                $.each(Lista, function (item, value) {
+                    var Datos = {};
+                    var Acciones = _.template($('#jsActionsource').html());
+                    Datos.Id_ClasBeneficiario = value.Id_ClasBeneficiario
+                    Datos.Descripcion = value.Ca_ClasificaBeneficiarios.Descripcion;
+                    Datos.Cuenta = value.Id_Cuenta;
+                    Datos.Acciones = Acciones({ Id: value.Id_ClasBeneficiario });
+                    if (opc == 1) //Agregar
+                        AddTbl(Datos, "tblclasificacion");
+                    else
+                        UpdateTbl(Datos, "tblclasificacion", pos);
+                    pos++;
+                });
+        }
+
+        function CargarListaGiros(opc, Lista) {
+            var pos = 0;
+            if (Lista != null)
+                $.each(Lista, function (item, value) {
+                    var Datos = {};
+                    var Acciones = _.template($('#jsActionsource').html());
+                    Datos.Id_GiroComercial = value.Id_GiroComercial
+                    Datos.Descripcion = value.Ca_GirosModel.Descripcion;
+                    Datos.Acciones = Acciones({ Id: value.Id_GiroComercial });
+                    if (opc == 1) //Agregar
+                        AddTbl(Datos, "tblgiros");
+                    else
+                        UpdateTbl(Datos, "tblgiros", pos);
+                    pos++;
+                });
+        }
+
+        function CargarListaContactos(opc, Lista) {
+            var pos = 0;
+            if (Lista != null)
+                $.each(Lista, function (item, value) {
+                    var Datos = {};
+                    var Acciones = _.template($('#jsActionsource').html());
+                    Datos.IdContacto = value.IdContacto
+                    Datos.CURP = value.CURP;
+                    Datos.Nombre = value.Nombre;
+                    Datos.Acciones = Acciones({ Id: value.Id_ClasBeneficiario });
+                    if (opc == 1) //Agregar
+                        AddTbl(Datos, "tblcontactos");
+                    else
+                        UpdateTbl(Datos, "tblcontactos", pos);
+                    pos++;
+                });
+        }
+
+
+
+        function callBackBuscarBeneficiario() {
+            //resultsBeneficiarios
+            ajaxLoad("@Url.Action("Tbl_Beneficiario","Busquedas")", { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() }, "resultsBeneficiarios", "POST", function () { })
+        }
+
+        function DesactivarBorrados() {
+            $("body").off("click", "#tblgiros .js_eliminar");
+            $("body").off("click", "#tblclasificacion .js_eliminar");
+            $("body").off("click", "#tblcontactos .js_eliminar");
+        }
+
+        function ActivarBorrados() {
+            $("body").on("click", "#tblgiros .js_eliminar", function () {
+                var element = {};
+                if (typeof elemento === "undefined")
+                    element = $(this);
+                aPos = $("#tblgiros").dataTable().fnGetPosition(element.parent().parent().get(0));
+                $("#tblgiros").dataTable().fnDeleteRow(aPos);
+                aPos = -1;
+            });
+            $("body").on("click", "#tblclasificacion .js_eliminar", function () {
+                var element = {};
+                if (typeof elemento === "undefined")
+                    element = $(this);
+                aPos = $("#tblclasificacion").dataTable().fnGetPosition(element.parent().parent().get(0));
+                $("#tblclasificacion").dataTable().fnDeleteRow(aPos);
+                aPos = -1;
+            });
+            $("body").on("click", "#tblcontactos .js_eliminar", function () {
+                var element = {};
+                if (typeof elemento === "undefined")
+                    element = $(this);
+                aPos = $("#tblcontactos").dataTable().fnGetPosition(element.parent().parent().get(0));
+                $("#tblcontactos").dataTable().fnDeleteRow(aPos);
+                aPos = -1;
+            });
+        }
+
+        function callBackBorrar() {
+            ajaxJson("@Url.Action("V_BeneficiariosDelete","Catalogos")", { IdBeneficiario: $("#Id_Beneficiario").val() }, "POST", true, callBackEliminar)
+        }
+
+        function LimpiarCampos() {
+            $("input, texbox").val("");
+            if ($(".js_TipoCaptura.active").data("val") == 1)
+                $("#PersonaFisica").val(true);
+            else
+                $("#PersonaFisica").val(false);
+            $('#tblclasificacion').DataTable().clear().draw();
+            $('#tblgiros').DataTable().clear().draw();
+            $('#tblcontactos').DataTable().clear().draw();
+            $("#IdEstado").val("").change();
+            putId(0);
+        }
+
+        function putId(Id) {
+            $("#lid").empty();
+            $("#lid").html(Id);
+        }
+
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+
+}

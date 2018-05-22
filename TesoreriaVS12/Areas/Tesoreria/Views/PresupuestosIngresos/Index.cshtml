@@ -1,0 +1,240 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_PresupuestoIngModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    String Ejercicio = ViewBag.Ejercicio;
+    DateTime FechaInicioEjercicio = Convert.ToDateTime(ViewBag.Ejercicio + "-01-01");
+    DateTime FechaFinEjercicio = Convert.ToDateTime(ViewBag.Ejercicio + "-12-31");
+}
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<h2>Presupuesto de Ingresos</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bSalir" } }); }
+</div>
+@using (Html.BeginForm("GuardarPresupuestoIngreso", "PresupuestosIngresos", new { area = "Tesoreria" }, FormMethod.Post, new { @id = "frmPresupuesto", @class = "form-horizontal" }))
+{
+    <div class="row">
+        <div class="col-xs-5 text-right">
+            <label class="fecha-inline">Fecha: </label>
+        </div>
+        <div class="col-xs-2">
+            <div class='input-group date'>
+                @Html.TextBoxFor(model => model.Fecha_Estimado, new { @class = "form-control formPresup", maxlength = 10 })
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Fecha_Estimado)
+        </div>
+    </div>
+    <br />
+    <div class="col-xs-9">
+        <input type="hidden" name="idClavePresupuesto" id="idClavePresupuesto" />
+        <div class="col-xs-12" id="div_parcial">
+            @Html.Partial("ParcialPresupuestoIngresos")
+            <br />
+        </div>
+        <div class="col-xs-11 bordered">
+            <br />
+            <div class="row">
+                <div class="col-xs-2">
+                    <input type="radio" value="1" name="tipo[]" class="js_radio formPresup">
+                    <label>Por mes</label>
+                </div>
+                <div class="col-xs-3">
+                    <input type="radio" value="2" name="tipo[]" class="js_radio formPresup">
+                    <label>Meses iguales</label>
+                </div>
+                <div class="col-xs-3">
+                    <input type="Radio" value="3" name="tipo[]" class="js_radio formPresup">
+                    <label>Por porcentaje</label>
+                </div>
+            </div>
+            <div class="row">
+                <div id="div_mesesIguales" style="display: none">
+                    <br />
+                    <div class="col-xs-3">
+                        <label>Importe</label>
+                        <input type="text" id="importeMeses" class="form-control formPresup importe" />
+                    </div>
+                    <div class="col-xs-6">
+                        <br />
+                        <button type="button" class="js_previsualizar btn btn-success">Previsualizar</button>
+                    </div>
+                </div>
+                <div id="div_porcentaje" style="display: none">
+                    <br />
+                    <div class="col-xs-3">
+                        <label>Importe</label>
+                        <input type="text" class="form-control formPresup importe" id="importe" />
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Porcentaje</label>
+                        <input type="text" id="porcentaje" class="form-control formPresup" />
+                    </div>
+                    <div class="col-xs-4">
+                        <br />
+                        <button type="button" class="js_previsualizar btn btn-success">Previsualizar</button>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div class="col-xs-3">
+            <label>Póliza Orden Estimado</label>
+            @Html.HiddenFor(model => model.Id_MesPO_Estimado)
+            <div class="input-group">
+                @Html.HiddenFor(model => model.Id_FolioPO_Estimado)
+                <input type="text" id="FolioPoliza" name="FolioPoliza" readonly="readonly" class="form-control" />
+                <span class="input-group-addon js_ConsultaPoliza" data-tipo="4">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <h3>Distribución Mensual</h3>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Enero:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado01" name="Estimado01" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Febrero:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado02" name="Estimado02" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Marzo:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado03" name="Estimado03" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Abril:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado04" name="Estimado04" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Mayo:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado05" name="Estimado05" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Junio:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado06" name="Estimado06" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Julio:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado07" name="Estimado07" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Agosto:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado08" name="Estimado08" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Septiembre:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado09" name="Estimado09" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Octubre:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado10" name="Estimado10" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Noviembre:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado11" name="Estimado11" />
+            </div>
+        </div>
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Diciembre:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control js_mes formPresup importe" value="0" id="Estimado12" name="Estimado12" />
+            </div>
+        </div>
+        <hr />
+        <div class="row margen-2">
+            <div class="col-xs-4">
+                <label>Total:</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" class="form-control formPresup importe" value="0" id="TotalC" name="TotalC" />
+                @Html.HiddenFor(model => model.Total, new { @class = "form-control formPresup importe" })
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    @*<script src="~/Areas/Tesoreria/Scripts/Catalogos/FocusOut.js"></script>*@
+    <script src="~/Areas/Tesoreria/Scripts/PresupuestoIngresos.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/autoNumeric.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
+    <script type="text/javascript">
+    $.validator.setDefaults({ onkeyup: false });
+    var esModal = 0;
+    var seleccionadoModal = 0;
+    var esModalBusqueda = 0;
+    var idObjeto = false;
+    $(document).on("ready", function () {
+        @*LoadPresupuestos("@Ejercicio.Substring(2, 2)", "@Ejercicio", 1, 2);*@
+        InicializarIngresos("@Ejercicio.Substring(2, 2)", "@Ejercicio");
+        $("body").on("click", "#js_mSalir", function () {
+            GoHome();
+            return false;
+        });
+        /**************Consulta poliza*****************/
+        $(".js_ConsultaPoliza").on("click", function () {
+            ConsultaPoliza($(this).data("tipo"), $(this).siblings("input[type=hidden]").val(), $(this).parent().siblings("input[type=hidden]").val());
+        });
+        /************************************************************/
+        $('body').on('hidden.bs.modal', "#MyModal1", function () {
+            esModal = 0;
+            esModalBusqueda = 0;
+        });
+    });
+</script>
+}

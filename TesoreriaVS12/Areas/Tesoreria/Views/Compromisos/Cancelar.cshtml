@@ -1,0 +1,68 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.CancelaCompromiso
+
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Cancelar", "Compromisos", FormMethod.Post, new { id = "frmCancelar" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div>        
+        
+        @Html.HiddenFor(model => model.Id_TipoCompromiso_C)       
+        @Html.HiddenFor(model => model.Id_FolioCompromiso_C)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Id_FolioCompromiso_C)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.Id_FolioCompromiso_C)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Cuenta_Beneficiario_C)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Cuenta_Beneficiario_C, new { @readonly = "readonly", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Cuenta_Beneficiario_C)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Usuario_Cancela_C)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Usuario_Cancela_C, new { @readonly = "readonly", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Usuario_Cancela_C)
+        </div>        
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Fecha_Cancela_C)
+        </div>
+        <div class="">
+            <div class="input-group fecha_group">
+                @Html.TextBoxFor(model => model.Fecha_Cancela_C, new { @class = "date form-control" })
+                <span id="dateFecha_Cancela_C" class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Fecha_Cancela_C)
+        </div>        
+    </div>
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {        
+        $("#dateFecha_Cancela_C").on("click", function () {
+            if ($(".datepicker").is(":visible") == false)
+                $(this).parent().find(".date").focus();
+        });
+
+        $("#Fecha_Cancela_C").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Model.cfechas.Fecha_Min.ToShortDateString()',
+            endDate: '@Model.cfechas.Fecha_Max.ToShortDateString()'
+        });
+    });
+</script>

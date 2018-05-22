@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>NSICG</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/layout.css" rel="stylesheet" />
+    <link href="~/Content/Tree/jqx.base.css" rel="stylesheet" />
+    <link href="~/Content/Tree/jqx.metro.css" rel="stylesheet" />
+    <link href="~/Content/isLoading.css" rel="stylesheet" />
+</head>
+<body>
+    <header id="header">
+        <div class="content-wrapper container">
+            <div class="col-sm-7">
+
+                @*<div id="logo_gob">
+
+                        <img src="~/Images/logo_gob_hd.jpg" alt="Logo" />
+                    </div>*@
+                <div id="titulos" style="margin-top:10px">
+                    <span class="titulo" style="font-size:50px">SICOG</span>
+                    <br />
+                    @*<span class="subtitulo">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</span>*@
+                    <span class="subtitulo">Sistema de Contabilidad Gubernamental</span>
+                </div>
+            </div>
+            <div class="pull-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+            </div>
+        </div>
+    </header>
+    <div id="body">
+        <div style="display: none;">
+            <img src="~/Content/img/loading.gif" alt="Alternate Text" />
+        </div>
+        <div class="fondoMenu">
+            <div class="container">
+                <div id="sectionMenu" class="pull-left">
+                    <div id="MenuPrincipal"></div>
+                </div>
+            </div>
+        </div>
+
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix container">
+            @RenderBody()
+        </section>
+        @RenderSection("sin_contenedor", required: false)
+    </div>
+    <footer>
+        <div class="content-wrapper container">
+            <br />
+            <br />
+        </div>
+    </footer>
+    <!-- Modal -->
+    <div class="modal fade" id="MyModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div id="modal-content1" class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                    <h4 class="modal-title" id="modal-title1">Modal</h4>
+                </div>
+                <div class="modal-body" id="modal-body1">
+                </div>
+                <div class="modal-footer" id="modal-footer1">
+                    <button type="button" class="btn btn-success js_btnOk" id="js_btnOk1">Guardar</button>
+                    <button type="button" class="btn btn-danger js_btnCancel" id="js_btnCancel1" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="MyModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div id="modal-content2" class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                    <h4 class="modal-title" id="modal-title2">Modal</h4>
+                </div>
+                <div class="modal-body" id="modal-body2">
+                </div>
+                <div class="modal-footer" id="modal-footer2">
+                    <button type="button" class="btn btn-success js_btnOk">Guardar</button>
+                    <button type="button" class="btn btn-danger js_btnCancel" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/globalize/globalize.js"></script>
+    <script src="~/Scripts/globalize/cultures/globalize.culture.es-MX.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/Tree/jqxcore.js"></script>
+    <script src="~/Scripts/Tree/jqxdata.js"></script>
+    <script src="~/Scripts/Tree/jqxmenu.js"></script>
+    <script src="~/Scripts/jquery-juls.js"></script>
+    <script src="~/Scripts/General.js"></script>
+    <script src="~/Scripts/jscolor.min.js"></script>
+    <script>
+        var totalModal = 0;
+        $(function () {
+            renderMenu();
+            $("body").on('live', 'input[type=text]', function () {
+                $(this).attr('autocomplete', 'off');
+            });
+            $('.modal').on('shown.bs.modal', function () {
+                totalModal++;
+                console.log(totalModal);
+            });
+            $(".modal").on("hidden.bs.modal", function () {
+                $("#" + $(this).context.id + ".modal-dialog").removeClass("modal-lg modal-sm");
+                $("#" + $(this).context.id + " .js_btnOk").show();
+                $("#" + $(this).context.id + " .js_btnCancel").show();
+                $("#" + $(this).context.id).off("click", ".js_btnOk");
+                $("#" + $(this).context.id).off("click", ".js_btnCancel");
+                totalModal--;
+                console.log(totalModal);
+                if ($(".modal.fade.in").length > 0) {
+                    $("body").addClass("modal-open");
+                }
+                else
+                    $("body").removeClass("modal-open");
+                if (totalModal == 0)
+                    $("body").removeClass("modal-open");
+                else
+                    $("body").addClass("modal-open");
+            });
+
+            //$('.modal').on('hidden.bs.modal', function (e) {
+            //    $("#" + $(this).context.id + ".modal-dialog").removeClass("modal-lg modal-sm");
+            //    $("#" + $(this).context.id + " .js_btnOk").show();
+            //    $("#" + $(this).context.id + " .js_btnCancel").show();
+            //    $("#" + $(this).context.id).off("click", ".js_btnOk");
+            //    $("#" + $(this).context.id).off("click", ".js_btnCancel");
+            //    totalModal--;
+            //    if (totalModal > 0) {
+            //        $("body").addClass("modal-open");
+            //    }
+            //});
+            $("body").on("mouseover", "#menu-lateral li", function () {
+                $(this).css("width", "200px").find(".nombre").show();
+            });
+            $("body").on("mouseleave", "#menu-lateral li", function () {
+                $(this).css("whidh", "30px").find(".nombre").hide();
+            });
+
+            $("body").on("input", "input[type=text]:not('.notMayus'), textarea:not('.notMayus')", function (e) {
+                $(this).val($(this).val().toUpperCase());
+                return true;
+            });
+            $(".js_cambiarpassword").on("click", function () {
+                customModal("@Url.Action("CambiarContrasenia", "Catalogos")", {}, "GET", "size", function () {
+                    if ($("#ChangePassForm").valid()) {
+                        ajaxJson("@Url.Action("CambiarContraseniaAjax", "Account")", $("#ChangePassForm").serialize(), "POST", true, function (result) {
+                            if (result.Exito) {
+                                $("button.btn-danger[data-dismiss]").click();
+                                ExitoCustom("El cambio de contraseña se realizó con éxito", function () {
+                                    window.location = "@Url.Action("LogOff", "Account")";
+                                });
+                            }
+                            else {
+                                $("div.Error").text(result.Mensaje);
+                            }
+                        });
+                    }
+                }, function () {
+                }, "Aceptar", "Cancelar", "Cambiar contraseña", "MyModal1")
+            });
+        });
+
+        $("body").on("click", ".input-group-addon", function () {
+            if (!$(this).isSiblingDisabled())
+                if ($(".datepicker").is(":visible") == false)
+                    $(this).parent().find(".date").focus();
+        });
+        $("body").on("keypress", ".date", function (event) {
+            var key = event.keyCode || event.charCode;
+            if (key == 8 || key == 46) {
+                $(this).val("");
+                $(this).trigger("change");
+                return true;
+            }
+            return false;
+        });
+        var renderMenu = function (newData, idDiv) {
+            var records = {};
+            var dataAdapter = {};
+            var data = {};
+            if (typeof idDiv === "undefined")
+                idDiv = "MenuPrincipal";
+            if ('@Html.Raw(Session["Menu"])' != "") {
+                data = JSON.parse('@Html.Raw(Session["Menu"])');
+
+            }
+            else {
+                ajaxJson("@Url.Action("MenuSession", "Administrador")", {}, "POST", false, function (response) {
+                    data = JSON.parse(response.Menu);
+                });
+            }
+            var source =
+                    {
+                        datatype: "json",
+                        datafields: [
+                            { name: 'id' },
+                            { name: 'parentid' },
+                            { name: 'text' },
+                            { name: 'label' },
+                            { name: 'href' },
+                            { name: 'subMenuWidth' },
+                            { name: 'hasReporte' }
+                        ],
+                        id: 'id',
+                        localdata: data
+                    }
+            if (typeof newData != "undefined") {
+                records = newData;
+                dataAdapter = new $.jqx.dataAdapter(source);
+                dataAdapter.dataBind();
+            }
+            else {
+                dataAdapter = new $.jqx.dataAdapter(source);
+                dataAdapter.dataBind();
+                records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label' }]);
+            }
+
+            $('#' + idDiv).jqxMenu('destroy');
+            $('#sectionMenu').append("<div id='" + idDiv + "'></div>");
+            var width = records.length * 150;
+            $('#' + idDiv).jqxMenu({ source: records, height: 36, width: width + 'px', theme: 'metro' });
+            $('#' + idDiv).bind('itemclick', function (event) {
+                if (dataAdapter.recordids[event.args.id].hasReporte == true) {
+                    window.open(dataAdapter.recordids[event.args.id].href, "_blank");
+                }
+                else if (dataAdapter.recordids[event.args.id].href != null) {
+                    $("body").isLoading({ position: "overlay" });
+                    window.location = dataAdapter.recordids[event.args.id].href;
+                }
+            });
+        }
+        var recargarMenuLateral = function (parametros) {
+            var param = "";
+            $.each(parametros, function (i, value) {
+                if (value != "") {
+                    if (i == 0)
+                        param += "ids=" + value;
+                    else
+                        param += "&ids=" + value;
+                }
+            });
+            var Url = '@Url.Action("Botonera", "Home", new { Area = "" })' + "?" + param;
+            $("#_menu_lateral").ajaxLoad({ url: Url });
+        }
+        var urlLoadingGif = "@Url.Content("~/Content/img/loading.gif")";
+        var urlGetDescripcion = "@Url.Action("GetDescripcion", "Presupuestos")";
+        var urlGetDescripcionIngresos = "@Url.Action("GetDescripcion", "PresupuestosIngresos")";
+        var urlBusquedaAreas = "@Url.Action("Area", "Busquedas")";
+        var urlBusquedaCatPres = "@Url.Action("BuscarCatalogo", "Presupuestos")";
+        var urlBusquedaCatPresIng = "@Url.Action("BuscarCatalogo", "PresupuestosIngresos")";
+        var urlBusquedaPres = "@Url.Action("Buscar", "Presupuestos")";
+        var urlBusquedaPresIng = "@Url.Action("Buscar", "PresupuestosIngresos")";
+        var rutaHomeIndex = "@Url.Action("Index", "Home", new { area="" })";
+        var urlPoliza = "@Url.Action("V_Cuentas_Polizas_Reporte", "Catalogos")";
+        var urlLogOut = '@Url.Action("LogOff", "Account", new { area = "" })';
+
+        var rutaDescripcionTipoG = "@Url.Action("GetDescripcionTipoG", "Presupuestos")";
+    </script>
+    <script src="~/Scripts/jquery-isloading.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

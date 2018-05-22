@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+      <Title>tryJ</Title>
+      <Author>Jul´s</Author>
+      <Description> Try Catch custom
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>tryJ</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+      <Literal>
+        <ID>Exito</ID>
+        <ToolTip>Exito</ToolTip>
+        <Default>Exito</Default>
+      </Literal>
+      <Literal>
+        <ID>mensaje</ID>
+        <ToolTip>Mensaje de retorno</ToolTip>
+        <Default>Mensaje</Default>
+      </Literal>
+    </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[try
+            {
+                return Json(new { $Exito$ = true, $mensaje$ = "OK" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { $Exito$ = false, $mensaje$ = new Errores(ex.HResult, ex.Message).Mensaje });
+            }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

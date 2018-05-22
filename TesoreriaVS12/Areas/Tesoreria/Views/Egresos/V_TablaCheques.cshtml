@@ -1,0 +1,70 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.vListaChequesDesasignacion>
+
+@{
+    Layout = null;
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_TipoCR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_FolioCR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_CuentaFR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoPersona)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaVen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.No_Cheque)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Importe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_CtaBancaria)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_TipoCR)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_FolioCR)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_CuentaFR)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoPersona)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaVen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_Cheque)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Importe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id_CtaBancaria)
+                </td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>

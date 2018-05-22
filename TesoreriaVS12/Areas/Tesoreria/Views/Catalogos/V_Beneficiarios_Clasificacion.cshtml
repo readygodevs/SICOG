@@ -1,0 +1,20 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="row" id="bsqClasificacion">
+    <div class="col-sm-12">
+        Descripción
+    </div>
+    <div class="col-sm-12">
+        @Html.TextBox("Descripcion","")
+    </div>
+</div>
+<br />
+<div class="row" id="bsqClasificacionTbl"></div>
+
+<script>
+    $(document).ready(function () {
+        $("#bsqClasificacion input,textarea,select").addClass("form-control");
+    });
+</script>

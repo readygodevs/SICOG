@@ -1,0 +1,601 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Modelos.ChequesModel
+@{
+    Layout = null;
+    String NombreFirmante1 = ViewBag.NombreFirmante1;
+    String CargoFirmante1 = ViewBag.CargoFirmante1;
+    String NombreFirmante2 = ViewBag.NombreFirmante2;
+    String CargoFirmante2 = ViewBag.CargoFirmante2;
+    int count = 0;
+}
+<html>
+<head>
+    <title>PolizaDeCheque</title>
+    <style>
+        body
+        {
+            font-family: "Calibri (Body)";
+            font-size: 24px;
+        }
+
+        #contenedor
+        {
+            width: 1190px;
+        }
+
+        .row
+        {
+            display: block;
+            clear: both;
+        }
+
+        #cabecera
+        {
+            height: 200px;
+        }
+
+        .beneficiario
+        {
+            margin-left: 460px;
+            font-size: 24px;
+            line-height: 35px;
+        }
+
+        .fila2
+        {
+            margin-top: 10px;
+        }
+
+        .contrarecibo
+        {
+            margin-left: 27px;
+            padding-left: 130px;
+            width: 275px;
+            float: left;
+            height: 45px;
+            line-height: 35px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .compromiso
+        {
+            padding-left: 125px;
+            width: 150px;
+            float: left;
+            height: 45px;
+            line-height: 35px;
+        }
+
+        .fechaemision
+        {
+            padding-left: 137px;
+            width: 165px;
+            float: left;
+            height: 45px;
+            line-height: 35px;
+            text-align: right;
+        }
+
+        .fechadepago
+        {
+            width: 110px;
+            float: right;
+            height: 45px;
+            line-height: 35px;
+            padding-right: 40px;
+        }
+
+        .detalle
+        {
+            margin-top: 45px;
+            height: 536px;
+            padding-left: 42px;
+            padding-right: 45px;
+        }
+
+            .detalle table
+            {
+                font-size: 20px;
+                width: 100%;
+            }
+
+        .clavep
+        {
+            width: 280px;
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .importe
+        {
+            width: 115px;
+            padding-left: -10px;
+            text-align: right;
+        }
+
+
+        .banco
+        {
+            margin-left: 32px;
+            width: 450px;
+            float: left;
+            line-height: 35px;
+            padding-left: 10px;
+            padding-top: 5px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .cuenta
+        {
+            width: 192px;
+            float: left;
+            line-height: 35px;
+            padding-left: 22px;
+            padding-top: 5px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .nombre_firmante
+        {
+            width: 230px;
+            float: left;
+            font-size: 17px;
+            line-height: 35px;
+            padding-left: 25px;
+            /*padding-top: 5px;*/
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .pagebreak
+        {
+            page-break-after: always;
+        }
+
+        .nocheque
+        {
+            width: 176px;
+            float: left;
+            line-height: 35px;
+            padding-left: 30px;
+            padding-top: 5px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .importe2
+        {
+            width: 275px;
+            float: left;
+            text-align: right;
+            line-height: 35px;
+            padding-left: 10px;
+            padding-top: 5px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .formulo
+        {
+            margin-left: 35px;
+            width: 260px;
+            font-size: 17px;
+            float: left;
+            height: 95px;
+            line-height: 35px;
+            /*padding-left: 10px;*/
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .div_vacia
+        {
+            margin-left: 35px;
+            width: 260px;
+            font-size: 17px;
+            float: left;
+            height: 95px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .firmante
+        {
+            margin-left: 20px;
+            width: 238px;
+            font-size: 17px;
+            float: left;
+            height: 95px;
+            line-height: 35px;
+            /*padding-left: 10px;*/
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .firmante1
+        {
+            margin-left: 29px;
+            width: 230px;
+            font-size: 17px;
+            float: left;
+            height: 95px;
+            line-height: 35px;
+            /*padding-left: 10px;*/
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .fila5
+        {
+            margin-top: 10px;
+            overflow: hidden;
+            /*margin-bottom: 14px;*/
+        }
+
+        .fila_cargos
+        {
+            overflow: hidden;
+            margin-top: -70px;
+            margin-bottom: 14px;
+        }
+
+        .nocheque2
+        {
+            text-align: right;
+            height: 45px;
+            line-height: 35px;
+            padding-right: 45px;
+        }
+
+        .fechalarga
+        {
+            height: 45px;
+            margin-top: 60px;
+            text-align: right;
+            padding-right: 45px;
+        }
+
+        .fila8
+        {
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .paguese
+        {
+            margin-left: 30px;
+            float: left;
+            height: 45px;
+            width: 742px;
+            line-height: 35px;
+        }
+
+        .importe3
+        {
+            width: 265px;
+            height: 45px;
+            float: right;
+            line-height: 35px;
+        }
+
+        .fila9
+        {
+            padding-left: 30px;
+            margin-top: 10px;
+        }
+
+        .text-center
+        {
+            text-align: center;
+        }
+    </style>
+
+    <style>
+        .cuerpo
+        {
+            width: 1100px;
+            height: 385px;
+        }
+
+        .contenido
+        {
+            width: 770px;
+        }
+
+        .fecha
+        {
+            margin-top: 100px;
+            /*border-bottom:1px solid #000;*/
+            text-align: right;
+            width: 700px;
+        }
+
+        .paguese
+        {
+            margin-top: 20px;
+            /*border-bottom:1px solid #000;*/
+            text-align: left;
+        }
+
+        .cantidad
+        {
+            margin-top: 20px;
+            /*border-bottom:1px solid #000;*/
+            text-align: left;
+        }
+
+        .chequeno
+        {
+            margin-top: 20px;
+            /*border-bottom:1px solid #000;*/
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @foreach (var item in Model.Cheques)
+        {
+            if (Model.Formato == TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoFormatosChequesModel.POLIZA_CHEQUE)
+            {
+            <div id="contenedor">
+                <div class="row" id="cabecera"></div>
+                <div class="row">
+                    <div class="beneficiario">@item.Beneficiario</div>
+                </div>
+                <div class="row fila2">
+                    <div class="contrarecibo">@Html.DisplayFor(modelItem => item.Contrarecibo)</div>
+                    <div class="compromiso">@Html.DisplayFor(modelItem => item.Compromiso)</div>
+                    <div class="fechaemision">@Html.Encode(item.Fecha_Pago.Value.ToShortDateString())</div>
+                    <div class="fechadepago">@Html.Encode(item.Fecha_Pago.Value.ToShortDateString())</div>
+                </div>
+                <br />
+                <br />
+                <div class="row detalle">
+                    <table>
+                        <tr>
+                            <td colspan="3" class="text-center">@Html.Encode("POLIZA DE EGRESOS")</td>
+                        </tr>
+                        @foreach (var item2 in Model.PolizasEgresos)
+                        {
+                            <tr>
+                                <td class="clavep">@String.Format("{0}{1}", item2.clavePresupuestal.Length > 0 ? item2.clavePresupuestal.Substring(0, 6) + " - " : "", item2.Id_Cuenta)</td>
+                                <td>@Html.DisplayFor(modelItem => item2.DescripcionCta)</td>
+                                <td class="importe">
+                                    @String.Format("{0:C}", item2.Cargos)
+                                </td>
+                            </tr>
+
+                        }
+                        <tr>
+                            <td colspan="3" class="text-center">@Html.Encode("POLIZA DE DIARIO")</td>
+                        </tr>
+                        @foreach (var item3 in Model.PolizasDiario)
+                        {
+                            <tr>
+                                <td class="clavep">@String.Format("{0}{1}", item3.clavePresupuestal.Length > 0 ? item3.clavePresupuestal.Substring(0, 6) + " - " : "", item3.Id_Cuenta)</td>
+                                <td>@Html.DisplayFor(modelItem => item3.DescripcionCta)</td>
+                                @if (item3.Cargos.HasValue)
+                                {
+                                    <td class="importe"></td>
+                                    <td class="importe">
+                                        @*999,000,000.00*@
+                                        @item3.Cargos
+                                    </td>
+                                }
+                                else if (item3.Abonos.HasValue)
+                                {
+                                    <td class="importe">
+                                        @*999,000,000.00*@
+                                        @item3.Abonos
+                                    </td>
+                                    <td class="importe"></td>
+                                }
+                            </tr>
+
+                        }
+                    </table>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="banco">@Html.DisplayFor(modelItem => item.DescBanco)</div>
+                    <div class="cuenta">@Html.DisplayFor(modelItem => item.No_Cuenta)</div>
+                    <div class="nocheque">@Html.DisplayFor(modelItem => item.No_Cheque_Letra)</div>
+                    <div class="importe2">@Html.Encode(String.Format("{0:C}", item.Importe))</div>
+                </div>
+                <br />
+                <br />
+                <div class="row fila5">
+                    <div class="formulo">@Model.UsuarioGeneroCheques</div>
+                    <div class="firmante">@String.Format("{0,10}", NombreFirmante1.ToUpper())</div>
+                    <div class="firmante1">@NombreFirmante2.ToUpper() </div>
+                </div>
+                <div class="row fila_cargos">
+                    <div class="div_vacia"></div>
+                    <div class="firmante">@CargoFirmante1.ToUpper()</div>
+                    <div class="firmante1">@CargoFirmante2.ToUpper() </div>
+                </div>
+                @*<div class="row fila5">
+                        <div class="formulo">@Model.UsuarioGeneroCheques</div>
+                    </div>*@
+                <div class="row">
+                    <div class="nocheque2">
+                        @Html.DisplayFor(modelItem => item.No_Cheque_Letra)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="fechalarga">
+                        @item.Fecha_Pago.Value.ToLongDateString().ToUpper()
+                    </div>
+                </div>
+                <div class="row fila8">
+                    <div class="paguese">@item.Beneficiario</div>
+                    <div class="importe3">@item.Importe</div>
+                </div>
+                <br />
+                <div class="row fila9">
+                    <div>@Html.DisplayFor(modelItem => item.Importe_Letra) </div>
+                </div>
+            </div>
+                        count++;
+                        if (count < Model.Cheques.Count())
+                        {
+            <div class="pagebreak"></div>
+                        }
+
+                //suma los cargos de la poliza egresos
+@*Html.Encode(Model.PolizasEgresos.Sum(reg => reg.Cargos))*@
+                //suma los cargos de la poliza  diario
+@*Html.Encode(String.Format("{0} --{1}",Model.PolizasDiario.Sum(reg => reg.Cargos), "fin poliza"))*@
+            <br />
+            <br />
+
+            }
+            else if (Model.Formato == TesoreriaVS12.Areas.Tesoreria.Models.Ca_TipoFormatosChequesModel.CHEQUE_POLIZA)
+            {
+            <div id="contenedor">
+
+                <div class="row">
+                    <div class="nocheque2">
+                        @Html.DisplayFor(modelItem => item.No_Cheque_Letra)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="fechalarga">
+                        @item.Fecha_Pago.Value.ToLongDateString().ToUpper()
+                    </div>
+                </div>
+                <div class="row fila8">
+                    <div class="paguese">@item.Beneficiario</div>
+                    <div class="importe3">@item.Importe</div>
+                </div>
+                <br />
+                <div class="row fila9">
+                    <div>@Html.DisplayFor(modelItem => item.Importe_Letra) </div>
+                </div>
+            </div>
+                count++;
+                if (count < Model.Cheques.Count())
+                {
+            <div class="pagebreak"></div>
+                }
+            <div class="row" id="cabecera"></div>
+            <div class="row">
+                <div class="beneficiario">@item.Beneficiario</div>
+            </div>
+            <div class="row fila2">
+                <div class="contrarecibo">@Html.DisplayFor(modelItem => item.Contrarecibo)</div>
+                <div class="compromiso">@Html.DisplayFor(modelItem => item.Compromiso)</div>
+                <div class="fechaemision">@Html.Encode(item.Fecha_Pago.Value.ToShortDateString())</div>
+                <div class="fechadepago">@Html.Encode(item.Fecha_Pago.Value.ToShortDateString())</div>
+            </div>
+            <br />
+            <br />
+            <div class="row detalle">
+                <table>
+                    <tr>
+                        <td colspan="3" class="text-center">@Html.Encode("POLIZA DE EGRESOS")</td>
+                    </tr>
+                    @foreach (var item2 in Model.PolizasEgresos)
+                    {
+                        <tr>
+                            <td class="clavep">@String.Format("{0}{1}", item2.clavePresupuestal.Length > 0 ? item2.clavePresupuestal.Substring(0, 6) + " - " : "", item2.Id_Cuenta)</td>
+                            <td>@Html.DisplayFor(modelItem => item2.DescripcionCta)</td>
+                            <td class="importe">
+                                @String.Format("{0:C}", item2.Cargos)
+                            </td>
+                        </tr>
+
+                    }
+                    <tr>
+                        <td colspan="3" class="text-center">@Html.Encode("POLIZA DE DIARIO")</td>
+                    </tr>
+                    @foreach (var item3 in Model.PolizasDiario)
+                    {
+                        <tr>
+                            <td class="clavep">@String.Format("{0}{1}", item3.clavePresupuestal.Length > 0 ? item3.clavePresupuestal.Substring(0, 6) + " - " : "", item3.Id_Cuenta)</td>
+                            <td>@Html.DisplayFor(modelItem => item3.DescripcionCta)</td>
+                            @if (item3.Cargos.HasValue)
+                            {
+                                <td class="importe"></td>
+                                <td class="importe">
+                                    @*999,000,000.00*@
+                                    @item3.Cargos
+                                </td>
+                            }
+                            else if (item3.Abonos.HasValue)
+                            {
+                                <td class="importe">
+                                    @*999,000,000.00*@
+                                    @item3.Abonos
+                                </td>
+                                <td class="importe"></td>
+                            }
+                        </tr>
+
+                    }
+                </table>
+            </div>
+            <br />
+            <div class="row">
+                <div class="banco">@Html.DisplayFor(modelItem => item.DescBanco)</div>
+                <div class="cuenta">@Html.DisplayFor(modelItem => item.No_Cuenta)</div>
+                <div class="nocheque">@Html.DisplayFor(modelItem => item.No_Cheque_Letra)</div>
+                <div class="importe2">@Html.Encode(String.Format("{0:C}", item.Importe))</div>
+            </div>
+            <br />
+            <br />
+            <div class="row fila5">
+                <div class="formulo">@Model.UsuarioGeneroCheques</div>
+                <div class="firmante">@String.Format("{0,10}", NombreFirmante1.ToUpper())</div>
+                <div class="firmante1">@NombreFirmante2.ToUpper() </div>
+            </div>
+            <div class="row fila_cargos">
+                <div class="div_vacia"></div>
+                <div class="firmante">@CargoFirmante1.ToUpper()</div>
+                <div class="firmante1">@CargoFirmante2.ToUpper() </div>
+            </div>
+@*<div class="row fila5">
+                        <div class="formulo">@Model.UsuarioGeneroCheques</div>
+                    </div>*@
+                
+
+                //suma los cargos de la poliza egresos
+@*Html.Encode(Model.PolizasEgresos.Sum(reg => reg.Cargos))*@
+                //suma los cargos de la poliza  diario
+@*Html.Encode(String.Format("{0} --{1}",Model.PolizasDiario.Sum(reg => reg.Cargos), "fin poliza"))*@
+            <br />
+            <br />   
+                
+            }
+            else
+            {
+            <div class="cuerpo">
+                <div class="contenido">
+                    <div class="fecha">
+                        @Html.Encode(item.Fecha_Pago.Value.ToLongDateString().ToUpper())
+                    </div>
+                    <div class="paguese">@Html.DisplayFor(modelItem => item.Beneficiario)</div>
+                    <div class="cantidad">@Html.Encode(String.Format("{0:n}", item.Importe)) @Html.DisplayFor(modelItem => item.Importe_Letra)</div>
+                    <div class="chequeno">@Html.DisplayFor(modelItem => item.No_Cheque_Letra)</div>
+                </div>
+            </div>
+                count++;
+                if (!(count < 3))
+                {
+                    count = 0;
+            <div class="pagebreak"></div>
+                }
+            }
+        }
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,427 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_TransferenciasModel
+
+@{
+    ViewBag.Title = "V_DeTransferencia";
+    Layout = Url.Content("~/Views/Shared/_Layout.cshtml");
+}
+
+<div id="_menu_lateral">
+
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar" } }); }
+
+</div>
+<div class="contenedor-fijo">
+    <h2>Detalle de la Transferencia</h2>
+    <form id="frmSalir" method="post" action="/Tesoreria/Presupuestos/V_Transferencias">
+        <input type="hidden" name="Id_Transferencia" value="@Model.Id_Transferencia" />
+    </form>
+    @using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmDeTransferencia", @class = "js_frmClavePresupuestal" }))
+    {
+        @Html.HiddenFor(model => model.Id_Estatus)
+        <div class="row">
+            <div class="col-xs-1 col-xs-offset-4">
+                <label>Folio</label>
+                @Html.TextBoxFor(model => model.Id_Transferencia, new { @class = "form-control folio", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Id_Transferencia)
+            </div>
+            <div class="col-xs-2 text-center">
+                <label>Consecutivo</label>
+                <input type="text" class="form-control consecutivo" readonly="readonly" id="Id_Consecutivo" name="Id_Consecutivo" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                             { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Id_Consecutivo);
+                                                                                                                             }
+                                                                                                                             else
+                                                                                                                             { @Html.Encode("0");
+                                                                                                                             }" />
+            </div>
+            <div class="col-xs-2">
+                <label>Movimiento</label>
+                <select id="Id_Movimiento" name="Id_Movimiento" class="form-control">
+                    <option value="1" selected="selected">AMPLIACION</option>
+                    <option value="2">REDUCCIÓN</option>
+                </select>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div id="_detalles_polizas" class="detalle_polizas1">
+                @if (Model.De_Transferencias.Count > 0)
+                {
+                    @Html.Partial("_ClavePresupuestal", Model.De_Transferencias.FirstOrDefault())
+                }
+                else
+                {
+                    @Html.Partial("_ClavePresupuestal", new TesoreriaVS12.Areas.Tesoreria.Models.De_ClavePresupuestal())
+                }
+            </div>
+            <div id="_distribucion" class="">
+                <div class="row">
+                    <div class="col-xs-3">
+                    </div>
+                    <div class="col-xs-5">
+                        <label>Disponibilidad</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Distribución</label>
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Enero:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis01" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre01" name="Pre01" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre01);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Febrero:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis02" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre02" name="Pre02" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre02);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Marzo:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis03" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre03" name="Pre03" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre03);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Abril:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis04" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre04" name="Pre04" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre04);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Mayo:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis05" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre05" name="Pre05" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre05);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Junio:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis06" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre06" name="Pre06" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre06);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Julio:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis07" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre07" name="Pre07" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre07);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Agosto:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis08" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre08" name="Pre08" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                            { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre08);
+                                                                                                                            }
+                                                                                                                            else
+                                                                                                                            { @Html.Encode("0");
+                                                                                                                            }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Septiembre:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis09" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre09" name="Pre09" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                            { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre09);
+                                                                                                                            }
+                                                                                                                            else
+                                                                                                                            { @Html.Encode("0");
+                                                                                                                            }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Octubre:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis10" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre10" name="Pre10" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre10);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Noviembre:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis11" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre11" name="Pre11" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre11);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Diciembre:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="Dis12" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control js_mes formPresup importe" id="Pre12" name="Pre12" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                           { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Pre12);
+                                                                                                                           }
+                                                                                                                           else
+                                                                                                                           { @Html.Encode("0");
+                                                                                                                           }" />
+                    </div>
+                </div>
+                <hr />
+                <div class="row margen-2">
+                    <div class="col-xs-3">
+                        <label>Total:</label>
+                    </div>
+                    <div class="col-xs-5">
+                        <input type="text" class="form-control js_dis importe" id="total" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="text" id="Importe" name="Importe" class="form-control formPresup importe" readonly="readonly" value="@if (Model.De_Transferencias.Count() > 0)
+                                                                                                                                            { @Html.Encode(Model.De_Transferencias.FirstOrDefault().Importe);
+                                                                                                                                            }
+                                                                                                                                            else
+                                                                                                                                            { @Html.Encode("0");
+                                                                                                                                            }" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="row">
+                <div class="col-sm-7 col-sm-offset-5">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <input type="radio" value="1" name="tipo[]" class="js_radio formPresup">
+                            <label>Por mes</label>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="radio" value="2" name="tipo[]" class="js_radio formPresup">
+                            <label>Meses iguales</label>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="Radio" value="3" name="tipo[]" class="js_radio formPresup">
+                            <label>Por porcentaje</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="div_mesesIguales" style="display: none">
+                            <br />
+                            <div class="col-xs-3">
+                                <label>Importe</label>
+                                <input type="text" id="importeMeses" class="form-control formPresup importe" />
+                            </div>
+                            <div class="col-xs-6">
+                                <br />
+                                <button type="button" class="js_previsualizar btn btn-success">Previsualizar</button>
+                            </div>
+                        </div>
+                        <div id="div_porcentaje" style="display: none">
+                            <br />
+                            <div class="col-xs-3">
+                                <label>Importe</label>
+                                <input type="text" class="form-control formPresup importe" id="importe" />
+                            </div>
+                            <div class="col-xs-4">
+                                <label>Porcentaje</label>
+                                <input type="text" id="porcentaje" class="form-control formPresup" />
+                            </div>
+                            <div class="col-xs-4">
+                                <br />
+                                <button type="button" class="js_previsualizar btn btn-success">Previsualizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+    }
+    <div class="row">
+        <br />
+        <div id="container_DetallesTransferencias" class=""></div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Tesoreria/Scripts/Catalogos/FocusOut.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/clavePresupuestal.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/autoNumeric.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/DeTransferencias.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ImportePresupuestoEg.js"></script>
+    <script>
+        var tablaDetalles="";
+        var seleccionado=0;
+        $.validator.setDefaults({ onkeyup: false });
+        var urlFocusOutAreas = "@Url.Action("Areas", "FocusOut")";
+        var urlGetDescripcion = "@Url.Action("GetDescripcion", "Presupuestos")";
+        var urlGenericSearchClave = "@Url.Action("GenericSearchClave", "FocusOut")";
+        $(document).on("ready",function(){
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $(".js_Descripcion").prop("disabled",true);
+            $("select").attr("readonly","readonly");
+            $("#_distribucion input").attr("disabled", "disabled");
+            if(@Model.De_Transferencias.Count > 0)
+            {
+                if(@Model.Id_Estatus == 1)
+                    recargarMenuLateral(["bNuevo","bEliminar", "bSalir"]);
+                else
+                    recargarMenuLateral(["bSalir"]);
+                GetDisponibilidad();
+            }
+            else
+            {
+                if(@Model.Id_Estatus == 1)
+                    recargarMenuLateral(["bNuevo", "bSalir"]);
+                else
+                    recargarMenuLateral(["bSalir"]);
+                $(".js_Captura").attr("readonly", "readonly");
+            }
+
+            ajaxLoad("V_TablaDetallesTransferencia",{Id_Transferencia:$("#Id_Transferencia").val()},"container_DetallesTransferencias","POST",function(result){
+                tablaDetalles=ConstruirTabla("tblDetallesTransferencia", "No hay resultado para mostrar.");
+            });
+            $(".js_mes").autoNumeric("init");
+            $(".js_dis").autoNumeric("init");
+            $("#Importe").autoNumeric({ aSign: "$" });
+            $("#total").autoNumeric({ aSign: "$" });
+
+
+
+            $("body").on("focusout","#Id_ObjetoG",GetDisponibilidad)
+            $("body").on("click", "#js_mNuevo", nuevoDeTrans);
+            $("body").on("click", "#js_mGuardar", guardarDetalle);
+            $("body").on("click", "#js_mEliminar", eliminarDeTransferenciasM);
+            $("body").on("click", "#js_mCancelar", Cancelar);
+            $("body").on("click", "#js_mSalir", Salir);
+            $("body").on("click", "#tblDetallesTransferencia .js_seleccionar", seleccionarDetalle);
+            $("body").on("click",".js_Eliminar",eliminarDeTransferencias);
+            $(".js_mes").on("blur", function () {
+                if ($(this).val().trim() == "")
+                    $(this).val(0);
+                sumar("Pre");
+            });
+            $(".js_mes").on("blur, keyup", function () {
+                sumar("Pre");
+            });
+            $(".js_CuentaHiden").addClass("hide");
+
+            $(".js_radio").on("click", function () {
+                seleccionado = $(this).val();
+                if (seleccionado == 1) {
+                    $("#div_porcentaje").hide();
+                    $("#div_mesesIguales").hide();
+                    $(".js_mes").attr("readonly", false);
+                    $("#Aprobado01").focus();
+                } else if (seleccionado == 2) {
+                    $("#div_porcentaje").hide();
+                    $("#div_mesesIguales").show();
+                    $("#importeMeses").focus();
+                } else {
+                    $("#div_porcentaje").show();
+                    $("#div_mesesIguales").hide();
+                    $("#importe").focus();
+                }
+            });
+        });
+
+
+    </script>
+    <script type="text/template" id="jsActionsource">
+        <div class="acciones">
+            <a class="fa fa-bars js_seleccionar cursorPointer" data-idtrans="<%= Id_Transferencia %>" data-idcon="<%= Id_Consecutivo %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+            <a class="fa fa-trash-o js_Eliminar cursorPointer" data-idtrans="<%= Id_Transferencia %>" data-idcon="<%= Id_Consecutivo %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+        </div>
+    </script>
+}

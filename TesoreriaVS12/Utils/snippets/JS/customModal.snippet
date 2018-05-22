@@ -1,0 +1,22 @@
+<CodeSnippet Format="1.1.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Custom Modal</Title>
+    <Author>Jul's</Author>
+    <Shortcut>customModal</Shortcut>
+    <Description>Code snippet for a custom modal by Jul's</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+      <SnippetType>SurroundsWith</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>url</ID>
+        <ToolTip>URL</ToolTip>
+        <Default>"/Area/controller/action"</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="JavaScript"><![CDATA[customModal($url$,{},"GET","size",function('calbackOk'){},function('calbackOk'){},"Aceptar","Cancelar","Titulo Modal","IdModal")]]></Code>
+  </Snippet>
+</CodeSnippet>

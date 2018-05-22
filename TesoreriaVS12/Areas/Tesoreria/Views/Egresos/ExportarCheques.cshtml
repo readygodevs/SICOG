@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Exportar Cheques";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bLimpiar", "bSalir" } }); }
+</div>
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<link href="~/Content/Tree/jqx.base.css" rel="stylesheet" />
+<div class="container">
+    <h2>Exportación de Cheques</h2>
+</div>
+<div id="div_bancos" class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Banco</label>
+            <select id="Banco" class="form-control has-error"></select>
+        </div>
+        <div class="col-sm-4">
+            <label>Cuenta Bancaria</label>
+            <select id="CuentaBancaria" class="form-control"></select>
+        </div>
+        @if (ViewBag.Vista == 2)
+        {
+            <div class="col-sm-2">
+                <label>Fecha Pago:</label>
+                <div class="input-group ">
+                    <input id="FechaPago" type="text" class="form-control datepicker" readonly="readonly" />
+                    <span class="input-group-addon js_modalProveedor"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        }
+        <div class="col-sm-4 pull-right">
+            <button id="ExportarCheques" class="btn btn-success margin-25">Exportar Cheques</button>
+        </div>
+    </div>
+</div>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 js_GridCheques">
+            <div id="GridCheques">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="js_divImporte" class="row">
+    <div class="col-sm-12 text-right">
+        <label>Importe total:</label><span id="js_totalImporte">$0.00</span>
+    </div>
+</div>
+<form action="/Tesoreria/Egresos/ExportarCheques" method="POST" id="FormCheques" target="_blank">
+    <input type="hidden" name="ListaCheques" id="ListaCheques" value=""/>
+    <input type="hidden" name="ClaveCuenta" id="ClaveCuenta" value="" />
+</form>
+@section scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Tree/jqxcore.js"></script>
+    <script src="~/Scripts/Tree/jqxdata.js"></script>
+    <script src="~/Scripts/Tree/jqxbuttons.js"></script>
+    <script src="~/Scripts/Tree/jqxscrollbar.js"></script>
+    <script src="~/Scripts/Tree/jqxmenu.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.sort.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.filter.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.selection.js"></script>
+    <script src="~/Scripts/Tree/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxcheckbox.js"></script>
+    <script src="~/Scripts/Tree/jqxlistbox.js"></script>
+    <script src="~/Scripts/Tree/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxdatatable.js"></script>
+    <script src="~/Scripts/Tree/demos.js"></script>
+    <script type="text/javascript">
+        var total = 0;
+        var no_Cheque = 0;
+        var selectedRowData = 0;
+        var todos = true;
+        var radio = 0;
+        var jsonCheques = {};
+        var GridCheques = "GridCheques";
+        var Source;
+        var ConstruirSource = function (Valor) {
+            Source = {
+                dataType: "json",
+                type: "POST",
+                data: { CuentaBancaria: Valor },
+                dataFields: [
+                     { name: "Id_TipoCR", type: "number" },
+                     { name: "Id_FolioCR", type: "number" },
+                     { name: "Fecha_Pago", type: "date", },
+                     { name: "NombreCompleto", type: "string" },
+                     { name: "Descripcion", type: "string" },
+                     { name: "No_Cheque", type: "number" },
+                     { name: "Cargos", type: "money" }
+                ],
+                url: "@Url.Action("GetChequesCtaBancaria","Egresos")",
+                id: "id"
+            };
+        }
+        var Columns = [
+              { text: "Tipo", cellsAlign: "center", align: "center", dataField: "Id_TipoCR" },
+              { text: "Folio", cellsAlign: "center", align: "center", dataField: "Id_FolioCR" },
+              { text: "Fecha de Pago", dataField: "Fecha_Pago", cellsAlign: "center", align: "center", cellsformat: "dd/MM/yyyy" },
+              { text: "Beneficiario", dataField: "NombreCompleto", cellsAlign: "center", align: "center" },
+              { text: "Descripción", dataField: "Descripcion", cellsAlign: "center", align: "center" },
+              { text: "No. de Cheque", dataField: "No_Cheque", cellsAlign: "center", align: "center"},
+              { text: "Importe", dataField: "Cargos", cellsAlign: "right", align: "right" }
+        ];
+        $(document).on("ready", function () {
+            ajaxSelect("@Url.Action("List_Bancos","Listas")", {}, "POST", true, "Banco", "", callBackLlenarSelect);
+            $("body").on("change", "#Banco", llenarCuentasBanco);
+            $("#CuentaBancaria").on("change", function () {
+                if ($(this).val() > 0) {
+                    ConstruirSource($("#CuentaBancaria").val());
+                    ConstruirGrid(GridCheques, Source, Columns);
+                } else {
+                    DestroyGrid(GridCheques)
+                }
+            });
+            $("body").on("click", "#ExportarCheques", ExportarCheques);
+            $("body").on("change", "#"+GridCheques+" .jqx-grid-column-header", function (event) {
+                var rows = $('#' + GridCheques).jqxGrid('getrows');
+                var total = 0;
+                if (todos) {
+                    for (var i = 0; i < rows.length; i++) {
+                        var row = rows[i];
+                        total += row.Cargos;
+                    }
+                    $("#js_totalImporte").html("$" + total + ".00");
+                    todos = false;
+                } else {
+                    $("#js_totalImporte").html("$" + total + ".00");
+                    todos = true;
+                }
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+    </script>
+    <script src="~/Areas/Tesoreria/Scripts/Egresos/ExportacionCheques.js"></script>
+}
+

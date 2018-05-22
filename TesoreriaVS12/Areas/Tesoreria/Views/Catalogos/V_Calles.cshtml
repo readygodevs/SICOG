@@ -1,0 +1,128 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_CallesModel>
+
+@{
+    ViewBag.Title = "V_Calles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo","bImprimir", "bSalir" } }); }
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Catálogo de Calles</h2>
+            @*<div class="btn btn-success js_agregar pull-right">
+                <i class="fa fa-plus"></i>Agregar
+            </div>*@
+            <div class="jsSourceActions hide"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tbl" class="table table-responsive table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="CA_Estado.Descripcion">@Html.DisplayNameFor(model => model.Id_Estado)</th>
+                        <th data-title="CA_Municipio.Descripcion">@Html.DisplayNameFor(model => model.Id_Municipio)</th>
+                        <th data-title="CA_Localidad.Descripcion">@Html.DisplayNameFor(model => model.Id_Localidad)</th>
+                        <th data-title="Descripcion">@Html.DisplayNameFor(model => model.Descripcion)</th>
+                        <th data-title="Acciones" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CA_Estado.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CA_Municipio.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CA_Localidad.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <a class="fa fa-file-text-o js_detalles cursorPointer" data-id="@item.id_calle"  data-locali="@item.Id_Localidad" data-estado="@item.Id_Estado" data-muni="@item.Id_Municipio" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.id_calle"  data-locali="@item.Id_Localidad" data-estado="@item.Id_Estado" data-muni="@item.Id_Municipio" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.id_calle"  data-locali="@item.Id_Localidad" data-estado="@item.Id_Estado" data-muni="@item.Id_Municipio" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+
+    <script>
+        var aPos = -1;
+        var RutaAdd = "@Url.Action("V_Calles_Guardar", "Catalogos")";//"/Tesoreria/Catalogos/V_Calles_Guardar";
+        var RutaEdit = "@Url.Action("V_Calles_Editar", "Catalogos")";//"/Tesoreria/Catalogos/V_Calles_Editar";
+        var RutaDelete = "@Url.Action("V_Calles_Eliminar", "Catalogos")";//"/Tesoreria/Catalogos/V_Calles_Eliminar";
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.id_calle","IdE":"response.Registro.Id_Estado","IdM":"response.Registro.Id_Municipio","IdL":"response.Registro.Id_Localidad" }';
+        var MsjEliminar = "¿Esta seguro de eliminar la Calle? esta acción no se puede deshacer";
+        var SourceAction = "jsActionsource";
+        var RutaExportarPDF = "@Url.Action("Calles", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Calles";
+        var ExportarPDFCatalogo = function () {
+            window.open(RutaExportarPDF, "_blank");
+        }
+        $(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            ConstruirTabla(TableId, "No hay Calles...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("body").on("click", "#js_mNuevo", Nuevo);
+            $("body").on("click", ".js_editar", function () {
+                aPos = $("#" + TableId).dataTable().fnGetPosition($(this).parent().parent().get(0));
+                ajaxLoad(RutaEdit, { IdEstado: $(this).data("estado"), IdMunicipio: $(this).data("muni"), IdLocalidad: $(this).data("locali"), IdCalle: $(this).data("id") }, "MyModal1 .modal-body", "GET", openModal);
+            });
+            $("body").on("click", ".js_eliminar", function () { Eliminar({ IdEstado: $(this).data("estado"), IdMunicipio: $(this).data("muni"), IdLocalidad: $(this).data("locali"), IdCalle: $(this).data("id") }, $(this)); });
+            $("body").on("click", ".js_detalles", function () {
+                customModal("@Url.Action("V_CallesDetalles","Catalogos")", { IdEstado: $(this).data("estado"), IdMunicipio: $(this).data("muni"), IdLocalidad: $(this).data("locali"), IdCalle: $(this).data("id") }, "GET", "md", "", "", "", "Cerrar", "Detalle Localidad", "IdModal")
+            });
+            $("#MyModal1").on("click", "#js_btnOk1", GuadarEditar);
+            //---------------Carga de los Select de Domicilio---------------------//
+            $("body").on("change", "#Id_Estado", function () {
+                ajaxSelect("@Url.Action("Lista_Municipios","Listas")", { Id_Estado: $(this).val() }, "post", false, "Id_Municipio", "", callBackLlenarSelect);
+            });
+            $("body").on("change", "#Id_Municipio", function () {
+                ajaxSelect("@Url.Action("Lista_Localidades","Listas")", { Id_Estado: $("#Id_Estado").val(), Id_Municipio: $(this).val() }, "post", false, "Id_Localidad", "", callBackLlenarSelect);
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+        function GuadarEditar() {
+            if ($("#id_calle").val() == 0) {
+                if ($("#" + FrmId).valid()) {
+                    ajaxJson(RutaAdd, $("#" + FrmId).serialize(), "POST", true, callBackSave);
+                }
+            }
+            else {
+                GuardarEdit();
+            }
+
+        }
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="js_detalles fa fa-file-text-o cursorPointer" data-id="<%= Id %>"  data-estado="<%= IdE %>"  data-muni="<%= IdM %>" data-locali="<%= IdL %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="<%= Id %>" data-estado="<%= IdE %>" data-muni="<%= IdM %>" data-locali="<%= IdL %>" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" data-estado="<%= IdE %>" data-muni="<%= IdM %>" data-locali="<%= IdL %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+
+}
+

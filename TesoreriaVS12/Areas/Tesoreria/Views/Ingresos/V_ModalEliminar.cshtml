@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <label>Fecha cancelación:</label>
+        <div class="input-group">
+            <input type="text" name="Fecha" id="FechaCancelacion" class="form-control datepickerm jsEnabledAgregar jsEnabledEditar" readonly="readonly"/>
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="h_IdTransferencia" value="@ViewBag.id" />
+<script>
+    $(function () {
+        $('.datepickerm').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            startDate: '@Html.Raw(ViewBag.FechaInicio)',
+            endDate: '@Html.Raw(ViewBag.FechaFin)'
+        });
+        $("#FechaCancelacion").datepicker("update", "@Html.Raw(ViewBag.FechaInicio)");
+    });
+</script>

@@ -1,0 +1,53 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ConceptosIngresosModel
+
+@{
+    Layout = null;
+}
+<div data-title="Agregar" class="TituloModal"></div>
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_Concepto)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Rubro)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Rubro)
+        @Html.ValidationMessageFor(model => model.Rubro)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Tipo)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Tipo)
+        @Html.ValidationMessageFor(model => model.Tipo)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Clase)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Clase)
+        @Html.ValidationMessageFor(model => model.Clase)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Descripcion)
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.UltimoNivel)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.UltimoNivel)
+        @Html.ValidationMessageFor(model => model.UltimoNivel)
+    </div>
+}
+
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

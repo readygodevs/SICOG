@@ -1,0 +1,21 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_MunicipiosModel
+<div data-title="Editar" class="TituloModal"></div>
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="editor-label">
+        @Html.HiddenFor(model => model.Id_Estado)
+    </div>
+    <div class="editor-label">
+        @Html.HiddenFor(model => model.Id_Municipio)
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+             @Html.LabelFor(model => model.Descripcion)
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-1"> @Html.ValidationMessageFor(model => model.Descripcion)</div>
+    </div>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

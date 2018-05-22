@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+
+
+<div class="row" id="SaldarMovimiento">
+    <div class="col-xs-4">
+        <div class="input-group">
+            @Html.TextBox("CtaxPagar", "", new { @class="js_CapturaCtaxPagar"})
+            <span class="input-group-addon js_search">
+                <span class="fa fa-search"></span>
+            </span>
+        </div>
+    </div>
+    <div class="col-xs-8">
+        @Html.TextBox("CtaxPagarDesc", "", new { @class="js_DescripcionCtaxPagar" })
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#SaldarMovimiento input").addClass("form-control");
+        $("#SaldarMovimiento").on("click", ".js_search", function () {
+            customModal("@Url.Action("BuscarCuenta","Cuentas")", {}, "GET", "lg", "", "", "", "Cancelar", "Buscar Cuentas", "IdModal2");
+        });
+
+        $("body").on("click", "#tblCuentasSearch .js_seleccionar", function () {
+            $("#CtaxPagar").val($(this).data("idcuenta"));
+            $("#CtaxPagarDesc").val($(this).data("descripcion"));
+            $(".IdModal2").modal("hide");
+        });
+
+        ajaxJson("@Url.Action("CuentasxPagar","FocusOut")", {}, "POST", true, function (response) {
+            focoJsCaptura();
+            $("#CtaxPagar").typeahead({ source: response.Data, items: 15, });
+            $("#CtaxPagar").data("dataSource", response.Ids);
+            $("#CtaxPagar").data("dataBancos", response.cuentasBancos);
+            if (response.Data.length == 1) {
+                $("#CtaxPagar").val(response.Data[0]);
+                $("#CtaxPagar").trigger('change');
+            }
+        });
+
+        $("body").on("change", "#CtaxPagar", function () {
+            if ($(this).val().split('-').length != 1) {
+                $("#CtaxPagarDesc").val($(this).val().split('-')[1]);
+                $(this).val($(this).val().split('-')[0]);
+                if ($(this).val().length == 20) {
+                    $("#CtaxPagar").removeAttr('disabled').focus();
+                }
+            }
+        });
+
+    });
+
+    var focoJsCaptura = function () {
+        $(".js_CapturaCtaxPagar").on("focusout", function () {
+            var elemento = $(this);
+            if ($(this).val().length > 0 && $.inArray($(this).val(), $(this).data("dataSource")) == -1) {
+                $(this).parent().parent().parent().find(".js_DescripcionCtaxPagar").val("");
+                $(this).val("").focus();
+                $(this).parent().parent().parent().nextAll().find(".js_CapturaCtaxPagar").attr("disabled", "disabled").val("").typeahead('destroy');
+                $(this).parent().parent().parent().nextAll().find(".js_DescripcionCtaxPagar").val("");
+                $("#CtaxPagar").empty();
+                setTimeout(function () { elemento.focus(); }, 100);
+            }
+        });
+
+    }
+
+    var buildFiltros = function () {
+        var f = {};
+        var cta = ajaxJson("@Url.Action("CuentasxPagar","FocusOut")", {}, "get", false, function (data) {
+            if (data == "") {
+                ErrorCustom("Falta Inicializarlo en Parametros");
+                return false;
+            }
+            else
+                f.IdCuenta = data;
+        });
+        f.selectUltimoNivel = true;
+        f.UltimoNivel = true;
+        return f;
+    }
+
+
+
+</script>

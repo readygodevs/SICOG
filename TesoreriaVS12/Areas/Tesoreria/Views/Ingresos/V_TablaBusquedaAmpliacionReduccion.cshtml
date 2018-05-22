@@ -1,0 +1,60 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_TransferenciasIngModel>
+
+@{
+    Layout = null;
+}
+
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Folio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descrip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_TipoT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Estatus)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Folio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descrip)
+                </td>
+                <td>
+                    @Html.Label("Fecha",item.Fecha.Value.ToShortDateString())
+                </td>
+                <td>
+                    @if (item.Id_TipoT == 1)
+                    {
+                        <span>Ampliación</span>
+                    }else{
+                        <span>Reducción</span>
+                    }
+                    
+                </td>
+                <td>
+                     @Html.Label("Id_Estatus", TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.EstatusTransferencia[item.Id_Estatus.Value])
+                </td>
+                <td class="acciones">
+                    <a class="fa fa-check js_seleccionar cursorPointer" data-id="@item.Folio"  title="Seleccionar" data-toggle="tooltip" data-placement="top"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

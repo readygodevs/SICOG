@@ -1,0 +1,364 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ma_ContrarecibosCPModel
+
+@{
+    ViewBag.Title = "AnticiposPrestamos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+
+<h2>Anticipos y Préstamos</h2>
+
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = (Model.Botonera.Count > 0 ? Model.Botonera : new List<object> { "bNuevo", "bBuscar", "bSalir" }) }); }
+</div>
+
+@section sin_contenedor{
+    @using (Html.BeginForm("Cancelacion_PasivosGuardar", "Contrarecibos", FormMethod.Post, new { id = "frmCancelacionPasivos" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="container">
+            <div class="row datosIniciales">
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Id_TipoCR)
+                    @Html.HiddenFor(x => x.Id_TipoCR)
+                    @Html.TextBoxFor(model => model.Ca_TipoContrarecibos.Descripcion, new { @class = "NonEditable" })
+                    @Html.ValidationMessageFor(model => model.Id_TipoCR)
+                </div>
+                <div class="col-xs-1">
+                    @Html.LabelFor(model => model.Id_FolioCR)
+                    @Html.TextBoxFor(model => model.Id_FolioCR, "", new { @class = "NonEditable" })
+                    @Html.ValidationMessageFor(model => model.Id_FolioCR)
+                </div>
+                <div class="col-xs-3">
+                    <div>
+                        @Html.LabelFor(model => model.FechaCR)
+                        @Html.ValidationMessageFor(model => model.FechaCR)
+                    </div>
+                    <div class="input-group fecha_group">
+                        @Html.TextBoxFor(model => model.FechaCR, new { @class = "date" })                        
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-xs-2 pull-right text-right">
+                    @Html.LabelFor(model => model.Id_EstatusCR)
+                    @Html.HiddenFor(model => model.Id_EstatusCR)
+                    @Html.TextBoxFor(model => model.Descripcion_EstatusCR, new { @class="txt-estatus pull-right NonEditable" })
+                    @Html.ValidationMessageFor(model => model.Id_EstatusCR)
+                </div>
+                <div class="col-xs-3">
+                    <div>
+                        @Html.LabelFor(model => model.Id_TipoCompromiso)
+                        @Html.ValidationMessageFor(model => model.Id_TipoCompromiso)
+                    </div>
+                    <div>
+                        @Html.DropDownList("Id_TipoCompromiso", Model.ListaId_TipoCompromiso, new { @class="js_Nuevo" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div>
+                        @Html.LabelFor(model => model.Descripcion)
+                        @Html.ValidationMessageFor(model => model.Descripcion)
+                    </div>
+                    <div>
+                        @Html.TextAreaFor(model => model.Descripcion, new { @class = "js_Nuevo" })
+                    </div>
+                </div>
+               <div class="col-xs-2">
+                    <div>
+                        @Html.LabelFor(model => model.FechaVen)                        
+                    </div>
+                    <div class="input-group fecha_group">
+                        @Html.TextBoxFor(model => model.FechaVen, new { @class = "NonEditable", @disabled="disabled" })
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FechaVen)                    
+                </div>
+                <div class="col-xs-2 text-right">
+                    <br />
+                    @Html.LabelFor(model => model.Impreso_CR)
+                    @Html.CheckBox("Impreso_CR", Model.Impreso_CR.HasValue ? Model.Impreso_CR.Value : false, new { @class = "NonEditable" })
+                    @Html.ValidationMessageFor(model => model.Impreso_CR)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    @Html.LabelFor(model => model.Id_CuentaFR)
+                    <div class="div_inline">
+                        <div class="input-group aplicacion-contable-group pull-left">
+                            @Html.TextBoxFor(model => model.Id_CuentaFR, new { @class = "js_Captura" })
+                            <span class="input-group-addon js_searchCuentas"><i class="fa fa-search"></i></span>
+                        </div>
+                        &nbsp;
+                        @Html.TextBoxFor(model => model.Ca_Cuentas_FR.Descripcion, new { @class = "NonEditable js_Descripcion Ca_Cuentas_Descripcion" })
+                        @Html.ValidationMessageFor(model => model.Id_CuentaFR)
+                    </div>
+                </div> 
+                <div class="col-xs-4">
+                    <label>Fuente de Financiamiento</label>
+                    <div class="div_inline">
+                        <div class="input-group fuente-finc-group pull-left">
+                            @Html.TextBoxFor(model => model.Id_Fuente, new { @class = "" })
+                            <span class="input-group-addon js_searchCuentas"><i class="fa fa-search"></i></span>
+                        </div>
+                        &nbsp;
+                        @Html.TextBoxFor(model => model.Ca_FuentesFin.Descripcion, new { @class = "NonEditable " })
+                        @Html.ValidationMessageFor(model => model.Id_Fuente)
+                    </div>
+                </div>                               
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    @Html.LabelFor(model => model.Cargos)
+                    @Html.TextBoxFor(model => model.Cargos, new { @class="importe js_Importe"})
+                    @Html.ValidationMessageFor(model => model.Cargos)
+                </div>
+                <div class="col-xs-6">
+                    @Html.LabelFor(model => model.Usu_CR)
+                    @Html.TextBoxFor(model => model.Usu_CR, new { @class = "NonEditable" })
+                    @Html.ValidationMessageFor(model => model.Usu_CR)
+                </div>
+            </div>
+            <div class="row">
+                <br />
+                <div class="col-xs-6 fieldsets_chicos hide">
+                    <fieldset>
+                        <legend>Consulta de Saldos</legend>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label>Mes</label>
+                                @Html.DropDownListFor(model => model.Id_Mes, Model.ListaId_Mes, "--Seleccione Mes--", new { @class=""})
+                                @Html.ValidationMessageFor(model => model.Id_Mes)
+                            </div>
+                            <div class="col-xs-4">
+                                @Html.LabelFor(model => model.CargoMes)
+                                @Html.TextBoxFor(model => model.CargoMes, new { @class = "NonEditable importe js_Importe" })
+                                @Html.ValidationMessageFor(model => model.CargoMes)
+                            </div>
+                            <div class="col-xs-4">
+                                @Html.LabelFor(model => model.AbonoMes)
+                                @Html.TextBoxFor(model => model.AbonoMes, new { @class = "NonEditable importe js_Importe" })
+                                @Html.ValidationMessageFor(model => model.AbonoMes)
+                            </div>
+                        </div>
+                    </fieldset>
+                <br />
+                </div>
+            </div> 
+        </div>
+        <br />
+        <div class="separador_dos">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-2">
+                        @Html.LabelFor(model => model.No_Cheque)
+                        @Html.TextBox("No_Cheque", Model.No_Cheque == 0 ? "TE" : Model.No_Cheque.ToString() , new { @class = "NonEditable cheque" })
+                        @Html.ValidationMessageFor(model => model.No_Cheque)
+                    </div>
+                    <div class="col-xs-2">
+                        <br />
+                        @Html.LabelFor(model => model.Impreso_CH)
+                        @Html.CheckBox("Impreso_CH", Model.Impreso_CH.HasValue ? Model.Impreso_CH.Value : false, new { @class = "NonEditable" })
+                        @Html.ValidationMessageFor(model => model.Impreso_CH)
+                    </div>
+                    <div class="col-xs-2">
+                        @Html.LabelFor(model => model.Fecha_Pago)
+                        <div class="input-group fecha_group">
+                            @Html.TextBox("Fecha_Pago", Model.Fecha_Pago.HasValue ? Model.Fecha_Pago.Value.ToShortDateString() : "", new { @class = "date NonEditable" })
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Fecha_Pago)
+                    </div>
+                    <div class="col-xs-6">                    
+                        @Html.LabelFor(model => model.Usu_Pago)
+                        @Html.TextBoxFor(model => model.Usu_Pago, new { @class = "NonEditable" })
+                        @Html.ValidationMessageFor(model => model.Usu_Pago)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        @Html.LabelFor(model => model.PolizaCheque)                    
+                        @Html.HiddenFor(model => model.Id_MesPolizaCH)
+                        <div class="input-group folio_mes">
+                            @Html.HiddenFor(model => model.Id_FolioPolizaCH)
+                            @Html.TextBoxFor(model => model.PolizaCheque, new { @class = "NonEditable" })
+                            <span class="input-group-addon js_ConsultaPoliza" data-tipo="2"><i class="fa fa-search"></i></span>
+                        </div>                    
+                        @Html.ValidationMessageFor(model => model.PolizaCheque)
+                    </div>
+                    <div class="col-xs-3">
+                        @Html.LabelFor(model => model.Spei)
+                        @Html.TextBoxFor(model => model.Spei, new { @class = "NonEditable Editable_PCH" })
+                        @Html.ValidationMessageFor(model => model.Spei)
+                    </div>
+                </div>
+                <div class="row">                    
+                    <div class="col-xs-3">
+                        @Html.LabelFor(model => model.PolizaCheque_C)
+                        @Html.HiddenFor(model => model.Id_MesPolizaCH_C)
+                        <div class="input-group folio_mes">
+                            @Html.HiddenFor(model => model.Id_FolioPolizaCH_C)
+                            @Html.TextBoxFor(model => model.PolizaCheque_C, new { @class = "NonEditable" })
+                            <span class="input-group-addon js_ConsultaPoliza" data-tipo="2"><i class="fa fa-search"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.PolizaCheque_C)
+                    </div>
+                    <div class="col-xs-4">
+                        @Html.LabelFor(model => model.FechaCancelacion_CH)
+                        <div class="input-group fecha_group">                        
+                            @Html.TextBox("FechaCancelacion_CH", Model.FechaCancelacion_CH.HasValue ? Model.FechaCancelacion_CH.Value.ToShortDateString() : "", new { @class = "date NonEditable" })
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.FechaCancelacion_CH)
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    }
+}
+
+@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ContrarecibosCP.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>    
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#frmCancelacionPasivos input[type=text], textarea, select").addClass("form-control");
+            disableInputs();
+            $(".input-group .date").datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                todayHighlight: true
+            });
+            $("#FechaCR").datepicker("setStartDate", '@Model.cfechas.Fecha_Min.ToShortDateString()');
+            $("#FechaCR").datepicker("setEndDate", '@Model.cfechas.Fecha_Max.ToShortDateString()');
+            
+            $(".js_Importe").on("blur", function () {
+                $(this).formatCurrency({ symbol: "" });
+            });
+
+            $("body").on("click", "#js_mNuevo", function () {
+                getNew();
+                enableInputs();
+                NonEditableInputs();
+                eventFocusBalance();
+                createBotonera(["bGuardar", "bCancelar"]);
+                return false;
+            });
+            
+            $('#Id_Fuente').typeahead({
+                source: function (query, process) {
+                    $.ajax({
+                        url: "@Url.Action("FuenteCP","FocusOut")",
+                        type: "POST",
+                        data: { name: $("#Id_Fuente").val() },
+                        dataType: "JSON",
+                        async: true,
+                        success: function (results) {
+                            $('#Id_Fuente').data("datasource", results.Ids);
+                            return process(results.Data);
+                        }
+                    });
+                }
+            });
+            $('#Id_Fuente').on('change', function () {
+                if ($(this).val().split('-').length != 1) {
+                    $("#Ca_FuentesFin_Descripcion").val($(this).val().split('-')[1]);
+                    $(this).val($(this).val().split('-')[0]);
+                } else {
+                    if (!$(this).val().length > 0) {
+                        $(this).val("");
+                        $("#Ca_FuentesFin_Descripcion").val("");
+                    }
+                }
+            });
+
+            $("body").on("click", "#js_mGuardar", function () {                
+                $(".js_Importe").toNumber();
+                enableInputs();                
+                save();
+                return false;
+            });
+
+            $("body").on("click", "#js_mEditar", function () {                
+                edit();
+                return false;
+            });
+
+            $("body").on("click", "#js_mCancelar", function () {                
+                getNew();
+                disableInputs();
+                createBotonera(["bNuevo", "bBuscar", "bSalir"]);
+                return false;
+            });
+
+            $("body").on("click", "#js_mBuscar", function () {
+                customModal("@Url.Action("BuscarContrarecibo","Contrarecibos")", { Tipo: $("#Id_TipoCR").val() }, "GET", "lg", function () { $("#Resultados").ajaxLoad({ url: "@Url.Action("tblContrarecibos","Contrarecibos")", data: $("#frmSearchContra").serialize(), method: "POST" }); }, "", "Buscar", "Cerrar", "Buscar Cuenta por Liquidar", "busquedaContrarecibos");
+                return false;
+            });
+
+            $("body").on("click", "#js_mImprimir", function () {
+                print();
+                return false;
+            });
+
+            $("body").on("click", "#js_mCancelarGral", function () {
+                cancel();
+                return false;
+            });
+
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+
+            //--------------------Select Meses --------------------------------//
+            $("#Id_Mes").on("change", function () {
+                if ($("#Id_CuentaFR").val() != "")
+                    getCargos();
+                return false;
+            });
+            $(".js_searchCuentas").on("click", function () {
+                searchCuentas(this);
+            });
+            $("body").on("click", ".js_searchC", function () {
+                getContras();
+            });
+            $("body").on("click", "#tblContraSearch .js_seleccionar", function () {
+                selectContras($(this));
+                return false;
+            });
+            $("body").on("click", "#tblCuentasSearch .js_seleccionar", function () {
+                selectCuentas(this);
+            });
+            /**************Consulta poliza*****************/
+            $(".js_ConsultaPoliza").on("click", function () {
+                ConsultaPoliza($(this).data("tipo"), $(this).siblings("input[type=hidden]").val(), $(this).parent().siblings("input[type=hidden]").val());
+            });
+            /************************************************************/
+        });
+    </script>
+
+    <script type="text/template" id="js_msjImprimir">
+        <p>Por favor confirme que desea imprimir el Cuenta por Liquidar con la siguiente información</p>
+        <label>Tipo de Cuenta por Liquidar:</label>
+        <span><%= TipoCR %></span>
+        <br />
+        <label>Folio de Cuenta por Liquidar:</label>
+        <span><%= FolioCR %></span>
+        <br />
+        <label>Importe:</label>
+        <span><%= Total %></span>
+    </script>
+}

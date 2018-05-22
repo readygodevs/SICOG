@@ -1,0 +1,162 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.BusquedaCorteCaja
+
+@{
+    ViewBag.Title = "CorteCaja";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    String Ejercicio = ViewBag.Ejercicio;
+}
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<style>
+    .row {
+        margin-top: 5px !important;
+    }
+</style>
+<h2>Corte de Caja</h2>
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bLimpiar", "bSalir" } }); }
+</div>
+@using (Html.BeginForm("BuscarCorteCaja", "Ingresos", FormMethod.Post, new { id = "frmCaja" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="col-xs-12">
+                    <label>Especificar Rango de Fecha de Recaudación</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="col-xs-9">
+                    <div class="col-xs-3">
+                        <label>Desde</label>
+                    </div>
+                    <div class='col-xs-8'>
+                        @Html.TextBoxFor(model => model.FechaDesdeRecaudacion, new { @class = "form-control date", maxlength = 10 })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="col-xs-9">
+                    <div class="col-xs-3">
+                        <label>Hasta</label>
+                    </div>
+                    <div class='col-xs-8'>
+                        @Html.TextBoxFor(model => model.FechaHastaRecaudacion, new { @class = "form-control date", maxlength = 10})
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Caja Receptora</label>
+            </div>
+            <div class="col-xs-6">
+                <label>Estatus</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <select id="CajaReceptora" name="CajaReceptora" class="form-control col-xs-4"></select>
+            </div>
+            <div class="col-xs-offset-2 col-xs-3">
+                @Html.DropDownListFor(model => model.Estatus, Model.EstatusRecibo, "--Seleccione una opción--", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <label>Establecer Orden del Reporte</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <select name="Orden" id="Orden" class="form-control">
+                    <option value="1">Folio</option>
+                    <option value="2">Contribuyente</option>
+                    <option value="3">Fecha de Recaudación</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div id="div_resultados"></div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        var Anio = parseInt("@Ejercicio") - 1;
+        Anio = '12/31/' + Anio;
+        var Fecha = new Date(Anio);
+        $(document).ready(function () {
+            $("#FechaDesdeRecibo").val("");
+            $("#FechaHastaRecibo").val("");
+            $("#FechaDesdeRecaudacion").val("");
+            $("#FechaHastaRecaudacion").val("");
+            $(".date").datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                startDate: Fecha,
+                todayHighlight: true
+            });
+            $("#FechaDesdeRecaudacion").on("change", function () {
+                if ($(this).val().trim().length == 0) {
+                    $("#FechaHastaRecaudacion").val("");
+                }
+            });
+            $("#FechaHastaRecaudacion").on("change", function () {
+                if ($(this).val().trim().length == 0) {
+                    $("#FechaDesdeRecaudacion").val("");
+                }
+            });
+            $("#FechaDesdeRecaudacion").datepicker().on("changeDate", function (e) {
+                var fecha = new Date(e.date);
+                $("#FechaHastaRecaudacion").datepicker("update", new Date(fecha));
+                $("#FechaHastaRecaudacion").datepicker("setStartDate", new Date(fecha));
+                $("#FechaHastaRecaudacion").attr("disabled", false);
+            });
+            $("#FechaHastaRecaudacion").datepicker().on("changeDate", function (e) {
+                if ($("#FechaDesdeRecaudacion").val().trim().length == 0) {
+                    var fecha = new Date(e.date);
+                    $("#FechaDesdeRecaudacion").datepicker("update", new Date(fecha));
+                    $("#FechaDesdeRecaudacion").datepicker("setStartDate", new Date(fecha));
+                    $("#FechaDesdeRecaudacion").attr("disabled", false);
+                }
+            });
+            $("body").on("click", "#js_mBuscar", function () {
+                $("#div_resultados").ajaxLoad({
+                    url: $("#frmCaja").attr("action"),
+                    data: $("#frmCaja").serialize(),
+                    method: "POST",
+                    callback: function () {
+                        createBotonera(["bBuscar", "bLimpiar", "bImprimir", "bSalir"]);
+                        ConstruirTabla("tblIngresos");
+                    }
+                });
+            });
+            $("body").on("click", "#js_mLimpiar", function () {
+                cleanInputs();
+            });
+            $("body").on("click", "#js_mImprimir", function () {
+                window.open("@Url.Action("ReporteCorteCaja","Ingresos")"+"?"+$("#frmCaja").serialize(), "_blank");
+            });
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+            });
+            var cleanInputs = function () {
+                $(".container input[type=text], textarea").val("");
+                $(".container select").val("");
+            }
+            ajaxSelect("@Url.Action("List_CajasReceptoras","Listas")", {}, "POST", true, "CajaReceptora", "", callBackLlenarSelect);
+        });
+    </script>
+
+}

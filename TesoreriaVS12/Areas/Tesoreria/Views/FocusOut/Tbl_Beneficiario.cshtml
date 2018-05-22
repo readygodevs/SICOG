@@ -1,0 +1,37 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_BeneficiariosModel>
+
+<table>
+    <tr>
+        <th>
+            No. beneficiario
+        </th>               
+        <th>
+            Nombre beneficiario
+        </th>
+        <th>
+            Tipo beneficiario
+        </th> 
+        @*<th>
+            Clasificación
+        </th> *@       
+        <th>Acciones</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Beneficiario)
+        </td>
+        <td>
+            @Html.Encode(item.NombreCompleto)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Ca_BeneficiariosCuentas.Ca_ClasificaBeneficiarios.Descripcion)
+        </td> *@       
+        <td>
+            <a href="#" class="js_SeleccionarBeneficiario" data-idbeneficiario="@item.Id_Beneficiario" data-nombre="@item.NombreCompleto"><i class="fa fa-check"></i></a>                        
+        </td>
+    </tr>
+}
+
+</table>

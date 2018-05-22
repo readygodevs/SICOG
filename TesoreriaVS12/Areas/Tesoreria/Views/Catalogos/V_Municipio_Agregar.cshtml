@@ -1,0 +1,30 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_MunicipiosModel
+
+@{
+    Layout = null;
+}
+
+<div data-title="Agregar" class="TituloModal"></div>
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="row">
+        <div class="col-sm-11">
+             @Html.LabelFor(model => model.Id_Estado)
+            @Html.DropDownListFor(model => model.Id_Estado, Model.Lista_Estados, "-Seleccionar-", new { @class="form-control"})
+        </div>
+        <div class="col-sm-1"> @Html.ValidationMessageFor(model => model.Id_Estado)</div>
+    </div>
+    <div class="editor-label">
+        @Html.HiddenFor(model => model.Id_Municipio)
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+             @Html.LabelFor(model => model.Descripcion)
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-1"> @Html.ValidationMessageFor(model => model.Descripcion)</div>
+    </div>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

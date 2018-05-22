@@ -1,0 +1,20 @@
+﻿@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("tblResultadosRecibos", "Ingresos", FormMethod.Post, new { id="frmBusqueda" }))
+{
+    <div class="row">
+        <div class="col-xs-2">
+            <label>Folio</label>
+            @Html.TextBox("Folio","", new { @class="form-control" })
+        </div>
+        <div class="col-xs-10">
+            <label>Nombre contribuyente</label>
+            @Html.TextBox("NombreContribuyente","", new { @class="form-control" })
+        </div>
+    </div>
+    <div class="row" id="resultadosRecibos">
+
+    </div>
+}

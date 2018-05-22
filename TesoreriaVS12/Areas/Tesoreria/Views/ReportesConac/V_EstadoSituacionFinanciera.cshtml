@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "V_EstadoSituacionFinanciera";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+         @{Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> {"bConsultar", "bImprimir", "bSalir" } });} 
+</div>
+<link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href="~/Content/ReporteESF.css" rel="stylesheet" />
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<h2>Estado de Situación Financiera</h2>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+            <label>Hasta</label>
+            <div class='input-group'>
+                <input type="text" id="FechaHasta" class="form-control date" maxlength="10" value="@DateTime.Now.ToShortDateString()" />
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label class="consultar">Cuentas sin ceros</label>
+            <input type="checkbox" id="ceros" name="ceros" value="1" class="consultar"/>
+        </div>
+        <div class="col-sm-2">
+            <label class="consultar">Firmantes</label>
+            <input type="checkbox" id="firmantes" name="firmantes" value="1" class="consultar"/>
+        </div>
+        <div class="col-sm-2">
+            <label class="consultar">Encabezado</label>
+            <input type="checkbox" id="encabezado" name="encabezado" value="1" class="consultar"/>
+        </div>
+        @*<div class="col-sm-2">
+            <button class="btn btn-success consultar" id="js_consultar">Consultar</button>
+        </div>*@
+    </div>
+    <br />
+    <div class="row">
+        <div id="js_busqueda" class="col-sm-12"></div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/underscore.js"></script>
+    <script>
+        $(document).on("ready", function () {
+            $('.date').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                startDate: '@Html.Raw(ViewBag.FechaInicio)',
+                endDate: '@Html.Raw(ViewBag.FechaFin)'
+            });
+            $("#js_mConsultar").on("click", consultar);
+            $('body').on('click', '#js_mSalir', GoHome);
+            $('body').on('click', '#js_mImprimir', Imprimir);
+        });
+        function Imprimir()
+        {
+            if ($("#FechaHasta").val() != "")
+                window.open("@Url.Action("ReporteESF","ReportesConac")"+"?FechaFinS=" + $("#FechaHasta").val() + "&ceros=" + $("#ceros").is(':checked') + "&firmantes=" + $("#firmantes").is(':checked') + "&encabezado=" + $("#encabezado").is(':checked'), "_blank");
+            else
+                ErrorCustom("Seleccione una fecha");
+        }
+        function consultar()
+        {
+            if ($("#FechaHasta").val() != "")
+            {
+                ajaxLoad("ConsultaESF", { FechaFin: $("#FechaHasta").val(), ceros: $("#ceros").is(':checked'), firmantes: $("#firmantes").is(':checked') }, "js_busqueda", "POST", function (result) { });
+            }
+            else
+                ErrorCustom("Seleccione una fecha");
+        }
+    </script>
+
+    @*<a class="js_detalles fa fa-file-text-o cursorPointer" data-id="<%= Id %>"  data-idestado="<%= IdE %>" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+    <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="<%= Id %>" data-idestado="<%= IdE %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>*@
+}
+

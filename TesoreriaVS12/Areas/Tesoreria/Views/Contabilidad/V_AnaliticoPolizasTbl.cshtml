@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ma_PolizasModel>
+
+@{
+    Layout = null;
+}
+
+<table  id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Póliza</th>
+            <th>
+                Tipo Contrarecibo
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_CtaBancaria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th class="text-right">
+                Importe
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @TesoreriaVS12.Areas.Tesoreria.Models.StringID.PolizasFormato(item.Id_TipoPoliza, item.Id_MesPoliza, item.Id_FolioPoliza)
+                </td>
+                <td>
+                     @Html.DisplayFor(modelItem => item.Ca_TipoContrarecibo.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_CuentasBancarias.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                 <td>
+                    @Html.Encode(item.Fecha.ToShortDateString())
+                </td>
+                 <td class="text-right">
+                     @if (item.Cargos.HasValue)
+                     {
+                          @Html.Encode(item.Cargos.Value.ToString("N"))
+                     }
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

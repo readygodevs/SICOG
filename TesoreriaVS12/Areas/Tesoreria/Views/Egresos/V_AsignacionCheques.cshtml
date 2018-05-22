@@ -1,0 +1,250 @@
+﻿@{
+    ViewBag.Title = "V_AsignacionCheques";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar","bLimpiar", "bSalir" } }); }
+</div>
+<link href="~/Content/datepicker3.css" rel="stylesheet" />
+<link href="~/Content/Tree/jqx.base.css" rel="stylesheet" />
+<div class="container">
+    @if (ViewBag.Vista == 2)
+    {
+        <h2>Transferencia Electrónica</h2>
+    }
+    else
+    { 
+        <h2>Asignación de Cheques</h2>
+    }
+
+    <br />
+    <input type="hidden" id="h_Vista" value="@ViewBag.Vista" />
+    <!--<div class="row">
+        <div class="col-sm-2">
+            <input type="radio" name="Tipo" data-id="1" class="js_radio" checked="checked" />
+            <label>Pago a Proveedores</label>
+        </div>
+        <div class="col-sm-6">
+            <input type="radio" name="Tipo" data-id="2" class="js_radio" />
+            <label>Fondos Revolventes, Gastos a Comprobar y Cancelación  de Pasivos </label>
+        </div>
+    </div>-->
+    <br />
+    <div class="row">
+        <div class="col-sm-2">
+            <label>Desde</label>
+            <div class='input-group'>
+                @Html.TextBox("FechaDesde", "",new { @class = "form-control date", maxlength = 10 })
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label>Hasta</label>
+            <div class='input-group'>
+                @Html.TextBox("FechaHasta", "",new { @class = "form-control date", maxlength = 10 })
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+        </div>
+        @if (ViewBag.Vista == 2)
+        { 
+            <div class="col-sm-2 col-sm-offset-4">
+                <label>Fecha Pago:</label>
+                <div class="input-group ">
+                    <input id="FechaPago" type="text" class="form-control date" />
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        }
+        @*<div id="div_proveedores">
+            <div class="col-sm-8">
+                <div class="div_inline_block pull-left">
+                    <label>Proveedor</label>
+                    <div class="input-group proveedor-group">
+                        <input id="IdBeneficiario" type="text" class="form-control" />
+                        <span class="input-group-addon js_modalProveedor"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+                &nbsp;
+                <div class="div_inline_block">
+                    <input id="DescripcionBeneficiario" type="text" class="form-control centro-gestor-desc margin-25" readonly="readonly" />
+                </div>
+            </div>
+        </div>*@
+    </div>
+    @*<div class="row">
+        <div class="col-sm-3">
+            <label>Fecha de Vencimiento CR</label>
+            <select id="FechaVen" class="">
+                <option value="">--Seleccione uno--</option>
+            </select>
+        </div>
+        
+    </div>*@
+</div>
+<br />
+
+<div id="div_bancos" class="container">
+    <div class="row">
+        @*<div class="col-sm-3">
+        <label>Banco</label>
+        <select id="Banco" class="form-control has-error"></select>
+    </div><input type="text" id="txtFuente" class="form-control" readonly="readonly" />*@
+        <div class="col-sm-4">
+            <label>Fuente de Financiamiento</label>
+            <select id="FuenteFin" class="form-control"></select>
+        </div>
+        <div class="col-sm-3">
+            <label>Cuenta Bancaria</label>
+            <select id="CuentaBancaria" class="form-control"></select>
+        </div>
+        @if (ViewBag.Vista == 2)
+        { 
+            <div class="col-sm-2 pull-right">
+                <button id="js_asignarCheque" class="btn btn-success margin-25">Realizar Transferencia</button>
+            </div>
+        }
+        else
+        {
+            <input id="FechaPago" type="text" class="form-control hide datepicker" />
+            <div class="col-sm-2 pull-right">
+                <button id="js_asignarCheque" class="btn btn-success margin-25">Asignar cheque</button>
+            </div>
+        }
+
+    </div>
+</div>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 js_grid">
+            <div id="jqxgrid">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="js_divImporte" class="row">
+    <div class="col-sm-12 text-right">
+        <label>Importe total:</label><span id="js_totalImporte">$0.00</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 js_grid2">
+        <div id="jqxgrid2">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Tree/jqxcore.js"></script>
+    <script src="~/Scripts/Tree/jqxdata.js"></script>
+    <script src="~/Scripts/Tree/jqxbuttons.js"></script>
+    <script src="~/Scripts/Tree/jqxscrollbar.js"></script>
+    <script src="~/Scripts/Tree/jqxmenu.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.sort.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.filter.js"></script>
+    <script src="~/Scripts/Tree/jqxgrid.selection.js"></script>
+    <script src="~/Scripts/Tree/jqxpanel.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxcheckbox.js"></script>
+    <script src="~/Scripts/Tree/jqxlistbox.js"></script>
+    <script src="~/Scripts/Tree/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="~/Scripts/Tree/jqxdatatable.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script src="~/Scripts/Tree/demos.js"></script>
+    <script type="text/javascript">
+        var total = 0;
+        var no_Cheque = 0;
+        var selectedRowData = 0;
+        var todos = true;
+        var radio = 0;
+        var jsonCheques = {};
+        $(document).on("ready", function () {
+            ajaxSelect("@Url.Action("List_Fuentes","Listas")", {}, "POST", true, "FuenteFin", "", callBackLlenarSelect);
+            $('.date').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                startDate: '@Html.Raw(ViewBag.FechaInicio)',
+                endDate: '@Html.Raw(ViewBag.FechaFin)'
+            });
+            $("body").on("click", "#js_mSalir", GoHome);
+            $("body").on("click", "#js_mLimpiar", Limpiar);
+            $("body").on("click", "#js_mBuscar", Buscar);
+            $("body").on("click", ".js_radio", ChangeRadio);
+            $("body").on("change", "#FechaHasta,#FechaDesde,#Banco,#CuentaBancaria", changeFecha);
+            //ConstruirGrid();
+            $("body").on("click", ".js_modalProveedor", ModalBuscarProveedor);
+            $("#MyModal1").on("click", ".js_btnOk", TablaBuscarProveedor);
+            $("body").on("click", "#resultsBeneficiarios .js_SeleccionarBeneficiario", SeleccionarProveedor);
+            $("body").on("focusout", "#IdBeneficiario", FocusoutProveedor);
+            $("body").on("change", "#FuenteFin", llenarCuentasBanco);
+            //$("body").on("change", "#CuentaBancaria", getFuente);
+            $("body").on("click", "#js_asignarCheque", asignarCheque);
+            //$("body").on("click", ".jqx-grid-cell > .jqx-widget", checked); ,
+            $("body").on("change", "#jqxgrid #contenttablejqxgrid .jqx-checkbox", function (event) {
+                total = 0;
+                setTimeout(function () {
+                    var getselectedrowindexes = $('#jqxgrid').jqxGrid('getselectedrowindexes');
+                    if (getselectedrowindexes.length > 0) {
+                        // returns the selected row's data.
+                        for (i = 0; i < getselectedrowindexes.length; i++) {
+                            var selectedRowData = $('#jqxgrid').jqxGrid('getrowdata', getselectedrowindexes[i]);
+                            total += selectedRowData.Importe;
+                            $("#js_totalImporte").html(total);
+                            $("#js_totalImporte").formatCurrency();
+                        }
+                    }
+                    else
+                        $("#js_totalImporte").html("$0.00");
+                }, 300);
+
+            });
+
+            $("body").on("change", "#jqxgrid .jqx-grid-column-header", function (event) {
+                var rows = $('#jqxgrid').jqxGrid('getrows');
+                var total = 0;
+                if (todos) {
+                    for (var i = 0; i < rows.length; i++) {
+                        var row = rows[i];
+                        total += row.Importe;
+                    }
+                    $("#js_totalImporte").html(total);
+                    $("#js_totalImporte").formatCurrency();
+                    todos = false;
+                } else {
+                    $("#js_totalImporte").html(total);
+                    $("#js_totalImporte").formatCurrency();
+                    todos = true;
+                }
+            });
+            $(".date").datepicker({
+                format: 'dd/mm/yyyy',
+                autoclose: true,
+                startDate: '@Html.Raw(ViewBag.FechaInicio)',
+                endDate: '@Html.Raw(ViewBag.FechaFin)',
+                todayHighlight: true
+            });
+            $("#FechaDesde").on("change", function () {
+                if ($(this).val().trim().length == 0) {
+                    $("#FechaHasta").val("");
+                }
+            });
+            $("#FechaHasta").on("change", function () {
+                if ($(this).val().trim().length == 0)
+                    $("#FechaDesde").val("");
+            });
+            $("#FechaDesde").datepicker().on("changeDate", function (e) {
+                var fecha = new Date(e.date);
+                $("#FechaHasta").datepicker("update", new Date(fecha));
+                $("#FechaHasta").datepicker("setStartDate", new Date(fecha));
+                $("#FechaHasta").attr("disabled", false);
+            });
+        });
+    </script>
+    <script src="~/Areas/Tesoreria/Scripts/Egresos/AsignacionCheques.js"></script>
+}
+

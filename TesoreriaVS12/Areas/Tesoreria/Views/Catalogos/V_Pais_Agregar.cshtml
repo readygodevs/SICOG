@@ -1,0 +1,21 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_PaisesModel
+
+@{
+    ViewBag.Title = "Agregar Pais";
+    Layout = null;
+}
+<div data-title="Agregar" class="TituloModal"></div>
+<form id="frm">
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_Pais)
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Descripcion)
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

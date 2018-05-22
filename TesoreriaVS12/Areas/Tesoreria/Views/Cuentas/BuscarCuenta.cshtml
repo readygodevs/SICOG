@@ -1,0 +1,38 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.FiltrosCuentas
+
+@{
+    Layout = null;
+}
+
+<div data-title="Buscar cuenta" class="TituloModal"></div>
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmBuscarCuenta" }))
+{
+    <div class="editor-label">
+        Cuenta
+    </div>
+    <div class="input-group">
+        @Html.TextBoxFor(model => model.IdCuenta, new { @class = "form-control" })
+        <span class="input-group-addon js_searchCta">
+            <span class="fa fa-search"></span>
+        </span>
+    </div>
+    <div class="editor-label">
+        Descripción
+    </div>
+    <div class="input-group">
+        @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control", id="Descripcion_filtro" })
+        <span class="input-group-addon js_searchCta">
+            <span class="fa fa-search"></span>
+        </span>
+    </div>
+}
+<div id="Resultados_Cta" style="min-height: 60px;"></div>
+
+<script>
+    $(function () {
+        $(".js_searchCta").on("click", function () {
+            var filtros = buildFiltros();
+            $("#Resultados_Cta").ajaxLoad({ url: "@Url.Action("tblBuscarCuenta","Cuentas")", data: filtros, method: "POST" });
+        });
+    });
+</script>

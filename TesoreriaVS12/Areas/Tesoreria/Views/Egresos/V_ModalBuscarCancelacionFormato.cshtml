@@ -1,0 +1,44 @@
+﻿@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-sm-3">
+        <label>Banco: </label>
+        <select id="js_selectBancoM" class="form-control">
+        </select>
+    </div>
+    <div class="col-sm-3">
+        <label>Cuenta bancaria: </label>
+        <select id="js_selectCuentaM" class="form-control">
+            <option value=" ">--Seleccione--</option>
+        </select>
+    </div>
+    <div class="col-sm-2">
+        <label>Estatus</label>
+        <select id="js_selectEstatusM" class="form-control">
+            <option value="0">TODOS</option>
+            <option value="1">SIN UTILIZAR</option>
+            <option value="2">UTILIZADO</option>
+            <option value="3">FORMATO CANCELADO</option>
+            <option value="4">CHEQUE CANCELADO</option>
+        </select>
+    </div>
+    <div class="col-sm-2">
+        <label>Desde:</label>
+        <input id="js_desde" type="text" class="form-control" />
+    </div>
+    <div class="col-sm-2">
+        <label>Hasta:</label>
+        <input id="js_hasta" type="text" class="form-control" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div id="DivBuscar"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        ajaxSelect("@Url.Action("List_Bancos","Listas")", {}, "POST", true, "js_selectBancoM", "", callBackLlenarSelect);
+    });
+</script>

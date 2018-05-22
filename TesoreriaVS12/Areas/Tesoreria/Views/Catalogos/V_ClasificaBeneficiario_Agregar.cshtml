@@ -1,0 +1,125 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_ClasificaBeneficiariosModel
+
+@{
+    ViewBag.Title = "Agregar clasificación de beneficiario";
+    Layout = null;
+}
+<div data-title="Agregar" class="TituloModal"></div>
+<form id="frm">
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id_ClasificaBene)
+
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Id_Cuenta)
+            </div>
+            <div class="input-group ">
+                @Html.TextBoxFor(model => model.Id_Cuenta, new { @class = "form-control js_focus", maxlength = 20, @objeto = "15"})
+                <span class="input-group-addon js_search">
+                    <span class="fa fa-search"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.Id_Cuenta)
+        </div>
+        <div class="col-xs-7">
+            <label>Descripción</label>
+            <input type="text" class="form-control" name="Descripcion" id="desc_Id_Cuenta" readonly="readonly"/>
+        </div>
+    </div>
+</form>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+<script>
+    var filtros = {};
+    $(function () {
+        //url, data, metodo, asincrono, div, seleccion, callback
+        $(".modal-body").on("click", ".js_search", function () {
+            ajaxLoad("@Url.Action("BuscarCuenta","Cuentas")", {}, "MyModal2 .modal-body", "GET", function () {
+                openModal({ Modal: "MyModal2", Size: "lg" });
+                $("#MyModal2 .js_btnOk").hide();
+            });
+        });
+        $("body").on("click", ".js_seleccionar", function () {
+            var elemento = $(this);
+            $("#desc_Id_Cuenta").val(elemento.data("descripcion"));
+            $("#Id_Cuenta").val(elemento.data("idcuenta"));
+            closeModal({ Modal: "MyModal2" });
+        });
+        FocusOut("Id_Cuenta", "", 25, "");
+        //$("#MyModal1").off("click", ".js_btnOk");
+        //$("#MyModal1").on("click", ".js_btnOk", function () {
+        //    if ($("#" + FrmId).valid())
+        //    {
+        //        var f = buildFiltros();
+        //        $("#filters").val(JSON.stringify(f));
+        //        ajaxJson(RutaAdd, $("#" + FrmId).serialize(), "POST", true, callBackSave);
+        //    }
+        //});
+        FocusOut("Id_Cuenta", "", 20, "", "", 1);
+    });
+    var buildFiltros = function () {
+        var f = {};
+        f.RestringirCuentas = true;
+        f.ParametroCuentas = "Cuenta_ClasificaBene";
+        f.SelectNoUltimoNivel = true;
+        if ($("#IdCuenta").length > 0)
+            f.IdCuenta = $("#IdCuenta").val();
+        else
+            f.IdCuenta = $("#Id_Cuenta").val();
+        if ($("#Descripcion_filtro").length > 0)
+            f.Descripcion = $("#Descripcion_filtro").val();
+        else
+            f.Descipcion = $("#Descripcion").val();
+        return f;
+    }
+    function FocusOut(Campo, Siguiente, Longitud, Atributos, Tipo, Seccion) {
+
+        $("#" + Campo).on("keyup", function () {
+            var texto = $(this).val().trim();
+            if (texto.length == parseInt(Longitud)) {
+                if ($("#" + Siguiente).length > 0)
+                    $("#" + Siguiente).focus();
+                else
+                    $("#" + Campo).focusout();
+            }
+            else {
+                var textbox = "#desc_" + Campo;
+                $(textbox).val("");
+            }
+
+        });
+
+        $("#" + Campo).on("focusout", function () {
+            var texto = $(this).val().trim();
+            var arrAtributos = "";
+            if (texto.length == Longitud) {
+                if (typeof Atributos != "undefined") {
+                    var lista = Atributos.split(",");
+                    for (i = 0; i < lista.length; i++) {
+                        arrAtributos += $("#" + lista[i]).val() + ",";
+                    }
+                    arrAtributos = arrAtributos.substr(0, arrAtributos.length - 1);
+                }
+                ajaxJson(Seccion == 1 ? "@Url.Action("GetDescripcion","Presupuestos")" : urlGetDescripcionIngresos, { Id: $("#" + Campo).val(), objeto: $("#" + Campo).attr("objeto"), parametros: arrAtributos, Tipo: Tipo }, "POST", true, function (result) {
+                    var textbox = "#desc_" + Campo;
+                    if (result == null) {
+                        $(textbox).val("");
+                        $("#" + Campo).val("");
+                        $("#" + Campo).focus();
+                    }
+                    else if (result.Data == "") {
+                        $(textbox).val("");
+                        $("#" + Campo).val("");
+                        $("#" + Campo).focus();
+                    }
+                    else {
+                        var des = result.Data[0];
+                        $(textbox).val(des.split('-')[1]);
+                    }
+                });
+            }else
+                $("#" + Campo).val("");
+        });
+    }
+</script>

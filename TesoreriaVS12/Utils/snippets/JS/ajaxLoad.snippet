@@ -1,0 +1,32 @@
+<CodeSnippet Format="1.1.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>ajaxLoad</Title>
+    <Author>Jul's</Author>
+    <Shortcut>ajaxLoad</Shortcut>
+    <Description>Code snippet for a ajaxLoad custom for Jul's</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+      <SnippetType>SurroundsWith</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>url</ID>
+        <ToolTip>URL</ToolTip>
+        <Default>"/controller/action"</Default>
+      </Literal>
+      <Literal>
+        <ID>contenedor</ID>
+        <ToolTip>Contenedor</ToolTip>
+        <Default>"divContainer"</Default>
+      </Literal>
+      <Literal>
+        <ID>metodo</ID>
+        <ToolTip>Metodo</ToolTip>
+        <Default>"POST"</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="JavaScript"><![CDATA[ajaxLoad($url$,{},$contenedor$,$metodo$,function(){})]]></Code>
+  </Snippet>
+</CodeSnippet>

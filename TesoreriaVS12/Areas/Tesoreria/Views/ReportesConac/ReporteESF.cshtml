@@ -1,0 +1,392 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.tblRepCuentasModel>
+
+@{
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Estado de Situación Financiera</title>
+    <link href="@cssPath/reporteGeneral.css" rel="stylesheet" />
+    <link href="@cssPath/ReporteESF.css" rel="stylesheet" />
+</head>
+<body>
+    @if (ViewBag.encabezado)
+    {
+        <div class="cabecera">
+            <div class="logo">
+                <img src="@imagePath/reportes/@TesoreriaVS12.Models.Logueo.GetParametro("EscudoReportes")" class="logo-ente" alt="" />
+            </div>
+            <div class="parametros">
+                <div class="gobierno">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo1")</div>
+                <div class="instituto">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</div>
+                <div class="ejercicio">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo3")</div>
+                <div class="sistema">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo4")</div>
+            </div>
+            <div class="poliza">
+                Estado de Situación Financiera
+            </div>
+        </div>
+    }
+    @*<div class="row">
+        <div class="col-sm-12 text-center">
+            <label>Cuenta Pública 2012</label>
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>Estado de Situación Financiera</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>@ViewBag.fecha</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <label>(Pesos)</label>
+        </div>
+    </div>
+    <br />
+    <div class="row ente">
+        <div class="col-sm-offset-2 col-sm-1" style="width: 25%; text-align: right; display: inline-block">
+            <label>Ente Público:</label>
+        </div>
+        <div class="col-sm-7 text-center underline" style="border-bottom: 1px solid black; width: 60%; display: inline-block">
+            <label>@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</label>
+        </div>
+    </div>
+    <br />
+    <div class="row contenedor">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 49%; vertical-align: top">
+                    @{decimal totalC = 0, totalC2 = 0;}
+                    <table style="font-size: 10px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center green">
+                                    @Html.DisplayNameFor(model => model.Descripcion)
+                                </th>
+                                <th class="text-center green" style="width: 100px">
+                                    @ViewBag.Ejercicio1
+                                </th>
+                                <th class="text-center green" style="width: 100px">
+                                    @ViewBag.Ejercicio2
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ACTIVO</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Activo Circulante</label>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @foreach (var item in Model.Where(x => x.Genero == 1 && x.Grupo == 1))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio1.Value.ToString("N")
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio2.Value.ToString("N")
+                                    </td>
+                                </tr>
+                                totalC += item.Ejercicio1.Value;
+                                totalC2 += item.Ejercicio2.Value;
+                            }
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label style="font-weight: bold; font-size: 11px">Total de Activos Circulantes</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@totalC.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@totalC2.ToString("N")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Activo No Circulante</label></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @{decimal totalN = 0, totalN2 = 0; }
+                            @foreach (var item in Model.Where(x => x.Genero == 1 && x.Grupo == 2))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio1.Value.ToString("N")
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio2.Value.ToString("N")
+                                    </td>
+                                </tr>
+                                totalN += item.Ejercicio1.Value;
+                                totalN2 += item.Ejercicio2.Value;
+                            }
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Total de Activos No Circulantes</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@totalN.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@totalN2.ToString("N")</div>
+                                </td>
+                            </tr>
+                            @{decimal total1 = totalC + totalN, total2 = totalC2 + totalN2; }
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Total del Activo</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@total1.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@total2.ToString("N")</div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </td>
+                <td style="width: 2%"></td>
+                <td style="width: 49%; vertical-align: top">
+                    @{ totalC = 0; totalC2 = 0;}
+                    <table style="font-size: 10px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center green">
+                                    @Html.DisplayNameFor(model => model.Descripcion)
+                                </th>
+                                <th class="text-center green" style="width: 100px">
+                                    @ViewBag.Ejercicio1
+                                </th>
+                                <th class="text-center green" style="width: 100px">
+                                    @ViewBag.Ejercicio2
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PASIVO</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Pasivo Circulante</label>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @foreach (var item in Model.Where(x => x.Genero == 2 && x.Grupo == 1))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio1.Value.ToString("N")
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio2.Value.ToString("N")
+                                    </td>
+                                </tr>
+                                totalC += item.Ejercicio1.Value;
+                                totalC2 += item.Ejercicio2.Value;
+                            }
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Total de Pasivos Circulantes</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@totalC.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@totalC2.ToString("N")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Activo No Circulante</label></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @{totalN = 0; totalN2 = 0; }
+                            @foreach (var item in Model.Where(x => x.Genero == 2 && x.Grupo == 2))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio1.Value.ToString("N")
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio2.Value.ToString("N")
+                                    </td>
+                                </tr>
+                                totalN += item.Ejercicio1.Value;
+                                totalN2 += item.Ejercicio2.Value;
+                            }
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Total de Pasivo No Circulantes</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@totalN.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@totalN2.ToString("N")</div>
+                                </td>
+                            </tr>
+                            @{total1 = totalC + totalN; total2 = totalC2 + totalN2; }
+                            <tr>
+                                <td>
+                                    <label>Total del Pasivo</label></td>
+                                <td class="text-right">@total1.ToString("N")</td>
+                                <td class="text-right">@total2.ToString("N")</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>HACIENDA PÚBLICA/PATRIMONIO</label></td>
+                                <td class="text-right"></td>
+                                <td class="text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Hacienda Pública/Patrimonio Contribuido</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3 && x.Grupo == 1).Sum(x => x.Ejercicio1).Value.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3 && x.Grupo == 1).Sum(x => x.Ejercicio2).Value.ToString("N")</div>
+                                </td>
+                            </tr>
+                            @foreach (var item in Model.Where(x => x.Genero == 3 && x.Grupo == 1))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio1.Value.ToString("N")
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio2.Value.ToString("N")
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Hacienda Pública/Patrimonio Generado</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3 && x.Grupo == 2).Sum(x => x.Ejercicio1).Value.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3 && x.Grupo == 2).Sum(x => x.Ejercicio2).Value.ToString("N")</div>
+                                </td>
+                            </tr>
+                            @foreach (var item in Model.Where(x => x.Genero == 3 && x.Grupo == 2))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio1.Value.ToString("N")
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio2.Value.ToString("N")
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Exceso o Insuficiencia en la Actualización de la Hacienda Pública/Patrimonio</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3 && x.Grupo == 3).Sum(x => x.Ejercicio1).Value.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3 && x.Grupo == 3).Sum(x => x.Ejercicio2).Value.ToString("N")</div>
+                                </td>
+                            </tr>
+                            @foreach (var item in Model.Where(x => x.Genero == 3 && x.Grupo == 3))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio1.Value.ToString("N")
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Ejercicio2.Value.ToString("N")
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Total Hacienda Pública/ Patrimonio</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3).Sum(x => x.Ejercicio1).Value.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3).Sum(x => x.Ejercicio2).Value.ToString("N")</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <label>Total del  Pasivo y Hacienda Pública / Patrimonio</label></td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3 || x.Genero == 2).Sum(x => x.Ejercicio1).Value.ToString("N")</div>
+                                </td>
+                                <td class="text-right total" style="padding: 15px 0px 15px 0px; font-weight: bold; font-size: 11px">
+                                    <div>@Model.Where(x => x.Genero == 3 || x.Genero == 2).Sum(x => x.Ejercicio2).Value.ToString("N")</div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="row protesta">
+        <div class="col-sm-offset-1 col-sm-11" style="width: 100%; margin: 15px 0px 0px 15px; border-top: 1px solid black; padding: 10px">
+            <label>Bajo protesta de decir verdad declaramos que los Estados Financieros y sus Notas son razonablemente correctos y responsabilidad del emisor</label>
+        </div>
+    </div>
+    <br />
+    @if (ViewBag.firmantes)
+    {
+        <div class="row firmantes" style="margin-top: 100px">
+            <div class="col-sm-offset-2 col-sm-3 text-center" style="width: 30%; margin-left: 15%; display: inline-block; border-top: 1px solid black;">
+                <label>@ViewBag.Firmante1N</label><br />
+                <label>@ViewBag.Firmante1C</label>
+            </div>
+            <div class="col-sm-offset-2 col-sm-3 text-center" style="width: 30%; margin-left: 15%; display: inline-block; border-top: 1px solid black;">
+                <label>@ViewBag.Firmante2N</label><br />
+                <label>@ViewBag.Firmante2C</label>
+            </div>
+        </div>
+    }
+
+</body>
+</html>

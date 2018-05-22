@@ -1,0 +1,43 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_CentroRecaudadorModel
+
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_UPI)</div>
+    <div class="col-sm-5">@Html.DisplayFor(model => model.Id_UPI)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_URI)</div>
+    <div class="col-sm-5"> @Html.DisplayFor(model => model.Id_URI)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_UEI)</div>
+    <div class="col-sm-5">@Html.DisplayFor(model => model.Id_UEI)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_CRecaudador)</div>
+    <div class="col-sm-5">@Html.DisplayFor(model => model.Id_CRecaudador)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Descripcion)</div>
+    <div class="col-sm-8">@Html.DisplayFor(model => model.Descripcion)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.Id_CRecaudador)</div>
+    <div class="col-sm-5">@Html.DisplayFor(model => model.Id_CRecaudador)</div>
+</div>
+<div class="row">
+    <div class="col-sm-3">@Html.LabelFor(model => model.UltimoNivel)</div>
+    <div class="col-sm-5">@{
+        if (Model.UltimoNivel == true)
+        { 
+        @Html.Encode("SI");
+        }
+        else
+        {
+        @Html.Encode("NO");
+        }
+    }</div>
+</div>
+

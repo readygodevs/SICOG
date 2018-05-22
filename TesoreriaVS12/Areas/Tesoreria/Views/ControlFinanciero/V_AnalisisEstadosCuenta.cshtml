@@ -1,0 +1,87 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.BusquedaConciliacionAuto
+
+@{
+    ViewBag.Title = "V_AnalisisEstadosCuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral" class="js_ocultaSubMenu">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bImprimir","bSalir" } }); }
+</div>
+<div class="container">
+    <h2>Reporte Estados de Cuenta</h2>
+    <br />
+    @using (Html.BeginForm("ConciliacionAutomatica", "ControlFinanciero", FormMethod.Post, new { id = "Frm", @class = "" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.IdCtaBancaria)
+                @Html.DropDownListFor(model => model.IdCtaBancaria, Model.Lista_CtaBancarias, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdCtaBancaria)
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.IdMes)
+                @Html.DropDownListFor(model => model.IdMes, Model.Lista_Meses, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdMes)
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.Estatus)
+                @Html.DropDownListFor(model => model.Estatus, Model.Lista_Estatus, "--Seleccione--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Estatus)
+            </div>
+            <div class="col-sm-1" style="padding-top: 52px;">
+                <label>Importe</label>
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Desde)
+                @Html.TextBoxFor(model => model.Desde, new { @class = "form-control format" })
+                @Html.ValidationMessageFor(model => model.Desde)
+                @Html.LabelFor(model => model.Hasta)
+                @Html.TextBoxFor(model => model.Hasta, new { @class = "form-control format" })
+                @Html.ValidationMessageFor(model => model.Hasta)
+            </div>
+         </div>
+    }
+    <div class="row">
+        <div id="div_tabla" class="col-sm-12">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).on("ready", inicio);
+        var tabla = "";
+        function inicio() {
+            $(".format").on("change", function () {
+                $(this).formatCurrency({ symbol: '' });
+            });
+            $(".format").formatCurrency({ symbol: '' });
+            $("#js_mBuscar").on("click", buscar);
+            $("#js_mSalir").on("click", GoHome);
+            $("body").on("click", "#js_mImprimir", function () {
+                $(".format").toNumber();
+                if ($("#div_tabla table").length > 0)
+                    window.open("@Url.Action("ReporteEstadosCuenta","ControlFinanciero")"+"?IdCtaBancaria=" + $("#IdCtaBancaria").val() + "&IdMes=" + $("#IdMes").val() + "&Estatus=" + $("#Estatus").val() +  "&Desde=" + $("#Desde").val() + "&Hasta=" + $("#Hasta").val(), '_blank');
+                else
+                    ErrorCustom("Debes de realizar una busqueda.");
+                $(".format").formatCurrency({ symbol: '' });
+            });
+        }
+        function buscar()
+        {
+            $(".format").toNumber();
+            ajaxLoad("ReporteEstadosCuenta", $("#Frm").serialize(), "div_tabla", "POST", function () {
+                tabla = ConstruirTabla("tabla", "No hay registros para mostrar", 1, false, false);
+                $(".format").formatCurrency({ symbol: '' });
+            });
+        }
+    </script>
+}

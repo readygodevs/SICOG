@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.vListaChequesImpresionModel>
+
+
+<table id="tblCheques">
+    <thead>
+        <tr>
+            <th>
+                Núm. Cheque
+            </th>
+            <th>
+                Beneficiario
+            </th>
+            <th>
+                Fecha Vencimiento
+            </th>
+            <th>
+                Importe
+            </th>
+            <th>
+                Cuenta Bancaria
+            </th>
+            <th>
+                Concepto de Pago
+            </th>
+            <th>
+                Fecha de Ejercido
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_Cheque)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCompleto)
+                </td>
+                <td>
+                    @Html.Encode(item.FechaVen.HasValue ? item.FechaVen.Value.ToShortDateString() : "")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Importe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoCuenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConceptoPago)
+                </td>
+                <td>
+                    @Html.Encode(item.Fecha_Ejercido.HasValue ? item.Fecha_Ejercido.Value.ToShortDateString() : "")
+                </td>                
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        //div, mensaje, busquedaIndividual, scrollX, order
+        ConstruirTabla("tblCheques", "No se encontraron resultados...", "undefined", "undefined", false);
+    });
+</script>

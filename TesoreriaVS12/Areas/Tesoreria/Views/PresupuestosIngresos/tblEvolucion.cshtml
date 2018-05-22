@@ -1,0 +1,140 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.DE_EvolucionModel>
+
+@{
+    Layout = null;
+    decimal TotalEstimado = 0;
+    decimal TotalAmpliacion = 0;
+    decimal TotalReduccion = 0;
+    decimal TotalModificacion = 0;
+    decimal TotalDevengado = 0;
+    decimal TotalRecaudado = 0;
+    decimal TotalPorejecutar = 0;
+}
+<style>
+    #tblEvolucion thead th {
+        text-align: center;
+    }
+</style>
+<table id="tblEvolucion" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Clave Presupuestaria
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estimado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ampliaciones)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reducciones)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modificado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Devengado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recaudado)
+            </th>
+            <th>
+                Por Ejecutar
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.StringID.IdClavePresupuestoIngFormato(item.Id_ClavePresupuesto))
+                    @*@Html.DisplayFor(modelItem => item.Id_ClavePresupuesto)*@
+                </td>
+                <td class="text-right">
+                    @Html.Encode(String.Format("{0:n}", item.Estimado))
+                </td>
+                <td class="text-right">
+                    @Html.Encode(String.Format("{0:n}", item.Ampliaciones))
+                </td>
+                <td class="text-right">
+                    @Html.Encode(String.Format("{0:n}", item.Reducciones))
+                </td>
+                <td class="text-right">
+                    @Html.Encode(String.Format("{0:n}", item.Modificado))
+                </td>
+                <td class="text-right">
+                    @Html.Encode(String.Format("{0:n}", item.Devengado))
+                </td>
+                <td class="text-right">
+                    @Html.Encode(String.Format("{0:n}", item.Recaudado))
+                </td>
+                <td class="text-right">
+                    <b>@Html.Encode(String.Format("{0:n}", item.PorEjecutar))</b>
+                </td>
+            </tr>
+            TotalEstimado += item.Estimado.HasValue ? item.Estimado.Value : 0;
+            TotalAmpliacion += item.Ampliaciones.HasValue ? item.Ampliaciones.Value : 0;
+            TotalReduccion += item.Reducciones.HasValue ? item.Reducciones.Value : 0;
+            TotalModificacion += item.Modificado.HasValue ? item.Modificado.Value : 0;
+            TotalDevengado += item.Devengado.HasValue ? item.Devengado.Value : 0;
+            TotalRecaudado += item.Recaudado.HasValue ? item.Recaudado.Value : 0;
+            TotalPorejecutar += item.PorEjecutar.HasValue ? item.PorEjecutar.Value : 0;
+        }
+    </tbody>
+    @*<tfoot>
+        <tr>
+            <td><b>Total</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalEstimado)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalAmpliacion)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalReduccion)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalModificacion)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalDevengado)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalRecaudado)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalPorejecutar)</b></td>
+        </tr>
+    </tfoot>*@
+</table>
+<table id="tblEvolucion" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_ClavePresupuesto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estimado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ampliaciones)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reducciones)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modificado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Devengado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recaudado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PorEjecutar)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><b>Total</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalEstimado)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalAmpliacion)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalReduccion)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalModificacion)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalDevengado)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalRecaudado)</b></td>
+            <td class="text-right"><b>@String.Format("{0:n}", TotalPorejecutar)</b></td>
+        </tr>
+    </tbody>
+</table>

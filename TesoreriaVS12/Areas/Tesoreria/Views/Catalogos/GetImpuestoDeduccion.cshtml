@@ -1,0 +1,53 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_Impuestos_Deduccion
+<div data-title="Detalles de Acción u Obra" class="TituloModal"></div>
+<div data-text="Guardar" id="btnOk"></div>
+<div data-text="Cerrar" id="btnCancel"></div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Id_Tipo_ImpDed)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_Tipo_ImpDed)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Id_ImpDed)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_ImpDed)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Descripcion)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Descripcion)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Id_ImpDed2)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Id_ImpDed2)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Usu_Act)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Usu_Act)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Fecha_Act)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fecha_Act)
+    </div>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#MyModal1 .js_btnOk").hide();
+    });
+</script>

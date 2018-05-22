@@ -1,0 +1,139 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.ResetControlFinanciero
+
+@{
+    ViewBag.Title = "V_AnalisisMovimientosBancarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bBuscar", "bImprimir", "bSalir" } }); }
+</div>
+<div class="container">
+    <h2>Análisis Movimientos Bancarios</h2>
+    <br />
+    @using (Html.BeginForm("V_Reset", "ControlFinanciero", FormMethod.Post, new { id = "Frm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-6">
+                        @Html.LabelFor(model => model.IdCtaBancaria)
+                        @Html.DropDownList("IdCtaBancaria", Model.Lista_CtaBancarias, "--Seleccione--", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.IdCtaBancaria)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.LabelFor(model => model.Mes)
+                        @Html.DropDownListFor(model => model.IdMes, Model.Lista_Meses, "--Seleccione--", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Mes)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        @Html.LabelFor(model => model.TipoMovimiento)
+                        @Html.DropDownListFor(model => model.TipoMovimiento, Model.Lista_TipoMovimiento, "--Seleccione--", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TipoMovimiento)
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.LabelFor(model => model.FolioMovimiento)
+                        @Html.DropDownListFor(model => model.FolioMovimiento, Model.Lista_FolioMovimiento, "--Seleccione--", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FolioMovimiento)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1" style="padding-top: 52px;">
+                <label>Importe</label>
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Desde)
+                @Html.TextBoxFor(model => model.Desde, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Desde)
+                @Html.LabelFor(model => model.Hasta)
+                @Html.TextBoxFor(model => model.Hasta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Hasta)
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.borrado)
+    }
+    <div class="row">
+        <div id="div_tabla" class="col-sm-12">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+    <script type="text/javascript">
+        $(document).on("ready", inicio);
+        var tabla = "";
+        var RutaDelete = "@Url.Action("eliminarConciliacion", "ControlFinanciero")";//"eliminarConciliacion";
+        var MsjEliminar = "¿Esta seguro de eliminar el registro?";
+        var TableId = "tbl";
+        var Propiedades = '{ "Id": "response.Registro.No_Registro","IdC":"response.Registro.Id_CtaBancaria","IdM":"response.Registro.Id_Mes" }';
+        var SourceAction = "jsActionsource";
+        var origen=@ViewBag.Origen;
+        function inicio() {
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            $("#IdCtaBancaria").on("change", changeIdCta);
+            $("#js_mBuscar").on("click", iniciar);
+            $("#TipoMovimiento").on("click", changeTipoMov);
+            $("#js_mSalir").on("click", salir);
+            $("body").on("click", "#js_mImprimir", function () {
+                if ($("#div_tabla table").length > 0)
+                    window.open("@Url.Action("ReporteMovimientosBancarios","ControlFinanciero")"+"?IdCtaBancaria=" + $("#IdCtaBancaria").val() + "&IdMes=" + $("#IdMes").val() + "&TipoMovimiento=" + $("#TipoMovimiento").val() + "&FolioMovimiento=" + $("#FolioMovimiento").val() + "&Desde=" + $("#Desde").val() + "&Hasta=" + $("#Hasta").val(), '_blank');
+                else
+                    ErrorCustom("Debes de realizar una busqueda.");
+            });
+        }
+        function salir()
+        {
+            if(origen==1)
+                window.location.href = "@Url.Action("V_ConciliarBancaria","ControlFinanciero")";
+            else
+                GoHome();
+        }
+        function changeTipoMov() {
+            ajaxSelect("@Url.Action("Lista_FolioMovBancarios","Listas")", { Id_TipoMovimiento: $(this).val() }, "post", false, "FolioMovimiento", "", callBackLlenarSelect);
+        }
+        
+        function changeIdCta() {
+            var elemento = $(this);
+            $("#div_tabla").empty();
+            if (elemento.val() != "")
+            {
+                ajaxJson("ValidaMes", { idCtaBancaria: elemento.val() }, "POST", true, function (result) {
+                    if (result.Exito)
+                        $("#Mes").val(result.Mes);
+                    else
+                    {
+                        ErrorCustom(result.Mensaje, "");
+                        $("#IdCtaBancaria").prop('selectedIndex', 0);
+                    }
+
+                });
+            }else
+                $("#Mes").val("");
+        }
+        function iniciar()
+        {
+            //if ($("#Frm").valid())
+            //{
+                ajaxLoad("ReporteMovimientosBancarios", $("#Frm").serialize(), "div_tabla", "POST", function () {
+                    ConstruirTabla("tbl", "No hay registros para mostrar", "");
+                });
+            /*}
+            else
+                $("#Frm").validate()*/
+
+        }
+    </script>
+    <script type="text/template" id="jsActionsource">
+        <a class="js_eliminar fa fa-trash-o cursorPointer" data-noregistro="<%= Id %>" data-idcta="<%= IdC %>" data-mes="<%= IdM %>" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>
+    </script>
+}

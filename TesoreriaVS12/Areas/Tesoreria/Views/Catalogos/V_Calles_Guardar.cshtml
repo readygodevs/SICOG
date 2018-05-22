@@ -1,0 +1,43 @@
+﻿@model TesoreriaVS12.Areas.Tesoreria.Models.Ca_CallesModel
+
+@{
+    Layout = null;
+}
+
+<div data-title="Agregar" class="TituloModal"></div>
+@using (Html.BeginForm("Guardar", "Catalogos", FormMethod.Post, new { id = "frm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.id_calle)
+    <div class="row">
+        <div class="col-sm-11">
+             @Html.LabelFor(model => model.Id_Estado)
+            @Html.DropDownListFor(model => model.Id_Estado, Model.ListaIdEstado, "-Seleccionar-", new { @class="form-control"})
+        </div>
+        <div class="col-sm-1"> @Html.ValidationMessageFor(model => model.Id_Estado)</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+             @Html.LabelFor(model => model.Id_Municipio)
+            @Html.DropDownListFor(model => model.Id_Municipio, Model.ListaIdEstado, "-Seleccionar-", new { @class="form-control"})
+        </div>
+        <div class="col-sm-1"> @Html.ValidationMessageFor(model => model.Id_Municipio)</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+             @Html.LabelFor(model => model.Id_Localidad)
+            @Html.DropDownListFor(model => model.Id_Localidad, Model.ListaIdEstado, "-Seleccionar-", new { @class="form-control"})
+        </div>
+        <div class="col-sm-1"> @Html.ValidationMessageFor(model => model.Id_Localidad)</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+             @Html.LabelFor(model => model.Descripcion)
+            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-1"> @Html.ValidationMessageFor(model => model.Descripcion)</div>
+    </div>
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" class="jsValidate"></script>

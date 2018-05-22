@@ -1,0 +1,157 @@
+﻿@model TesoreriaVS12.Models.CA_OpcionesModel
+
+@{
+    Layout = null;
+}
+
+    
+<div data-title="Editar Menú" id="TituloModal"></div>
+<div data-text="Guardar" class="btnOk"></div>
+<div data-text="Cancelar" class="btnCancel"></div>
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmMenu" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <input type="hidden" value="@Model.IdOpcion" id="IdOpcion" name="IdOpcion" />
+    <input type="hidden" value="@Model.MenuPadre" id="MenuPadre" name="MenuPadre" />
+    <input type="hidden" value="@Model.Barra.ToString()" id="Barra" name="Barra" />
+    <input type="hidden" value="@Model.BarraPadre" id="BarraPadre" name="BarraPadre" />
+    @Html.HiddenFor(model=> model.IdOpcionP)
+    <input type="hidden" value="@Model.Menu.ToString()" id="Menu" name="Menu" />
+    <input type="hidden" value="@Model.Controlador" id="Controlador" name="Controlador" />
+    <input type="hidden" value="@Model.Accion" id="Accion" name="Accion" />
+    @Html.Hidden("Sistema",Model.Sistema)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+    </div>
+    <div class="editor-field">
+        @Html.TextBox("Descripcion", Model.Descripcion, new { @class = "notMayus" })
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Orden)
+    </div>
+    <div class="editor-field">
+        @Html.TextBox("Orden", Model.Orden )
+        @Html.ValidationMessageFor(model => model.Orden)
+    </div>
+    if (Model.hasPadre == true)
+    {
+        <div class="editor-field">
+            @Html.LabelFor(model => model.SubMenuWidth)
+            @Html.EditorFor(model => model.SubMenuWidth)
+            @Html.ValidationMessageFor(model => model.SubMenuWidth)
+        </div>
+    }
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Controlador)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Controlador)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Accion)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Accion)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Sistema)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.Sistema)
+    </div>
+    <div id="MenuDiv">
+        <div id="menuOrder">
+
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    var records = {};
+    $(function () {
+    
+    $("#MyModal1").on("click", ".js_btnOk", function () {
+        ajaxJson("@Url.Action("EditarMenu","Administrador")", $("#frmMenu").serialize(), "POST", true, function (response) {
+            if (response.Exito == true) {
+                var Acciones = _.template($('#jsActionsource').html());
+                $("#treeGrid").jqxTreeGrid('updateRow', response.Registro.IdOpcion, {
+                    Descripcion: response.Registro.Descripcion,
+                    Controlador: response.Registro.Controlador,
+                    Accion: response.Registro.Accion,
+                    Area: response.Registro.Sistema,
+                    Acciones: Acciones({ Id: response.Registro.IdOpcion }),
+                });
+                $.grep(dataAdapter.records, function (e) {
+                    if (e.id == response.Registro.IdOpcion) {
+                        e.text = response.Registro.Descripcion;
+                    }
+                });
+
+                ExitoCustom(response.Mensaje, function () {
+                    records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label' }]);
+                    renderMenu(records);
+                    closeModal({ Modal: "MyModal1" });
+                });
+            }
+            else
+                ErrorCustom(response.Mensaje, "");
+        });
+    });
+
+    if ('@Html.Raw(Session["Menu"])' != "") {
+        var data = JSON.parse('@Html.Raw(Session["Menu"])');
+            var source =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'id' },
+                        { name: 'parentid' },
+                        { name: 'text' },
+                        { name: 'label' },
+                        { name: 'href' },
+                        { name: 'subMenuWidth' }
+                    ],
+                    id: 'id',
+                    localdata: data
+                }
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            dataAdapter.dataBind();
+            records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label' }]);
+            $('#menuOrder').jqxMenu({ source: records, height: 30, width: '870px' });
+            $("#menuOrder").on("click", function () {
+                var IdClickeado = -1;
+                $("#MenuPadre").val(IdClickeado);
+                dataAdapter.recordids[$("#IdOpcion").val()].parentid = IdClickeado;
+                $.grep(dataAdapter.records, function (e) {
+                    if (e.id == $("#IdOpcion").val()) {
+                        e.parentid = IdClickeado;
+                        e.text = $("#Descripcion").val();
+                    }
+                });
+                records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label' }]);
+                $('#menuOrder').jqxMenu({ source: records, height: 30, width: '400px', theme: 'metro' });
+            });
+            $("#menuOrder").bind('itemclick', function (event) {
+                var IdClickeado = dataAdapter.recordids[event.args.id].id;
+                $("#MenuPadre").val(IdClickeado);
+                dataAdapter.recordids[$("#IdOpcion").val()].parentid = IdClickeado;
+                $.grep(dataAdapter.records, function (e) {
+                    if (e.id == $("#IdOpcion").val()) {
+                        e.parentid = IdClickeado;
+                        e.text = $("#Descripcion").val();
+                    }
+                });
+                records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label' }]);
+                $('#menuOrder').jqxMenu({ source: records, height: 30, width: '400px', theme: 'metro' });
+            });
+        }
+    });
+</script>

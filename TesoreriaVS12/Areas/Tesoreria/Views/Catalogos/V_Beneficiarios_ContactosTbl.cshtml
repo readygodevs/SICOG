@@ -1,0 +1,43 @@
+﻿@model  TesoreriaVS12.Areas.Tesoreria.Models.De_BeneficiarioContactosModel
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-3 col-sm-offset-9">
+        <div>
+            <label>C.U.R.P.</label>
+        </div>
+        <div>
+            @Html.TextBox("Contactos_CURP", Model.CURP)
+        </div>
+        
+    </div>
+</div>
+<div class="row"> 
+    <div class="col-sm-4">
+        <div>
+            <label>Nombre(s)</label>
+        </div>
+        <div>
+            @Html.TextBox("Contactos_Nombre", Model.Nombre)
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div>
+            <label>Apellido Paterno</label>
+        </div>
+        <div>
+            @Html.TextBox("Contactos_ApellidoPaterno", Model.ApellidoPaterno)
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div>
+            <label>Apellido Materno</label>
+        </div>
+        <div>
+            @Html.TextBox("Contactos_ApellidoMaterno", Model.ApellidoMaterno)
+        </div>
+    </div>
+</div>

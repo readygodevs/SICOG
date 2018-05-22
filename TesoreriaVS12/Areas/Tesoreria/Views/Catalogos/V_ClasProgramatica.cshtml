@@ -1,0 +1,98 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_ClasProgramaticaModel>
+
+@{
+    ViewBag.Title = "Clasificación Programática";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="_menu_lateral">
+    @{ Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bImprimir", "bSalir" } }); }
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Catálogo Clasificación Programática</h2>
+            <!--<a id="js_agregar" class="btn btn-success" href="#"><i class="fa fa-plus">Agregar</i></a>-->
+            <div class="jsSourceActions hide"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tbl" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th data-title="Id_ClasificacionP">
+                            @Html.DisplayNameFor(model => model.Id_ClasificacionP)
+                        </th>
+                        <th data-title="Descripcion">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th data-title="Acciones" class="text-center">
+                            Acciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_ClasificacionP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td class="acciones">
+                                <!--<a class="fa fa-pencil js_editar cursorPointer" data-id="@item.Id_ClasificacionP" title="Editar" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="fa fa-trash js_eliminar cursorPointer" data-id="@item.Id_ClasificacionP" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>-->
+                                <a class="fa fa-bars js_detalles cursorPointer" data-id="@item.Id_ClasificacionP" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/Catalogos/Usuarios.js"></script>
+<script src="~/Areas/Tesoreria/Scripts/Catalogos/Catalogos.js"></script>
+    <script>
+        var RutaAdd = "@Url.Action("V_AgregarClasProgramatica", "Catalogos")";//"/Tesoreria/Catalogos/V_AgregarClasProgramatica";
+        var RutaObtener = "@Url.Action("V_ObtenerClasProgramatica", "Catalogos")";//"/Tesoreria/Catalogos/V_ObtenerClasProgramatica";
+        var RutaDelete = "@Url.Action("EliminarClasProgramatica", "Catalogos")";//"/Tesoreria/Catalogos/EliminarClasProgramatica";
+        var RutaEdit = "@Url.Action("EditarClasProgramatica", "Catalogos")";//"/Tesoreria/Catalogos/EditarClasProgramatica";
+        var RutaSave = "@Url.Action("AgregarClasProgramatica", "Catalogos")";//"/Tesoreria/Catalogos/AgregarClasProgramatica";
+        var RutaDetalles = "@Url.Action("V_DetallesClasProgramatica", "Catalogos")";//"/Tesoreria/Catalogos/V_DetallesClasProgramatica";
+        var RutaExportarPDF = "@Url.Action("ClasProgramatica", "ReportesPDF")";//"/Tesoreria/ReportesPDF/ClasProgramatica";
+        var aPos = -1;
+        var TableId = "tbl";
+        var FrmId = "frm";
+        var Propiedades = '{ "Id": "response.Registro.Id_Programa" }';
+        var MsjEliminar = "¿Esta seguro de eliminar el registro? esta acción no se puede deshacer";
+        var tabla = "";
+
+        $(function () {
+            $("body").on("click", "#js_mImprimir", ExportarPDFCatalogo);
+            tabla = ConstruirTabla(TableId, "No hay clasificaciones...");
+            $("body").tooltip({ selector: "[data-toggle='tooltip']" });
+            /*$("body").on("click", "#js_agregar", Nuevo);
+            $("body").on("click", ".js_editar", Obtener);
+            $("body").on("click", ".js_eliminar", Eliminar);*/
+            $("body").on("click", ".js_detalles", Detalles);
+            $("body").on("click", "#js_mSalir", function () {
+                GoHome();
+                return false;
+            });
+        });
+    </script>
+
+    <script type="text/template" id="jsActionsource">
+        <a class="fa fa-bars js_detalles cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"> </a>
+    </script>
+     <!--<a class="fa fa-trash js_eliminar cursorPointer" data-id="<%= Id %>" title="Eliminar" data-toggle="tooltip" data-placement="top"> </a>
+        <a class="fa fa-bars js_detalles cursorPointer" data-id="<%= Id %>" title="Detalles" data-toggle="tooltip" data-placement="top"> </a>-->
+}

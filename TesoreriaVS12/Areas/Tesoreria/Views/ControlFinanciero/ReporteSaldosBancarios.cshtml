@@ -1,0 +1,74 @@
+﻿@model IEnumerable<TesoreriaVS12.Areas.Tesoreria.Models.Ca_CierreBancoModel>
+
+@{
+    Layout = null;
+}
+
+@if (ViewBag.Imprimir)
+{
+
+
+    ViewBag.Title = "Reporte de Saldos Bancarios";
+    Layout = null;
+    var imagePath = Server.MapPath("~/Images");
+    var cssPath = Server.MapPath("~/Content");
+
+    @Html.Partial("PdfHeader")
+    <link href="@cssPath/bootstrap.min.css" rel="stylesheet" />
+    <link href="@cssPath/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="@cssPath/font-awesome.min.css" rel="stylesheet" />
+    <link href="@cssPath/layout.css" rel="stylesheet" />
+}
+else
+{
+    Layout = null;
+}
+<table id="tbl" class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_CtaBancaria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id_Mes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Saldo_Inicial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Depositos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Retiros)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Saldo_Final)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ca_CuentasBancarias.Descripcion)
+                </td>
+                <td>
+                    @Html.Encode(TesoreriaVS12.Areas.Tesoreria.Models.Diccionarios.Meses[item.Id_Mes])
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Saldo_Inicial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Depositos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Retiros)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Saldo_Final)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

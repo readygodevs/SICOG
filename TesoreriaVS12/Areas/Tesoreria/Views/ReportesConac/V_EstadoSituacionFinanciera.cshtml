@@ -69,7 +69,7 @@
         {
             if ($("#FechaHasta").val() != "")
             {
-                ajaxLoad("ConsultaESF", { FechaFin: $("#FechaHasta").val(), ceros: $("#ceros").is(':checked'), firmantes: $("#firmantes").is(':checked') }, "js_busqueda", "POST", function (result) { });
+                ajaxLoad("@Url.Action("ConsultaESF", "ReportesConac")", { FechaFin: $("#FechaHasta").val(), ceros: $("#ceros").is(':checked'), firmantes: $("#firmantes").is(':checked') }, "js_busqueda", "POST", function (result) { });
             }
             else
                 ErrorCustom("Seleccione una fecha");

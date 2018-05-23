@@ -48,18 +48,22 @@
         var ObtenerPolizas = function () {
             ajaxLoad("@Url.Action("GetPolizasMes","Contabilidad")", { Id_Mes: $("#mes").val() }, "div_polizas", "POST",
                 function () {
-                    ConstruirTabla("tablaPolizas");
+					if($("#div_polizas").html().indexOf("No existen Pólizas")==-1){
+                    	ConstruirTabla("tablaPolizas");
+					}
                 });
         }
         $(document).on("ready", function () {
             $("body").on("click", "#js_mBuscar", ObtenerPolizas);
-            ConstruirTabla("tablaPolizas");
+			$("#js_mBuscar").click();
+            //ConstruirTabla("tablaPolizas");
             $("#js_mCerrar").on("click", function () {
                 ConfirmCustom("El mes va a ser cerrado ¿Desea continuar?", CerrarMes, "", "Si", "No");
             });
             $("#mes").on("change", function () {
                 $("#div_polizas").children().remove();
+				$("#js_mBuscar").click();
             });
         });
-    </script>
+</script>
 }

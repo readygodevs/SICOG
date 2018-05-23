@@ -67,7 +67,11 @@
         $(document).on("ready", function () {
             ConstruirTabla("tablaPolizas");
             $("#js_mCerrar").on("click", function () {
-                ConfirmCustom("El mes va a ser cerrado ¿Desea continuar?", CerrarMes, "", "Si", "No");
+                if ($('#tablaPolizas').html().indexOf("No hay registros a mostrar") > -1) {
+                    ErrorCustom("No existen pólizas para generar un cierre de mes, favor de verificar.");
+                } else {
+                    ConfirmCustom("El mes va a ser cerrado ¿Desea continuar?", CerrarMes, "", "Si", "No");
+                }
             });
         });
     </script>

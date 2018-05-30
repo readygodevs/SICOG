@@ -1,7 +1,7 @@
 ﻿var buscarBeneficiario = function (modalSize) {
     $("body").on("click", ".js_Beneficiario", function () {
         if (!$(this).isSiblingDisabled())
-            customModal("/Tesoreria/Busquedas/Buscar_Beneficiario",
+            customModal(urlBuscarBeneficiario,
                     {},
                     "GET",
                     modalSize,
@@ -15,7 +15,7 @@
 }
 
 var buscarBeneficiarioTbl = function () {
-    $("#resultsBeneficiarios").ajaxLoad({ url: "/Tesoreria/Busquedas/Tbl_Beneficiario", method: "POST", data: { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() } });
+    $("#resultsBeneficiarios").ajaxLoad({ url: urlBuscarBeneficiarioTbl, method: "POST", data: { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() } });
 }
 
 var seleccionarBeneficiario = function (selectors, modalSelectorClass, callBack, paramsCallback) {
@@ -38,7 +38,7 @@ var seleccionarBeneficiario = function (selectors, modalSelectorClass, callBack,
 }
 
 var getClasificaBeneficiario = function (params) {
-    ajaxSelect("/Tesoreria/Listas/getClasificacionBeneficiario", { beneficiario: params.postId }, "POST", true, params.targetSelector, params.optionSelected, callBackLlenarSelectClasificacion);
+    ajaxSelect(urlClasificacionBeneficiario, { beneficiario: params.postId }, "POST", true, params.targetSelector, params.optionSelected, callBackLlenarSelectClasificacion);
 }
 
 var callBackLlenarSelectClasificacion = function (result, dr, seleccion) {

@@ -59,7 +59,7 @@ function Buscar()
     else
     {
         DestroyGrid();
-        url = "/Tesoreria/Egresos/ListaCheques?FechaDesde=" + $("#FechaDesde").val() + "&FechaHasta=" + $("#FechaHasta").val() + "&IdCta=" + $("#CuentaBancaria").val();
+        url = urlListaCheq+"?FechaDesde=" + $("#FechaDesde").val() + "&FechaHasta=" + $("#FechaHasta").val() + "&IdCta=" + $("#CuentaBancaria").val();
         ConstruirGrid();
     }
     
@@ -210,17 +210,17 @@ function ModalNextChequeManual() {
     customModal("ModalNextChequeManual", { IdCuentaBancaria: $("#CuentaBancaria").val() }, "GET", "sm", NextChequeManual, "", "Aceptar", "Cancelar", "Inicio No cheque", "ModalNextChequeManual");
 }
 function llenarCuentasBanco() {
-    ajaxSelect("/Tesoreria/Listas/List_CtaBancaria", { Id_Fuente: $(this).val() }, "POST", true, "CuentaBancaria", "", callBackLlenarSelect);
+    ajaxSelect(urlListaCtaBanc, { Id_Fuente: $(this).val() }, "POST", true, "CuentaBancaria", "", callBackLlenarSelect);
 }
 function FocusoutProveedor() {
     if ($(this).val().length > 0) {
         $("#IdBeneficiario").focusOut({
-            url: "/Tesoreria/FocusOut/Beneficiario",
+            url: urlBuscBeneficiacio,
             data: { IdBeneficiario: $(this).val() },
             campos: [{ Base: "NombreCompleto", Campo: "DescripcionBeneficiario" }]
         });
         DestroyGrid();
-        url = "/Tesoreria/Egresos/ListaCheques?Fecha=" + $("#FechaVen").val() + "&radio=" + radio + "&Id_Bene=" + $("#IdBeneficiario").val();
+        url = urlListaCheq + "?Fecha=" + $("#FechaVen").val() + "&radio=" + radio + "&Id_Bene=" + $("#IdBeneficiario").val();
         ConstruirGrid();
     }
 
@@ -246,10 +246,10 @@ function SeleccionarProveedor() {
     return false;
 }
 function TablaBuscarProveedor() {
-    $("#resultsBeneficiarios").ajaxLoad({ url: "/Tesoreria/FocusOut/Tbl_Beneficiario", data: { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() }, method: "POST" });
+    $("#resultsBeneficiarios").ajaxLoad({ url: urlTblBenef, data: { BDescripcionBeneficiario: $("#BDescripcionBeneficiario").val() }, method: "POST" });
 }
 function ModalBuscarProveedor() {
-    customModal("/Tesoreria/FocusOut/Buscar_Beneficiario",{},"GET","lg",TablaBuscarProveedor,"","Buscar","Cancelar","Buscar Beneficiario","MyModal1")
+    customModal(urlBuscBenef,{},"GET","lg",TablaBuscarProveedor,"","Buscar","Cancelar","Buscar Beneficiario","MyModal1")
 }
 function changeFecha() {
     $('#jqxgrid').jqxGrid('clear');
@@ -263,7 +263,7 @@ function Limpiar() {
     $("#DescripcionBeneficiario").val("");
     reset();
     DestroyGrid();
-    url = "/Tesoreria/Egresos/ListaCheques?Fecha=" + $("#FechaVen").val() + "&radio=" + radio;
+    url = urlListaCheq+"?Fecha=" + $("#FechaVen").val() + "&radio=" + radio;
     DestroyGridSave();
     //ConstruirGrid();
 }
@@ -298,7 +298,7 @@ function DestroyGridSave() {
     $('#jqxgrid2').jqxGrid('destroy');
     $(".js_grid2").append("<div id='jqxgrid2'></div>");
 }
-var url = "/Tesoreria/Egresos/ListaCheques?Fecha=" + $("#FechaVen").val() + "&radio=" + radio;
+var url = urlListaCheq+"?Fecha=" + $("#FechaVen").val() + "&radio=" + radio;
 function ConstruirGrid() {
     DestroyGridSave();
     $("#jqxgrid").empty();

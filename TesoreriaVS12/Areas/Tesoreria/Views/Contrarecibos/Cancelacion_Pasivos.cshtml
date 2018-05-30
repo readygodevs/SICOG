@@ -234,6 +234,15 @@
     <script src="~/Scripts/autoNumeric.js"></script>
 
     <script>
+        var urlCompromisos = "@Url.Action("Index","Compromisos")";//"/Tesoreria/Compromisos/";
+        var urlImpContrarecibo = "@Url.Action("ImprimirContraRecibo", "Contrarecibos")";//"/Tesoreria/Contrarecibos/ImprimirContraRecibo"
+        var urlRptContrarecibo = "@Url.Action("Reporte_ContraRecibo", "Contrarecibos")";//"/Tesoreria/Contrarecibos/Reporte_ContraRecibo
+        var urlBuscarCuenta = "@Url.Action("BuscarCuenta", "Cuentas")";//"/Tesoreria/Cuentas/BuscarCuenta"
+        var urlTblContr = "@Url.Action("tblContrarecibos", "Contrarecibos")"; //"/Tesoreria/Contrarecibos/tblContrarecibos"
+        var urlGetContr = "@Url.Action("GetContrarecibo", "Contrarecibos")";//"/Tesoreria/Contrarecibos/GetContrarecibo"
+        var urlGastFond = "@Url.Action("Gastos_Fondos", "FocusOut")";//"/Tesoreria/FocusOut/Gastos_Fondos"
+        var urlListMovBanc = "@Url.Action("ListTipoMovBancario", "Polizas")";//"/Tesoreria/Polizas/ListTipoMovBancario"
+        var urlCuentaCG = "@Url.Action("CuentaGC", "FocusOut")";//"/Tesoreria/FocusOut/CuentaGC"
         $(document).ready(function () {
             $("#frmCancelacionPasivos input[type=text], textarea, select").addClass("form-control");
             disableInputs();
@@ -244,7 +253,7 @@
             });
             $("#FechaCR").datepicker("setStartDate", '@Model.cfechas.Fecha_Min.ToShortDateString()');
             $("#FechaCR").datepicker("setEndDate", '@Model.cfechas.Fecha_Max.ToShortDateString()');
-            
+
             $(".js_Importe").on("blur", function () {
                 $(this).formatCurrency({ symbol: "" });
             });
@@ -257,7 +266,7 @@
                 createBotonera(["bGuardar", "bCancelar"]);
                 return false;
             });
-            
+
             $('#Id_Fuente').typeahead({
                 source: function (query, process) {
                     $.ajax({
@@ -285,19 +294,19 @@
                 }
             });
 
-            $("body").on("click", "#js_mGuardar", function () {                
+            $("body").on("click", "#js_mGuardar", function () {
                 $(".js_Importe").toNumber();
-                enableInputs();                
+                enableInputs();
                 save();
                 return false;
             });
 
-            $("body").on("click", "#js_mEditar", function () {                
+            $("body").on("click", "#js_mEditar", function () {
                 edit();
                 return false;
             });
 
-            $("body").on("click", "#js_mCancelar", function () {                
+            $("body").on("click", "#js_mCancelar", function () {
                 getNew();
                 disableInputs();
                 createBotonera(["bNuevo", "bBuscar", "bSalir"]);

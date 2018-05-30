@@ -10,15 +10,15 @@
     <div id="_menu_lateral">
         @{
             Html.RenderAction("Botonera", "Home", new { Area = "", ids = Model.Botonera });
-    //if(Model.regresoDetalle){
-    //    Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bEditar", "bCancelar", "bBuscar", "bDetalles", "bRecibido", "bSalir" } });
-    //}
-    //else if(Model.Botonera != null){
+            //if(Model.regresoDetalle){
+            //    Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bEditar", "bCancelar", "bBuscar", "bDetalles", "bRecibido", "bSalir" } });
+            //}
+            //else if(Model.Botonera != null){
 
-    //}
-    //else{
-    //    Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bSalir" } });
-    //}
+            //}
+            //else{
+            //    Html.RenderAction("Botonera", "Home", new { Area = "", ids = new List<object> { "bNuevo", "bBuscar", "bSalir" } });
+            //}
         }
     </div>
 
@@ -90,13 +90,13 @@
                 </div>
                 <div class="col-xs-2">
                     @Html.LabelFor(model => model.No_Adquisicion)
-                    @Html.TextBoxFor(model => model.No_Adquisicion, new { @class="orden"})
+                    @Html.TextBoxFor(model => model.No_Adquisicion, new { @class = "orden" })
                     @Html.ValidationMessageFor(model => model.No_Adquisicion)
                 </div>
                 <div class="col-xs-3">
                     @Html.LabelFor(model => model.Fecha_Adquisicion)
                     <div class="input-group fecha_group">
-                        @Html.TextBox("Fecha_Adquisicion", Model.Fecha.HasValue ? Model.Fecha.Value.ToShortDateString() : "", new { @class= "date" })
+                        @Html.TextBox("Fecha_Adquisicion", Model.Fecha.HasValue ? Model.Fecha.Value.ToShortDateString() : "", new { @class = "date" })
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                     @Html.ValidationMessageFor(model => model.Fecha_Adquisicion)
@@ -354,24 +354,28 @@
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Scripts/bootstrap3-typeahead.min.js"></script>
+    <script src="~/Scripts/bootstrap3-typeahead.min.js"></script>
     <script src="~/Areas/Tesoreria/Scripts/Beneficiarios.js"></script>
     <script src="~/Areas/Tesoreria/Scripts/Busquedas.js"></script>
     <script src="~/Areas/Tesoreria/Scripts/Compromisos.js"></script>
     <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
-<script src="~/Areas/Tesoreria/Scripts/underscore.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/underscore.js"></script>
 
-<script src="~/Areas/Tesoreria/Scripts/Busqueda.js"></script>
+    <script src="~/Areas/Tesoreria/Scripts/Busqueda.js"></script>
 
 
 
     <script>
         var ligaContrarecibos = "@Url.Action("Index", "Contrarecibos",new { area = "Tesoreria" })";
         var ligaArrendamientos = "@Url.Action("Arrendamientos", "Contrarecibos", new { area = "Tesoreria" })";
-        var ligaHonorarios= "@Url.Action("Honorarios", "Contrarecibos", new { area = "Tesoreria" })";
+        var ligaHonorarios = "@Url.Action("Honorarios", "Contrarecibos", new { area = "Tesoreria" })";
         var ligaCancelacionActivos = "@Url.Action("CancelacionActivos", "Contrarecibos", new { area = "Tesoreria" })";
         var ligaHonorariosAsimilables = "@Url.Action("HonorariosAsimilables", "Contrarecibos", new { area = "Tesoreria" })";
 
+        var urlBuscarBeneficiario = "@Url.Action("Buscar_Beneficiario", "Busquedas")";//"/Tesoreria/Busquedas/Buscar_Beneficiario"
+        var urlBuscarBeneficiarioTbl = "@Url.Action("Tbl_Beneficiario", "Busquedas")";//"/Tesoreria/Busquedas/Buscar_Beneficiario"
+        var urlClasificacionBeneficiario = "@Url.Action("getClasificacionBeneficiario", "Listas")";//"/Tesoreria/Listas/getClasificacionBeneficiario"
+        var urlBusquedaCompromisos="@Url.Action("Index", "Compromisos")";
         //var construirCampo = function (Campo, Url) {
         //    $('#' + Campo).typeahead({
         //        source: function (query, process) {
@@ -504,7 +508,7 @@
                         data: { IdBeneficiario: $(this).val() },
                         campos: [{ Base: "NombreCompleto", Campo: "Ca_Beneficiarios_NombreCompleto" }]
                     });
-                    ajaxSelect("@Url.Action("getClasificaBeneficiario","Listas")", { beneficiario: $("#Id_Beneficiario").val() }, "POST", true, "Id_ClasificaBeneficiario", 1, callBackLlenarSelectClasificacion);
+                    ajaxSelect(urlClasificacionBeneficiario, { beneficiario: $("#Id_Beneficiario").val() }, "POST", true, "Id_ClasificaBeneficiario", 1, callBackLlenarSelectClasificacion);
                 }
             });
             /************************************************************/
@@ -565,7 +569,7 @@
             //});
 
 
-            var Url = "/Tesoreria/Compromisos/searchBeneficiario";
+            var Url = "@Url.Action("searchBeneficiario", "Compromisos")"; //"/Tesoreria/Compromisos/searchBeneficiario";
             construirCampo("Id_Beneficiario", Url);
             change3("Id_Beneficiario", "Ca_Beneficiarios.NombreCompleto");
             focusOut("Id_Beneficiario");

@@ -29,6 +29,7 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         @Html.Hidden("Id_Beneficiario", Model.Id_Beneficiario)
+        @Html.Hidden("Id_TipoBeneficiario", Model.Id_TipoBeneficiario)
         @Html.Hidden("IdPersona", Model.IdPersona)
         <div class="row">
             <div class="col-sm-3 editor-field">

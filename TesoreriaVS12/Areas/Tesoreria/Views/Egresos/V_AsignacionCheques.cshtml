@@ -163,6 +163,13 @@
         var todos = true;
         var radio = 0;
         var jsonCheques = {};
+
+        var urlListaCheq = "@Url.Action("ListaCheques", "Egresos")"; ///Tesoreria/Egresos/ListaCheques
+        var urlListaCtaBanc = "@Url.Action("List_CtaBancaria", "Listas")";//"/Tesoreria/Listas/List_CtaBancaria"
+        var urlBuscBeneficiacio = "@Url.Action("Beneficiario", "FocusOut")";//"/Tesoreria/FocusOut/Beneficiario"
+        var urlTblBenef = "@Url.Action("Tbl_Beneficiario", "FocusOut")"; //"/Tesoreria/FocusOut/Tbl_Beneficiario"
+        var urlBuscBenef = "@Url.Action("Buscar_Beneficiario", "FocusOut")"; //"/Tesoreria/FocusOut/Buscar_Beneficiario"
+
         $(document).on("ready", function () {
             ajaxSelect("@Url.Action("List_Fuentes","Listas")", {}, "POST", true, "FuenteFin", "", callBackLlenarSelect);
             $('.date').datepicker({

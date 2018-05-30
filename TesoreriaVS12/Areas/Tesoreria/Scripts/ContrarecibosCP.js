@@ -1,5 +1,5 @@
 ﻿var search = function () {
-    customModal("/Tesoreria/Compromisos/",
+    customModal(urlCompromisos,
                 {},
                 "GET",
                 "lg",
@@ -74,9 +74,9 @@ var edit = function () {
 var print = function () {
     var Mensaje = _.template($('#js_msjImprimir').html());
     ConfirmCustom(Mensaje({ TipoCR: $("#Ca_TipoContrarecibos_Descripcion").val(), FolioCR: $("#Id_FolioCR").val(), Total: $("#Cargos").val() }), function () {
-        ajaxJson("/Tesoreria/Contrarecibos/ImprimirContraRecibo", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val() }, "POST", true, function (response) {
+        ajaxJson(urlImpContrarecibo, { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val() }, "POST", true, function (response) {
             if (response.Exito == true) {
-                window.open("/Tesoreria/Contrarecibos/Reporte_ContraRecibo?TipoCR=" + $("#Id_TipoCR").val() + "&FolioCR=" + $("#Id_FolioCR").val(), "_bank");
+                window.open(urlRptContrarecibo + "?TipoCR=" + $("#Id_TipoCR").val() + "&FolioCR=" + $("#Id_FolioCR").val(), "_bank");
                 llenarMaestro(response.Registro);
             }
             else
@@ -121,16 +121,16 @@ var getCargos = function () {
 
 var searchCuentas = function (element) {
     if (!$(element).isSiblingDisabled()) {
-        customModal("/Tesoreria/Cuentas/BuscarCuenta", {}, "GET", "lg", "", "", "", "Cancelar", "Buscar Cuentas", "busquedaCuentas");
+        customModal(urlBuscarCuenta, {}, "GET", "lg", "", "", "", "Cancelar", "Buscar Cuentas", "busquedaCuentas");
     }
 }
 
 var getContras = function () {
-    $("#Resultados").ajaxLoad({ url: "/Tesoreria/Contrarecibos/tblContrarecibos", data: $("#frmSearchContra").serialize(), method: "POST" });
+    $("#Resultados").ajaxLoad({ url: urlTblContr, data: $("#frmSearchContra").serialize(), method: "POST" });
 }
 
 var selectContras = function (elemento) {    
-    ajaxJson("/Tesoreria/Contrarecibos/GetContrarecibo", { IdFolio: elemento.data("folio"), IdTipoCR: elemento.data("tipo") }, "POST", true, function (response) {
+    ajaxJson(urlGetContr, { IdFolio: elemento.data("folio"), IdTipoCR: elemento.data("tipo") }, "POST", true, function (response) {
         if (response.Exito == true) {
             cleanInputs();
             llenarMaestro(response.Registro);
@@ -193,7 +193,7 @@ var eventFocusBalance = function () {
         $("body").off("change", "#" + ($(value).attr("id")));
     });
     var generos = getParametroCuentas($("#Id_TipoCR").val());
-    ajaxJson("/Tesoreria/FocusOut/Gastos_Fondos", { TipoCR: $("#Id_TipoCR").val() }, "POST", true, function (response) {
+    ajaxJson(urlGastFond, { TipoCR: $("#Id_TipoCR").val() }, "POST", true, function (response) {
         focoJsCaptura();
         $("#Id_CuentaFR").typeahead({ source: response.Data, items: 15, });
         $("#Id_CuentaFR").data("dataSource", response.Ids);
@@ -236,13 +236,13 @@ var eventFocusBalance = function () {
 
     $("body").on("change", "#Id_Movimiento", function () {
         $("#IdTipoMovB").removeAttr('disabled');
-        ajaxSelect("/Tesoreria/Polizas/ListTipoMovBancario", { TipoMov: $("#Id_Movimiento").val() }, "POST", true, "IdTipoMovB", "", callBackLlenarSelect);
+        ajaxSelect(urlListMovBanc, { TipoMov: $("#Id_Movimiento").val() }, "POST", true, "IdTipoMovB", "", callBackLlenarSelect);
     });
 }
 
 var getParametroCuentas = function (tipoCr) {
     var cta = "";
-    ajaxJson("/Tesoreria/FocusOut/CuentaGC", { TipoCR: tipoCr }, "GET", false, function (response) {
+    ajaxJson(urlCuentaCG, { TipoCR: tipoCr }, "GET", false, function (response) {
         if (response.Exito == false)
             ErrorCustom(response.Mensaje);
         else {            
@@ -269,7 +269,7 @@ var buildFiltros = function () {
 
 var buildFiltros = function () {
     var f = {};
-    var cta = ajaxJson("/Tesoreria/FocusOut/CuentaGC", { TipoCR: $("#Id_TipoCR").val() }, "get", false, function (data) {
+    var cta = ajaxJson(urlCuentaCG, { TipoCR: $("#Id_TipoCR").val() }, "get", false, function (data) {
         if (data.Exito == false)
             ErrorCustom(data.Mensaje);
         else

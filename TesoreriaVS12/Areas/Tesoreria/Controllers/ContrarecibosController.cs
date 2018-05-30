@@ -349,10 +349,10 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
                 modelContrarecibo.StateEdit = repo.StateEdit(modelContrarecibo);
                 modelContrarecibo.cFechas = new Control_Fechas();
 
-               modelContrarecibo.Ca_Cuentas_FR.Descripcion2 = modelContrarecibo.Descripcion2 = !String.IsNullOrEmpty(modelContrarecibo.Id_Cuenta_AH2) ? DALCuentas.GetByID(x => x.Id_Cuenta == modelContrarecibo.Id_Cuenta_AH2).Descripcion : String.Empty;
-               modelContrarecibo.Ca_Cuentas_FR.Descripcion3=  modelContrarecibo.Descripcion3 = !String.IsNullOrEmpty(modelContrarecibo.Id_Cuenta_AH3) ? DALCuentas.GetByID(x => x.Id_Cuenta == modelContrarecibo.Id_Cuenta_AH3).Descripcion : String.Empty;
-              modelContrarecibo.Ca_Cuentas_FR.Descripcion4=   modelContrarecibo.Descripcion4 = !String.IsNullOrEmpty(modelContrarecibo.Id_Cuenta_AH4) ? DALCuentas.GetByID(x => x.Id_Cuenta == modelContrarecibo.Id_Cuenta_AH4).Descripcion : String.Empty;
-             //   modelContrarecibo.Descripcion4 = !String.IsNullOrEmpty(modelContrarecibo.Id_Cuenta_AH2) ? DALCuentas.GetByID(x => x.Id_Cuenta == modelContrarecibo.Id_Cuenta_AH2).Descripcion : String.Empty;
+                modelContrarecibo.Ca_Cuentas_FR.Descripcion2 = modelContrarecibo.Descripcion2 = !String.IsNullOrEmpty(modelContrarecibo.Id_Cuenta_AH2) ? DALCuentas.GetByID(x => x.Id_Cuenta == modelContrarecibo.Id_Cuenta_AH2).Descripcion : String.Empty;
+                modelContrarecibo.Ca_Cuentas_FR.Descripcion3 = modelContrarecibo.Descripcion3 = !String.IsNullOrEmpty(modelContrarecibo.Id_Cuenta_AH3) ? DALCuentas.GetByID(x => x.Id_Cuenta == modelContrarecibo.Id_Cuenta_AH3).Descripcion : String.Empty;
+                modelContrarecibo.Ca_Cuentas_FR.Descripcion4 = modelContrarecibo.Descripcion4 = !String.IsNullOrEmpty(modelContrarecibo.Id_Cuenta_AH4) ? DALCuentas.GetByID(x => x.Id_Cuenta == modelContrarecibo.Id_Cuenta_AH4).Descripcion : String.Empty;
+                //   modelContrarecibo.Descripcion4 = !String.IsNullOrEmpty(modelContrarecibo.Id_Cuenta_AH2) ? DALCuentas.GetByID(x => x.Id_Cuenta == modelContrarecibo.Id_Cuenta_AH2).Descripcion : String.Empty;
 
                 return Json(new { Exito = true, Mensaje = "Datos agregados con éxito", Registro = modelContrarecibo });
             }
@@ -432,11 +432,18 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
                 (x.Id_TipoCR == filtros.TipoCR) && (!string.IsNullOrEmpty(filtros.NombreBeneficiario) ? x.Nombre.Contains(filtros.NombreBeneficiario) : x.Id_FolioCR != null)
                ) && (filtros.NoCompromiso.HasValue ? x.Id_FolioCompromiso == filtros.NoCompromiso : x.Id_FolioCR != null) && (filtros.NoRequisicion.HasValue ? x.No_Requisicion == filtros.NoRequisicion : x.Id_FolioCR != null)
                && (filtros.NoOrdenCompra.HasValue ? x.No_Adquisicion == filtros.NoOrdenCompra : x.Id_FolioCR != null));
-            foreach (VW_Contrarecibos item in tbl)
+            try
             {
-                Ma_ContrarecibosModel aux = ModelFactory.getModel<Ma_ContrarecibosModel>(item, new Ma_ContrarecibosModel());
-                aux.TipoCRstr = dalTipoContrarecibos.GetByID(x => x.Id_TipoCR == aux.Id_TipoCR).Descripcion;
-                dataModal.Add(aux);
+                foreach (VW_Contrarecibos item in tbl)
+                {
+                    Ma_ContrarecibosModel aux = ModelFactory.getModel<Ma_ContrarecibosModel>(item, new Ma_ContrarecibosModel());
+                    aux.TipoCRstr = dalTipoContrarecibos.GetByID(x => x.Id_TipoCR == aux.Id_TipoCR).Descripcion;
+                    dataModal.Add(aux);
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
             if (dataModal.Count > 0)
                 ViewBag.TipoCRStr = dataModal.FirstOrDefault().TipoCRstr;

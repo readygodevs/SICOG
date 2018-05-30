@@ -1,7 +1,7 @@
 var ligarContrarecibo = function () {
     
 	var elemento = $("input[name=Compromiso]:checked");
-	ajaxJson("/Tesoreria/Contrarecibos/GuardarComprimisoCR", { FolioCompromiso: elemento.data("foliocompromiso"), TipoCR: elemento.data("tipocr"), FolioCR: elemento.data("foliocr"), TipoCompromiso: elemento.data("tipocompromiso") }, "POST", true, function (response) {
+	ajaxJson(urlGuardarCompCR, { FolioCompromiso: elemento.data("foliocompromiso"), TipoCR: elemento.data("tipocr"), FolioCR: elemento.data("foliocr"), TipoCompromiso: elemento.data("tipocompromiso") }, "POST", true, function (response) {
 	    if (response.Exito == true) {
 	        $(".IdModal").modal("hide");
 	        recargarMenuLateral(["bNuevo", "bEditar", "bBuscar", "bDetalles", "bCompromisos", "bDocumentos", "bSalir"]);
@@ -17,7 +17,7 @@ var saveContraRecibo = function () {
     {
         var desabilitados = $("input:disabled, select:disabled, textarea:disabled");
         desabilitados.removeAttr("disabled");
-        ajaxJson("/Tesoreria/Contrarecibos/GuardarContrarecibo", $("#frmContrarecibos").serialize(), "POST", true, function (response) {
+        ajaxJson(urlGuardarContraR, $("#frmContrarecibos").serialize(), "POST", true, function (response) {
             if (response.Exito == false)
                 ErrorCustom(response.Mensaje, "");
             else
@@ -35,7 +35,7 @@ var saveContraRecibo = function () {
 }
 
 var newContraRecivo = function () {
-    ajaxJson("/Tesoreria/Contrarecibos/NuevoContrarecibo", {}, "POST", true, function (response) {
+    ajaxJson(urlNuevoContraR, {}, "POST", true, function (response) {
         $("input[type=text], textarea").val("");
         llenarMaestro(response.Registro);
         $("#FechaCR").val(response.fActual);
@@ -56,7 +56,7 @@ var newContraRecivo = function () {
 
 var selectContraRecibo = function () {
     var elemento = $(this);
-    ajaxJson("/Tesoreria/Contrarecibos/GetContrarecibo", { IdFolio: elemento.data("folio"), IdTipoCR: elemento.data("tipo") }, "POST", true, function (response) {
+    ajaxJson(urlGetContraR, { IdFolio: elemento.data("folio"), IdTipoCR: elemento.data("tipo") }, "POST", true, function (response) {
         if (response.Exito == true) {
             llenarMaestro(response.Registro);
             $(".Modal1").modal("hide");
@@ -72,10 +72,10 @@ var selectContraRecibo = function () {
 }
 
 var canclearContrarecibo = function () {
-    customModal("/Tesoreria/Contrarecibos/CancelarContrarecibo", { FolioCR: $("#Id_FolioCR").val(), TipoCR: $("#Id_TipoCR").val() }, "GET", "size", function () {
+    customModal(urlCancContraR, { FolioCR: $("#Id_FolioCR").val(), TipoCR: $("#Id_TipoCR").val() }, "GET", "size", function () {
         if($("#FechaCancelacionCR1").val() != "")
         {
-            ajaxJson("/Tesoreria/Contrarecibos/CancelarContraRecibo", $("#frmCancelaContra").serialize(), "POST", true, function (response) {
+            ajaxJson(urlCancContraR, $("#frmCancelaContra").serialize(), "POST", true, function (response) {
 			    if (response.Exito) {
 			        ExitoCustom("Contrarecibo cancelado correctamente", function () {
 			            $(".IdModal").modal("hide");
@@ -113,11 +113,11 @@ var activarEdicion = function () {
 var imprimirContraRecibo = function () {
     var Mensaje = _.template($('#js_msjImprimir').html());
     ConfirmCustom(Mensaje({TipoCR: $("#Ca_TipoCompromisos_Descripcion").val(), FolioCR: $("#Id_FolioCR").val(),  Total: $("#Cargos").val()}), function () {
-        ajaxJson("/Tesoreria/Contrarecibos/ImprimirContraRecibo", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val() }, "POST", true, function (response) {
+        ajaxJson(urlImpContraR, { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val() }, "POST", true, function (response) {
             if (response.Exito == true) {
                 if (typeof response.Registro != "undefined")
                     llenarMaestro(response.Registro);
-                window.open("/Tesoreria/Contrarecibos/Reporte_ContraRecibo?TipoCR=" + $("#Id_TipoCR").val() + "&FolioCR=" + $("#Id_FolioCR").val(),'_blank');
+                window.open(urlRptContraR+"?TipoCR=" + $("#Id_TipoCR").val() + "&FolioCR=" + $("#Id_FolioCR").val(),'_blank');
             }
             else
                 ErrorCustom(response.Mensaje, "");

@@ -1,5 +1,5 @@
 ﻿var buscarCompromisos = function () {
-    customModal("/Tesoreria/Compromisos/",
+    customModal(urlBusquedaCompromisos,
                 {},
                 "GET",
                 "lg",

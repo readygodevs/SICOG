@@ -1,5 +1,5 @@
 ﻿var search = function () {
-    customModal("/Tesoreria/Compromisos/",
+    customModal(urlCompromisos,
                 {},
                 "GET",
                 "lg",
@@ -76,9 +76,9 @@ var edit = function () {
 var print = function () {
     var Mensaje = _.template($('#js_msjImprimir').html());
     ConfirmCustom(Mensaje({ TipoCR: $("#Ca_TipoContrarecibos_Descripcion").val(), FolioCR: $("#Id_FolioCR").val(), Total: $("#Cargos").val() }), function () {
-        ajaxJson("/Tesoreria/Contrarecibos/ImprimirContraRecibo", { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val() }, "POST", true, function (response) {
+        ajaxJson(urlImpContrarecibo, { TipoCR: $("#Id_TipoCR").val(), FolioCR: $("#Id_FolioCR").val() }, "POST", true, function (response) {
             if (response.Exito == true) {
-                window.open("/Tesoreria/Contrarecibos/Reporte_ContraRecibo?TipoCR=" + $("#Id_TipoCR").val() + "&FolioCR=" + $("#Id_FolioCR").val(), "_bank");
+                window.open(urlRptContrarecibo + "?TipoCR=" + $("#Id_TipoCR").val() + "&FolioCR=" + $("#Id_FolioCR").val(), "_bank");
                 $("#Impreso_CR").prop("checked", true);
             }
             else
@@ -121,16 +121,16 @@ var getCargos = function () {
 
 var searchCuentas = function (element) {
     if (!$(element).isSiblingDisabled()) {
-        customModal("/Tesoreria/Cuentas/BuscarCuenta", {}, "GET", "lg", "", "", "", "Cancelar", "Buscar Cuentas", "busquedaCuentas");
+        customModal(urlBuscarCuenta, {}, "GET", "lg", "", "", "", "Cancelar", "Buscar Cuentas", "busquedaCuentas");
     }
 }
 
 var getContras = function () {
-    $("#Resultados").ajaxLoad({ url: "/Tesoreria/Contrarecibos/tblContrarecibos", data: $("#frmSearchContra").serialize(), method: "POST" });
+    $("#Resultados").ajaxLoad({ url: urlTblContr, data: $("#frmSearchContra").serialize(), method: "POST" });
 }
 
 var selectContras = function (elemento) {
-    ajaxJson("/Tesoreria/Contrarecibos/GetContrarecibo", { IdFolio: elemento.data("folio"), IdTipoCR: elemento.data("tipo") }, "POST", true, function (response) {
+    ajaxJson(urlGetContr, { IdFolio: elemento.data("folio"), IdTipoCR: elemento.data("tipo") }, "POST", true, function (response) {
         if (response.Exito == true) {
             cleanInputs();
             llenarMaestro(response.Registro);
@@ -195,7 +195,7 @@ var eventFocusBalance = function () {
         $("body").off("change", "#" + ($(value).attr("id")));
     });
 
-    ajaxJson("/Tesoreria/FocusOut/CancelacionPasivos", { generos: generos }, "POST", true, function (response) {
+    ajaxJson(urlCancPas, { generos: generos }, "POST", true, function (response) {
         focoJsCaptura();
         $("#Id_CuentaFR").typeahead({ source: response.Data, items: 15, });
         $("#Id_CuentaFR").data("dataSource", response.Ids);
@@ -224,7 +224,7 @@ var eventFocusBalance = function () {
                 if (banco) {
                     $(".js_MovBancario").removeClass("hide");
                     $("#IdTipoMovB").removeAttr('disabled');
-                    ajaxSelect("/Tesoreria/Polizas/ListTipoMovBancario", { TipoMov: $("#Id_Movimiento").val() }, "POST", true, "IdTipoMovB", "", callBackLlenarSelect);
+                    ajaxSelect(urlListMovBanc, { TipoMov: $("#Id_Movimiento").val() }, "POST", true, "IdTipoMovB", "", callBackLlenarSelect);
                 }
                 else {
                     $(".js_MovBancario").addClass("hide");
@@ -236,7 +236,7 @@ var eventFocusBalance = function () {
 
     $("body").on("change", "#Id_Movimiento", function () {
         $("#IdTipoMovB").removeAttr('disabled');
-        ajaxSelect("/Tesoreria/Polizas/ListTipoMovBancario", { TipoMov: $("#Id_Movimiento").val() }, "POST", true, "IdTipoMovB", "", callBackLlenarSelect);
+        ajaxSelect(urlListMovBanc, { TipoMov: $("#Id_Movimiento").val() }, "POST", true, "IdTipoMovB", "", callBackLlenarSelect);
     });
 }
 
@@ -288,17 +288,17 @@ var chageContribuyente = function () {
     }
 }
 var callBackBuscarBeneficiario = function () {
-    ajaxLoad("/Tesoreria/Busquedas/Tbl_Personas", { BDescripcionPersona: $("#BDescripcionBeneficiario").val() }, "resultsBeneficiarios", "POST", function () { })
+    ajaxLoad(urlBuscPersonas, { BDescripcionPersona: $("#BDescripcionBeneficiario").val() }, "resultsBeneficiarios", "POST", function () { })
 }
 
 var BuscarContribuyente = function () {
     if (!$(this).isSiblingDisabled())
-        customModal("/Tesoreria/Busquedas/Buscar_Beneficiario", {}, "get", "lg", callBackBuscarBeneficiario, "", "Buscar", "Cancelar", "Buscar Contribuyente", "IdModal");
+        customModal(urlBuscBene, {}, "get", "lg", callBackBuscarBeneficiario, "", "Buscar", "Cancelar", "Buscar Contribuyente", "IdModal");
 }
 var selectContribuyente = function () {
     $('#IdPersona_ENP').val($(this).data('idbeneficiario'));
     $(".IdModal").modal('hide');
-    ajaxJson("/Tesoreria/Ingresos/getContribuyenteData", { IdPersona: $(this).data('idbeneficiario') }, "POST", true, function (response) {
+    ajaxJson(urlGetContrData, { IdPersona: $(this).data('idbeneficiario') }, "POST", true, function (response) {
         $('#Ca_Persona_NombreCompleto').val(response.NombreCompleto);
     });
 }

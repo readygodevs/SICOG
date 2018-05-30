@@ -242,6 +242,20 @@
     <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
     <script src="~/Areas/Tesoreria/Scripts/ConsultaPoliza.js"></script>
     <script>
+        var urlCompromisos = "@Url.Action("Index","Compromisos")";//"/Tesoreria/Compromisos/";
+        var urlImpContrarecibo = "@Url.Action("ImprimirContraRecibo", "Contrarecibos")";//"/Tesoreria/Contrarecibos/ImprimirContraRecibo"
+        var urlRptContrarecibo = "@Url.Action("Reporte_ContraRecibo", "Contrarecibos")";//"/Tesoreria/Contrarecibos/Reporte_ContraRecibo
+        var urlBuscarCuenta = "@Url.Action("BuscarCuenta", "Cuentas")";//"/Tesoreria/Cuentas/BuscarCuenta"
+        var urlTblContr = "@Url.Action("tblContrarecibos", "Contrarecibos")"; //"/Tesoreria/Contrarecibos/tblContrarecibos"
+        var urlGetContr = "@Url.Action("GetContrarecibo", "Contrarecibos")";//"/Tesoreria/Contrarecibos/GetContrarecibo"
+        var urlCancPas = "@Url.Action("CancelacionPasivos", "FocusOut")";//"/Tesoreria/FocusOut/CancelacionPasivos"
+        var urlGastFond = "@Url.Action("Gastos_Fondos", "FocusOut")";//"/Tesoreria/FocusOut/Gastos_Fondos"
+        var urlListMovBanc = "@Url.Action("ListTipoMovBancario", "Polizas")";//"/Tesoreria/Polizas/ListTipoMovBancario"
+        var urlBuscPersonas = "@Url.Action("Tbl_Personas", "Busquedas")";//"/Tesoreria/Busquedas/Tbl_Personas"
+        var urlBuscBene = "@Url.Action("Buscar_Beneficiario", "Busquedas")";//"/Tesoreria/Busquedas/Buscar_Beneficiario"
+        var urlGetContrData = "@Url.Action("getContribuyenteData", "Ingresos")";//"/Tesoreria/Ingresos/getContribuyenteData"
+        var urlCuentaCG = "@Url.Action("CuentaGC", "FocusOut")";//"/Tesoreria/FocusOut/CuentaGC"
+
         var generos = "@ViewBag.Generos";
         var tablaM = "";
         $(document).ready(function () {

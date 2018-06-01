@@ -378,6 +378,7 @@ namespace TesoreriaVS12.Areas.Tesoreria.Models
 
         public Ca_PersonasModel Llenado_CaPersonas(int? IdPersona)
         {
+            if (IdPersona == 0 || IdPersona == null) return new Ca_PersonasModel();
             Ca_PersonasModel model = ModelFactory.getModel<Ca_PersonasModel>(personas.GetByID(x => x.IdPersona == IdPersona), new Ca_PersonasModel());
             model.IdPais = 1;
             model.RFC = model.RFC.Trim();

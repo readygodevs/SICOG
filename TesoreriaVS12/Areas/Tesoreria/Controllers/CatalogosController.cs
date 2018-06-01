@@ -723,7 +723,7 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
         }
 
         [HttpPost]
-        public ActionResult V_Beneficiarios(Ca_BeneficiariosModel modelo)
+        public ActionResult V_BeneficiariosInsert(Ca_BeneficiariosModel modelo)
         {
             UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
             int IdPersona = 0;

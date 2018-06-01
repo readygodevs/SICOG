@@ -551,7 +551,7 @@
                 if ($("#frmBen").valid()) {
                     Desbloquear();
                     if (Btn == "Nuevo")
-                        ajaxJson("@Url.Action("V_Beneficiarios","Catalogos")", $("form").serialize(), "post", false, callbackGuardar)
+                        ajaxJson("@Url.Action("V_BeneficiariosInsert","Catalogos")", $("form").serialize(), "post", false, callbackGuardar)
                     else
                         ajaxJson("@Url.Action("V_BeneficiariosEdit","Catalogos")", $("form").serialize(), "post", false, callbackGuardar)
                 }

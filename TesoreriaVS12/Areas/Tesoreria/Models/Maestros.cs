@@ -1020,8 +1020,11 @@ namespace TesoreriaVS12.Areas.Tesoreria.Models
     public class Ma_ComprobacionesModel
     {
         public int Id_FolioGC { get; set; }
+        [DataType(DataType.Currency)]
         public Nullable<decimal> Importe_Original { get; set; }
+        [DataType(DataType.Currency)]
         public Nullable<decimal> Importe_Reintegro { get; set; }
+        [DataType(DataType.Currency)]
         public Nullable<decimal> Importe_Sobrante { get; set; }
         public string Id_Cuenta_CtaXPagar { get; set; }
         public Nullable<byte> Id_MesPO_Comprometido { get; set; }
@@ -1090,7 +1093,9 @@ namespace TesoreriaVS12.Areas.Tesoreria.Models
         public string Id_Fuente { get; set; }
         [Display(Name = "Importe")]
         [Required(ErrorMessage = "*")]
+        [DataType(DataType.Currency)]
         public Nullable<decimal> Cargos { get; set; }
+        [DataType(DataType.Currency)]
         public Nullable<decimal> Abonos { get; set; }
         [Display(Name = "Usuario del Sistema")]
         [Required(ErrorMessage = "*")]

@@ -107,7 +107,7 @@ else
                                 @Html.ValidationMessageFor(model => model.FechaVen)
                             </div>
                             <div class="input-group fecha_group">
-                                @Html.TextBox("FechaVen", Model.FechaVen.HasValue ? Model.FechaVen.Value.ToShortDateString() : "", new { @class = "date" })
+                                @Html.TextBox("FechaVen", Model.FechaVen.HasValue ? Model.FechaVen.Value.ToString() : "", new { @class = "date" })
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                             @*@Html.TextBoxFor(model => model.FechaVen, new { @class = "datepicker" })*@
@@ -464,8 +464,9 @@ else
             $("body").on("click", "#js_mGuardar", function () {
                 if ($("#frmContrarecibos").valid()) {
                     DesBloquear();
+                    //console.log($("#Cargos").autoNumeric("get"));
+                    $("#Cargos").val($("#Cargos").autoNumeric("get"));
                     if (Btn == "Nuevo") {
-                        $("#Cargos").val($("#Cargos").autoNumeric("get"));
                         ajaxJson("@Url.Action("Gastos_FondosN","Contrarecibos")", $("#frmContrarecibos").serialize(), "POST", true, NuevoG);
                     }
                     else

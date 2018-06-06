@@ -1810,6 +1810,7 @@
     <Content Include="Scripts\Tree\styles\jqx.ui-sunny.css" />
     <Content Include="Scripts\Tree\styles\jqx.web.css" />
     <Content Include="Scripts\Tree\styles\jqx.windowsphone.css" />
+    <Content Include="Scripts\utilerias_modal.js" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

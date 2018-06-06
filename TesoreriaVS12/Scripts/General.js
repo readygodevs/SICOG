@@ -1,4 +1,8 @@
-﻿Number.prototype.padLeft = function (n, str) {
+﻿$('.modal fade').on('shown.bs.modal', function () {
+    $(this).find('input').first().focus();
+})
+
+Number.prototype.padLeft = function (n, str) {
     return Array(n - String(this).length + 1).join(str || '0') + this;
 }
 

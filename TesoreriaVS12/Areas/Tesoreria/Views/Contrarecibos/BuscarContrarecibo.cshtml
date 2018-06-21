@@ -9,25 +9,28 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <div class="editor-label">
-        <label>Folio de Cuenta por Liquidar</label>
+    <div class="row form-group">
+        <label class="control-label col-sm-3">Folio de Cuenta por Liquidar</label>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(model => model.FolioContrarecibo, new { @class = "form-control", id = "Folio_filtro" })
+            @*<span class="input-group-addon js_searchC">
+                    <span class="fa fa-search"></span>
+                </span>*@
+        </div>
     </div>
-    <div class="input-group folio_group">
-        @Html.TextBoxFor(model => model.FolioContrarecibo, new { @class = "form-control", id = "Folio_filtro" })
-        <span class="input-group-addon js_searchC">
-            <span class="fa fa-search"></span>
-        </span>
+
+    <div class="row form-group">
+        <label class="control-label col-sm-3">
+            Nombre de Beneficiario
+        </label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(model => model.NombreBeneficiario, new { @class = "form-control" })
+            @*<span class="input-group-addon js_searchC">
+                    <span class="fa fa-search"></span>
+                </span>*@
+        </div>
     </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.NombreBeneficiario)
-    </div>
-    <div class="input-group">
-        @Html.TextBoxFor(model => model.NombreBeneficiario, new { @class = "form-control" })
-        <span class="input-group-addon js_searchC">
-            <span class="fa fa-search"></span>
-        </span>
-    </div>
-    <br/>
+    <br />
     if (@Model.TipoCR == 1)
     {
         <div class="col-xs-12">
@@ -37,9 +40,9 @@
                 </div>
                 <div class="input-group folio_group">
                     @Html.TextBoxFor(model => model.NoCompromiso, new { @class = "form-control" })
-                    <span class="input-group-addon js_searchC">
-                        <span class="fa fa-search"></span>
-                    </span>
+                    @*<span class="input-group-addon js_searchC">
+                            <span class="fa fa-search"></span>
+                        </span>*@
                 </div>
             </div>
             <div class="col-xs-3">
@@ -48,9 +51,9 @@
                 </div>
                 <div class="input-group folio_group">
                     @Html.TextBoxFor(model => model.NoRequisicion, new { @class = "form-control" })
-                    <span class="input-group-addon js_searchC">
-                        <span class="fa fa-search"></span>
-                    </span>
+                    @*<span class="input-group-addon js_searchC">
+                            <span class="fa fa-search"></span>
+                        </span>*@
                 </div>
             </div>
             <div class="col-xs-3">
@@ -59,9 +62,9 @@
                 </div>
                 <div class="input-group folio_group">
                     @Html.TextBoxFor(model => model.NoOrdenCompra, new { @class = "form-control" })
-                    <span class="input-group-addon js_searchC">
-                        <span class="fa fa-search"></span>
-                    </span>
+                    @*<span class="input-group-addon js_searchC">
+                            <span class="fa fa-search"></span>
+                        </span>*@
                 </div>
             </div>
             <div class="col-xs-3">
@@ -70,9 +73,9 @@
                 </div>
                 <div class="input-group folio_group">
                     @Html.TextBoxFor(model => model.NoCheque, new { @class = "form-control" })
-                    <span class="input-group-addon js_searchC">
-                        <span class="fa fa-search"></span>
-                    </span>
+                    @*<span class="input-group-addon js_searchC">
+                            <span class="fa fa-search"></span>
+                        </span>*@
                 </div>
             </div>
         </div>

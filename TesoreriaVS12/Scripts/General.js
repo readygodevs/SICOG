@@ -547,6 +547,33 @@ var callBackLlenarSelect = function (result, dr) {
         $("#" + dr).append("<option value=''>--Sin Resultados--</option>");
     }
 }
+var callBackLlenarSelect2 = function (result, dr) {
+    var selected = 0;
+    $("#" + dr).empty();
+    if (result.length != 0) {
+        $("#" + dr).append("<option value=''>--Selecciona una opción--</option>");
+        $.each(result, function (i, item) {
+            selected = item.Value;
+            if (item.Selected == true) {
+
+                $("#" + dr).append("<option selected='true' value='" + item.Value + "'>" + item.Text + "</option>");
+                //$("#" + dr).trigger('change');
+            }
+
+            else
+                $("#" + dr).append("<option value='" + item.Value + "'>" + item.Text + "</option>");
+        });
+        //$("#selectbox option[value=3]").attr("selected", true);   
+        if (result.length == 1) {
+            $("#" + dr).val(selected);
+            $("#" + dr).trigger('change');
+        }
+
+    }
+    else {
+        $("#" + dr).append("<option value=''>--Sin Resultados--</option>");
+    }
+}
 var abrirModal = function (id) {
     $(id).modal({ backdrop: 'static' });
     $(id).modal("show");

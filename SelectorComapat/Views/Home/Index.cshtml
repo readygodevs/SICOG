@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Sistema Integral Comapat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .opcion{
+        cursor:pointer;
+    }
+    /*body{
+        background-color:lightgray
+    }*/
+</style>
+
+<div class="form-group col-sm-12" style="margin-top:100px">
+    <div class="col-sm-6 opcion" onclick="window.location.href = 'https://geekstrabajando.com/Contabilidad/'">
+        <label class="col-sm-12 text-center">Contabilidad</label>
+        <div class="col-sm-12" style="background:url(@Url.Content("~/Imagen/contabilidad.png"));height: 250px;background-repeat: no-repeat;background-position: center;background-size: contain;"></div>
+
+    </div>
+    <div class="col-sm-6 opcion" onclick="window.location.href = 'https://geekstrabajando.com/Sicose/'">
+        <label class="col-sm-12 text-center">SICOSE</label>
+        <div class="col-sm-12" style="background:url(../../Imagen/comapat.png);height: 250px;background-repeat: no-repeat;background-position: center;background-size: contain;"></div>
+    </div>
+
+</div>
+<br />
+

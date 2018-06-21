@@ -1,6 +1,6 @@
 ﻿var Nuevo = function (data) {
     /*url, data, div, metod, callback*/
-    
+
     if (typeof data.originalEvent === "undefined") {
 
         if (typeof data.Modal === "undefined") {
@@ -57,7 +57,6 @@ var Guardar = function (callback) {
         if ($(".jsValidate").length > 0) {
             if ($("#" + FrmId).valid()) {
                 if (typeof callback.originalEvent === "undefined") {
-                    //console.log("callback->" + callback);
                     ajaxJson(RutaAdd, $("#" + FrmId).serialize(), "POST", true, callback);
                 }
                 else {
@@ -76,6 +75,17 @@ var Guardar = function (callback) {
         ErrorCustom(ex.message, "");
     }
 }
+
+var Guardar2 = function (callback) {
+
+    if ($(".jsValidate").length > 0) {
+        if ($("#" + FrmId).valid()) {
+            ajaxJson(RutaAdd, $("#" + FrmId).serialize(), "POST", true, callBackSave);
+
+        }
+    }
+}
+
 var GuardarEdit = function () {
     if ($("#" + FrmId).valid()) {
         /*url, data, metodo, asincrono, callback*/
@@ -84,6 +94,7 @@ var GuardarEdit = function () {
 }
 var callBackEdit = function (response) {
     if (response.Exito) {
+        closeModal();
         ExitoCustom(response.Mensaje, closeModal);
         if ($('#' + SourceAction).length > 0) {
             var Acciones = _.template($('#' + SourceAction).html());
@@ -102,7 +113,9 @@ var callBackEdit = function (response) {
 }
 
 var callBackSave = function (response) {
+
     if (response.Exito) {
+        closeModal();
         ExitoCustom("El registro se guardó con éxito", closeModal);
         if ($('#' + SourceAction).length > 0) {
             var Acciones = _.template($('#' + SourceAction).html());

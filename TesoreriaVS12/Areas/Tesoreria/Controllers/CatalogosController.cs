@@ -643,7 +643,7 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
                     return Json(new { Exito = true, Mensaje = "Ok", Registro = dataModel });
                 }
                 else
-                    return Json(new { Exito = false, Mensaje = "La cuenta no es válida, pro favor intenta otra" });
+                    return Json(new { Exito = false, Mensaje = "La cuenta no es válida, por favor intente con otra" });
             }
             catch (Exception ex)
             {
@@ -2756,12 +2756,15 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
                 IEnumerable<DE_Banco_Cheque> entities = debancocheque.Get(x => x.Id_CtaBancaria == model.Id_CtaBancaria);
                 if (entities != null && entities.Count() > 0)
                 {
-                    int inicio = model.NoChequeIni.Value, fin = model.NoChequeFin.Value;
-                    for (int i = inicio; i <= fin; i++)
+                    if (model.NoChequeIni != null)
                     {
-                        DE_Bancos temp = debanco.GetByID(x => x.Id_CtaBancaria == model.Id_CtaBancaria && x.No_Cheque == i);
-                        if (temp.Id_Estatus == 2)
-                            return Json(new { Exito = false, Mensaje = "No se puede eliminar porque uno o mas cheques están en uso." });
+                        int inicio = model.NoChequeIni.Value, fin = model.NoChequeFin.Value;
+                        for (int i = inicio; i <= fin; i++)
+                        {
+                            DE_Bancos temp = debanco.GetByID(x => x.Id_CtaBancaria == model.Id_CtaBancaria && x.No_Cheque == i);
+                            if (temp.Id_Estatus == 2)
+                                return Json(new { Exito = false, Mensaje = "No se puede eliminar porque uno o mas cheques están en uso." });
+                        }
                     }
                     List<DE_Banco_Cheque> listaBancosCheque = debancocheque.Get(x => x.Id_CtaBancaria == model.Id_CtaBancaria).ToList();
                     debancocheque.DeleteAll(listaBancosCheque);

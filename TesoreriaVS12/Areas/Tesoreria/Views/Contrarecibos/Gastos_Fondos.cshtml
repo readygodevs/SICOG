@@ -505,8 +505,12 @@ else
             });
 
             $("body").on("click", "#js_mBuscar", function () {
-                customModal("@Url.Action("BuscarContrarecibo","Contrarecibos")", { Tipo: $("#Id_TipoCR").val() }, "GET", "lg", "", "", "", "Cerrar", "Buscar Cuenta por Liquidar", "Modal1");
+                customModal("@Url.Action("BuscarContrarecibo","Contrarecibos")", { Tipo: $("#Id_TipoCR").val() }, "GET", "lg", BuscarCta, "", "Buscar", "Cerrar", "Buscar Cuenta por Liquidar", "Modal1");
             });
+
+            var BuscarCta = function () {
+                $("#Resultados").ajaxLoad({ url: "@Url.Action("tblContrarecibos","Contrarecibos")", data: $("#frmSearchContra").serialize(), method: "POST" });
+            }
 
             $("body").on("click", "#js_mDetalles", function () {
                 $("#TipoCR").val($("#Id_TipoCR").val());

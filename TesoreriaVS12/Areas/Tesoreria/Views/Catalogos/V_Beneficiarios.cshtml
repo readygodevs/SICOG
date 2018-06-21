@@ -596,7 +596,7 @@
                     return false;
                 }
                 ajaxJson("@Url.Action("V_ColoniasGuardar","Catalogos")", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#IdLocalidad").val(), Colonia: $("#Colonia").val() }, "POST", true, function (Data) {
-                    callBackLlenarSelect(Data, "IdColonia", "");
+                    callBackLlenarSelect2(Data, "IdColonia", "");
                     $(".js_ColoniaCancelar").click();
                 });
             });
@@ -613,29 +613,31 @@
                     return false;
                 }
                 ajaxJson("@Url.Action("V_CallesGuardar","Catalogos")", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#IdLocalidad").val(), Calle: $("#Calle").val() }, "POST", true, function (Data) {
-                    callBackLlenarSelect(Data, "IdCalle", "");
+                    callBackLlenarSelect2(Data, "IdCalle", "");
                     $(".js_CalleCancelar").click();
                 });
             });
             //---------------Carga de los Select de Domicilio---------------------//
             $("body").on("change", "#IdEstado", function () {
-                callBackLlenarSelect("", "IdMunicipio", "");
-                callBackLlenarSelect("", "IdLocalidad", "");
-                callBackLlenarSelect("", "IdCalle", "");
-                callBackLlenarSelect("", "IdColonia", "");
-                ajaxSelect("@Url.Action("Lista_Municipios","Listas")", { Id_Estado: $(this).val() }, "post", false, "IdMunicipio", "", callBackLlenarSelect);
+                callBackLlenarSelect2("", "IdMunicipio", "");
+                callBackLlenarSelect2("", "IdLocalidad", "");
+                callBackLlenarSelect2("", "IdCalle", "");
+                callBackLlenarSelect2("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Municipios","Listas")", {
+                    Id_Estado: $(this).val()
+                }, "post", false, "IdMunicipio", "", callBackLlenarSelect2);
             });
             $("body").on("change", "#IdMunicipio", function () {
-                callBackLlenarSelect("", "IdLocalidad", "");
-                callBackLlenarSelect("", "IdCalle", "");
-                callBackLlenarSelect("", "IdColonia", "");
-                ajaxSelect("@Url.Action("Lista_Localidades","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $(this).val() }, "post", false, "IdLocalidad", "", callBackLlenarSelect);
+                callBackLlenarSelect2("", "IdLocalidad", "");
+                callBackLlenarSelect2("", "IdCalle", "");
+                callBackLlenarSelect2("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Localidades","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $(this).val() }, "post", false, "IdLocalidad", "", callBackLlenarSelect2);
             });
             $("body").on("change", "#IdLocalidad", function () {
-                callBackLlenarSelect("", "IdCalle", "");
-                callBackLlenarSelect("", "IdColonia", "");
-                ajaxSelect("@Url.Action("Lista_Colonias","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdColonia", "", callBackLlenarSelect);
-                ajaxSelect("@Url.Action("Lista_Calles","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdCalle", "", callBackLlenarSelect);
+                callBackLlenarSelect2("", "IdCalle", "");
+                callBackLlenarSelect2("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Colonias","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdColonia", "", callBackLlenarSelect2);
+                ajaxSelect("@Url.Action("Lista_Calles","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdCalle", "", callBackLlenarSelect2);
             });
             //---------Acciones de Eliminar de las Tablas-----------------//
             ActivarBorrados();
@@ -739,7 +741,7 @@
                 return false;
             }
             ajaxJson("@Url.Action("V_MunicipioGuardar","Catalogos")", { Estado: $("#IdEstado").val(), Municipio: $("#Municipio").val() }, "POST", true, function (Data) {
-                callBackLlenarSelect(Data, "IdMunicipio", "");
+                callBackLlenarSelect2(Data, "IdMunicipio", "");
                 $(".js_MunicipioCancelar").click();
             });
         }
@@ -763,7 +765,7 @@
                 return false;
             }
             ajaxJson("@Url.Action("V_LocalidadGuardar","Catalogos")", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#Localidad").val() }, "POST", true, function (Data) {
-                callBackLlenarSelect(Data, "IdLocalidad", "");
+                callBackLlenarSelect2(Data, "IdLocalidad", "");
                 $(".js_LocalidadCancelar").click();
             });
         }

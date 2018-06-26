@@ -93,7 +93,17 @@
                             <td class="acciones">
                                 <!--<a class="js_editar fa fa-pencil-square-o cursorPointer" data-id="@item.IdCUR" title="Editar" data-toggle="tooltip" data-placement="top"></a>
                                 <a class="js_eliminar fa fa-trash-o cursorPointer" data-id="@item.IdCUR" title="Eliminar" data-toggle="tooltip" data-placement="top"></a>-->
-                                <a class="js_detalles fa fa-bars cursorPointer" data-id="@item.IdCUR" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
+                                <a class="js_detalles fa fa-bars cursorPointer" data-id="@string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}",
+                                                                                        item.Id_Concepto,
+                                                                                        item.nivel4,
+                                                                                        item.nivel5,
+                                                                                        item.nivel6,
+                                                                                        item.nivel7,
+                                                                                        item.nivel8,
+                                                                                        item.nivel9,
+                                                                                        item.nivel10,
+                                                                                        item.nivel11,
+                                                                                        item.Nivel12)" title="Detalles" data-toggle="tooltip" data-placement="top"></a>
                             </td>
                         </tr>
                     }

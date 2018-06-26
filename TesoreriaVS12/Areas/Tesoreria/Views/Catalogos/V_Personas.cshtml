@@ -313,6 +313,12 @@
         var aPos = -1;
         var Btn = "";
         var RutaExportarPDF = "@Url.Action("Contribuyentes", "ReportesPDF")";//"/Tesoreria/ReportesPDF/Contribuyentes";
+        var RutaBuscar = "@Url.Action("Buscar_Beneficiario", "Busquedas")";//"/Tesoreria/Busquedas/Buscar_Beneficiario"
+        var RutaResultPersonas = "@Url.Action("Tbl_Personas", "Busquedas")";//"/Tesoreria/Busquedas/Tbl_Personas"
+        var RutaMpioGuardar = "@Url.Action("V_MunicipioGuardar", "Catalogos")";//"/Tesoreria/Catalogos/V_MunicipioGuardar"
+        var RutaLocGuardar = "@Url.Action("V_LocalidadGuardar", "Catalogos")";//"/Tesoreria/Catalogos/V_LocalidadGuardar"
+        var RutaCallGuardar = "@Url.Action("V_CallesGuardar", "Catalogos")";//"/Tesoreria/Catalogos/V_CallesGuardar"
+        var RutaColGuardar ="@Url.Action("V_ColoniasGuardar", "Catalogos")";//"/Tesoreria/Catalogos/V_ColoniasGuardar"
         $(document).ready(function () {
             ConstruirTabla("tabla_personas");
             $("#frmBen input,textarea,select").addClass("form-control");
@@ -349,23 +355,23 @@
             $("body").on("click", ".js_CalleGuardar", CalleSave);
             //---------------Carga de los Select de Domicilio---------------------//
             $("body").on("change", "#IdEstado", function () {
-                callBackLlenarSelect("", "IdMunicipio", "");
-                callBackLlenarSelect("", "IdLocalidad", "");
-                callBackLlenarSelect("", "IdCalle", "");
-                callBackLlenarSelect("", "IdColonia", "");
-                ajaxSelect("@Url.Action("Lista_Municipios","Listas")", { Id_Estado: $(this).val() }, "post", false, "IdMunicipio", "", callBackLlenarSelect);
+                callBackLlenarSelect2("", "IdMunicipio", "");
+                callBackLlenarSelect2("", "IdLocalidad", "");
+                callBackLlenarSelect2("", "IdCalle", "");
+                callBackLlenarSelect2("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Municipios","Listas")", { Id_Estado: $(this).val() }, "post", false, "IdMunicipio", "", callBackLlenarSelect2);
             });
             $("body").on("change", "#IdMunicipio", function () {
-                callBackLlenarSelect("", "IdLocalidad", "");
-                callBackLlenarSelect("", "IdCalle", "");
-                callBackLlenarSelect("", "IdColonia", "");
-                ajaxSelect("@Url.Action("Lista_Localidades","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $(this).val() }, "post", false, "IdLocalidad", "", callBackLlenarSelect);
+                callBackLlenarSelect2("", "IdLocalidad", "");
+                callBackLlenarSelect2("", "IdCalle", "");
+                callBackLlenarSelect2("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Localidades","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $(this).val() }, "post", false, "IdLocalidad", "", callBackLlenarSelect2);
             });
             $("body").on("change", "#IdLocalidad", function () {
-                callBackLlenarSelect("", "IdCalle", "");
-                callBackLlenarSelect("", "IdColonia", "");
-                ajaxSelect("@Url.Action("Lista_Colonias","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdColonia", "", callBackLlenarSelect);
-                ajaxSelect("@Url.Action("Lista_Calles","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdCalle", "", callBackLlenarSelect);
+                callBackLlenarSelect2("", "IdCalle", "");
+                callBackLlenarSelect2("", "IdColonia", "");
+                ajaxSelect("@Url.Action("Lista_Colonias","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdColonia", "", callBackLlenarSelect2);
+                ajaxSelect("@Url.Action("Lista_Calles","Listas")", { Id_Estado: $("#IdEstado").val(), Id_Municipio: $("#IdMunicipio").val(), Id_Localidad: $(this).val() }, "post", false, "IdCalle", "", callBackLlenarSelect2);
             });
             //-------------Persona Fisica/Moral-----------------//
             $("body").on("click", ".js_TipoCaptura", function () {

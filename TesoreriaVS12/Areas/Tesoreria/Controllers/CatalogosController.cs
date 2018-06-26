@@ -2806,7 +2806,17 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
         }
         public ActionResult V_CURDetalles(string Id)
         {
-            return View(ModelFactory.getModel<CA_CURModel>(CUR.GetByID(x => x.IdCUR == Id), new CA_CURModel()));
+            string[] valores = Id.Split('|');
+            return View(ModelFactory.getModel<CA_CURModel>(CUR.GetByID2(valores[0],
+                valores[1],
+                valores[2],
+                valores[3],
+                valores[4],
+                valores[5],
+                valores[6],
+                valores[7],
+                valores[8],
+                valores[9]), new CA_CURModel()));
         }
         #endregion
 

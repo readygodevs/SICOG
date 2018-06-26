@@ -1473,6 +1473,8 @@
     <Content Include="Images\logOn\icon-lock.png" />
     <Content Include="Images\logOn\icon-user.png" />
     <Content Include="Images\logo_gob_hd.jpg" />
+    <Content Include="Images\reportes\LogoReportes_Ente.jpg" />
+    <Content Include="Images\reportes\LogoReportes_Ente_old.jpg" />
     <Content Include="Scripts\autoNumeric.js" />
     <Content Include="Scripts\autoNumeric.min.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />

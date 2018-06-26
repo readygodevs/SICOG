@@ -14,6 +14,13 @@
     <link href="~/Content/Tree/jqx.base.css" rel="stylesheet" />
     <link href="~/Content/Tree/jqx.metro.css" rel="stylesheet" />
     <link href="~/Content/isLoading.css" rel="stylesheet" />
+    <style type="text/css">
+        .logoHeader {
+            width: 10vh;
+            height: 10vh;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
     <header id="header">
@@ -24,12 +31,19 @@
 
                         <img src="~/Images/logo_gob_hd.jpg" alt="Logo" />
                     </div>*@
+                <div style="width:80px;float:left">
+
+                    <img class="logoHeader" src="@Url.Content("~/Images/contabilidad.png")" alt="Logo" />
+                </div>
                 <div id="titulos" style="margin-top:10px">
                     <span class="titulo" style="font-size:50px">SICOG</span>
                     <br />
                     @*<span class="subtitulo">@TesoreriaVS12.Models.Logueo.GetParametro("Titulo2")</span>*@
                     <span class="subtitulo">Sistema de Contabilidad Gubernamental</span>
                 </div>
+            </div>
+            <div style="width:80px;" class="pull-right">
+                <img class="logoHeader" src="@Url.Content("~/Images/comapat.png")" alt="Logo" />
             </div>
             <div class="pull-right">
                 <section id="login">

@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css?family=Lato");
+* {
+  padding: 0 !important;
+  margin: 0 !important; }
+
+html {
+  width: 100%;
+  height: 100%;
+  font-family: 'Lato', sans-serif; }
+  html body {
+    width: 100%;
+    height: 100%; }
+    html body header {
+      background: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      height: 70px; }
+      html body header h1 {
+        text-align: center;
+        color: #fff !important;
+        line-height: 70px; }
+    html body .container {
+      width: 500px;
+      height: 550px;
+      margin: auto !important;
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      padding: 20px !important; }
+      html body .container .rowLogo {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px !important; }
+        html body .container .rowLogo img.logo {
+          width: 150px !important;
+          display: block !important;
+          margin: 10px auto !important; }
+      html body .container .row .opcion {
+        text-align: center;
+        width: 48%;
+        margin: 0 1% !important;
+        cursor: pointer; }
+        html body .container .row .opcion:hover {
+          box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+          /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */ }
+        html body .container .row .opcion .imagen-con {
+          width: 220px;
+          height: 220px;
+          background: red;
+          background: url(../../Imagen/contabilidad.png);
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: contain; }
+        html body .container .row .opcion .imagen-com {
+          width: 220px;
+          height: 220px;
+          background: red;
+          background: url(../../Imagen/comapat.png);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain; }
+        html body .container .row .opcion label {
+          text-transform: uppercase;
+          height: 40px;
+          width: 100%;
+          background: #444;
+          line-height: 40px;
+          padding: 5px;
+          color: #fff;
+          cursor: pointer; }
+    html body footer {
+      background: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 30px; }
+      html body footer p {
+        text-align: center;
+        color: #fff;
+        line-height: 30px; }
+
+/*# sourceMappingURL=style.css.map */

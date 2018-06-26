@@ -214,10 +214,15 @@
     <Content Include="Content\Site.css" />
     <Content Include="Imagen\comapat.png" />
     <Content Include="Imagen\contabilidad.png" />
+    <Content Include="logo.png" />
+    <Content Include="public\css\style.css" />
+    <Content Include="public\scss\style.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config" />
     <None Include="Properties\PublishProfiles\123.pubxml" />
+    <Content Include="public\scss\style.css.map" />
+    <Content Include="public\scss\style.scss" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

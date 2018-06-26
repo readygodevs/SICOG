@@ -16,6 +16,9 @@ using System.Web.Script.Serialization;
 using System.Web.Helpers;
 using Newtonsoft.Json;
 using TesoreriaVS12.BL;
+using TesoreriaVS12.Utils;
+using TesoreriaVS12.Areas.Tesoreria.Models;
+using TesoreriaVS12.Areas.Tesoreria.DAL.Catalogos;
 
 namespace TesoreriaVS12.Controllers
 {
@@ -48,6 +51,21 @@ namespace TesoreriaVS12.Controllers
 
             Session.RemoveAll();
             ViewBag.ReturnUrl = returnUrl;
+
+            //string[] valores = "010|00|00|00|00|00|00|00|00|00".Split('|');
+
+            //Ca_CURDAL CUR = new Ca_CURDAL();
+            //CUR.GetByID2(valores[0],
+            //    valores[1],
+            //    valores[2],
+            //    valores[3],
+            //    valores[4],
+            //    valores[5],
+            //    valores[6],
+            //    valores[7],
+            //    valores[8],
+            //    valores[9]);
+
             return View();
         }
 

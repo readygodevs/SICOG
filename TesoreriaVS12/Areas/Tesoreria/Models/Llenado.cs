@@ -381,6 +381,7 @@ namespace TesoreriaVS12.Areas.Tesoreria.Models
             if (IdPersona == 0 || IdPersona == null) return new Ca_PersonasModel();
             Ca_PersonasModel model = ModelFactory.getModel<Ca_PersonasModel>(personas.GetByID(x => x.IdPersona == IdPersona), new Ca_PersonasModel());
             model.IdPais = 1;
+            if (model.RFC == null) model.RFC = "";
             model.RFC = model.RFC.Trim();
             if (model.PersonaFisica == true)
                 model.NombreCompleto = String.Format("{0} {1} {2}", model.Nombre, model.ApellidoPaterno, model.ApellidoMaterno);

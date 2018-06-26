@@ -3,27 +3,24 @@
     ViewBag.Title = "Sistema Integral Comapat";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<style type="text/css">
-    .opcion{
-        cursor:pointer;
+<script type="text/javascript">
+    function openInNewTab(url) {
+        var win = window.open(url, '_blank');
+        win.focus();
     }
-    /*body{
-        background-color:lightgray
-    }*/
-</style>
-
-<div class="form-group col-sm-12" style="margin-top:100px">
-    <div class="col-sm-6 opcion" onclick="window.location.href = 'https://geekstrabajando.com/Contabilidad/'">
-        <label class="col-sm-12 text-center">Contabilidad</label>
-        <div class="col-sm-12" style="background:url(@Url.Content("~/Imagen/contabilidad.png"));height: 250px;background-repeat: no-repeat;background-position: center;background-size: contain;"></div>
-
-    </div>
-    <div class="col-sm-6 opcion" onclick="window.location.href = 'https://geekstrabajando.com/Sicose/'">
-        <label class="col-sm-12 text-center">SICOSE</label>
-        <div class="col-sm-12" style="background:url(../../Imagen/comapat.png);height: 250px;background-repeat: no-repeat;background-position: center;background-size: contain;"></div>
-    </div>
-
+</script>
+<div class="rowlogo">
+    <img src="@Url.Content("~/logo.png")" class="logo" alt="">
 </div>
-<br />
-
+<hr>
+<br>
+<div class="row">
+    <div class="col-sm-6 opcion" onclick="openInNewTab('https://geekstrabajando.com/Contabilidad/')">
+        <div class="col-sm-12 imagen-con"></div>
+        <label>SICOG</label>
+    </div>  
+    <div class="col-sm-6 opcion" onclick="openInNewTab('https://geekstrabajando.com/Sicose/')" >
+        <div class="col-sm-12 imagen-com"></div>
+        <label>SICOSE</label>
+    </div>
+</div>        

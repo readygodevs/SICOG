@@ -8,7 +8,7 @@ function Editar() {
 
 }
 function Buscar() {
-    customModal("/Tesoreria/Busquedas/Buscar_Beneficiario", {}, "get", "lg", callBackBuscarBeneficiario, "", "Buscar", "Cancelar", "Buscar Contribuyente", "IdModal")
+    customModal(RutaBuscar, {}, "get", "lg", callBackBuscarBeneficiario, "", "Buscar", "Cancelar", "Buscar Contribuyente", "IdModal")
 }
 function Guardar() {
     if ($('#IdCalle').is(':hidden')) {
@@ -71,7 +71,7 @@ function MunicipioSave() {
         ErrorCustom("Favor de Ingresar los Campos Anteriores");
         return false;
     }
-    ajaxJson("/Tesoreria/Catalogos/V_MunicipioGuardar", { Estado: $("#IdEstado").val(), Municipio: $("#Municipio").val() }, "POST", true, function (Data) {
+    ajaxJson(RutaMpioGuardar, { Estado: $("#IdEstado").val(), Municipio: $("#Municipio").val() }, "POST", true, function (Data) {
         callBackLlenarSelect(Data, "IdMunicipio", "");
         $(".js_MunicipioCancelar").click();
     });
@@ -95,7 +95,7 @@ function LocalidadSave() {
         ErrorCustom("Favor de Ingresar los Campos Anteriores");
         return false;
     }
-    ajaxJson("/Tesoreria/Catalogos/V_LocalidadGuardar", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#Localidad").val() }, "POST", true, function (Data) {
+    ajaxJson(RutaLocGuardar, { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#Localidad").val() }, "POST", true, function (Data) {
         callBackLlenarSelect(Data, "IdLocalidad", "");
         $(".js_LocalidadCancelar").click();
     });
@@ -119,7 +119,7 @@ function ColoniaSave() {
         ErrorCustom("Favor de Ingresar los Campos Anteriores");
         return false;
     }
-    ajaxJson("/Tesoreria/Catalogos/V_ColoniasGuardar", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#IdLocalidad").val(), Colonia: $("#Colonia").val() }, "POST", true, function (Data) {
+    ajaxJson(RutaColGuardar, { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#IdLocalidad").val(), Colonia: $("#Colonia").val() }, "POST", true, function (Data) {
         callBackLlenarSelect(Data, "IdColonia", "");
         $(".js_ColoniaCancelar").click();
     });
@@ -143,7 +143,7 @@ function CalleSave() {
         ErrorCustom("Favor de Ingresar los Campos Anteriores");
         return false;
     }
-    ajaxJson("/Tesoreria/Catalogos/V_CallesGuardar", { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#IdLocalidad").val(), Calle: $("#Calle").val() }, "POST", true, function (Data) {
+    ajaxJson(RutaCallGuardar, { Estado: $("#IdEstado").val(), Municipio: $("#IdMunicipio").val(), Localidad: $("#IdLocalidad").val(), Calle: $("#Calle").val() }, "POST", true, function (Data) {
         callBackLlenarSelect(Data, "IdCalle", "");
         $(".js_CalleCancelar").click();
     });
@@ -188,7 +188,7 @@ function callBackEliminar(data) {
 }
 function callBackBuscarBeneficiario() {
     //resultsBeneficiarios
-    ajaxLoad("/Tesoreria/Busquedas/Tbl_Personas", { BDescripcionPersona: $("#BDescripcionBeneficiario").val() }, "resultsBeneficiarios", "POST", function () { })
+    ajaxLoad(RutaResultPersonas, { BDescripcionPersona: $("#BDescripcionBeneficiario").val() }, "resultsBeneficiarios", "POST", function () { })
 }
 function callBackBorrar() {
     ajaxJson("V_PersonasDelete", { IdPersona: $("#IdPersona").val() }, "POST", true, callBackEliminar)

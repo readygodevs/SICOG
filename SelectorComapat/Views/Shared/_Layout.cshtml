@@ -1,46 +1,27 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<html style="" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface no-generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>Sistema Integral Comapat - Geeks Trabajando</title>
+
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/public/scss/style.css")">
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
 
 </head>
-<body>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Nombre de aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>*@
-    <h1 style="font-family:'Times New Roman', Times, serif">SISTEMA INTEGRAL COMAPAT</h1>
+<body style="">
+    <header>
+        <h1>SISTEMA INTEGRAL COMAPAT</h1>
+    </header>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer style="margin-top:300px">
-            <p>&copy; @DateTime.Now.Year - COMAPAT</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    </div>
+    <footer>
+        <p>© 2018 - COMAPAT</p>
+    </footer>
 </body>
 </html>

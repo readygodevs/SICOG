@@ -2372,6 +2372,7 @@
     <Content Include="WebReferences\EnviaCorreo\Reference.map" />
     <Content Include="Views\Catalogos\CambiarContrasenia.cshtml" />
     <Content Include="Views\Account\Cambiar_Color.cshtml" />
+    <Content Include="Views\Account\TableroControl.cshtml" />
     <None Include="WebReferences\EnviaCorreo\wscorreos.wsdl" />
   </ItemGroup>
   <ItemGroup>

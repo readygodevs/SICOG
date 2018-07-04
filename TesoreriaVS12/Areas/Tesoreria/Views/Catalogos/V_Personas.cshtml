@@ -18,7 +18,7 @@
         <h2>Catálogo de Contribuyentes</h2>
     </div>
     <div class="col-sm-4 text-right">
-        <h3 >ID: <label id="lid">@Model.IdPersona</label></h3>
+        <h3>ID: <label id="lid">@Model.IdPersona</label></h3>
     </div>
 </div>
 
@@ -52,13 +52,13 @@
                     </label>
                 </div>
                 @*<div class="btn-group " data-toggle="buttons">
-                <label class="btn btn-primary js_TipoCaptura">
-                    <input type="radio" name="TipoCaptura" value="2"> Empresa (persona moral)
-                </label>
-                <label class="btn btn-primary active js_TipoCaptura">
-                    <input type="radio" name="TipoCaptura" value="1" checked ="checked"> Persona (persona física)
-                </label>
-            </div>*@
+                        <label class="btn btn-primary js_TipoCaptura">
+                            <input type="radio" name="TipoCaptura" value="2"> Empresa (persona moral)
+                        </label>
+                        <label class="btn btn-primary active js_TipoCaptura">
+                            <input type="radio" name="TipoCaptura" value="1" checked ="checked"> Persona (persona física)
+                        </label>
+                    </div>*@
                 @Html.HiddenFor(model => model.PersonaFisica)
             </div>
         </div>
@@ -135,11 +135,11 @@
                     @Html.ValidationMessageFor(model => model.IdMunicipio)
                 </div>
                 <div class="editor-field">
-                     @Html.TextBox("Municipio", Model.Calle)
+                    @Html.TextBox("Municipio", Model.Calle)
                     @Html.DropDownList("IdMunicipio", Model.ListaIdMunicipio, "-Seleccionar-")
                 </div>
             </div>
-             <div class="col-sm-1 acciones">
+            <div class="col-sm-1 acciones">
                 <br />
                 <i class="fa fa-save cursorPointer js_MunicipioGuardar"></i>
                 <i class="fa fa-ban cursorPointer js_MunicipioCancelar"></i>
@@ -151,7 +151,7 @@
                     @Html.ValidationMessageFor(model => model.IdLocalidad)
                 </div>
                 <div class="editor-field">
-                     @Html.TextBox("Localidad", Model.Calle)
+                    @Html.TextBox("Localidad", Model.Calle)
                     @Html.DropDownList("IdLocalidad", Model.ListaIdLocalidad, "-Seleccionar-")
                 </div>
             </div>
@@ -264,7 +264,7 @@
             </div>
         </div>
     </form>
-    <div id="div_tabla">
+    @*<div id="div_tabla">
         <table id="tabla_personas" class="table table-responsive table-striped table-bordered">
             <thead>
                 <tr>
@@ -285,19 +285,19 @@
                             @Html.DisplayFor(modelItem => item.IdPersona)
                         </td>
                         <td>
-                          @*@Html..Encode(item.NombreCompleto)*@
-                            @Html.DisplayFor(modelItem => item.NombreCompleto)
+
+                        @Html.DisplayFor(modelItem => item.NombreCompleto)
 
 
                         </td>
                         <td class="acciones">
                             <a href="#" class="js_SeleccionarBeneficiario" data-idbeneficiario="@item.IdPersona" data-nombre="@item.Nombre" title="Seleccionar" data-toggle="tooltip" data-placement="top"><i class="fa fa-check"></i></a>
                         </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                        </tr>
+                        }
+                        </tbody>
+                        </table>
+                    </div>*@
 </div>
 
 @section scripts
@@ -320,7 +320,28 @@
         var RutaCallGuardar = "@Url.Action("V_CallesGuardar", "Catalogos")";//"/Tesoreria/Catalogos/V_CallesGuardar"
         var RutaColGuardar ="@Url.Action("V_ColoniasGuardar", "Catalogos")";//"/Tesoreria/Catalogos/V_ColoniasGuardar"
         $(document).ready(function () {
-            ConstruirTabla("tabla_personas");
+            $("#Municipio").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $(".js_MunicipioGuardar").trigger("click");
+                }
+            });
+            $("#Localidad").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $(".js_LocalidadGuardar").trigger("click");
+                }
+            });
+            $("#Colonia").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $(".js_ColoniaGuardar").trigger("click");
+                }
+            });
+            $("#Calle").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $(".js_CalleGuardar").trigger("click");
+                }
+            });
+
+            //ConstruirTabla("tabla_personas");
             $("#frmBen input,textarea,select").addClass("form-control");
             $("body").tooltip({ selector: "[data-toggle='tooltip']" });
             Bloquear();

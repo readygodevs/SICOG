@@ -19,11 +19,11 @@ function Guardar() {
         ErrorCustom("No se puede agregar si no termina de guardar la Colonia");
         return false;
     }
-   // debugger;
+    // debugger;
     //ajaxJson("V_Personas", $("#frmBen").serialize(), "POST", false, callbackGuardar)
 
     if ($("#frmBen").valid()) {
-      //  debugger;
+        //  debugger;
         if (Btn == "Nuevo")
             ajaxJson("V_Personas", $("#frmBen").serialize(), "POST", false, callbackGuardar)
         else
@@ -44,7 +44,7 @@ function Cancelar() {
     $(".js_Calle").hide();
 }
 function Nuevo() {
-  //  debugger;
+    //  debugger;
     Btn = "Nuevo";
     Desbloquear();
     recargarMenuLateral(["bGuardar", "bCancelar"]);
@@ -86,6 +86,7 @@ function MunicipioHide() {
 function MunicipioShow() {
     $("#Municipio").show();
     $("#IdMunicipio").hide();
+    $("#Municipio").focus();
     $(".js_MunicipioGuardar").show();
     $(".js_MunicipioCancelar").show();
     $(".js_Municipio").hide();
@@ -110,6 +111,7 @@ function LocalidadHide() {
 function LocalidadShow() {
     $("#Localidad").show();
     $("#IdLocalidad").hide();
+    $("#Localidad").focus();
     $(".js_LocalidadGuardar").show();
     $(".js_LocalidadCancelar").show();
     $(".js_Localidad").hide();
@@ -134,6 +136,7 @@ function ColoniaHide() {
 function ColoniaShow() {
     $("#Colonia").show();
     $("#IdColonia").hide();
+    $("#Colonia").focus();
     $(".js_ColoniaGuardar").show();
     $(".js_ColoniaCancelar").show();
     $(".js_Colonia").hide();
@@ -158,6 +161,7 @@ function CalleHide() {
 function CalleShow() {
     $("#Calle").show();
     $("#IdCalle").hide();
+    $("#Calle").focus();
     $(".js_CalleGuardar").show();
     $(".js_CalleCancelar").show();
     $(".js_Calle").hide();
@@ -180,10 +184,11 @@ function callBackEliminar(data) {
         ErrorCustom(data.Mensaje, "");
     }
     else {
-        ExitoCustom(data.Mensaje, "");
+        /*ExitoCustom(data.Mensaje, "");
         LimpiarCampos();
         Bloquear();
-        recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);
+        recargarMenuLateral(["bNuevo", "bBuscar", "bSalir"]);*/
+        location.reload();
     }
 }
 function callBackBuscarBeneficiario() {

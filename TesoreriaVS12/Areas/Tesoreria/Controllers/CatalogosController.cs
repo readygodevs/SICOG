@@ -3978,10 +3978,10 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
             model.ListaIdLocalidad = new SelectList(localidades.Get(x => x.Id_Estado == model.IdEstado && x.Id_Municipio == model.IdMunicipio), "Id_Localidad", "Descripcion");
             model.ListaIdColonia = new SelectList(colonias.Get(x => x.Id_Estado == model.IdEstado && x.Id_Municipio == model.IdMunicipio && x.Id_Localidad == model.IdLocalidad), "id_colonia", "Descripcion");
             model.ListaIdCalle = new SelectList(calles.Get(x => x.Id_Estado == model.IdEstado && x.Id_Municipio == model.IdMunicipio && x.Id_Localidad == model.IdLocalidad), "id_calle", "Descripcion");
-            List<CA_Personas> entities = personas.Get().ToList();
-            List<Ca_PersonasModel> models = new List<Ca_PersonasModel>();
-            entities.ForEach(item => { models.Add(new Llenado().Llenado_CaPersonasBusqueda(item.IdPersona)); });
-            ViewBag.ListaPersonas = models;
+            //List<CA_Personas> entities = personas.Get().ToList();
+            //List<Ca_PersonasModel> models = new List<Ca_PersonasModel>();
+            //entities.ForEach(item => { models.Add(new Llenado().Llenado_CaPersonasBusqueda(item.IdPersona)); });
+            ViewBag.ListaPersonas = new List<Ca_PersonasModel>(); //models;
             return View(model);
         }
         [HttpPost]

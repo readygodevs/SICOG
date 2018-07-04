@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "TableroControl";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container container-tabs">
+    <h1 class="text-center">Tablero de Control</h1>
+    <h5 class="text-center">Disponibilidad Presupustal</h5>
+    <div class="first-tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Grafica</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Primera Table</a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Segunda Tabla</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+                <img src="https://programacion.net/files/article/20160317050311_chart.jpg" alt="">
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">
+                <img src="https://img.webnots.com/2017/04/Bootstrap-Inverse-Header-Table.jpg" alt="">
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">
+                <img src="http://www.fmunifer.com/wp-content/uploads/2016/11/panel_con_tabla.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <div class="second-tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home-2" aria-controls="home" role="tab" data-toggle="tab">Estado de Actividades</a></li>
+            <li role="presentation"><a href="#profile-2" aria-controls="profile-2" role="tab" data-toggle="tab">Estado de Situación Financiera</a></li>
+            <li role="presentation"><a href="#messages-2" aria-controls="messages-2" role="tab" data-toggle="tab">Estado de Flujo de Efectivo</a></li>
+            <li role="presentation"><a href="#settings-2" aria-controls="settings-2" role="tab" data-toggle="tab">Informes Financieros</a></li>
+            <li role="presentation"><a href="#config-2" aria-controls="config-2" role="tab" data-toggle="tab">Estados de Actividades</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home-2">A</div>
+            <div role="tabpanel" class="tab-pane" id="profile-2">B</div>
+            <div role="tabpanel" class="tab-pane" id="messages-2">C</div>
+            <div role="tabpanel" class="tab-pane" id="settings-2">D</div>
+            <div role="tabpanel" class="tab-pane" id="config-2">E</div>
+        </div>
+    </div>
+</div>

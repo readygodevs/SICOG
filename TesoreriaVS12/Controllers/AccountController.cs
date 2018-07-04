@@ -69,6 +69,10 @@ namespace TesoreriaVS12.Controllers
             return View();
         }
 
+        public ActionResult TableroControl()
+        {
+            return View();
+        }
 
         public ActionResult Cambiar_Color()
         {

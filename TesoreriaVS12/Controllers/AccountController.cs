@@ -19,6 +19,8 @@ using TesoreriaVS12.BL;
 using TesoreriaVS12.Utils;
 using TesoreriaVS12.Areas.Tesoreria.Models;
 using TesoreriaVS12.Areas.Tesoreria.DAL.Catalogos;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace TesoreriaVS12.Controllers
 {
@@ -97,6 +99,13 @@ namespace TesoreriaVS12.Controllers
                 itemCss = ".iconos_wraper .acciones a {";
                 //Color botones grid
                 reemplazar_linea(Server.MapPath(@"~\Content\layout.css"), "color:", color);
+
+                itemCss = ".fondoMenu{";
+                //color de menu
+                reemplazar_linea(Server.MapPath(@"~\Content\app.css"), "background:", color + " !important");
+
+                itemCss = ".fondoMenu .container{";
+                reemplazar_linea(Server.MapPath(@"~\Content\app.css"), "background:", color + " !important");
 
                 return Json(new { Error = false, Mensaje = "" });
             }
@@ -316,6 +325,433 @@ namespace TesoreriaVS12.Controllers
                 default:
                     return "Error desconocido. Compruebe los datos especificados e inténtelo de nuevo. Si el problema continúa, póngase en contacto con el administrador del sistema.";
             }
+        }
+        #endregion
+
+        #region Métodos para Tablero de Control
+        [HttpPost]
+        public ActionResult Top10Beneficiarios()
+        {
+
+            string ejercicio = Session["Ejercicio"].ToString();
+            UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
+            DataTable datos = new DataTable();
+            if (!string.IsNullOrEmpty(ejercicio))
+            {
+                SqlConnection oconn = new SqlConnection();
+                oconn.ConnectionString = "Data Source=" + Logueo.IP +
+                                        ";Initial Catalog=" + appUsuario.Conexion +
+                                        ";persist security info=True;user id=" + Logueo.User +
+                                        ";password=" + Logueo.Pass + ";";
+                datos = (DataTable)SQLUtilityRG.SQLUtilityRG.ObtenerTabla
+                    ("select top 10 * from xv_top10_beneficiarios order by pendientes desc", oconn).Resultado;
+            }
+            return Json(GetTableRows(datos), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult Top10TipoBeneficiarios()
+        {
+
+            string ejercicio = Session["Ejercicio"].ToString();
+            UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
+            DataTable datos = new DataTable();
+            if (!string.IsNullOrEmpty(ejercicio))
+            {
+                SqlConnection oconn = new SqlConnection();
+                oconn.ConnectionString = "Data Source=" + Logueo.IP +
+                                        ";Initial Catalog=" + appUsuario.Conexion +
+                                        ";persist security info=True;user id=" + Logueo.User +
+                                        ";password=" + Logueo.Pass + ";";
+                datos = (DataTable)SQLUtilityRG.SQLUtilityRG.ObtenerTabla
+                    ("select top 10 * from xv_top10_tipoBen order by pendientes desc", oconn).Resultado;
+            }
+            return Json(GetTableRows(datos), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult GraficaDisponibilidad()
+        {
+
+            string ejercicio = Session["Ejercicio"].ToString();
+            UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
+            DataTable datos = new DataTable();
+            if (!string.IsNullOrEmpty(ejercicio))
+            {
+                SqlConnection oconn = new SqlConnection();
+                oconn.ConnectionString = "Data Source=" + Logueo.IP +
+                                        ";Initial Catalog=" + appUsuario.Conexion +
+                                        ";persist security info=True;user id=" + Logueo.User +
+                                        ";password=" + Logueo.Pass + ";";
+                datos = (DataTable)SQLUtilityRG.SQLUtilityRG.ObtenerTabla
+                    ("select * from xv_DisponibilidadPresupuestal order by mesnum", oconn).Resultado;
+            }
+            return Json(GetTableRows(datos), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult IngresosDescuentos()
+        {
+
+            string ejercicio = Session["Ejercicio"].ToString();
+            UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
+            DataTable datos = new DataTable();
+            decimal[] saldosIng = new decimal[] { 0, 0, 0, 0, 0, 0 };
+            decimal[] saldosDesc = new decimal[] { 0, 0, 0, 0, 0, 0 };
+            decimal[] saldosODesc = new decimal[] { 0, 0, 0, 0, 0, 0 };
+            if (!string.IsNullOrEmpty(ejercicio))
+            {
+                SqlConnection oconn = new SqlConnection();
+                oconn.ConnectionString = "Data Source=" + Logueo.IP +
+                                        ";Initial Catalog=" + appUsuario.Conexion +
+                                        ";persist security info=True;user id=" + Logueo.User +
+                                        ";password=" + Logueo.Pass + ";";
+
+                datos = (DataTable)SQLUtilityRG.SQLUtilityRG.ObtenerTabla
+                   ("select * from ca_parametros where nombre='CtaIngresos'", oconn).Resultado;
+
+                saldosIng = new ProceduresDAL().PA_BalanzaPorCuenta(datos.Rows[0]["Valor"].ToString(), 1, (byte?)DateTime.Now.Month);
+
+                datos = (DataTable)SQLUtilityRG.SQLUtilityRG.ObtenerTabla
+                    ("select * from ca_parametros where nombre='CtaDescuentosA'", oconn).Resultado;
+
+                saldosDesc = new ProceduresDAL().PA_BalanzaPorCuenta(datos.Rows[0]["Valor"].ToString(), 1, (byte?)DateTime.Now.Month);
+
+                datos = (DataTable)SQLUtilityRG.SQLUtilityRG.ObtenerTabla
+                    ("select * from ca_parametros where nombre='CtaOtDescuentos'", oconn).Resultado;
+
+                saldosODesc = new ProceduresDAL().PA_BalanzaPorCuenta(datos.Rows[0]["Valor"].ToString(), 1, (byte?)DateTime.Now.Month);
+            }
+            return Json(new
+            {
+                ingresos = saldosIng[4] - saldosIng[5],
+                descuentos = saldosDesc[4] - saldosDesc[5],
+                descuentos_no_autorizados = saldosODesc[4] - saldosODesc[5],
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult EstadoActividades()
+        {
+
+            string ejercicio = Session["Ejercicio"].ToString();
+            UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
+            List<tblRepCuentasModel> Lst = new List<tblRepCuentasModel>();
+
+            short anio1 = (short)DateTime.Now.Year;
+            short anio2 = Convert.ToInt16(anio1 - 1);
+
+            if (!string.IsNullOrEmpty(ejercicio))
+            {
+                anio1 = Convert.ToInt16(Session["Ejercicio"]);//DateTime.Now.Year);
+                anio2 = Convert.ToInt16(anio1 - 1);
+
+                DateTime FechaInicio = new DateTime(anio1, DateTime.Now.Month, DateTime.Now.Day);
+                DateTime FechaFin = new DateTime(anio1, DateTime.Now.Month, DateTime.Now.Day);
+
+                ProceduresDAL procedures = new ProceduresDAL();
+
+                List<tblRepCuentas> entities = new List<tblRepCuentas>();
+                entities = procedures.PA_ReporteCuentasEjercicios(anio1, anio2, null, FechaFin).Where(x => (x.Ejercicio1.Value > 0 || x.Ejercicio2.Value > 0) && x.Genero > 3).ToList();
+
+                foreach (tblRepCuentas item in entities)
+                {
+                    tblRepCuentasModel model = ModelFactory.getModel<tblRepCuentasModel>(item, new tblRepCuentasModel());
+                    Lst.Add(model);
+                }
+
+            }
+
+            List<Dictionary<string, string>> jsonResponse = new List<Dictionary<string, string>>();
+            var dictRow = new Dictionary<string, string>();
+
+            dictRow.Add("ejercicio1", anio1.ToString());
+            dictRow.Add("ejercicio2", anio2.ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "1");
+            dictRow.Add("texto", "INGRESOS Y OTROS BENEFICIOS");
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Ingresos de la Gestión");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4 && x.Grupo == 1).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4 && x.Grupo == 1).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Participaciones, Aportaciones, Transferencias, Asignaciones, Subsidios y Otras Ayudas");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4 && x.Grupo == 2).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4 && x.Grupo == 2).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Otros Ingresos y Beneficios");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4 && x.Grupo == 3).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4 && x.Grupo == 3).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Total de Ingresos y Otros Beneficios");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "1");
+            dictRow.Add("texto", "GASTOS Y OTRAS PÉRDIDAS");
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Gastos de  Funcionamiento");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 1).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 1).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Transferencia, Asignaciones, Subsidios y Otras Ayudas");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 2).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 2).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Participaciones y Aportaciones");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 3).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 3).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Intereses, Comisiones y Otros Gastos de la Deuda Pública");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 4).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 4).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Otros Gastos y Pérdidas Extraordinarias");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 5).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 5).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Inversión Pública");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 6).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 6).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Total de Gastos y Otras Pérdidas");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Resultados del Ejercicio  (Ahorro/Desahorro)");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4).Sum(x => x.Ejercicio1).Value - Lst.Where(x => x.Genero == 5).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4).Sum(x => x.Ejercicio2).Value - Lst.Where(x => x.Genero == 5).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+            return Json(jsonResponse, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult EstadoSituacionFinanciera()
+        {
+
+            string ejercicio = Session["Ejercicio"].ToString();
+            UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
+            List<tblRepCuentasModel> Lst = new List<tblRepCuentasModel>();
+
+            short anio1 = (short)DateTime.Now.Year;
+            short anio2 = Convert.ToInt16(anio1 - 1);
+
+            if (!string.IsNullOrEmpty(ejercicio))
+            {
+                anio1 = Convert.ToInt16(ejercicio);//DateTime.Now.Year);
+                anio2 = Convert.ToInt16(anio1 - 1);
+
+                DateTime FechaInicio = new DateTime(anio1, DateTime.Now.Month, DateTime.Now.Day);
+                DateTime FechaFin = new DateTime(anio1, DateTime.Now.Month, DateTime.Now.Day);
+
+                ProceduresDAL procedures = new ProceduresDAL();
+
+                List<tblRepCuentas> entities = new List<tblRepCuentas>();
+                entities = procedures.PA_ReporteCuentasEjercicios(anio1, anio2, null, FechaFin).Where(x => (x.Ejercicio1.Value > 0 || x.Ejercicio2.Value > 0) && x.Genero < 4).ToList();
+
+
+                foreach (tblRepCuentas item in entities)
+                {
+                    tblRepCuentasModel model = ModelFactory.getModel<tblRepCuentasModel>(item, new tblRepCuentasModel());
+                    Lst.Add(model);
+                }
+            }
+
+            List<Dictionary<string, string>> jsonResponse = new List<Dictionary<string, string>>();
+            var dictRow = new Dictionary<string, string>();
+
+            dictRow.Add("ejercicio1", anio1.ToString());
+            dictRow.Add("ejercicio2", anio2.ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "1");
+            dictRow.Add("texto", "INGRESOS Y OTROS BENEFICIOS");
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Ingresos de la Gestión");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4 && x.Grupo == 1).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4 && x.Grupo == 1).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Participaciones, Aportaciones, Transferencias, Asignaciones, Subsidios y Otras Ayudas");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4 && x.Grupo == 2).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4 && x.Grupo == 2).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Otros Ingresos y Beneficios");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4 && x.Grupo == 3).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4 && x.Grupo == 3).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Total de Ingresos y Otros Beneficios");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "1");
+            dictRow.Add("texto", "GASTOS Y OTRAS PÉRDIDAS");
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Gastos de  Funcionamiento");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 1).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 1).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Transferencia, Asignaciones, Subsidios y Otras Ayudas");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 2).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 2).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Participaciones y Aportaciones");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 3).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 3).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Intereses, Comisiones y Otros Gastos de la Deuda Pública");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 4).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 4).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Otros Gastos y Pérdidas Extraordinarias");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 5).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 5).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Inversión Pública");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5 && x.Grupo == 6).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5 && x.Grupo == 6).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Total de Gastos y Otras Pérdidas");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 5).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 5).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+
+            dictRow = new Dictionary<string, string>();
+            dictRow.Add("agrupador", "0");
+            dictRow.Add("texto", "Resultados del Ejercicio  (Ahorro/Desahorro)");
+            dictRow.Add("valor1", (Lst.Where(x => x.Genero == 4).Sum(x => x.Ejercicio1).Value - Lst.Where(x => x.Genero == 5).Sum(x => x.Ejercicio1).Value).ToString());
+            dictRow.Add("valor2", (Lst.Where(x => x.Genero == 4).Sum(x => x.Ejercicio2).Value - Lst.Where(x => x.Genero == 5).Sum(x => x.Ejercicio2).Value).ToString());
+            jsonResponse.Add(dictRow);
+            return Json(jsonResponse, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult EstadoFlujoEfec()
+        {
+
+            string ejercicio = Session["Ejercicio"].ToString();
+            UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
+            DataTable datos = new DataTable();
+            if (!string.IsNullOrEmpty(ejercicio))
+            {
+                SqlConnection oconn = new SqlConnection();
+                oconn.ConnectionString = "Data Source=" + Logueo.IP +
+                                        ";Initial Catalog=" + appUsuario.Conexion +
+                                        ";persist security info=True;user id=" + Logueo.User +
+                                        ";password=" + Logueo.Pass + ";";
+                datos = (DataTable)SQLUtilityRG.SQLUtilityRG.ObtenerTabla
+                    ("select * from xv_EstadoFlujoEfec", oconn).Resultado;
+            }
+            return Json(GetTableRows(datos), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult InformesFinancieros()
+        {
+
+            string ejercicio = Session["Ejercicio"].ToString();
+            UsuarioLogueado appUsuario = Session["appUsuario"] as UsuarioLogueado;
+            DataTable datos = new DataTable();
+            if (!string.IsNullOrEmpty(ejercicio))
+            {
+                SqlConnection oconn = new SqlConnection();
+                oconn.ConnectionString = "Data Source=" + Logueo.IP +
+                                        ";Initial Catalog=" + appUsuario.Conexion +
+                                        ";persist security info=True;user id=" + Logueo.User +
+                                        ";password=" + Logueo.Pass + ";";
+                datos = (DataTable)SQLUtilityRG.SQLUtilityRG.ObtenerTabla
+                    ("select * from xv_InformesFinancieros", oconn).Resultado;
+            }
+            return Json(GetTableRows(datos), JsonRequestBehavior.AllowGet);
+        }
+        public List<Dictionary<string, object>> GetTableRows(DataTable dtData)
+        {
+            List<Dictionary<string, object>>
+            lstRows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> dictRow = null;
+
+            foreach (DataRow dr in dtData.Rows)
+            {
+                dictRow = new Dictionary<string, object>();
+                foreach (DataColumn col in dtData.Columns)
+                {
+                    dictRow.Add(col.ColumnName, dr[col]);
+                }
+                lstRows.Add(dictRow);
+            }
+            return lstRows;
         }
         #endregion
     }

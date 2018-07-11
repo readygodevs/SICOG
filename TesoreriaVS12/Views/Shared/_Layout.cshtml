@@ -3,7 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <title>NSICG</title>
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <title>SICOG</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
     @Scripts.Render("~/bundles/modernizr")
@@ -14,6 +17,7 @@
     <link href="~/Content/Tree/jqx.base.css" rel="stylesheet" />
     <link href="~/Content/Tree/jqx.metro.css" rel="stylesheet" />
     <link href="~/Content/isLoading.css" rel="stylesheet" />
+    <link href="~/Content/app.css" rel="stylesheet">
     <style type="text/css">
         .logoHeader {
             width: 10vh;
@@ -58,7 +62,7 @@
         </div>
         <div class="fondoMenu">
             <div class="container">
-                <div id="sectionMenu" class="pull-left">
+                <div id="sectionMenu">
                     <div id="MenuPrincipal"></div>
                 </div>
             </div>
@@ -127,6 +131,8 @@
         var totalModal = 0;
         $(function () {
             renderMenu();
+            $('#MenuPrincipal').css('margin-top', '-30px');
+
             $("body").on('live', 'input[type=text]', function () {
                 $(this).attr('autocomplete', 'off');
             });
@@ -293,6 +299,21 @@
     </script>
     <script src="~/Scripts/jquery-isloading.js"></script>
     <script src="~/Scripts/utilerias_modal.js"></script>
+    <script src="~/Scripts/currency.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="~/Scripts/json/tab01.js"></script>
+    <script src="~/Scripts/json/tab1.js"></script>
+    <script src="~/Scripts/json/tab2.js"></script>
+    <script src="~/Scripts/json/tab3.js"></script>
+    <script src="~/Scripts/json/tab4.js"></script>
+    <script src="~/Scripts/json/tab5.js"></script>
+    <script src="~/Scripts/json/tab6.js"></script>
+    <script src="~/Scripts/json/tab7.js"></script>
+    <script src="~/Scripts/json/tab8.js"></script>
+
+    <script src="~/Scripts/app.js"></script>
+
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

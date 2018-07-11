@@ -1,0 +1,69 @@
+Etiquetas: Ejercido y Disponible
+
+Disponible->verde
+Ejercido->#FFEC17
+
+colocar titulos en lado izquierdo en miles de pesos o millones
+
+orden de colores, primero amarillo y verde
+
+
+en tab 2, cambiar etiquetas tambien disponible y ejercido
+
+
+**********************************+
+en tab ingresos y descuentos
+crear 3 parametros uno para la cuenta de ingresos, otro para descuentos autorizados y otro para otros descuentos.
+
+ir a la vista que se utiliza en https://geekstrabajando.com/Contabilidad/Tesoreria/Catalogos/V_Cuentas_Tree, opcion del menu contabilidad,
+consultas y resportes, saldos contables.
+
+y obtener el valor de la columna Saldo Actual, (Debe - Haber)=Saldo Final, del mes de enero del año seleccionado al mes actual del año seleccionado
+
+*************************************
+
+**********************************
+tab estado de actividaes
+estado de actividades mostrar reporte configurado cuentas sin ceros menu Contabilidad, reportes conac y estado de actividades.
+Mostrar información de ejercicio seleccionado y anterior para comparativa, del primero de enero del año seleccionado a la fecha actual del año seleccionado
+
+**********************************
+
+
+**********************************
+tab estado de situacion financiera
+estado de situacion financiera mostrar reporte configurado cuentas sin ceros menu Contabilidad, reportes conac y estado de situacion financiera.
+mostrar informacion del primero de enero del año seleccionado a la fecha actual.
+
+**********************************
+
+
+***********************
+tab flujo de efectivo
+OCULTAR
+***********************
+
+***********************
+tab INFORMES FINANCIEROS
+OCULTAR
+***********************
+
+***********************
+pestaña Gastos, al inicio antes de la grafica
+tab de top 10 beneficiarios con mas compromisos
+ver nota en libreta.
+obtener informacion de tabla ma_compromisos.
+ordenado por cantidad de pendiente de pago.
+pendiente de pago estatus<>pagado
+***********************
+
+***********************
+tab gastos por tipo de beneficiario
+hacer mismo tab pero agrupar por id_tipobeneficiario
+***********************
+
+*************************
+tab tipo de pago a proveedores
+tomar compromisos con estatus pagados y agrupar por el tipo de pago
+ma_contrarecibos
+***************************

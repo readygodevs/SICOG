@@ -127,8 +127,13 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
          }
          public ActionResult ConsultaEA(DateTime? FechaInicio, DateTime? FechaFin, bool? ceros, bool? firmantes)
          {
-             short anio1 = Convert.ToInt16(DateTime.Now.Year);
+            short anio1 = Convert.ToInt16(Session["Ejercicio"]);//DateTime.Now.Year);
              short anio2 = Convert.ToInt16(anio1 - 1);
+
+            FechaInicio = new DateTime(anio1, FechaInicio.Value.Month, FechaInicio.Value.Day);
+            FechaFin = new DateTime(anio1, FechaFin.Value.Month, FechaFin.Value.Day);
+            
+
              List<tblRepCuentas> entities = new List<tblRepCuentas>();
              if (ceros.Value)
                  entities = procedures.PA_ReporteCuentasEjercicios(anio1, anio2, null, FechaFin).Where(x => (x.Ejercicio1.Value > 0 || x.Ejercicio2.Value > 0) && x.Genero>3).ToList();

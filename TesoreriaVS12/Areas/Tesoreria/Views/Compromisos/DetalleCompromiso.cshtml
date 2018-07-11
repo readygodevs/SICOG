@@ -176,6 +176,9 @@
     <script src="~/Scripts/jquery.formatCurrency-1.4.0.min.js"></script>
 
     <script>
+        var urlFocusOAreas = "@Url.Action("Areas", "FocusOut")";//"/Tesoreria/FocusOut/Areas"
+        var urlFocusOGenSearCve = "@Url.Action("GenericSearchClave", "FocusOut")";//"/Tesoreria/FocusOut/GenericSearchClave"
+
         $.validator.setDefaults({ onkeyup: false });
 
         $(document).ready(function () {           

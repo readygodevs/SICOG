@@ -1,0 +1,117 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+
+.fondoMenu{
+	height: 40px !important;
+background:#FF390D !important;
+	border: 0 !important;
+}
+.fondoMenu .container{
+	height: 40px !important;
+background:#FF390D !important;
+}
+
+.fondoMenu .container #sectionMenu{
+	height: 40px !important;
+	margin-top: 30px;
+}
+.fondoMenu .container #sectionMenu #MenuPrincipal{
+	height: 100% !important;
+	width: 100% !important;
+	float: none !important;
+	background: transparent !important;
+	overflow: visible;
+}
+.fondoMenu .container #sectionMenu #MenuPrincipal > ul{
+	width: 100% !important;
+	height: 100%;
+}
+.fondoMenu .container #sectionMenu #MenuPrincipal > ul > li{
+	width: 16.491% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	color: #fff !important;
+	line-height: 40px !important;
+}
+.fondoMenu .container #sectionMenu #MenuPrincipal > ul > li > a{
+	color: #fff !important;
+}
+
+.container-tabs{
+	padding: 20px;
+}
+
+.container-tabs .first-tabs li{
+	width: 33.3%;
+	text-align: center;
+	position: relative;
+}
+
+.container-tabs .first-tabs li img, .container-tabs .second-tabs li img{
+	position: absolute; 
+	top:0; 
+	right: 10px; 
+	height: 20px; 
+	top:10px;
+}
+
+.container-tabs .first-tabs li.active a{
+	color: #09730E !important;
+	border: 0 !important;
+	border-bottom: 3px solid #09730E !important;
+}
+
+.container-tabs .first-tabs .tab-content{
+	padding: 10px;
+}
+
+.container-tabs .first-tabs .tab-content > div > div{
+	transition: all ease-out 0.2s 0.1s;
+}
+
+.container-tabs .second-tabs li{
+	width: 20%;
+	text-align: center;
+}
+
+.container-tabs .second-tabs li.active a{
+	color: #09730E !important;
+	border: 0 !important;
+	border-bottom: 3px solid #09730E !important;
+}
+
+.container-tabs .second-tabs .tab-content{
+	padding: 10px;
+}
+
+.container-tabs .second-tabs ul.thirdTabs{
+	text-align: center;
+}
+
+.container-tabs .second-tabs ul.thirdTabs li{
+	width: 20% !important;
+	text-align: center !important;
+	border-radius: 0;
+	list-style: none !important;
+  display: inline-block !important;
+}
+
+.container-tabs .second-tabs ul.thirdTabs li a{
+	color: #000 !important;
+	border: 0 !important;
+	background: #aaa;
+	border-radius: 0;
+}
+
+.container-tabs .second-tabs ul.thirdTabs li.active a{
+	color: #fff !important;
+	border: 0 !important;
+	background: #5E5C5C;
+}
+
+
+.table th.dark, td.dark{
+	background: #333;
+	color: #fff;
+	text-align: center;
+	font-weight: bolder;
+}

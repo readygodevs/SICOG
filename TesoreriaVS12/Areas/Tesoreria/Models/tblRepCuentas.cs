@@ -21,4 +21,15 @@ namespace TesoreriaVS12.Areas.Tesoreria.Models
         public Nullable<decimal> Ejercicio1 { get; set; }
         public Nullable<decimal> Ejercicio2 { get; set; }
     }
+
+    /*public partial class tblRepConciliacion
+    {
+        public byte Id_TipoMovimientoBancario { get; set; }
+        public byte Id_FolioMovimientoBancario { get; set; }
+        public byte Rubro { get; set; }
+        public string Descripcion { get; set; }
+        public Nullable<decimal> Total { get; set; }
+        public int Id { get; set; }
+        public int TipoMov { get; set; }
+    }*/
 }

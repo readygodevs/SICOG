@@ -60,7 +60,7 @@ body {
 
 #header {
     min-height: 100px;
-background-color:#09730E;
+background-color:#FF390D;
     height: 100px;
     color: #fff;
 }
@@ -224,7 +224,7 @@ background-color:#09730E;
 
     .dataTables_wrapper .acciones a,
     .iconos_wraper .acciones a {
-color:#2014FF;
+color:#FF390D;
         cursor: pointer;
         text-decoration: none;
     }
@@ -749,12 +749,12 @@ textarea.observaciones_orden {
     }
 
         #menu-lateral li a {
-color:#2014FF;
+color:#FF390D;
             cursor: pointer;
         }
 
             #menu-lateral li a:hover {
-color:#2014FF;
+color:#FF390D;
             }
 
     #menu-lateral .active a {

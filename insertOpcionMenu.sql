@@ -1,5 +1,8 @@
 USE geekstra_CG_ctrlgral
---select * from ca_opciones where controlador='ControlFinanciero'
+--USE BD_CtrlGral
+select * from ca_opciones where accion='GraficaDisponibilidad'
+--DELETE FROM ca_opciones WHERE idopcion=1381
+--UPDATE ca_opciones SET orden=7 WHERE idopcion=1380
 INSERT  INTO ca_opciones
         ( idopcionp ,
           controlador ,
@@ -16,15 +19,15 @@ INSERT  INTO ca_opciones
           usuact ,
           fact
         )
-VALUES  ( 819 ,
-          'ControlFinanciero' ,
-          'ValidarMes' ,
+VALUES  ( NULL ,
+          'Account' ,
+          'GraficaDisponibilidad' ,
           'Tesoreria' ,
           NULL ,
           0 ,
           0 ,
           0 ,
-          0 ,
+          735 ,
           200 ,
           NULL ,
           NULL ,

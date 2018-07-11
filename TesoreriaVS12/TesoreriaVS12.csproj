@@ -15,7 +15,7 @@
     <AssemblyName>TesoreriaVS12</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -68,6 +68,9 @@
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLUtilityRG">
+      <HintPath>..\..\SQLUtilityRG\bin\Debug\SQLUtilityRG.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -964,6 +967,7 @@
     <Content Include="Areas\Tesoreria\Scripts\ReciboIngresos.js" />
     <Content Include="Areas\Tesoreria\Scripts\Transferencias.js" />
     <Content Include="Areas\Tesoreria\Scripts\underscore.js" />
+    <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\contraRecibo.css" />
     <Content Include="Content\DataTable\dataTables.fixedColumns.css" />
@@ -1473,8 +1477,10 @@
     <Content Include="Images\logOn\icon-lock.png" />
     <Content Include="Images\logOn\icon-user.png" />
     <Content Include="Images\logo_gob_hd.jpg" />
+    <Content Include="Images\pdf_icon.png" />
     <Content Include="Images\reportes\LogoReportes_Ente.jpg" />
     <Content Include="Images\reportes\LogoReportes_Ente_old.jpg" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\autoNumeric.js" />
     <Content Include="Scripts\autoNumeric.min.js" />
     <Content Include="Scripts\bootstrap3-typeahead.js" />
@@ -1499,6 +1505,15 @@
     <Content Include="Scripts\jquery.validate.globalize.js" />
     <Content Include="Scripts\jquery.validate.globalize.min.js" />
     <Content Include="Scripts\jscolor.min.js" />
+    <Content Include="Scripts\json\tab01.js" />
+    <Content Include="Scripts\json\tab1.js" />
+    <Content Include="Scripts\json\tab2.js" />
+    <Content Include="Scripts\json\tab3.js" />
+    <Content Include="Scripts\json\tab4.js" />
+    <Content Include="Scripts\json\tab5.js" />
+    <Content Include="Scripts\json\tab6.js" />
+    <Content Include="Scripts\json\tab7.js" />
+    <Content Include="Scripts\json\tab8.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\Tree\globalization\globalize.culture.cs-CZ.js" />
     <Content Include="Scripts\Tree\globalization\globalize.culture.de-DE.js" />
@@ -2408,7 +2423,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3250</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:3250/</IISUrl>
+          <IISUrl>http://localhost/TesoreriaVS12</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

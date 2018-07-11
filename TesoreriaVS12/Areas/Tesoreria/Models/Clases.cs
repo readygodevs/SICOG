@@ -463,7 +463,7 @@ namespace TesoreriaVS12.Areas.Tesoreria.Models
         {
             CuentasDAL cuentas = new CuentasDAL();
             List<Tree2> lst = new List<Tree2>();
-
+            
 
 
             List<CA_Cuentas> auxlst = null;

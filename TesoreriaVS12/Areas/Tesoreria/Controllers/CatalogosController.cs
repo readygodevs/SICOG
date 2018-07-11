@@ -1634,6 +1634,16 @@ namespace TesoreriaVS12.Areas.Tesoreria.Controllers
             }
             catch (Exception ex)
             {
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        if (ex.InnerException.InnerException.Message.Contains("FK_Ma_PresupuestoIng_Ca_CentroRecaudador"))
+                        {
+                            return Json(new { Exito = false, Mensaje = "No es posible eliminar el registro. Está asignado en un Presupuesto de Ingresos." }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
                 var code = ex.HResult;
                 return Json(new { Exito = false, Mensaje = new Errores(code, ex.Message).Mensaje }, JsonRequestBehavior.AllowGet);
             }

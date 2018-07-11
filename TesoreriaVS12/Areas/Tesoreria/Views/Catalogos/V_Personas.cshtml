@@ -81,6 +81,7 @@
                     <div class="col-sm-4">
                         <div class="editor-field">
                             @Html.DisplayNameFor(model => model.Nombre)
+                            @Html.ValidationMessageFor(model => model.Nombre)
                         </div>
                         <div class="display-label">
                             @Html.EditorFor(model => model.Nombre)
@@ -89,6 +90,7 @@
                     <div class="col-sm-4">
                         <div class="editor-field">
                             @Html.DisplayNameFor(model => model.ApellidoPaterno)
+                            @Html.ValidationMessageFor(model => model.ApellidoPaterno)
                         </div>
                         <div class="editor-field">
                             @Html.EditorFor(model => model.ApellidoPaterno)
@@ -111,6 +113,7 @@
                 <div class="col-sm-12">
                     <div class="editor-field">
                         @Html.DisplayNameFor(model => model.RazonSocial)
+                        @Html.ValidationMessageFor(model => model.RazonSocial)
                     </div>
                     <div class="editor-field">
                         @Html.EditorFor(model => model.RazonSocial)

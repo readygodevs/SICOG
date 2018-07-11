@@ -21,7 +21,8 @@
                     @Html.DisplayFor(modelItem => item.IdPersona)
                 </td>
                 <td>
-                    @Html.Encode(item.NombreCompleto)
+                    @item.NombreCompleto
+
                 </td>
                 <td class="acciones">
                     <a href="#" class="js_SeleccionarBeneficiario" data-idbeneficiario="@item.IdPersona" data-nombre="@item.NombreCompleto" title="Seleccionar" data-toggle="tooltip" data-placement="top"><i class="fa fa-check"></i></a>
